@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}Portal DFP{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+        {#<link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>#}
+    {% endblock %}
+    {% block javascript %}
+        <script type="text/javascript" src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/menu-glowne.js') }}"></script>
+    {% endblock %}
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    <div id="wrap">
+        <header id="naglowek-strony">
+            <a href="{{ path('strona_glowna') }}"><img alt="Logo Działu Farb Przemysłowych" src="{{ asset('css/images/logo_dfp.png') }}"></a>
+            <div class="login-box">
+                <div id="login-form">
+                    {% block login_box %}
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <dl>
+                                <dt>Jesteś zalogowany jako:</dt>
+                                <dd>{{ app.user.username }}</dd>
+                            </dl>
+                            <div>
+                                <p><a class="buttons" href="{{ path('fos_user_security_logout') }}">Wyloguj</a></p>
+                                <p><a class="buttons" href="{{ path('zaplecze_glowna') }}">Zaplecze</a></p>
+                            </div>
+                        {% else %}
+                            {% render controller("FOSUserBundle:Security:login") %}
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            </div>
+        </header>
+        <nav id="menu-glowne">
+            <ul>
+                {% block menu_glowne %}
+                <li><a href="{{ path('strona_glowna') }}">Strona główna</a></li>
+                <li><a href="{{ path('url_lista_klientow') }}">Klienci</a>
+                    <ul>
+                        <li><a href="{{ path('url_lista_klientow') }}" title="Pokazuje przypisanych do mnie klientów.">Moi klienci</a> </li>
+                        <li><a href="#" title="Wyszukiwarka nie zarezerwowanych klientów po określeniu miejscowości.">Wyszukiwarka_1</a> </li>
+                        <li><a href="#" title="Wyszukiwarka klientów po określeniu NIP, Nazwy lub kodu MAX.">Wyszukiwarka_2</a> </li>
+                        <li><a href="{{ path('url_fm_podstawowa_karta_klienta') }}" title="Formularz zakładania podstawowej karty klienta.">Dodaj nowego klienta</a> </li>
+                    </ul>
+                </li>
+                {% endblock menu_glowne %}
+            </ul>
+        </nav>
+        {% block body %}{% endblock %}
+    </div>
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

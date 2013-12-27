@@ -1,0 +1,29 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <h1>Formularz podstawowej karty klienta</h1>
+        <h2>Etap 2/2</h2>
+        <p>Dla Klienta identyfikującego się NIP'em: {{ klient.nip }} nie została jeszcze założona karta klienta. Wypełnij poniższe pola formularza, aby tego dokonać.</p>
+        {{ form_start(kartaPodstawowa) }}
+        {{ form_errors(kartaPodstawowa) }}
+
+        {{ form_row(kartaPodstawowa.nip) }}
+        {{ form_row(kartaPodstawowa.nazwaPelna) }}
+        {{ form_row(kartaPodstawowa.nazwaSkrocona) }}
+        {{ form_row(kartaPodstawowa.profileDzialalnosci) }}
+        {{ form_row(kartaPodstawowa.grupyKlientow) }}
+
+        {{ form_row(kartaPodstawowa.filie[0].wojewodztwo) }}
+        {{ form_row(kartaPodstawowa.filie[0].kodPocztowy) }}
+        {{ form_row(kartaPodstawowa.filie[0].miejscowosc) }}
+        {{ form_row(kartaPodstawowa.filie[0].ulica) }}
+
+        {{ form_row(kartaPodstawowa.submit) }}
+        {{ form_row(kartaPodstawowa._token) }}
+
+        {{ form_end(kartaPodstawowa, {'render_rest':false}) }}
+
+        <a href="{{ path('url_lista_klientow') }}">Powrót do listy klientów</a>
+    </section>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block menu_glowne %}
+    <li><a href="{{ path('backend_klient') }}">Klienci</a>
+        <ul>
+            <li><a href="{{ path('backend_klient') }}">Lista</a></li>
+            <li><a href="{{ path('klient_new') }}">Dodaj</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Słowniki</a>
+        <ul>
+            <li><a href="{{ path('grupaklientow') }}">Grupy klientów - lista</a> </li>
+            <li><a href="{{ path('grupaklientow_new') }}">Grupy klientów - dodaj</a> </li>
+            <li><a href="{{ path('url_profiledzialalnosci') }}">Profile działalności - lista</a> </li>
+            <li><a href="{{ path('profildzialalnosci_new') }}">Profile działalności - dodaj</a> </li>
+        </ul>
+    </li>
+
+{% endblock menu_glowne %}
+
+{% block content %}
+    <section>
+        Backend aplikacji.
+    </section>
+{% endblock content %}

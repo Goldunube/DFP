@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock stylesheets %}
+
+{% block body %}
+    <div id="main">
+        {% block content %} {% endblock content %}
+    </div>
+    <footer>
+        <p>Copyright Adam Królikowski</p>
+    </footer>
+
+{% endblock body %}

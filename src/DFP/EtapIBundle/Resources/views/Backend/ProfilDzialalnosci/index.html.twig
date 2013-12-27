@@ -1,0 +1,35 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista profili działalności</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Lp.</th>
+                <th>Nazwa profilu</th>
+                <th>Weryfikacja</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('profildzialalnosci_show', { 'id': entity.id }) }}">{{ loop.index }}.</a></td>
+                <td>{{ entity.nazwaProfilu }}</td>
+                <td>{% if entity.zweryfikowany == 1 %}TAK{% else %}NIE{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('profildzialalnosci_show', { 'id': entity.id }) }}">pokaż</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('profildzialalnosci_edit', { 'id': entity.id }) }}">edytuj</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

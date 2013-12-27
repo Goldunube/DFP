@@ -1,0 +1,40 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Lista klientów</h1>
+
+        <table class="records_list">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pełna nazwa</th>
+                <th>Skrót nazwy</th>
+                <th>Data utworzenia</th>
+                <th>NIP</th>
+                <th>Kod MAX</th>
+                <th>Kanał dystrybucji</th>
+                <th>Aktywny</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for klient in lista_klientow %}
+                <tr>
+                    <td><a href="{{ path('klient_show', { 'id': klient.id }) }}">{{ loop.index }}</a></td>
+                    <td>{{ klient.nazwaPelna }}</td>
+                    <td>{{ klient.nazwaSkrocona }}</td>
+                    <td>{% if klient.dataZalozenia %}{{ klient.dataZalozenia|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ klient.nip }}</td>
+                    <td>{{ klient.kodMax }}</td>
+                    <td>{{ klient.kanalDystrybucji }}</td>
+                    <td>{% if klient.aktywny == 1 %} TAK {% else %} NIE {% endif %}</td>
+                    <td><a href="{{ path('url_pokaz_karte_klienta', { 'id': klient.id }) }}">pokaż</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </section>
+
+{% endblock %}

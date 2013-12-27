@@ -1,0 +1,33 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <p>Klient identyfikujący sie numerem NIP: {{ klient.nip }} jest już zapisany w Bazie Danych.</p>
+        <h2>{{ klient.nazwaSkrocona }}</h2>
+        <dl>
+            <dt>Pełna nazwa klienta:</dt>
+            <dd>{{ klient.nazwaPelna }}</dd>
+            <dt>Skrócona nazwa klienta:</dt>
+            <dd>{{ klient.nazwaSkrocona }}</dd>
+            <dt>NIP:</dt>
+            <dd>{{ klient.nip }}</dd>
+            <dt>Kod MAX:</dt>
+            <dd>{{ klient.kodMax }}</dd>
+            <h3>Filie klienta:</h3>
+            <dl>
+                {% for filia in klient.filie %}
+                    <dt>{{ filia.nazwaFilii }}</dt>
+                    <dd>{{ filia.wojewodztwo }}</dd>
+                    <dd>{{ filia.kodPocztowy }}; {{ filia.miejscowosc }}</dd>
+                    <dd>{{ filia.ulica }}</dd>
+                {% endfor %}
+            </dl>
+        </dl>
+    </section>
+    <section>
+        <p>Jeżeli chcesz dodać nową filię klienta wypełnij poniższy formularz:</p>
+        {{ form_start(drugiFormularz) }}
+        {{ form_row(drugiFormularz.nazwaFilii) }}
+        {{ form_end(drugiFormularz) }}
+    </section>
+{% endblock content %}

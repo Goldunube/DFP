@@ -1,0 +1,33 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista grup klientów</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa grupy</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('grupaklientow_show', { 'id': entity.id }) }}">{{ loop.index }}</a></td>
+                <td>{{ entity.nazwaGrupy }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('grupaklientow_show', { 'id': entity.id }) }}">pokaż</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('grupaklientow_edit', { 'id': entity.id }) }}">edytuj</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

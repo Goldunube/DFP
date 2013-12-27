@@ -1,0 +1,20 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <h1>Formularz podstawowej karty klienta</h1>
+        <h2>Etap 1/2</h2>
+        <p>Wprowadź NIP klienta, dla którego masz zamiar założyć nową kartę klienta</p>
+        {{ form_start(kartaPodstawowa) }}
+        {{ form_errors(kartaPodstawowa) }}
+
+        {{ form_row(kartaPodstawowa.nip) }}
+        {#{{ form_row(kartaPodstawowa.filie[0].wojewodztwo) }}#}
+        {{ form_row(kartaPodstawowa.submit) }}
+        {{ form_row(kartaPodstawowa._token) }}
+
+        {{ form_end(kartaPodstawowa, {'render_rest':false}) }}
+
+        <a href="{{ path('url_lista_klientow') }}">Powrót do listy klientów</a>
+    </section>
+{% endblock content %}

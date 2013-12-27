@@ -1,0 +1,36 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Profil działalności</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nazwaprofilu</th>
+                <td>{{ entity.nazwaProfilu }}</td>
+            </tr>
+            <tr>
+                <th>Zweryfikowany</th>
+                <td>{{ entity.zweryfikowany }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('url_profiledzialalnosci') }}">
+            Powrót do listy
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('profildzialalnosci_edit', { 'id': entity.id }) }}">
+            Edycja
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
