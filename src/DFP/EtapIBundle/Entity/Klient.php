@@ -46,7 +46,7 @@ class Klient
     /**
      * @var string
      *
-     * @ORM\Column(name="nip", type="string", length=9)
+     * @ORM\Column(name="nip", type="string", length=10)
      */
     private $nip;
 
