@@ -18,6 +18,9 @@ input {
 input[type="checkbox"], input[type="radio"] {
     cursor: pointer;
 }
+a {
+    text-decoration: none;
+}
 a.buttons {
     display: inline-block;
     height: 19px;
@@ -172,6 +175,27 @@ div {
     height: 800px;
     padding: 25px;
     width: 949px;
+}
+#main section h1 {
+    clear: both;
+    font-size: 25px;
+    margin: 7px auto;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+#main table {
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+}
+#main table th {
+    border: 1px dotted;
+}
+#main table tbody tr {
+    border: 1px solid;
 }
 footer {
     font-size: 8px;
