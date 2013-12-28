@@ -1,55 +1,57 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block content -%}
-    <h1>Klient</h1>
+    <section>
+        <h1>Karta klienta: {{ entity.nazwaSkrocona }}</h1>
 
-    <table class="record_properties">
-        <tbody>
+        <table class="record_properties">
+            <tbody>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Nazwapelna</th>
+                <th>Pełna nazwa klienta</th>
                 <td>{{ entity.nazwaPelna }}</td>
             </tr>
             <tr>
-                <th>Nazwaskrocona</th>
+                <th>Skrócona nazwa klienta</th>
                 <td>{{ entity.nazwaSkrocona }}</td>
             </tr>
             <tr>
-                <th>Datazalozenia</th>
+                <th>Data założenia karty</th>
                 <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Nip</th>
+                <th>NIP</th>
                 <td>{{ entity.nip }}</td>
             </tr>
             <tr>
-                <th>Kodmax</th>
+                <th>Kod MAX</th>
                 <td>{{ entity.kodMax }}</td>
             </tr>
             <tr>
-                <th>Kanaldystrybucji</th>
+                <th>Kanał dystrybucji</th>
                 <td>{{ entity.kanalDystrybucji }}</td>
             </tr>
             <tr>
                 <th>Aktywny</th>
                 <td>{{ entity.aktywny }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('url_lista_klientow') }}">
-                Powrót do listy
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('klient_edit', { 'id': entity.id }) }}">
-                Edytuj
-            </a>
-        </li>
-    </ul>
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('url_lista_klientow') }}">
+                    Powrót do listy
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('klient_edit', { 'id': entity.id }) }}">
+                    Edytuj
+                </a>
+            </li>
+        </ul>
+    </section>
 {% endblock %}
