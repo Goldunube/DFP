@@ -22,14 +22,16 @@
             <div class="login-box">
                 <div id="login-form">
                     {% block login_box %}
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <dl>
                                 <dt>Jesteś zalogowany jako:</dt>
                                 <dd>{{ app.user.username }}</dd>
                             </dl>
                             <div>
                                 <p><a class="buttons" href="{{ path('fos_user_security_logout') }}">Wyloguj</a></p>
-                                <p><a class="buttons" href="{{ path('zaplecze_glowna') }}">Zaplecze</a></p>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <p><a class="buttons" href="{{ path('zaplecze_glowna') }}">Zaplecze</a></p>
+                                {% endif %}
                             </div>
                         {% else %}
                             {% render controller("FOSUserBundle:Security:login") %}

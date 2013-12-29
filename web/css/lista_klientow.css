@@ -1,0 +1,24 @@
+table .klient-nazwa-pelna {
+    width: 290px;
+}
+table .klient-nazwa-pelna div {
+    text-align: justify;
+}
+table td.klient-nazwa-pelna {
+    text-align: left;
+}
+table .klient-nazwa-skrocona {
+    width: 200px;
+}
+table .data {
+    width: 110px;
+}
+table .nip {
+    width: 90px;
+}
+table .kod-max {
+    width: 70px;
+}
+table .kanal-dystrybucji {
+    width: 80px;
+}

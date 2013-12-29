@@ -90,3 +90,19 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: DFP\EtapIBundle\Entity\Uzytkownik
+
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    dfp.twig.dfp_extension:
+        class: DFP\EtapIBundle\Twig\DFPExtension
+        tags:
+            - { name: twig.extension }

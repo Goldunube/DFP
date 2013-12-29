@@ -176,6 +176,9 @@ div {
     padding: 25px;
     width: 949px;
 }
+#main section {
+    overflow: hidden;
+}
 #main section h1 {
     clear: both;
     font-size: 25px;
@@ -188,6 +191,7 @@ div {
     border: 1px solid;
     border-collapse: collapse;
     font-size: 13px;
+    table-layout: fixed;
     text-align: center;
     width: 100%;
 }
@@ -196,6 +200,16 @@ div {
 }
 #main table tbody tr {
     border: 1px solid;
+}
+#main table tbody td {
+    border: 1px dotted;
+    height: 32px;
+    padding: 1px 7px;
+    overflow: hidden;
+}
+#main table tbody td div {
+    max-height: 32px;
+    overflow: hidden;
 }
 footer {
     font-size: 8px;
