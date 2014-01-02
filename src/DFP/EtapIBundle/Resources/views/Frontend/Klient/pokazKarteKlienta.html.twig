@@ -19,12 +19,16 @@
                 <td>{{ entity.nazwaSkrocona }}</td>
             </tr>
             <tr>
+                <th>Profil działalności</th>
+                <td>{% for profilDzialalnosci in entity.profileDzialalnosci %}{{ profilDzialalnosci.nazwaProfilu }}; {% endfor %}</td>
+            </tr>
+            <tr>
                 <th>Data założenia karty</th>
                 <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
                 <th>NIP</th>
-                <td>{{ entity.nip }}</td>
+                <td>{{ entity.nip|nip }}</td>
             </tr>
             <tr>
                 <th>Kod MAX</th>
@@ -48,7 +52,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ path('klient_edit', { 'id': entity.id }) }}">
+                <a href="#">
                     Edytuj
                 </a>
             </li>

@@ -4,6 +4,8 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\Klient;
+use DFP\EtapIBundle\Entity\FiliaUzytkownik;
+use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\KlientType;
 use DFP\EtapIBundle\Form\KartaKlientaPodstawowaType;
@@ -62,6 +64,13 @@ class KlientController extends Controller
         $filia->setPotencjalny(true);
         $filia->setKlient($klient);
         $klient->getFilie()->add($filia);
+
+        $filiaUzytkownik = new FiliaUzytkownik();
+        $filiaUzytkownik->setUzytkownik($this->getUser());
+        $filiaUzytkownik->setFilia($filia);
+        $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
+        $filiaUzytkownik->setAkcept(false);
+        $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
         $form = $this->createForm(new KlientType(), $klient, array(
                 'action' => $this->generateUrl('url_utworz_karte_klienta_podstawowa'),
@@ -213,7 +222,8 @@ class KlientController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
+            'entity'                => $entity,
+            'profileDzialalnosci'   => $entity->getProfileDzialalnosci(),
         );
     }
 }

@@ -276,10 +276,10 @@ class Klient
     /**
      * Add filie
      *
-     * @param \DFP\EtapIBundle\Entity\Filia $filie
+     * @param Filia $filie
      * @return Klient
      */
-    public function addFilie(\DFP\EtapIBundle\Entity\Filia $filie)
+    public function addFilie(Filia $filie)
     {
         $this->filie[] = $filie;
     
@@ -289,9 +289,9 @@ class Klient
     /**
      * Remove filie
      *
-     * @param \DFP\EtapIBundle\Entity\Filia $filie
+     * @param Filia $filie
      */
-    public function removeFilie(\DFP\EtapIBundle\Entity\Filia $filie)
+    public function removeFilie(Filia $filie)
     {
         $this->filie->removeElement($filie);
     }
@@ -309,7 +309,7 @@ class Klient
     /**
      * Add profileDzialalnosci
      *
-     * @param \DFP\EtapIBundle\Entity\ProfilDzialalnosci $profilDzialalnosci
+     * @param ProfilDzialalnosci $profilDzialalnosci
      * @return Klient
      */
     public function addProfileDzialalnosci(ProfilDzialalnosci $profilDzialalnosci)
@@ -323,9 +323,9 @@ class Klient
     /**
      * Remove profileDzialalnosci
      *
-     * @param \DFP\EtapIBundle\Entity\ProfilDzialalnosci $profileDzialalnosci
+     * @param ProfilDzialalnosci $profileDzialalnosci
      */
-    public function removeProfileDzialalnosci(\DFP\EtapIBundle\Entity\ProfilDzialalnosci $profileDzialalnosci)
+    public function removeProfileDzialalnosci(ProfilDzialalnosci $profileDzialalnosci)
     {
         $this->profileDzialalnosci->removeElement($profileDzialalnosci);
     }
@@ -343,10 +343,10 @@ class Klient
     /**
      * Add grupyKlientow
      *
-     * @param \DFP\EtapIBundle\Entity\GrupaKlientow $grupyKlientow
+     * @param GrupaKlientow $grupyKlientow
      * @return Klient
      */
-    public function addGrupyKlientow(\DFP\EtapIBundle\Entity\GrupaKlientow $grupyKlientow)
+    public function addGrupyKlientow(GrupaKlientow $grupyKlientow)
     {
         $this->grupyKlientow[] = $grupyKlientow;
 
@@ -356,9 +356,9 @@ class Klient
     /**
      * Remove grupyKlientow
      *
-     * @param \DFP\EtapIBundle\Entity\GrupaKlientow $grupyKlientow
+     * @param GrupaKlientow $grupyKlientow
      */
-    public function removeGrupyKlientow(\DFP\EtapIBundle\Entity\GrupaKlientow $grupyKlientow)
+    public function removeGrupyKlientow(GrupaKlientow $grupyKlientow)
     {
         $this->grupyKlientow->removeElement($grupyKlientow);
     }

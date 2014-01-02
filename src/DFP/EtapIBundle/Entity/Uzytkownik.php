@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Uzytkownik
@@ -42,10 +43,18 @@ class Uzytkownik extends BaseUser
      */
     private $profilUzytkownika;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaUzytkownik", mappedBy="uzytkownik", cascade={"persist"})
+     */
+    private $filieUzytkownicy;
+
 
     public function __construct()
     {
         parent::__construct();
+        $this->filieUzytkownicy = new ArrayCollection();
     }
 
     /**
@@ -108,10 +117,10 @@ class Uzytkownik extends BaseUser
     /**
      * Set profilUzytkownika
      *
-     * @param \DFP\EtapIBundle\Entity\ProfilUzytkownika $profilUzytkownika
+     * @param ProfilUzytkownika $profilUzytkownika
      * @return Uzytkownik
      */
-    public function setProfilUzytkownika(\DFP\EtapIBundle\Entity\ProfilUzytkownika $profilUzytkownika = null)
+    public function setProfilUzytkownika(ProfilUzytkownika $profilUzytkownika = null)
     {
         $this->profilUzytkownika = $profilUzytkownika;
     
@@ -121,10 +130,43 @@ class Uzytkownik extends BaseUser
     /**
      * Get profilUzytkownika
      *
-     * @return \DFP\EtapIBundle\Entity\ProfilUzytkownika 
+     * @return ProfilUzytkownika
      */
     public function getProfilUzytkownika()
     {
         return $this->profilUzytkownika;
+    }
+
+    /**
+     * Add filieUzytkownicy
+     *
+     * @param FiliaUzytkownik $filieUzytkownicy
+     * @return Uzytkownik
+     */
+    public function addFilieUzytkownicy(FiliaUzytkownik $filieUzytkownicy)
+    {
+        $this->filieUzytkownicy[] = $filieUzytkownicy;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieUzytkownicy
+     *
+     * @param FiliaUzytkownik $filieUzytkownicy
+     */
+    public function removeFilieUzytkownicy(FiliaUzytkownik $filieUzytkownicy)
+    {
+        $this->filieUzytkownicy->removeElement($filieUzytkownicy);
+    }
+
+    /**
+     * Get filieUzytkownicy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieUzytkownicy()
+    {
+        return $this->filieUzytkownicy;
     }
 }

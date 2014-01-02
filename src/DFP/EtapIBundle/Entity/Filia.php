@@ -3,6 +3,7 @@
 namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Filia
@@ -69,7 +70,17 @@ class Filia
      * @ORM\JoinColumn(name="klient_id", referencedColumnName="id", nullable=false)
      */
     protected $klient;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="FiliaUzytkownik", mappedBy="filia", cascade={"persist"})
+     */
+    private $filieUzytkownicy;
+
+
+    public function __construct()
+    {
+        $this->filieUzytkownicy = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -222,10 +233,10 @@ class Filia
     /**
      * Set klient
      *
-     * @param \DFP\EtapIBundle\Entity\Klient $klient
+     * @param Klient $klient
      * @return Filia
      */
-    public function setKlient(\DFP\EtapIBundle\Entity\Klient $klient = null)
+    public function setKlient(Klient $klient = null)
     {
         $this->klient = $klient;
 //        $klient->addFilie($this);
@@ -235,10 +246,43 @@ class Filia
     /**
      * Get klient
      *
-     * @return \DFP\EtapIBundle\Entity\Klient 
+     * @return Klient
      */
     public function getKlient()
     {
         return $this->klient;
+    }
+
+    /**
+     * Add filieUzytkownicy
+     *
+     * @param FiliaUzytkownik $filieUzytkownicy
+     * @return Filia
+     */
+    public function addFilieUzytkownicy(FiliaUzytkownik $filieUzytkownicy)
+    {
+        $this->filieUzytkownicy[] = $filieUzytkownicy;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieUzytkownicy
+     *
+     * @param FiliaUzytkownik $filieUzytkownicy
+     */
+    public function removeFilieUzytkownicy(FiliaUzytkownik $filieUzytkownicy)
+    {
+        $this->filieUzytkownicy->removeElement($filieUzytkownicy);
+    }
+
+    /**
+     * Get filieUzytkownicy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieUzytkownicy()
+    {
+        return $this->filieUzytkownicy;
     }
 }
