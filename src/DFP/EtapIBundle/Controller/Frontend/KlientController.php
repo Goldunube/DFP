@@ -35,11 +35,14 @@ class KlientController extends Controller
     public function listaKlientowAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
 
-        $encje = $em->getRepository('DFPEtapIBundle:Klient')->findAll();
+        $klienciUzytkownika = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->znajdzWszystkichKlientowUzytkownika($this->getUser());
+
+        $pagination = $paginator->paginate($klienciUzytkownika,$this->get('request')->query->get('strona',1),50);
 
         return array(
-            'lista_klientow' => $encje,
+            'lista_moich_klientow'  => $pagination,
         );
     }
 
@@ -215,15 +218,13 @@ class KlientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('DFPEtapIBundle:Klient')->find($id);
+        $klient = $em->getRepository('DFPEtapIBundle:Klient')->find($id);
 
-        if (!$entity) {
+        if (!$klient) {
             throw $this->createNotFoundException('Nie znaleziono karty klienta.');
         }
-
         return array(
-            'entity'                => $entity,
-            'profileDzialalnosci'   => $entity->getProfileDzialalnosci(),
+            'klient'                => $klient,
         );
     }
 }

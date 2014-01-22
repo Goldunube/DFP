@@ -2,45 +2,45 @@
 
 {% block content -%}
     <section>
-        <h1>Karta klienta: {{ entity.nazwaSkrocona }}</h1>
+        <h1>Karta klienta: {{ klient.nazwaSkrocona }}</h1>
 
         <table class="karta-klienta">
             <tbody>
             <tr>
                 <th>ID</th>
-                <td>{{ entity.id }}</td>
+                <td>{{ klient.id }}</td>
             </tr>
             <tr>
                 <th>Pełna nazwa klienta</th>
-                <td>{{ entity.nazwaPelna }}</td>
+                <td>{{ klient.nazwaPelna }}</td>
             </tr>
             <tr>
                 <th>Skrócona nazwa klienta</th>
-                <td>{{ entity.nazwaSkrocona }}</td>
+                <td>{{ klient.nazwaSkrocona }}</td>
             </tr>
             <tr>
                 <th>Profil działalności</th>
-                <td>{% for profilDzialalnosci in entity.profileDzialalnosci %}{{ profilDzialalnosci.nazwaProfilu }}; {% endfor %}</td>
+                <td>{{ klient.profileDzialalnosci|join(' | ') }}</td>
             </tr>
             <tr>
                 <th>Data założenia karty</th>
-                <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
+                <td>{{ klient.dataZalozenia|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
                 <th>NIP</th>
-                <td>{{ entity.nip|nip }}</td>
+                <td>{{ klient.nip|nip }}</td>
             </tr>
             <tr>
                 <th>Kod MAX</th>
-                <td>{{ entity.kodMax }}</td>
+                <td>{{ klient.kodMax }}</td>
             </tr>
             <tr>
                 <th>Kanał dystrybucji</th>
-                <td>{{ entity.kanalDystrybucji }}</td>
+                <td>{{ klient.kanalDystrybucji }}</td>
             </tr>
             <tr>
                 <th>Aktywny</th>
-                <td>{{ entity.aktywny }}</td>
+                <td>{{ klient.aktywny }}</td>
             </tr>
             </tbody>
         </table>

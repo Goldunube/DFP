@@ -20,6 +20,7 @@ class AppKernel extends Kernel
                 new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
                 new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
                 new FOS\UserBundle\FOSUserBundle(),
+                new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new DFP\EtapIBundle\DFPEtapIBundle(),
         );
 

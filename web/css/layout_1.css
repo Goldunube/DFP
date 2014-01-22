@@ -2,7 +2,7 @@ a, a:visited {
     color: #696969;
 }
 table .lp {
-    width: 25px;
+    width: 35px;
 }
 table .lp:after {
     content: '.';

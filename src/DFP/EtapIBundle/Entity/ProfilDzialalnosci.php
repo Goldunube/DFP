@@ -50,6 +50,11 @@ class ProfilDzialalnosci
         $this->klienci = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getNazwaProfilu();
+    }
+
     /**
      * Get id
      *
