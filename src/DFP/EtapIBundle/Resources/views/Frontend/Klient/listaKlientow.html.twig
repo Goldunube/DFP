@@ -21,7 +21,7 @@
             <tr>
                 <th class="lp">Lp</th>
                 {#<th class="klient-nazwa-pelna">Pełna nazwa</th>#}
-                <th class="klient-nazwa-skrocona">{{ knp_pagination_sortable(lista_moich_klientow, 'Klient', 'k.nazwaSkrocona') }}</th>
+                <th {% if lista_moich_klientow.isSorted('k.nazwaSkrocona') %} class="klient-nazwa-skrocona sorted" {% endif %}>{{ knp_pagination_sortable(lista_moich_klientow, 'Klient', 'k.nazwaSkrocona') }}</th>
                 <th class="filia-nazwa">Nazwa filii</th>
                 <th class="filia-miejscowosc">Miejscowość</th>
                 <th class="kod-max">Kod MAX</th>
