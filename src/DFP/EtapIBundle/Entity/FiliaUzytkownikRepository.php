@@ -30,4 +30,22 @@ class FiliaUzytkownikRepository extends EntityRepository
             return null;
         }
     }
+
+    public function getZnajdzWszystkichKlientowUzytkownikaQuery($idu)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Klient')->createQueryBuilder('k')
+            ->select('k')
+            ->leftJoin('k.filie','f')
+            ->leftJoin('f.filieUzytkownicy','fu')
+            ->where('fu.uzytkownik = :idu')
+            ->orderBy('k.nazwaSkrocona')
+            ->setParameter('idu',$idu)
+            ->getQuery();
+
+        try{
+            return $query;
+        } catch(NoResultException $e) {
+            return null;
+        }
+    }
 }

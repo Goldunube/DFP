@@ -37,9 +37,9 @@ class KlientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
 
-        $klienciUzytkownika = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->znajdzWszystkichKlientowUzytkownika($this->getUser());
+        $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzWszystkichKlientowUzytkownikaQuery($this->getUser());
 
-        $pagination = $paginator->paginate($klienciUzytkownika,$this->get('request')->query->get('strona',1),50);
+        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),50);
 
         return array(
             'lista_moich_klientow'  => $pagination,
