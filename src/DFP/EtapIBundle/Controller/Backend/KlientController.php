@@ -30,10 +30,14 @@ class KlientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('DFPEtapIBundle:Klient')->findAll();
+        $paginator = $this->get('knp_paginator');
+
+        $query = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowQuery();
+
+        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),50);
 
         return array(
-            'entities' => $entities,
+            'lista_klientow' => $pagination,
         );
     }
     /**

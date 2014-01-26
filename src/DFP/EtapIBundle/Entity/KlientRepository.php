@@ -26,4 +26,16 @@ class KlientRepository extends EntityRepository
             ->setParameter('nip',$numer)
             ->getOneOrNullResult();
     }
+
+    public function getListaKlientowQuery()
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Klient')->createQueryBuilder('k')
+            ->select('k,f,fu,u')
+            ->leftJoin('k.filie','f')
+            ->leftJoin('f.filieUzytkownicy','fu')
+            ->leftJoin('fu.uzytkownik','u')
+            ->getQuery();
+
+        return $query;
+    }
 }
