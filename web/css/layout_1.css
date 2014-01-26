@@ -52,3 +52,7 @@ table .lp:after {
     top: 0;
     width: 10px;
 }
+tr.przeterminowane td, tr.przeterminowane th {
+    background-color: #FF5050;
+    color: #FFFFFF;
+}

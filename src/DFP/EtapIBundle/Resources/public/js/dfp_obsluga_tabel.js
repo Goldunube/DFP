@@ -11,8 +11,13 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var hrefShow = $(e.currentTarget).find("th:first a").attr("href");
-            window.location.href=hrefShow;
+            if($(this).attr('class') != 'przeterminowane')
+            {
+                var hrefShow = $(e.currentTarget).find("th:first a").attr("href");
+                window.location.href=hrefShow;
+            }else{
+                alert('Klient został zablokowany. Skontaktuj się z koordynatorem DFP.');
+            }
         })
     }
 })(jQuery);

@@ -15,12 +15,11 @@ class FiliaUzytkownikRepository extends EntityRepository
 {
     public function znajdzWszystkichKlientowUzytkownika($idu)
     {
-        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Klient')->createQueryBuilder('k')
-            ->select('k')
-            ->leftJoin('k.filie','f')
-            ->leftJoin('f.filieUzytkownicy','fu')
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+            ->select('fu')
+            ->leftJoin('fu.filia','f')
+            ->leftJoin('f.klient','k')
             ->where('fu.uzytkownik = :idu')
-            ->orderBy('k.nazwaSkrocona')
             ->setParameter('idu',$idu)
             ->getQuery();
 
@@ -33,12 +32,11 @@ class FiliaUzytkownikRepository extends EntityRepository
 
     public function getZnajdzWszystkichKlientowUzytkownikaQuery($idu)
     {
-        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Klient')->createQueryBuilder('k')
-            ->select('k')
-            ->leftJoin('k.filie','f')
-            ->leftJoin('f.filieUzytkownicy','fu')
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+            ->select('fu')
+            ->leftJoin('fu.filia','f')
+            ->leftJoin('f.klient','k')
             ->where('fu.uzytkownik = :idu')
-            ->orderBy('k.nazwaSkrocona')
             ->setParameter('idu',$idu)
             ->getQuery();
 
