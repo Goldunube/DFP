@@ -141,17 +141,22 @@ div {
     padding: 0;
     width: 1001px;
     outline: none;
+    position: relative;
 }
 #menu-glowne > ul {
     list-style: none outside none;
     margin: 0;
     padding: 0;
+    position: absolute;
     outline: none;
 }
 #menu-glowne ul li {
     display: inline;
     margin: 0;
     padding: 0;
+    height: 50px;
+    width: 100px;
+    position: relative;
 }
 #menu-glowne ul li a {
     color: #696969;
@@ -217,7 +222,6 @@ footer {
 footer p {
     float: right;
 }
-/*DO POPRAWY*/
 #menu-glowne ul li ul {
     background-color: #FFFFFF;
     border-bottom: 1px solid #C0C0C0;
@@ -225,14 +229,13 @@ footer p {
     border-left: 1px solid #C0C0C0;
     border-radius: 0 0 7px 7px;
     border-right: 1px solid #C0C0C0;
-    /*display: block;*/
-    left: -100px;
+    display: inline-block;
     margin: 0;
     overflow: hidden;
-    padding: 3px 0 0;
+    padding: 0;
     position: relative;
-    top: 51px;
     width: 199px;
+    top: -1px !important;
 }
 #menu-glowne ul li ul li {
     display: block;
@@ -246,9 +249,24 @@ footer p {
     display: block;
     height: 20px;
     margin: 0;
-    padding: 0;
-    position: absolute;
+    padding: 3px 0 0;
+    position: relative;
     text-align: left;
     text-indent: 15px;
     width: 200px;
+}
+.ui-menu:after {
+     content: ".";
+     display: block;
+     clear: both;
+     visibility: hidden;
+     line-height: 0;
+     height: 0;
+}
+.ui-menu .ui-menu-item {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: auto;
 }
