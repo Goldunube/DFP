@@ -61,7 +61,7 @@ doctrine:
 
 # STOF Doctrine Extensions
 stof_doctrine_extensions:
-    default_locale: en_US
+    default_locale: pl_PL
 
     # Only used if you activated the Uploadable extension
     uploadable:
@@ -75,7 +75,11 @@ stof_doctrine_extensions:
         default_file_info_class: Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo
     orm:
         default:
+            tree: true
             sluggable: true
+            loggable: true
+            timestampable: true
+            blameable: true
 
 # Swiftmailer Configuration
 swiftmailer:
