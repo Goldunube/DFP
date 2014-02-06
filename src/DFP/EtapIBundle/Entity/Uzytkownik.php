@@ -38,7 +38,7 @@ class Uzytkownik extends BaseUser
     private $nazwisko;
 
     /**
-     * @ORM\OneToOne(targetEntity="ProfilUzytkownika")
+     * @ORM\OneToOne(targetEntity="ProfilUzytkownika", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="profil_id", referencedColumnName="id")
      */
     private $profilUzytkownika;
