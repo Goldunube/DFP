@@ -24,42 +24,42 @@ class ProfilUzytkownika
     /**
      * @var string
      *
-     * @ORM\Column(name="plec", type="string", length=15)
+     * @ORM\Column(name="plec", type="string", length=15, nullable=true)
      */
     private $plec;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="stanowisko", type="string", length=45)
+     * @ORM\Column(name="stanowisko", type="string", length=45, nullable=true)
      */
     private $stanowisko;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zainteresowania", type="text")
+     * @ORM\Column(name="zainteresowania", type="text", nullable=true)
      */
     private $zainteresowania;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="miejscowosc", type="string", length=45)
+     * @ORM\Column(name="miejscowosc", type="string", length=45, nullable=true)
      */
     private $miejscowosc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="kodPocztowy", type="string", length=5)
+     * @ORM\Column(name="kodPocztowy", type="string", length=5, nullable=true)
      */
     private $kodPocztowy;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ulica", type="string", length=150)
+     * @ORM\Column(name="ulica", type="string", length=150, nullable=true)
      */
     private $ulica;
 

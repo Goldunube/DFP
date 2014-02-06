@@ -12,6 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use DFP\EtapIBundle\Entity\Uzytkownik;
+use Symfony\Component\Yaml\Yaml;
 
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -55,6 +56,28 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $profilUzytkownika->setZainteresowania('Programowanie, Informatyka, Piłka nożna');
         $manager->persist($profilUzytkownika);
         $superAdministrator->setProfilUzytkownika($profilUzytkownika);
+
+        $yml = Yaml::parse('data/Uzytkownicy.yml');
+        foreach ($yml as $u)
+        {
+            $uzytkownik = $userManager->createUser();
+
+            $uzytkownik->setUsername($u['Username']);
+            $uzytkownik->setEmail($u['Email']);
+            $uzytkownik->setPlainPassword($u['Password']);
+            $uzytkownik->setImie($u['Imie']);
+            $uzytkownik->setNazwisko($u['Nazwisko']);
+            $uzytkownik->setEnabled(true);
+            $uzytkownik->setRoles(array($u['Role']));
+            $manager->persist($uzytkownik);
+
+            $profilUzytkownika = new ProfilUzytkownika();
+            $profilUzytkownika->setPlec($u['Plec']);
+            $profilUzytkownika->setStanowisko($u['Stanowisko']);
+            $manager->persist($profilUzytkownika);
+            $uzytkownik->setProfilUzytkownika($profilUzytkownika);
+
+        }
 
         $manager->flush();
 

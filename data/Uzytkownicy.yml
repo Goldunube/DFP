@@ -1,0 +1,3 @@
+- { Username: MMiksza, Email: mmiksza@csv.pl, Password: 123, Imie: Mirosław, Nazwisko: Miksza, Plec: Mężczyzna, Stanowisko: Dyrektor, Role: ROLE_DYR }
+- { Username: AJarzyński, Email: ajarzynski@csv.pl, Password: 123, Imie: Arkadiusz, Nazwisko: Jarzyński, Plec: Mężczyzna, Stanowisko: Kierownik Produkt, Role: ROLE_KP }
+- { Username: JDmuchowska, Email: jdmuchowska@csv.pl, Password: 123, Imie: Justyna, Nazwisko: Dmuchowska, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
