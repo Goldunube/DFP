@@ -4,6 +4,7 @@
 
 namespace DFP\EtapIBundle\DataFixtures\ORM;
 
+use DFP\EtapIBundle\Entity\ProfilUzytkownika;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -39,10 +40,22 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $superAdministrator->setUsername('Goldunube');
         $superAdministrator->setEmail('akrolikowski@csv.pl');
         $superAdministrator->setPlainPassword('batman123');
+        $superAdministrator->setImie('Adam');
+        $superAdministrator->setNazwisko('Królikowski');
         $superAdministrator->setSuperAdmin(true);
         $superAdministrator->setEnabled(true);
-
         $manager->persist($superAdministrator);
+
+        $profilUzytkownika = new ProfilUzytkownika();
+        $profilUzytkownika->setPlec("Mężczyzna");
+        $profilUzytkownika->setStanowisko('Administrator Portalu DFP');
+        $profilUzytkownika->setKodPocztowy('00167');
+        $profilUzytkownika->setMiejscowosc('Warszawa');
+        $profilUzytkownika->setUlica('Anielewicza 15');
+        $profilUzytkownika->setZainteresowania('Programowanie, Informatyka, Piłka nożna');
+        $manager->persist($profilUzytkownika);
+        $superAdministrator->setProfilUzytkownika($profilUzytkownika);
+
         $manager->flush();
 
         $this->addReference('super-admin', $superAdministrator);
