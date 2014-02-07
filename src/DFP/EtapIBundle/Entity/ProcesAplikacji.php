@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,11 @@ class ProcesAplikacji
      */
     private $filieProcesyAplikacji;
 
+
+    public function __construct()
+    {
+        $this->filieProcesyAplikacji = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -101,5 +107,38 @@ class ProcesAplikacji
     public function getOpis()
     {
         return $this->opis;
+    }
+
+    /**
+     * Add filieProcesyAplikacji
+     *
+     * @param FiliaProcesAplikacji $filieProcesyAplikacji
+     * @return ProcesAplikacji
+     */
+    public function addFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
+    {
+        $this->filieProcesyAplikacji[] = $filieProcesyAplikacji;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieProcesyAplikacji
+     *
+     * @param FiliaProcesAplikacji $filieProcesyAplikacji
+     */
+    public function removeFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
+    {
+        $this->filieProcesyAplikacji->removeElement($filieProcesyAplikacji);
+    }
+
+    /**
+     * Get filieProcesyAplikacji
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieProcesyAplikacji()
+    {
+        return $this->filieProcesyAplikacji;
     }
 }

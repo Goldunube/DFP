@@ -35,7 +35,7 @@ class MaterialUzupelniajacy
      */
     private $opis;
 
-    private function __toString()
+    public function __toString()
     {
         return (string) $this->getNazwa();
     }

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,7 +42,7 @@ class GrupaKlientow
      */
     public function __construct()
     {
-        $this->klienci = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->klienci = new ArrayCollection();
     }
 
     /**
@@ -79,10 +80,10 @@ class GrupaKlientow
     /**
      * Add klienci
      *
-     * @param \DFP\EtapIBundle\Entity\Klient $klienci
+     * @param Klient $klienci
      * @return GrupaKlientow
      */
-    public function addKlienci(\DFP\EtapIBundle\Entity\Klient $klienci)
+    public function addKlienci(Klient $klienci)
     {
         $this->klienci[] = $klienci;
     
@@ -92,9 +93,9 @@ class GrupaKlientow
     /**
      * Remove klienci
      *
-     * @param \DFP\EtapIBundle\Entity\Klient $klienci
+     * @param Klient $klienci
      */
-    public function removeKlienci(\DFP\EtapIBundle\Entity\Klient $klienci)
+    public function removeKlienci(Klient $klienci)
     {
         $this->klienci->removeElement($klienci);
     }

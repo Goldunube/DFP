@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FiliaProcesAplikacji
  *
- * @ORM\Table()
+ * @ORM\Table(name="filie_procesy_aplikacji")
  * @ORM\Entity
  */
 class FiliaProcesAplikacji
@@ -76,5 +76,51 @@ class FiliaProcesAplikacji
     public function getInfo()
     {
         return $this->info;
+    }
+
+    /**
+     * Set filia
+     *
+     * @param Filia $filia
+     * @return FiliaProcesAplikacji
+     */
+    public function setFilia(Filia $filia = null)
+    {
+        $this->filia = $filia;
+    
+        return $this;
+    }
+
+    /**
+     * Get filia
+     *
+     * @return Filia
+     */
+    public function getFilia()
+    {
+        return $this->filia;
+    }
+
+    /**
+     * Set procesAplikacji
+     *
+     * @param ProcesAplikacji $procesAplikacji
+     * @return FiliaProcesAplikacji
+     */
+    public function setProcesAplikacji(ProcesAplikacji $procesAplikacji = null)
+    {
+        $this->procesAplikacji = $procesAplikacji;
+    
+        return $this;
+    }
+
+    /**
+     * Get procesAplikacji
+     *
+     * @return ProcesAplikacji
+     */
+    public function getProcesAplikacji()
+    {
+        return $this->procesAplikacji;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,10 +32,22 @@ class ProcesUtwardzaniaPowloki
     /**
      * @var string
      *
-     * @ORM\Column(name="ops", type="text")
+     * @ORM\Column(name="opis", type="text")
      */
-    private $ops;
+    private $opis;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaProcesUtwardzaniaPowloki", mappedBy="procesUtwardzaniaPowloki", cascade={"persist"})
+     */
+    private $filieProcesyUtwardzaniaPowlok;
+
+
+    public function __construct()
+    {
+        $this->filieProcesyUtwardzaniaPowlok = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -74,25 +87,58 @@ class ProcesUtwardzaniaPowloki
     }
 
     /**
-     * Set ops
+     * Set opis
      *
-     * @param string $ops
+     * @param string $opis
      * @return ProcesUtwardzaniaPowloki
      */
-    public function setOps($ops)
+    public function setOpis($opis)
     {
-        $this->ops = $ops;
+        $this->opis = $opis;
     
         return $this;
     }
 
     /**
-     * Get ops
+     * Get opis
      *
      * @return string 
      */
-    public function getOps()
+    public function getOpis()
     {
-        return $this->ops;
+        return $this->opis;
+    }
+
+    /**
+     * Add filieProcesyUtwardzaniaPowlok
+     *
+     * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
+     * @return ProcesUtwardzaniaPowloki
+     */
+    public function addFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
+    {
+        $this->filieProcesyUtwardzaniaPowlok[] = $filieProcesyUtwardzaniaPowlok;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieProcesyUtwardzaniaPowlok
+     *
+     * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
+     */
+    public function removeFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
+    {
+        $this->filieProcesyUtwardzaniaPowlok->removeElement($filieProcesyUtwardzaniaPowlok);
+    }
+
+    /**
+     * Get filieProcesyUtwardzaniaPowlok
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieProcesyUtwardzaniaPowlok()
+    {
+        return $this->filieProcesyUtwardzaniaPowlok;
     }
 }

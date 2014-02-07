@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,18 @@ class WymaganiaPowloki
      */
     private $opis;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaWymaganiaPowloki", mappedBy="wymaganiaPowloki", cascade={"persist"})
+     */
+    private $filieWymaganiaPowlok;
+
+
+    private function __construct()
+    {
+        $this->filieWymaganiaPowlok = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -94,5 +107,38 @@ class WymaganiaPowloki
     public function getOpis()
     {
         return $this->opis;
+    }
+
+    /**
+     * Add filieWymaganiaPowlok
+     *
+     * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
+     * @return WymaganiaPowloki
+     */
+    public function addFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
+    {
+        $this->filieWymaganiaPowlok[] = $filieWymaganiaPowlok;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieWymaganiaPowlok
+     *
+     * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
+     */
+    public function removeFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
+    {
+        $this->filieWymaganiaPowlok->removeElement($filieWymaganiaPowlok);
+    }
+
+    /**
+     * Get filieWymaganiaPowlok
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieWymaganiaPowlok()
+    {
+        return $this->filieWymaganiaPowlok;
     }
 }

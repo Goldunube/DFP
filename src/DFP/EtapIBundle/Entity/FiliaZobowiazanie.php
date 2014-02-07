@@ -56,6 +56,13 @@ class FiliaZobowiazanie
      */
     private $stronaZobowiazania;
 
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="zobowiazania")
+     */
+    private $filia;
+
 
     public function __toString()
     {
@@ -162,5 +169,51 @@ class FiliaZobowiazanie
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set stronaZobowiazania
+     *
+     * @param string $stronaZobowiazania
+     * @return FiliaZobowiazanie
+     */
+    public function setStronaZobowiazania($stronaZobowiazania)
+    {
+        $this->stronaZobowiazania = $stronaZobowiazania;
+    
+        return $this;
+    }
+
+    /**
+     * Get stronaZobowiazania
+     *
+     * @return string 
+     */
+    public function getStronaZobowiazania()
+    {
+        return $this->stronaZobowiazania;
+    }
+
+    /**
+     * Set filia
+     *
+     * @param Filia $filia
+     * @return FiliaZobowiazanie
+     */
+    public function setFilia(Filia $filia = null)
+    {
+        $this->filia = $filia;
+    
+        return $this;
+    }
+
+    /**
+     * Get filia
+     *
+     * @return Filia
+     */
+    public function getFilia()
+    {
+        return $this->filia;
     }
 }

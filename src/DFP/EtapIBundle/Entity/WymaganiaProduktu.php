@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,18 @@ class WymaganiaProduktu
      */
     private $opis;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaWymaganiaProduktu", mappedBy="wymaganiaProduktu", cascade={"persist"})
+     */
+    private $filieWymaganiaProduktow;
+
+
+    public function __construct()
+    {
+        $this->filieWymaganiaProduktow = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -94,5 +107,38 @@ class WymaganiaProduktu
     public function getOpis()
     {
         return $this->opis;
+    }
+
+    /**
+     * Add filieWymaganiaProduktow
+     *
+     * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
+     * @return WymaganiaProduktu
+     */
+    public function addFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
+    {
+        $this->filieWymaganiaProduktow[] = $filieWymaganiaProduktow;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieWymaganiaProduktow
+     *
+     * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
+     */
+    public function removeFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
+    {
+        $this->filieWymaganiaProduktow->removeElement($filieWymaganiaProduktow);
+    }
+
+    /**
+     * Get filieWymaganiaProduktow
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieWymaganiaProduktow()
+    {
+        return $this->filieWymaganiaProduktow;
     }
 }

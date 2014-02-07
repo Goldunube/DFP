@@ -63,7 +63,7 @@ class Filia
     private $aktywny;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="matlak_dotychczas", type="text")
      */
@@ -88,53 +88,74 @@ class Filia
     private $filieUzytkownicy;
 
     /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="filia", cascade={"persist"})
+     */
+    protected  $filieNotatki;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaZobowiazanie", mappedBy="filia", cascade={"persist"})
+     */
+    protected $zobowiazania;
+
+    /**
      * @ORM\ManyToMany(targetEntity="ProfilDzialalnosci", inversedBy="filie")
      * @ORM\JoinTable(name="filie_profile_dzialalnosci",
      *      joinColumns={@ORM\JoinColumn(name="filia_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="profil_id", referencedColumnName="id")}
      * )
      */
-    private $profileDzialalnosci;
+    protected $profileDzialalnosci;
 
     /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="FiliaProcesPrzygotowaniaPowierzchni", mappedBy="filia", cascade={"persist"})
      */
-    private $filieProcesyPrzygotowaniaPowierzchni;
+    protected $filieProcesyPrzygotowaniaPowierzchni;
 
     /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="FiliaProcesAplikacji", mappedBy="filia", cascade={"persist"})
      */
-    private $filieProcesyAplikacji;
+    protected $filieProcesyAplikacji;
 
     /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="FiliaProcesUtwardzaniaPowloki", mappedBy="filia", cascade={"persist"})
      */
-    private $filieProcesyUtwardzaniaPowlok;
+    protected $filieProcesyUtwardzaniaPowlok;
 
     /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="FiliaWymaganiaProduktu", mappedBy="filia", cascade={"persist"})
      */
-    private $filieWymaganiaProduktow;
+    protected $filieWymaganiaProduktow;
 
     /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="FiliaWymaganiaPowloki", mappedBy="filia", cascade={"persist"})
      */
-    private $filieWymaganiaPowlok;
+    protected $filieWymaganiaPowlok;
 
 
     public function __construct()
     {
         $this->filieUzytkownicy = new ArrayCollection();
+        $this->profileDzialalnosci = new ArrayCollection();
+        $this->filieProcesyPrzygotowaniaPowierzchni = new ArrayCollection();
+        $this->filieProcesyAplikacji = new ArrayCollection();
+        $this->filieProcesyUtwardzaniaPowlok = new ArrayCollection();
+        $this->filieWymaganiaProduktow = new ArrayCollection();
+        $this->filieWymaganiaPowlok = new ArrayCollection();
+        $this->zobowiazania = new ArrayCollection();
     }
 
     /**
@@ -316,5 +337,333 @@ class Filia
     public function getFilieUzytkownicy()
     {
         return $this->filieUzytkownicy;
+    }
+
+    /**
+     * Set matlakDotychczas
+     *
+     * @param string $matlakDotychczas
+     * @return Filia
+     */
+    public function setMatlakDotychczas($matlakDotychczas)
+    {
+        $this->matlakDotychczas = $matlakDotychczas;
+    
+        return $this;
+    }
+
+    /**
+     * Get matlakDotychczas
+     *
+     * @return string 
+     */
+    public function getMatlakDotychczas()
+    {
+        return $this->matlakDotychczas;
+    }
+
+    /**
+     * Set zuzycieMaterialow
+     *
+     * @param string $zuzycieMaterialow
+     * @return Filia
+     */
+    public function setZuzycieMaterialow($zuzycieMaterialow)
+    {
+        $this->zuzycieMaterialow = $zuzycieMaterialow;
+    
+        return $this;
+    }
+
+    /**
+     * Get zuzycieMaterialow
+     *
+     * @return string 
+     */
+    public function getZuzycieMaterialow()
+    {
+        return $this->zuzycieMaterialow;
+    }
+
+    /**
+     * Add filieNotatki
+     *
+     * @param FiliaNotatka $filieNotatki
+     * @return Filia
+     */
+    public function addFilieNotatki(FiliaNotatka $filieNotatki)
+    {
+        $this->filieNotatki[] = $filieNotatki;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieNotatki
+     *
+     * @param FiliaNotatka $filieNotatki
+     */
+    public function removeFilieNotatki(FiliaNotatka $filieNotatki)
+    {
+        $this->filieNotatki->removeElement($filieNotatki);
+    }
+
+    /**
+     * Get filieNotatki
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieNotatki()
+    {
+        return $this->filieNotatki;
+    }
+
+    /**
+     * Add zobowiazania
+     *
+     * @param FiliaZobowiazanie $zobowiazania
+     * @return Filia
+     */
+    public function addZobowiazania(FiliaZobowiazanie $zobowiazania)
+    {
+        $this->zobowiazania[] = $zobowiazania;
+    
+        return $this;
+    }
+
+    /**
+     * Remove zobowiazania
+     *
+     * @param FiliaZobowiazanie $zobowiazania
+     */
+    public function removeZobowiazania(FiliaZobowiazanie $zobowiazania)
+    {
+        $this->zobowiazania->removeElement($zobowiazania);
+    }
+
+    /**
+     * Get zobowiazania
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getZobowiazania()
+    {
+        return $this->zobowiazania;
+    }
+
+    /**
+     * Add profileDzialalnosci
+     *
+     * @param ProfilDzialalnosci $profileDzialalnosci
+     * @return Filia
+     */
+    public function addProfileDzialalnosci(ProfilDzialalnosci $profileDzialalnosci)
+    {
+        $this->profileDzialalnosci[] = $profileDzialalnosci;
+    
+        return $this;
+    }
+
+    /**
+     * Remove profileDzialalnosci
+     *
+     * @param ProfilDzialalnosci $profileDzialalnosci
+     */
+    public function removeProfileDzialalnosci(ProfilDzialalnosci $profileDzialalnosci)
+    {
+        $this->profileDzialalnosci->removeElement($profileDzialalnosci);
+    }
+
+    /**
+     * Get profileDzialalnosci
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProfileDzialalnosci()
+    {
+        return $this->profileDzialalnosci;
+    }
+
+    /**
+     * Add filieProcesyPrzygotowaniaPowierzchni
+     *
+     * @param FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni
+     * @return Filia
+     */
+    public function addFilieProcesyPrzygotowaniaPowierzchni(
+        FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni[] = $filieProcesyPrzygotowaniaPowierzchni;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieProcesyPrzygotowaniaPowierzchni
+     *
+     * @param FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni
+     */
+    public function removeFilieProcesyPrzygotowaniaPowierzchni(
+        FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni->removeElement($filieProcesyPrzygotowaniaPowierzchni);
+    }
+
+    /**
+     * Get filieProcesyPrzygotowaniaPowierzchni
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieProcesyPrzygotowaniaPowierzchni()
+    {
+        return $this->filieProcesyPrzygotowaniaPowierzchni;
+    }
+
+    /**
+     * Add filieProcesyAplikacji
+     *
+     * @param FiliaProcesAplikacji $filieProcesyAplikacji
+     * @return Filia
+     */
+    public function addFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
+    {
+        $this->filieProcesyAplikacji[] = $filieProcesyAplikacji;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieProcesyAplikacji
+     *
+     * @param FiliaProcesAplikacji $filieProcesyAplikacji
+     */
+    public function removeFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
+    {
+        $this->filieProcesyAplikacji->removeElement($filieProcesyAplikacji);
+    }
+
+    /**
+     * Get filieProcesyAplikacji
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieProcesyAplikacji()
+    {
+        return $this->filieProcesyAplikacji;
+    }
+
+    /**
+     * Add filieProcesyUtwardzaniaPowlok
+     *
+     * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
+     * @return Filia
+     */
+    public function addFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
+    {
+        $this->filieProcesyUtwardzaniaPowlok[] = $filieProcesyUtwardzaniaPowlok;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieProcesyUtwardzaniaPowlok
+     *
+     * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
+     */
+    public function removeFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
+    {
+        $this->filieProcesyUtwardzaniaPowlok->removeElement($filieProcesyUtwardzaniaPowlok);
+    }
+
+    /**
+     * Get filieProcesyUtwardzaniaPowlok
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieProcesyUtwardzaniaPowlok()
+    {
+        return $this->filieProcesyUtwardzaniaPowlok;
+    }
+
+    /**
+     * Add filieWymaganiaProduktow
+     *
+     * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
+     * @return Filia
+     */
+    public function addFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
+    {
+        $this->filieWymaganiaProduktow[] = $filieWymaganiaProduktow;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieWymaganiaProduktow
+     *
+     * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
+     */
+    public function removeFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
+    {
+        $this->filieWymaganiaProduktow->removeElement($filieWymaganiaProduktow);
+    }
+
+    /**
+     * Get filieWymaganiaProduktow
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieWymaganiaProduktow()
+    {
+        return $this->filieWymaganiaProduktow;
+    }
+
+    /**
+     * Add filieWymaganiaPowlok
+     *
+     * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
+     * @return Filia
+     */
+    public function addFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
+    {
+        $this->filieWymaganiaPowlok[] = $filieWymaganiaPowlok;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieWymaganiaPowlok
+     *
+     * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
+     */
+    public function removeFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
+    {
+        $this->filieWymaganiaPowlok->removeElement($filieWymaganiaPowlok);
+    }
+
+    /**
+     * Get filieWymaganiaPowlok
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieWymaganiaPowlok()
+    {
+        return $this->filieWymaganiaPowlok;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getAktywny()
+    {
+        return $this->aktywny;
+    }
+
+    /**
+     * @param boolean $aktywny
+     */
+    public function setAktywny($aktywny)
+    {
+        $this->aktywny = $aktywny;
     }
 }

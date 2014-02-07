@@ -49,6 +49,22 @@ class FiliaNotatka
      */
     private $koniecEdycji;
 
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieNotatki")
+     * @ORM\JoinColumn(name="filia_id", referencedColumnName="id")
+     */
+    private $filia;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieNotatki")
+     * @ORM\JoinColumn(name="notatka_id", referencedColumnName="id")
+     */
+    private $notatka;
+
 
     /**
      * Get id
@@ -107,29 +123,6 @@ class FiliaNotatka
     }
 
     /**
-     * Set sporzadzona
-     *
-     * @param \DateTime $sporzadzona
-     * @return FiliaNotatka
-     */
-    public function setSporzadzona($sporzadzona)
-    {
-        $this->sporzadzona = $sporzadzona;
-    
-        return $this;
-    }
-
-    /**
-     * Get sporzadzona
-     *
-     * @return \DateTime 
-     */
-    public function getSporzadzona()
-    {
-        return $this->sporzadzona;
-    }
-
-    /**
      * Set koniecEdycji
      *
      * @param \DateTime $koniecEdycji
@@ -150,5 +143,74 @@ class FiliaNotatka
     public function getKoniecEdycji()
     {
         return $this->koniecEdycji;
+    }
+
+    /**
+     * Set dataSporzadzenia
+     *
+     * @param \DateTime $dataSporzadzenia
+     * @return FiliaNotatka
+     */
+    public function setDataSporzadzenia($dataSporzadzenia)
+    {
+        $this->dataSporzadzenia = $dataSporzadzenia;
+    
+        return $this;
+    }
+
+    /**
+     * Get dataSporzadzenia
+     *
+     * @return \DateTime 
+     */
+    public function getDataSporzadzenia()
+    {
+        return $this->dataSporzadzenia;
+    }
+
+    /**
+     * Set filia
+     *
+     * @param Filia $filia
+     * @return FiliaNotatka
+     */
+    public function setFilia(Filia $filia = null)
+    {
+        $this->filia = $filia;
+    
+        return $this;
+    }
+
+    /**
+     * Get filia
+     *
+     * @return Filia
+     */
+    public function getFilia()
+    {
+        return $this->filia;
+    }
+
+    /**
+     * Set notatka
+     *
+     * @param Filia $notatka
+     * @return FiliaNotatka
+     */
+    public function setNotatka(Filia $notatka = null)
+    {
+        $this->notatka = $notatka;
+    
+        return $this;
+    }
+
+    /**
+     * Get notatka
+     *
+     * @return Filia
+     */
+    public function getNotatka()
+    {
+        return $this->notatka;
     }
 }

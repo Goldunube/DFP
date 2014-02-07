@@ -85,7 +85,7 @@ class FiliaPracownik
     private $skype;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="notatka", type="text")
      */
@@ -113,7 +113,7 @@ class FiliaPracownik
      * Set imie
      *
      * @param string $imie
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setImie($imie)
     {
@@ -136,7 +136,7 @@ class FiliaPracownik
      * Set nazwisko
      *
      * @param string $nazwisko
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setNazwisko($nazwisko)
     {
@@ -159,7 +159,7 @@ class FiliaPracownik
      * Set stanowisko
      *
      * @param string $stanowisko
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setStanowisko($stanowisko)
     {
@@ -182,7 +182,7 @@ class FiliaPracownik
      * Set email
      *
      * @param string $email
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setEmail($email)
     {
@@ -205,7 +205,7 @@ class FiliaPracownik
      * Set telefon1
      *
      * @param string $telefon1
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setTelefon1($telefon1)
     {
@@ -228,7 +228,7 @@ class FiliaPracownik
      * Set telefon2
      *
      * @param string $telefon2
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setTelefon2($telefon2)
     {
@@ -251,7 +251,7 @@ class FiliaPracownik
      * Set fax
      *
      * @param string $fax
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setFax($fax)
     {
@@ -274,7 +274,7 @@ class FiliaPracownik
      * Set mobile
      *
      * @param string $mobile
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setMobile($mobile)
     {
@@ -297,7 +297,7 @@ class FiliaPracownik
      * Set skype
      *
      * @param string $skype
-     * @return PracownikKlienta
+     * @return FiliaPracownik
      */
     public function setSkype($skype)
     {
@@ -314,5 +314,51 @@ class FiliaPracownik
     public function getSkype()
     {
         return $this->skype;
+    }
+
+    /**
+     * Set notatka
+     *
+     * @param string $notatka
+     * @return FiliaPracownik
+     */
+    public function setNotatka($notatka)
+    {
+        $this->notatka = $notatka;
+    
+        return $this;
+    }
+
+    /**
+     * Get notatka
+     *
+     * @return string 
+     */
+    public function getNotatka()
+    {
+        return $this->notatka;
+    }
+
+    /**
+     * Set osobaKontaktowa
+     *
+     * @param boolean $osobaKontaktowa
+     * @return FiliaPracownik
+     */
+    public function setOsobaKontaktowa($osobaKontaktowa)
+    {
+        $this->osobaKontaktowa = $osobaKontaktowa;
+    
+        return $this;
+    }
+
+    /**
+     * Get osobaKontaktowa
+     *
+     * @return boolean 
+     */
+    public function getOsobaKontaktowa()
+    {
+        return $this->osobaKontaktowa;
     }
 }

@@ -48,13 +48,29 @@ class Uzytkownik extends BaseUser
      *
      * @ORM\OneToMany(targetEntity="FiliaUzytkownik", mappedBy="uzytkownik", cascade={"persist"})
      */
-    private $filieUzytkownicy;
+    protected $filieUzytkownicy;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="notatka", cascade={"persist"})
+     */
+    protected $filieNotatki;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="NotatkaOsobista", mappedBy="uzytkownik", cascade={"persist"})
+     */
+    protected $notatkiOsobiste;
 
 
     public function __construct()
     {
         parent::__construct();
         $this->filieUzytkownicy = new ArrayCollection();
+        $this->filieNotatki = new ArrayCollection();
+        $this->notatkiOsobiste = new ArrayCollection();
     }
 
     /**
@@ -168,5 +184,71 @@ class Uzytkownik extends BaseUser
     public function getFilieUzytkownicy()
     {
         return $this->filieUzytkownicy;
+    }
+
+    /**
+     * Add filieNotatki
+     *
+     * @param FiliaNotatka $filieNotatki
+     * @return Uzytkownik
+     */
+    public function addFilieNotatki(FiliaNotatka $filieNotatki)
+    {
+        $this->filieNotatki[] = $filieNotatki;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieNotatki
+     *
+     * @param FiliaNotatka $filieNotatki
+     */
+    public function removeFilieNotatki(FiliaNotatka $filieNotatki)
+    {
+        $this->filieNotatki->removeElement($filieNotatki);
+    }
+
+    /**
+     * Get filieNotatki
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieNotatki()
+    {
+        return $this->filieNotatki;
+    }
+
+    /**
+     * Add notatkiOsobiste
+     *
+     * @param NotatkaOsobista $notatkiOsobiste
+     * @return Uzytkownik
+     */
+    public function addNotatkiOsobiste(NotatkaOsobista $notatkiOsobiste)
+    {
+        $this->notatkiOsobiste[] = $notatkiOsobiste;
+    
+        return $this;
+    }
+
+    /**
+     * Remove notatkiOsobiste
+     *
+     * @param NotatkaOsobista $notatkiOsobiste
+     */
+    public function removeNotatkiOsobiste(NotatkaOsobista $notatkiOsobiste)
+    {
+        $this->notatkiOsobiste->removeElement($notatkiOsobiste);
+    }
+
+    /**
+     * Get notatkiOsobiste
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotatkiOsobiste()
+    {
+        return $this->notatkiOsobiste;
     }
 }

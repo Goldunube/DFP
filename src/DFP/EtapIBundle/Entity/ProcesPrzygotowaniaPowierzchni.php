@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,11 @@ class ProcesPrzygotowaniaPowierzchni
      */
     private $filieProcesyPrzygotowaniaPowierzchni;
 
+
+    public function __construct()
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -101,5 +107,40 @@ class ProcesPrzygotowaniaPowierzchni
     public function getOpis()
     {
         return $this->opis;
+    }
+
+    /**
+     * Add filieProcesyPrzygotowaniaPowierzchni
+     *
+     * @param FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni
+     * @return ProcesPrzygotowaniaPowierzchni
+     */
+    public function addFilieProcesyPrzygotowaniaPowierzchni(
+        FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni[] = $filieProcesyPrzygotowaniaPowierzchni;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieProcesyPrzygotowaniaPowierzchni
+     *
+     * @param FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni
+     */
+    public function removeFilieProcesyPrzygotowaniaPowierzchni(
+        FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni->removeElement($filieProcesyPrzygotowaniaPowierzchni);
+    }
+
+    /**
+     * Get filieProcesyPrzygotowaniaPowierzchni
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieProcesyPrzygotowaniaPowierzchni()
+    {
+        return $this->filieProcesyPrzygotowaniaPowierzchni;
     }
 }

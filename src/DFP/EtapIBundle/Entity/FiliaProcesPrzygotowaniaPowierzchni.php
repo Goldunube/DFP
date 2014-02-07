@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FiliaProcesPrzygotowaniaPowierzchni
  *
- * @ORM\Table()
+ * @ORM\Table(name="filie_procesy_przogotowania_powierzchni")
  * @ORM\Entity
  */
 class FiliaProcesPrzygotowaniaPowierzchni
@@ -56,25 +56,71 @@ class FiliaProcesPrzygotowaniaPowierzchni
     }
 
     /**
-     * Set opis
+     * Set info
      *
-     * @param string $opis
+     * @param string $info
      * @return FiliaProcesPrzygotowaniaPowierzchni
      */
-    public function setOpis($opis)
+    public function setInfo($info)
     {
-        $this->opis = $opis;
+        $this->info = $info;
     
         return $this;
     }
 
     /**
-     * Get opis
+     * Get info
      *
      * @return string 
      */
-    public function getOpis()
+    public function getInfo()
     {
-        return $this->opis;
+        return $this->info;
+    }
+
+    /**
+     * Set filia
+     *
+     * @param Filia $filia
+     * @return FiliaProcesPrzygotowaniaPowierzchni
+     */
+    public function setFilia(Filia $filia = null)
+    {
+        $this->filia = $filia;
+    
+        return $this;
+    }
+
+    /**
+     * Get filia
+     *
+     * @return Filia
+     */
+    public function getFilia()
+    {
+        return $this->filia;
+    }
+
+    /**
+     * Set procesPrzygotowaniaPowierzchni
+     *
+     * @param ProcesPrzygotowaniaPowierzchni $procesPrzygotowaniaPowierzchni
+     * @return FiliaProcesPrzygotowaniaPowierzchni
+     */
+    public function setProcesPrzygotowaniaPowierzchni(ProcesPrzygotowaniaPowierzchni $procesPrzygotowaniaPowierzchni = null)
+    {
+        $this->procesPrzygotowaniaPowierzchni = $procesPrzygotowaniaPowierzchni;
+    
+        return $this;
+    }
+
+    /**
+     * Get procesPrzygotowaniaPowierzchni
+     *
+     * @return ProcesPrzygotowaniaPowierzchni
+     */
+    public function getProcesPrzygotowaniaPowierzchni()
+    {
+        return $this->procesPrzygotowaniaPowierzchni;
     }
 }
