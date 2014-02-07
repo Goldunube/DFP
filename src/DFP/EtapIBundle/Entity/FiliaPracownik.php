@@ -5,12 +5,12 @@ namespace DFP\EtapIBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PracownikKlienta
+ * FiliaPracownik
  *
- * @ORM\Table(name="pracownicy_klientow")
- * @ORM\Entity(repositoryClass="DFP\EtapIBundle\Entity\PracownikKlientaRepository")
+ * @ORM\Table(name="pracownicy_filii")
+ * @ORM\Entity(repositoryClass="DFP\EtapIBundle\Entity\FiliaPracownikRepository")
  */
-class PracownikKlienta
+class FiliaPracownik
 {
     /**
      * @var integer
@@ -83,6 +83,20 @@ class PracownikKlienta
      * @ORM\Column(name="skype", type="string", length=255)
      */
     private $skype;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="notatka", type="text")
+     */
+    private $notatka;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="osoba_kontaktowa", type="boolean")
+     */
+    private $osobaKontaktowa;
 
 
     /**

@@ -36,10 +36,10 @@ class ProfilDzialalnosci
     private $zweryfikowany;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Klient", mappedBy="profileDzialalnosci")
+     * @ORM\ManyToMany(targetEntity="Filia", mappedBy="profileDzialalnosci")
      *
      */
-    private $klienci;
+    private $filie;
 
     
     /**

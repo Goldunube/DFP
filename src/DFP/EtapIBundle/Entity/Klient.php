@@ -78,15 +78,6 @@ class Klient
     protected $filie;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ProfilDzialalnosci", inversedBy="klienci")
-     * @ORM\JoinTable(name="klienci_profile_dzialalnosci",
-     *      joinColumns={@ORM\JoinColumn(name="klient_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="profil_id", referencedColumnName="id")}
-     * )
-     */
-    private $profileDzialalnosci;
-
-    /**
      * @ORM\ManyToMany(targetEntity="GrupaKlientow", inversedBy="klienci")
      * @ORM\JoinTable(name="klienci_grupy_klientow",
      *      joinColumns={@ORM\JoinColumn(name="klient_id", referencedColumnName="id")},
@@ -304,40 +295,6 @@ class Klient
     public function getFilie()
     {
         return $this->filie;
-    }
-
-    /**
-     * Add profileDzialalnosci
-     *
-     * @param ProfilDzialalnosci $profilDzialalnosci
-     * @return Klient
-     */
-    public function addProfileDzialalnosci(ProfilDzialalnosci $profilDzialalnosci)
-    {
-        $profilDzialalnosci->addKlienci($this);
-        $this->profileDzialalnosci[] = $profilDzialalnosci;
-
-        return $this;
-    }
-
-    /**
-     * Remove profileDzialalnosci
-     *
-     * @param ProfilDzialalnosci $profileDzialalnosci
-     */
-    public function removeProfileDzialalnosci(ProfilDzialalnosci $profileDzialalnosci)
-    {
-        $this->profileDzialalnosci->removeElement($profileDzialalnosci);
-    }
-
-    /**
-     * Get profileDzialalnosci
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProfileDzialalnosci()
-    {
-        return $this->profileDzialalnosci;
     }
 
     /**

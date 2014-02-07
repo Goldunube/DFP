@@ -59,10 +59,21 @@ class Filia
 
     /**
      * @var boolean
-     *
-     * @ORM\Column(name="potencjalny", type="boolean")
      */
-    private $potencjalny;
+    private $aktywny;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="matlak_dotychczas", type="text")
+     */
+    private $matlakDotychczas;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="zuzycie_materialow", type="string", length=255)
+     */
+    private $zuzycieMaterialow;
 
     /**
      * @ORM\ManyToOne(targetEntity="Klient", inversedBy="filie")
@@ -75,6 +86,50 @@ class Filia
      * @ORM\OneToMany(targetEntity="FiliaUzytkownik", mappedBy="filia", cascade={"persist"})
      */
     private $filieUzytkownicy;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="ProfilDzialalnosci", inversedBy="filie")
+     * @ORM\JoinTable(name="filie_profile_dzialalnosci",
+     *      joinColumns={@ORM\JoinColumn(name="filia_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="profil_id", referencedColumnName="id")}
+     * )
+     */
+    private $profileDzialalnosci;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaProcesPrzygotowaniaPowierzchni", mappedBy="filia", cascade={"persist"})
+     */
+    private $filieProcesyPrzygotowaniaPowierzchni;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaProcesAplikacji", mappedBy="filia", cascade={"persist"})
+     */
+    private $filieProcesyAplikacji;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaProcesUtwardzaniaPowloki", mappedBy="filia", cascade={"persist"})
+     */
+    private $filieProcesyUtwardzaniaPowlok;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaWymaganiaProduktu", mappedBy="filia", cascade={"persist"})
+     */
+    private $filieWymaganiaProduktow;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaWymaganiaPowloki", mappedBy="filia", cascade={"persist"})
+     */
+    private $filieWymaganiaPowlok;
 
 
     public function __construct()
@@ -205,29 +260,6 @@ class Filia
     public function getUlica()
     {
         return $this->ulica;
-    }
-
-    /**
-     * Set potencjalny
-     *
-     * @param boolean $potencjalny
-     * @return Filia
-     */
-    public function setPotencjalny($potencjalny)
-    {
-        $this->potencjalny = $potencjalny;
-    
-        return $this;
-    }
-
-    /**
-     * Get potencjalny
-     *
-     * @return boolean 
-     */
-    public function getPotencjalny()
-    {
-        return $this->potencjalny;
     }
 
     /**
