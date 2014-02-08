@@ -32,7 +32,7 @@ class ProcesAplikacji
     /**
      * @var string
      *
-     * @ORM\Column(name="opis", type="text")
+     * @ORM\Column(name="opis", type="text", nullable=true)
      */
     private $opis;
 

@@ -32,7 +32,7 @@ class WymaganiaPowloki
     /**
      * @var string
      *
-     * @ORM\Column(name="opis", type="text")
+     * @ORM\Column(name="opis", type="text", nullable=true )
      */
     private $opis;
 
@@ -44,7 +44,7 @@ class WymaganiaPowloki
     private $filieWymaganiaPowlok;
 
 
-    private function __construct()
+    public function __construct()
     {
         $this->filieWymaganiaPowlok = new ArrayCollection();
     }

@@ -1,0 +1,7 @@
+- { Nazwa: Pędzel, Opis: null }
+- { Nazwa: Wałek, Opis: null }
+- { Nazwa: Hydrodynamiczna airless, Opis: "Określ następujące właściwości\: rzełożenie pompy, ciśnienie, dysza, pistolet." }
+- { Nazwa: Hydrodynamiczna aircombi, Opis: "Określ następujące właściwości\: przełożenie pompy, ciśnienie, dysza, pistolet." }
+- { Nazwa: Pneumatyczna, Opis: "Określ następujące właściwości\: ciśnienie, dysza, pistolet." }
+- { Nazwa: Elektrostatyczna, Opis: "Określ następujące właściwości\: pompa, pistolet, oporność, napięcie." }
+- { Nazwa: Zanurzeniowa, Opis: null }
