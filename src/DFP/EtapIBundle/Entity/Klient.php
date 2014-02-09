@@ -72,6 +72,13 @@ class Klient
     private $aktywny;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="adnotacje", type="text", nullable=true)
+     */
+    private $adnotacja;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="Filia", mappedBy="klient", cascade={"all"})
      */
@@ -331,4 +338,27 @@ class Klient
     }
 
 
+
+    /**
+     * Set adnotacja
+     *
+     * @param string $adnotacja
+     * @return Klient
+     */
+    public function setAdnotacja($adnotacja)
+    {
+        $this->adnotacja = $adnotacja;
+    
+        return $this;
+    }
+
+    /**
+     * Get adnotacja
+     *
+     * @return string 
+     */
+    public function getAdnotacja()
+    {
+        return $this->adnotacja;
+    }
 }

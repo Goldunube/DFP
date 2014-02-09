@@ -65,15 +65,22 @@ class Filia
     /**
      * @var string
      *
-     * @ORM\Column(name="matlak_dotychczas", type="text")
+     * @ORM\Column(name="matlak_dotychczas", type="text", nullable=true)
      */
     private $matlakDotychczas;
     /**
      * @var string
      *
-     * @ORM\Column(name="zuzycie_materialow", type="string", length=255)
+     * @ORM\Column(name="zuzycie_materialow", type="string", length=255, nullable=true)
      */
     private $zuzycieMaterialow;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adnotacje", type="text", nullable=true)
+     */
+    private $adnotacja;
 
     /**
      * @ORM\ManyToOne(targetEntity="Klient", inversedBy="filie")
@@ -343,7 +350,7 @@ class Filia
      * Set matlakDotychczas
      *
      * @param string $matlakDotychczas
-     * @return Filia
+     * @return $this
      */
     public function setMatlakDotychczas($matlakDotychczas)
     {
@@ -422,7 +429,7 @@ class Filia
      * Add zobowiazania
      *
      * @param FiliaZobowiazanie $zobowiazania
-     * @return Filia
+     * @return $this
      */
     public function addZobowiazania(FiliaZobowiazanie $zobowiazania)
     {
@@ -455,7 +462,7 @@ class Filia
      * Add profileDzialalnosci
      *
      * @param ProfilDzialalnosci $profileDzialalnosci
-     * @return Filia
+     * @return $this
      */
     public function addProfileDzialalnosci(ProfilDzialalnosci $profileDzialalnosci)
     {
@@ -488,7 +495,7 @@ class Filia
      * Add filieProcesyPrzygotowaniaPowierzchni
      *
      * @param FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni
-     * @return Filia
+     * @return $this
      */
     public function addFilieProcesyPrzygotowaniaPowierzchni(
         FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
@@ -523,7 +530,7 @@ class Filia
      * Add filieProcesyAplikacji
      *
      * @param FiliaProcesAplikacji $filieProcesyAplikacji
-     * @return Filia
+     * @return $this
      */
     public function addFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
     {
@@ -556,7 +563,7 @@ class Filia
      * Add filieProcesyUtwardzaniaPowlok
      *
      * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
-     * @return Filia
+     * @return $this
      */
     public function addFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
     {
@@ -589,7 +596,7 @@ class Filia
      * Add filieWymaganiaProduktow
      *
      * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
-     * @return Filia
+     * @return $this
      */
     public function addFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
     {
@@ -622,7 +629,7 @@ class Filia
      * Add filieWymaganiaPowlok
      *
      * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
-     * @return Filia
+     * @return $this
      */
     public function addFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
     {
@@ -644,7 +651,7 @@ class Filia
     /**
      * Get filieWymaganiaPowlok
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getFilieWymaganiaPowlok()
     {
@@ -653,6 +660,7 @@ class Filia
 
     /**
      * @return boolean
+     * @return bool
      */
     public function getAktywny()
     {
@@ -660,10 +668,34 @@ class Filia
     }
 
     /**
+     * @param $aktywny
      * @param boolean $aktywny
      */
     public function setAktywny($aktywny)
     {
         $this->aktywny = $aktywny;
+    }
+
+    /**
+     * Set adnotacja
+     *
+     * @param string $adnotacja
+     * @return Filia
+     */
+    public function setAdnotacja($adnotacja)
+    {
+        $this->adnotacja = $adnotacja;
+    
+        return $this;
+    }
+
+    /**
+     * Get adnotacja
+     *
+     * @return string
+     */
+    public function getAdnotacja()
+    {
+        return $this->adnotacja;
     }
 }
