@@ -53,7 +53,7 @@ class FiliaProcesUtwardzaniaPowloki
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieProcesyUtwardzaniaPowlok")
+     * @ORM\ManyToOne(targetEntity="ProcesUtwardzaniaPowloki", inversedBy="filieProcesyUtwardzaniaPowlok")
      * @ORM\JoinColumn(name="proces_utwardzania_id", referencedColumnName="id")
      */
     private $procesUtwardzaniaPowloki;

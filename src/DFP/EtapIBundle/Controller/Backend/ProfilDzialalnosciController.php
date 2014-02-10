@@ -29,10 +29,14 @@ class ProfilDzialalnosciController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAllOrderByName();
+        $paginator = $this->get('knp_paginator');
+
+        $query = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAllOrderByName();
+
+        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),11);
 
         return array(
-            'entities' => $entities,
+            'entities' => $pagination,
         );
     }
     /**

@@ -39,7 +39,7 @@ class FiliaWymaganiaProduktu
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieWymaganiaProduktow")
+     * @ORM\ManyToOne(targetEntity="WymaganiaProduktu", inversedBy="filieWymaganiaProduktow")
      * @ORM\JoinColumn(name="wymagania_produktu_id", referencedColumnName="id")
      */
     private $wymaganiaProduktu;
