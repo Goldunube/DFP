@@ -63,6 +63,14 @@ class NotatkaOsobista
      */
     private $dataWykonania;
 
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Uzytkownik", inversedBy="notatkiOsobiste")
+     * @ORM\JoinColumn(name="uzytkownik_id", referencedColumnName="id")
+     */
+    private $uzytkownik;
+
 
     /**
      * Get id
@@ -210,5 +218,28 @@ class NotatkaOsobista
     public function getDataWykonania()
     {
         return $this->dataWykonania;
+    }
+
+    /**
+     * Set uzytkownik
+     *
+     * @param Uzytkownik $uzytkownik
+     * @return NotatkaOsobista
+     */
+    public function setUzytkownik(Uzytkownik $uzytkownik = null)
+    {
+        $this->uzytkownik = $uzytkownik;
+    
+        return $this;
+    }
+
+    /**
+     * Get uzytkownik
+     *
+     * @return Uzytkownik
+     */
+    public function getUzytkownik()
+    {
+        return $this->uzytkownik;
     }
 }

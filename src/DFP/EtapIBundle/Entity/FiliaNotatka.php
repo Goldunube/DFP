@@ -59,9 +59,9 @@ class FiliaNotatka
 
     /**
      * @var integer
-     *
-     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieNotatki")
-     * @ORM\JoinColumn(name="notatka_id", referencedColumnName="id")
+     * 
+     * @ORM\ManyToOne(targetEntity="Uzytkownik", inversedBy="filieNotatki")
+     * @ORM\JoinColumn(name="uzytkownik_id", referencedColumnName="id")
      */
     private $notatka;
 
