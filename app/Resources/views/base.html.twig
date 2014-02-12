@@ -11,7 +11,6 @@
     {% block javascript %}
         <script type="text/javascript" src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/menu-glowne.js') }}"></script>
     {% endblock %}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
@@ -41,11 +40,11 @@
             </div>
         </header>
         <nav id="menu-glowne">
-            <ul>
+            <ul id="mainmenu">
                 {% block menu_glowne %}
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <li><a href="{{ path('strona_glowna') }}">Strona główna</a></li>
-                        <li><a href="{{ path('url_lista_klientow') }}">Klienci</a>
+                        <li><a class="poziom" href="{{ path('strona_glowna') }}">Strona główna</a></li>
+                        <li><a class="poziom" href="{{ path('url_lista_klientow') }}">Klienci</a>
                             <ul>
                                 <li><a href="{{ path('url_lista_klientow') }}" title="Pokazuje przypisanych do mnie klientów.">Moi klienci</a> </li>
                                 <li><a href="#" title="Wyszukiwarka nie zarezerwowanych klientów po określeniu miejscowości.">Wyszukiwarka_1</a> </li>
