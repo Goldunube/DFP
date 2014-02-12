@@ -1,0 +1,15 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Tworzenie nowego wymagania powłoki</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('url_wymaganiapowloki') }}">
+            Powrót do listy
+        </a>
+    </li>
+</ul>
+{% endblock %}

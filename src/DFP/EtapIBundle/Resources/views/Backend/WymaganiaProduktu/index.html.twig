@@ -1,0 +1,38 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista wymagań produktów</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Lp.</th>
+                <th>Nazwa parametru</th>
+                <th>Opis</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('url_wymaganiaproduktu_show', { 'id': entity.id }) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}.</a></td>
+                <td>{{ entity.nazwaParametru }}</td>
+                <td>{{ entity.opis }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('url_wymaganiaproduktu_show', { 'id': entity.id }) }}">pokaż</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('url_wymaganiaproduktu_edit', { 'id': entity.id }) }}">edytuj</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(entities) }}
+    </div>
+    {% endblock %}

@@ -1,7 +1,7 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
 {% block content -%}
-    <h1>Profil działalności</h1>
+    <h1>Wymagania Powloki</h1>
 
     <table class="record_properties">
         <tbody>
@@ -10,25 +10,25 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Nazwa profilu</th>
-                <td>{{ entity.nazwaProfilu }}</td>
+                <th>Nazwa parametru</th>
+                <td>{{ entity.nazwaParametru }}</td>
             </tr>
             <tr>
-                <th>Zweryfikowany</th>
-                <td>{{ entity.zweryfikowany }}</td>
+                <th>Opis</th>
+                <td>{{ entity.opis }}</td>
             </tr>
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('url_profiledzialalnosci') }}">
+        <a href="{{ path('url_wymaganiapowloki') }}">
             Powrót do listy
         </a>
     </li>
     <li>
-        <a href="{{ path('profildzialalnosci_edit', { 'id': entity.id }) }}">
-            Edycja
+        <a href="{{ path('url_wymaganiapowloki_edit', { 'id': entity.id }) }}">
+            Edytuj
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>

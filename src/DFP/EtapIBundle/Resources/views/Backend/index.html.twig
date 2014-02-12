@@ -11,10 +11,54 @@
     </li>
     <li><a class="poziom" href="#">Słowniki</a>
         <ul>
-            <li><a href="{{ path('grupaklientow') }}">Grupy klientów - lista</a> </li>
-            <li><a href="{{ path('grupaklientow_new') }}">Grupy klientów - dodaj</a> </li>
-            <li><a href="{{ path('url_profiledzialalnosci') }}">Profile działalności - lista</a> </li>
-            <li><a href="{{ path('profildzialalnosci_new') }}">Profile działalności - dodaj</a> </li>
+            <li><a href="#">Grupy klientów</a>
+                <ul>
+                    <li><a href="{{ path('grupaklientow') }}">Lista</a></li>
+                    <li><a href="{{ path('grupaklientow_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Materiały uzupełniające</a>
+                <ul>
+                    <li><a href="{{ path('url_materialuzupelniajacy') }}">Lista</a></li>
+                    <li><a href="{{ path('url_materialuzupelniajacy_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Procesy aplikacji</a>
+                <ul>
+                    <li><a href="{{ path('url_procesaplikacji') }}">Lista</a></li>
+                    <li><a href="{{ path('url_procesaplikacji_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#" title="Procesy przygotowania powierzchni">Procesy przyg. powierzchni</a>
+                <ul>
+                    <li><a href="{{ path('url_procesprzygotowaniapowierzchni') }}">Lista</a></li>
+                    <li><a href="{{ path('url_procesprzygotowaniapowierzchni_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#" title="Procesy utwardzania powłoki">Procesy utw. powłoki</a>
+                <ul>
+                    <li><a href="{{ path('url_procesutwardzaniapowloki') }}">Lista</a></li>
+                    <li><a href="{{ path('url_procesutwardzaniapowloki_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Profile działalności</a>
+                <ul>
+                    <li><a href="{{ path('url_profiledzialalnosci') }}">Lista</a></li>
+                    <li><a href="{{ path('profildzialalnosci_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Wymagania powłok</a>
+                <ul>
+                    <li><a href="{{ path('url_wymaganiapowloki') }}">Lista</a></li>
+                    <li><a href="{{ path('url_wymaganiapowloki_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Wymagania produktu</a>
+                <ul>
+                    <li><a href="{{ path('url_wymaganiaproduktu') }}">Lista</a></li>
+                    <li><a href="{{ path('url_wymaganiaproduktu_new') }}">Dodaj</a></li>
+                </ul>
+            </li>
         </ul>
     </li>
 

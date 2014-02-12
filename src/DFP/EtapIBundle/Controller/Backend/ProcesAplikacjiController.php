@@ -7,23 +7,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
-use DFP\EtapIBundle\Form\ProfilDzialalnosciType;
+use DFP\EtapIBundle\Entity\ProcesAplikacji;
+use DFP\EtapIBundle\Form\ProcesAplikacjiType;
 
 /**
- * ProfilDzialalnosci controller.
+ * ProcesAplikacji controller.
  *
- * @Route("/profildzialalnosci")
+ * @Route("/procesaplikacji")
  */
-class ProfilDzialalnosciController extends Controller
+class ProcesAplikacjiController extends Controller
 {
 
     /**
-     * Lists all ProfilDzialalnosci entities.
+     * Lists all ProcesAplikacji entities.
      *
-     * @Route("/", name="url_profiledzialalnosci")
+     * @Route("/", name="url_procesaplikacji")
      * @Method("GET")
-     * @Template("@DFPEtapI/Backend/ProfilDzialalnosci/index.html.twig")
+     * @Template("@DFPEtapI/Backend/ProcesAplikacji/index.html.twig")
      */
     public function indexAction()
     {
@@ -31,7 +31,7 @@ class ProfilDzialalnosciController extends Controller
 
         $paginator = $this->get('knp_paginator');
 
-        $query = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAllOrderByName();
+        $query = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->findBy(array(),array('nazwaProcesu'=>'ASC'));
 
         $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),11);
 
@@ -40,15 +40,15 @@ class ProfilDzialalnosciController extends Controller
         );
     }
     /**
-     * Creates a new ProfilDzialalnosci entity.
+     * Creates a new ProcesAplikacji entity.
      *
-     * @Route("/", name="profildzialalnosci_create")
+     * @Route("/", name="url_procesaplikacji_create")
      * @Method("POST")
-     * @Template("@DFPEtapI/Backend/ProfilDzialalnosci/new.html.twig")
+     * @Template("@DFPEtapI/Backend/ProcesAplikacji/new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new ProfilDzialalnosci();
+        $entity = new ProcesAplikacji();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -57,7 +57,7 @@ class ProfilDzialalnosciController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('url_profiledzialalnosci'));
+            return $this->redirect($this->generateUrl('url_procesaplikacji_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -67,34 +67,34 @@ class ProfilDzialalnosciController extends Controller
     }
 
     /**
-    * Creates a form to create a ProfilDzialalnosci entity.
+    * Creates a form to create a ProcesAplikacji entity.
     *
-    * @param ProfilDzialalnosci $entity The entity
+    * @param ProcesAplikacji $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(ProfilDzialalnosci $entity)
+    private function createCreateForm(ProcesAplikacji $entity)
     {
-        $form = $this->createForm(new ProfilDzialalnosciType(), $entity, array(
-            'action' => $this->generateUrl('profildzialalnosci_create'),
+        $form = $this->createForm(new ProcesAplikacjiType(), $entity, array(
+            'action' => $this->generateUrl('url_procesaplikacji_create'),
             'method' => 'POST',
         ));
 
-//        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Utwórz'));
 
         return $form;
     }
 
     /**
-     * Displays a form to create a new ProfilDzialalnosci entity.
+     * Displays a form to create a new ProcesAplikacji entity.
      *
-     * @Route("/new", name="profildzialalnosci_new")
+     * @Route("/new", name="url_procesaplikacji_new")
      * @Method("GET")
-     * @Template("@DFPEtapI/Backend/ProfilDzialalnosci/new.html.twig")
+     * @Template("@DFPEtapI/Backend/ProcesAplikacji/new.html.twig")
      */
     public function newAction()
     {
-        $entity = new ProfilDzialalnosci();
+        $entity = new ProcesAplikacji();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -104,20 +104,20 @@ class ProfilDzialalnosciController extends Controller
     }
 
     /**
-     * Finds and displays a ProfilDzialalnosci entity.
+     * Finds and displays a ProcesAplikacji entity.
      *
-     * @Route("/{id}", name="profildzialalnosci_show")
+     * @Route("/{id}", name="url_procesaplikacji_show")
      * @Method("GET")
-     * @Template("@DFPEtapI/Backend/ProfilDzialalnosci/pokazKarteKlienta.html.twig")
+     * @Template("@DFPEtapI/Backend/ProcesAplikacji/show.html.twig")
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($id);
+        $entity = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ProfilDzialalnosci entity.');
+            throw $this->createNotFoundException('Unable to find ProcesAplikacji entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -129,20 +129,20 @@ class ProfilDzialalnosciController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing ProfilDzialalnosci entity.
+     * Displays a form to edit an existing ProcesAplikacji entity.
      *
-     * @Route("/{id}/edit", name="profildzialalnosci_edit")
+     * @Route("/{id}/edit", name="url_procesaplikacji_edit")
      * @Method("GET")
-     * @Template("@DFPEtapI/Backend/ProfilDzialalnosci/edit.html.twig")
+     * @Template("@DFPEtapI/Backend/ProcesAplikacji/edit.html.twig")
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($id);
+        $entity = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ProfilDzialalnosci entity.');
+            throw $this->createNotFoundException('Unable to find ProcesAplikacji entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -156,16 +156,16 @@ class ProfilDzialalnosciController extends Controller
     }
 
     /**
-    * Creates a form to edit a ProfilDzialalnosci entity.
+    * Creates a form to edit a ProcesAplikacji entity.
     *
-    * @param ProfilDzialalnosci $entity The entity
+    * @param ProcesAplikacji $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(ProfilDzialalnosci $entity)
+    private function createEditForm(ProcesAplikacji $entity)
     {
-        $form = $this->createForm(new ProfilDzialalnosciType(), $entity, array(
-            'action' => $this->generateUrl('profildzialalnosci_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ProcesAplikacjiType(), $entity, array(
+            'action' => $this->generateUrl('url_procesaplikacji_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -174,20 +174,20 @@ class ProfilDzialalnosciController extends Controller
         return $form;
     }
     /**
-     * Edits an existing ProfilDzialalnosci entity.
+     * Edits an existing ProcesAplikacji entity.
      *
-     * @Route("/{id}", name="profildzialalnosci_update")
+     * @Route("/{id}", name="url_procesaplikacji_update")
      * @Method("PUT")
-     * @Template("@DFPEtapI/Backend/ProfilDzialalnosci/edit.html.twig")
+     * @Template("DFPEtapIBundle:Backend/ProcesAplikacji:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($id);
+        $entity = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ProfilDzialalnosci entity.');
+            throw $this->createNotFoundException('Unable to find ProcesAplikacji entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -197,7 +197,7 @@ class ProfilDzialalnosciController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('profildzialalnosci_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('url_procesaplikacji_edit', array('id' => $id)));
         }
 
         return array(
@@ -207,9 +207,9 @@ class ProfilDzialalnosciController extends Controller
         );
     }
     /**
-     * Deletes a ProfilDzialalnosci entity.
+     * Deletes a ProcesAplikacji entity.
      *
-     * @Route("/{id}/usun", name="profildzialalnosci_delete")
+     * @Route("/{id}", name="url_procesaplikacji_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -219,21 +219,21 @@ class ProfilDzialalnosciController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($id);
+            $entity = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Nie można odnaleźć profilu działalności, który chcesz usunąć.');
+                throw $this->createNotFoundException('Unable to find ProcesAplikacji entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('url_profiledzialalnosci'));
+        return $this->redirect($this->generateUrl('url_procesaplikacji'));
     }
 
     /**
-     * Creates a form to delete a ProfilDzialalnosci entity by id.
+     * Creates a form to delete a ProcesAplikacji entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -242,7 +242,7 @@ class ProfilDzialalnosciController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('profildzialalnosci_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('url_procesaplikacji_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
