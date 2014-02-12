@@ -171,6 +171,7 @@ div {
 }
 
 #mainmenu a {
+    font-size: 11px;
     float: left;
     /*padding: 12px 30px;*/
     color: #696969;
@@ -184,7 +185,6 @@ div {
     width: 100px;
     text-align: center;
     font-weight: bold;
-    font-size: 11px;
     margin: 16px 0 0;
     padding: 10px 0;
 }

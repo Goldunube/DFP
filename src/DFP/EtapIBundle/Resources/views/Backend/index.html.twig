@@ -1,7 +1,7 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
 {% block menu_glowne %}
-    <li><a href="{{ path('backend_klient') }}">Klienci</a>
+    <li><a class="poziom" href="{{ path('backend_klient') }}">Klienci</a>
         <ul>
             <li><a href="{{ path('backend_klient') }}">Lista klientów</a></li>
             <li><a href="{{ path('backend_filie') }}">Lista filii</a></li>
@@ -9,7 +9,7 @@
             <li><a href="#">Przedłuż przypisanie</a></li>
         </ul>
     </li>
-    <li><a href="#">Słowniki</a>
+    <li><a class="poziom" href="#">Słowniki</a>
         <ul>
             <li><a href="{{ path('grupaklientow') }}">Grupy klientów - lista</a> </li>
             <li><a href="{{ path('grupaklientow_new') }}">Grupy klientów - dodaj</a> </li>
