@@ -12,4 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProfilUzytkownikaRepository extends EntityRepository
 {
+//    public function findAll
 }
