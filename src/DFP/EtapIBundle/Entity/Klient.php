@@ -72,19 +72,17 @@ class Klient
     private $aktywny;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="adnotacje", type="text", nullable=true)
+     */
+    private $adnotacja;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="Filia", mappedBy="klient", cascade={"all"})
      */
     protected $filie;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="ProfilDzialalnosci", inversedBy="klienci")
-     * @ORM\JoinTable(name="klienci_profile_dzialalnosci",
-     *      joinColumns={@ORM\JoinColumn(name="klient_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="profil_id", referencedColumnName="id")}
-     * )
-     */
-    private $profileDzialalnosci;
 
     /**
      * @ORM\ManyToMany(targetEntity="GrupaKlientow", inversedBy="klienci")
@@ -307,40 +305,6 @@ class Klient
     }
 
     /**
-     * Add profileDzialalnosci
-     *
-     * @param ProfilDzialalnosci $profilDzialalnosci
-     * @return Klient
-     */
-    public function addProfileDzialalnosci(ProfilDzialalnosci $profilDzialalnosci)
-    {
-        $profilDzialalnosci->addKlienci($this);
-        $this->profileDzialalnosci[] = $profilDzialalnosci;
-
-        return $this;
-    }
-
-    /**
-     * Remove profileDzialalnosci
-     *
-     * @param ProfilDzialalnosci $profileDzialalnosci
-     */
-    public function removeProfileDzialalnosci(ProfilDzialalnosci $profileDzialalnosci)
-    {
-        $this->profileDzialalnosci->removeElement($profileDzialalnosci);
-    }
-
-    /**
-     * Get profileDzialalnosci
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProfileDzialalnosci()
-    {
-        return $this->profileDzialalnosci;
-    }
-
-    /**
      * Add grupyKlientow
      *
      * @param GrupaKlientow $grupyKlientow
@@ -374,4 +338,27 @@ class Klient
     }
 
 
+
+    /**
+     * Set adnotacja
+     *
+     * @param string $adnotacja
+     * @return Klient
+     */
+    public function setAdnotacja($adnotacja)
+    {
+        $this->adnotacja = $adnotacja;
+    
+        return $this;
+    }
+
+    /**
+     * Get adnotacja
+     *
+     * @return string 
+     */
+    public function getAdnotacja()
+    {
+        return $this->adnotacja;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,10 +37,10 @@ class ProfilDzialalnosci
     private $zweryfikowany;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Klient", mappedBy="profileDzialalnosci")
+     * @ORM\ManyToMany(targetEntity="Filia", mappedBy="profileDzialalnosci")
      *
      */
-    private $klienci;
+    private $filie;
 
     
     /**
@@ -47,12 +48,12 @@ class ProfilDzialalnosci
      */
     public function __construct()
     {
-        $this->klienci = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->filie = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return $this->getNazwaProfilu();
+        return (string) $this->getNazwaProfilu();
     }
 
     /**
@@ -112,35 +113,35 @@ class ProfilDzialalnosci
     }
 
     /**
-     * Add klienci
+     * Add filie
      *
-     * @param \DFP\EtapIBundle\Entity\klient $klienci
+     * @param Filia $filie
      * @return ProfilDzialalnosci
      */
-    public function addKlienci(\DFP\EtapIBundle\Entity\klient $klienci)
+    public function addFilie(Filia $filie)
     {
-        $this->klienci[] = $klienci;
-
+        $this->filie[] = $filie;
+    
         return $this;
     }
 
     /**
-     * Remove klienci
+     * Remove filie
      *
-     * @param \DFP\EtapIBundle\Entity\klient $klienci
+     * @param Filia $filie
      */
-    public function removeKlienci(\DFP\EtapIBundle\Entity\klient $klienci)
+    public function removeFilie(Filia $filie)
     {
-        $this->klienci->removeElement($klienci);
+        $this->filie->removeElement($filie);
     }
 
     /**
-     * Get klienci
+     * Get filie
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getKlienci()
+    public function getFilie()
     {
-        return $this->klienci;
+        return $this->filie;
     }
 }

@@ -1,0 +1,36 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Wymagania Produktu</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Nazwa parametru</th>
+                <td>{{ entity.nazwaParametru }}</td>
+            </tr>
+            <tr>
+                <th>Opis</th>
+                <td>{{ entity.opis }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('url_wymaganiaproduktu') }}">
+            Powrót do listy
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('url_wymaganiaproduktu_edit', { 'id': entity.id }) }}">
+            Edycja
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Edycja wymagania produktu</h1>
+
+    {{ form(edit_form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('url_wymaganiaproduktu') }}">
+            Powrót do listy
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

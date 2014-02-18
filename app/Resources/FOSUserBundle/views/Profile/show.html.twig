@@ -1,0 +1,6 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block fos_user_content %}
+    {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    <a href="{{ path('fos_user_change_password') }}">Zmiana hasła</a>
+{% endblock fos_user_content %}

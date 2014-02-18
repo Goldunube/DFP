@@ -15,7 +15,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('profildzialalnosci_show', { 'id': entity.id }) }}">{{ loop.index }}.</a></td>
+                <td><a href="{{ path('profildzialalnosci_show', { 'id': entity.id }) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}.</a></td>
                 <td>{{ entity.nazwaProfilu }}</td>
                 <td>{% if entity.zweryfikowany == 1 %}TAK{% else %}NIE{% endif %}</td>
                 <td>
@@ -32,4 +32,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(entities) }}
+    </div>
 {% endblock %}

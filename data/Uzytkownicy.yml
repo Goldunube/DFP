@@ -1,3 +1,15 @@
 - { Username: MMiksza, Email: mmiksza@csv.pl, Password: 123, Imie: Mirosław, Nazwisko: Miksza, Plec: Mężczyzna, Stanowisko: Dyrektor, Role: ROLE_DYR }
-- { Username: AJarzyński, Email: ajarzynski@csv.pl, Password: 123, Imie: Arkadiusz, Nazwisko: Jarzyński, Plec: Mężczyzna, Stanowisko: Kierownik Produkt, Role: ROLE_KP }
+- { Username: AJarzynski, Email: ajarzynski@csv.pl, Password: 123, Imie: Arkadiusz, Nazwisko: Jarzyński, Plec: Mężczyzna, Stanowisko: Kierownik Produkt, Role: ROLE_KP }
 - { Username: JDmuchowska, Email: jdmuchowska@csv.pl, Password: 123, Imie: Justyna, Nazwisko: Dmuchowska, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
+- { Username: MJacukowicz, Email: mjacukowicz@csv.pl, Password: 123, Imie: Małgorzata, Nazwisko: Jacukowicz, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
+- { Username: MKowalczuk, Email: mkowalczuk@csv.pl, Password: 123, Imie: Marta, Nazwisko: Kowalczuk, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
+- { Username: BZienkiewicz-Sasin, Email: bzienkiewicz@csv.pl, Password: 123, Imie: Bogusława, Nazwisko: Zienkiewicz-Sasin, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
+- { Username: AMusial, Email: amusial@csv.pl, Password: 123, Imie: Artur, Nazwisko: Musiał, Plec: Mężczyzna, Stanowisko: Technik DFP, Role: "ROLE_TECHNIK" }
+- { Username: KPiekarski, Email: kpiekarski@csv.pl, Password: 123, Imie: Krzysztof, Nazwisko: Piekarski, Plec: Mężczyzna, Stanowisko: Technik DFP, Role: "ROLE_TECHNOLOG" }
+- { Username: DKisiel, Email: dkisiel@csv.pl, Password: 123, Imie: Damian, Nazwisko: Kisiel, Plec: Mężczyzna, Stanowisko: Technik DFP, Role: "ROLE_TECHNIK" }
+- { Username: ZKazmierczak, Email: zkazmierczak@csv.pl, Password: 123, Imie: Zbigniew, Nazwisko: Kaźmierczak, Plec: Mężczyzna, Stanowisko: Handlowiec DFP, Role: "ROLE_HDFP" }
+- { Username: PSzafran, Email: pszafran@csv.pl, Password: 123, Imie: Piotr, Nazwisko: Szafran, Plec: Mężczyzna, Stanowisko: Handlowiec DFP, Role: "ROLE_HDFP" }
+- { Username: TWiszniewski, Email: twiszniewski@csv.pl, Password: 123, Imie: Tomasz, Nazwisko: Wiszniewski, Plec: Mężczyzna, Stanowisko: Handlowiec DFP, Role: "ROLE_HDFP" }
+- { Username: KZajchowski, Email: kzajchowski@csv.pl, Password: 123, Imie: Krzysztof, Nazwisko: Zajchowski, Plec: Mężczyzna, Stanowisko: Handlowiec DFP, Role: "ROLE_HDFP" }
+- { Username: ACzyz, Email: aczyz@csv.pl, Password: 123, Imie: Artur, Nazwisko: Czyż, Plec: Mężczyzna, Stanowisko: Handlowiec WPS, Role: "ROLE_HWPS" }
+- { Username: PPaluch, Email: ppaluch@csv.pl, Password: 123, Imie: Paweł, Nazwisko: Paluch, Plec: Mężczyzna, Stanowisko: Handlowiec WPS, Role: "ROLE_HWPS" }

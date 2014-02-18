@@ -29,10 +29,14 @@ class ProfilDzialalnosciController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAllOrderByName();
+        $paginator = $this->get('knp_paginator');
+
+        $query = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAllOrderByName();
+
+        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),11);
 
         return array(
-            'entities' => $entities,
+            'entities' => $pagination,
         );
     }
     /**
@@ -165,7 +169,7 @@ class ProfilDzialalnosciController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Zaktualizuj'));
 
         return $form;
     }
@@ -240,7 +244,7 @@ class ProfilDzialalnosciController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('profildzialalnosci_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
         ;
     }
