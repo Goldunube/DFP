@@ -37,10 +37,10 @@ class LoadKlienciData implements FixtureInterface
             $klient->setDataZalozenia(new \DateTime());
 
             $filia = new Filia();
-            $filia->setWojewodztwo($k['Wojewodztwo']);
+            $filia->setWojewodztwo(ucfirst($k['Wojewodztwo']));
             $filia->setKodPocztowy($k['Kod']);
-            $filia->setMiejscowosc($k['Miejscowosc']);
-            $filia->setUlica($k['Ulica']);
+            $filia->setMiejscowosc(ucfirst($k['Miejscowosc']));
+            $filia->setUlica(ucfirst($k['Ulica']));
             $filia->setAktywny(true);
             if($k['NazwaFilii'] == null)
             {
