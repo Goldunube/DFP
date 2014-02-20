@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class FiliaType extends AbstractType
+class FiliaNotatkaType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,16 +15,12 @@ class FiliaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('nazwaFilii')
-            ->add('wojewodztwo')
-            ->add('miejscowosc')
-            ->add('kodPocztowy')
-            ->add('ulica')
-            ->add('aktywna')
-            ->add('matlakDotychczas')
-            ->add('zuzycieMaterialow')
-            ->add('adnotacja')
-            ->add('profileDzialalnosci')
+            ->add('tresc')
+            ->add('status')
+            ->add('dataSporzadzenia')
+            ->add('koniecEdycji')
+            ->add('filia')
+            ->add('uzytkownik')
         ;
     }
     
@@ -34,7 +30,7 @@ class FiliaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DFP\EtapIBundle\Entity\Filia'
+            'data_class' => 'DFP\EtapIBundle\Entity\FiliaNotatka'
         ));
     }
 
@@ -43,6 +39,6 @@ class FiliaType extends AbstractType
      */
     public function getName()
     {
-        return 'dfp_etapibundle_filia';
+        return 'dfp_etapibundle_filianotatka';
     }
 }

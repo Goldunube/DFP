@@ -167,6 +167,10 @@ class Filia
         $this->zobowiazania = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return (string) $this->getNazwaFilii();
+    }
     /**
      * Get id
      *

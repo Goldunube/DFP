@@ -20,13 +20,6 @@ class KartaKlientaPodstawowaType extends AbstractType
             ->add('nazwaSkrocona')
             ->add('kodMax')
             ->add('kanalDystrybucji')
-            ->add('profileDzialalnosci', 'entity', array(
-                    'label'     =>  'Profil działalności',
-                    'class'     =>  'DFPEtapIBundle:ProfilDzialalnosci',
-                    'property'  =>  'nazwaProfilu',
-                    'multiple'  =>  true,
-                    'expanded'  =>  false
-                ))
             ->add('grupyKlientow', 'entity', array(
                     'label'     =>  'Grupa klientów',
                     'class'     =>  'DFPEtapIBundle:GrupaKlientow',

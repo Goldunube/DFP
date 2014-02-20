@@ -20,7 +20,7 @@
             <thead>
             <tr>
                 <th class="lp">Lp</th>
-                <th {% if lista_moich_klientow.isSorted('k.nazwaSkrocona') %} class="klient-nazwa-skrocona sorted" {% endif %}>{{ knp_pagination_sortable(lista_moich_klientow, 'Klient', 'k.nazwaSkrocona') }}</th>
+                <th {% if filie_uzytkownika.isSorted('k.nazwaSkrocona') %} class="klient-nazwa-skrocona sorted" {% endif %}>{{ knp_pagination_sortable(filie_uzytkownika, 'Klient', 'k.nazwaSkrocona') }}</th>
                 <th class="filia-nazwa">Nazwa filii</th>
                 <th class="filia-miejscowosc">Miejscowość</th>
                 <th class="kod-max">Kod MAX</th>
@@ -29,9 +29,9 @@
             </tr>
             </thead>
             <tbody>
-            {% for filia_uzytkownika in lista_moich_klientow %}
+            {% for filia_uzytkownika in filie_uzytkownika %}
                 <tr {{ (filia_uzytkownika.koniecPrzypisania is empty or filia_uzytkownika.koniecPrzypisania < "now"|date('Y-m-d')) ? "class='przeterminowane'" : "" }}>
-                    <th class="lp"><a href="{{ path('url_pokaz_karte_klienta', { 'id': filia_uzytkownika.id }) }}">{{ loop.index }}</a></th>
+                    <th class="lp"><a href="{{ path('frontend_pokaz_filie_klienta', { 'id': filia_uzytkownika.id }) }}">{{ loop.index }}</a></th>
                     <td class="klient-nazwa-skrocona" title="Pełna nazwa: {{ filia_uzytkownika.filia.klient.nazwaPelna }}"><div>{{ filia_uzytkownika.filia.klient.nazwaSkrocona > 70 ? filia_uzytkownika.filia.klient.nazwaSkrocona[:70] ~ " ..." : filia_uzytkownika.filia.klient.nazwaSkrocona }}</div></td>
                     <td class="filia-nazwa">{{ filia_uzytkownika.filia.nazwaFilii }}</td>
                     <td class="filia-miejscowosc" title="{{ filia_uzytkownika.filia.ulica }}&#10;{{ filia_uzytkownika.filia.kodPocztowy }}; {{ filia_uzytkownika.filia.miejscowosc }}&#10;{{ filia_uzytkownika.filia.wojewodztwo }}">{{ filia_uzytkownika.filia.miejscowosc }}</td>
@@ -44,7 +44,7 @@
         </table>
 
         <div class="navigation">
-            {{ knp_pagination_render(lista_moich_klientow) }}
+            {{ knp_pagination_render(filie_uzytkownika) }}
         </div>
     </section>
 

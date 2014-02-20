@@ -20,7 +20,11 @@
             </tr>
             <tr>
                 <th>Profil działalności</th>
-                <td>{{ klient.profileDzialalnosci|join(' | ') }}</td>
+                <td>
+                    {% for filia in klient.filie %}
+                        {{ filia.profileDzialalnosci|join(" | ") }}
+                    {% endfor %}
+                </td>
             </tr>
             <tr>
                 <th>Data założenia karty</th>

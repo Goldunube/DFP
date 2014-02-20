@@ -4,8 +4,11 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\Klient;
+use DFP\EtapIBundle\Entity\Uzytkownik;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
+use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
+use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\KlientType;
 use DFP\EtapIBundle\Form\KartaKlientaPodstawowaType;
@@ -37,12 +40,12 @@ class KlientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
 
-        $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzWszystkichKlientowUzytkownikaQuery($this->getUser());
+        $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzFilieUzytkownikaQuery($this->getUser());
 
-        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),50);
+        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),11);
 
         return array(
-            'lista_moich_klientow'  => $pagination,
+            'filie_uzytkownika'  => $pagination,
         );
     }
 
@@ -64,7 +67,6 @@ class KlientController extends Controller
         {
             $filia->setNazwaFilii('Filia Główna');
         }
-        $filia->setPotencjalny(true);
         $filia->setKlient($klient);
         $klient->getFilie()->add($filia);
 
@@ -72,7 +74,8 @@ class KlientController extends Controller
         $filiaUzytkownik->setUzytkownik($this->getUser());
         $filiaUzytkownik->setFilia($filia);
         $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
-        $filiaUzytkownik->setAkcept(false);
+        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
+        $filiaUzytkownik->setAkcept(true);
         $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
         $form = $this->createForm(new KlientType(), $klient, array(
@@ -109,6 +112,7 @@ class KlientController extends Controller
     {
         $filia = new Filia();
         $filia->setPotencjalny(true);
+        $filia->setNazwaFilii('Filia Główna');
 
         $form = $this->createForm(new FiliaType(),$filia,array());
         $form
@@ -125,6 +129,7 @@ class KlientController extends Controller
             $entity = $em->getRepository('DFPEtapIBundle:Filia')->findOneByZip($filia->getKodPocztowy());
             if(!$entity)
             {
+                $filia->setNazwaFilii('Filia Główna');
                 $em->persist($filia);
                 $em->flush();
             }else{
@@ -226,5 +231,59 @@ class KlientController extends Controller
         return array(
             'klient'                => $klient,
         );
+    }
+
+    /**
+     * @param $id
+     *
+     * @return array
+     * @Route("/filia/{id}", name="frontend_pokaz_filie_klienta")
+     * @Template()
+     * @Method("GET")
+     *
+     */
+    public function pokazKarteFiliiAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        if (!$filia) {
+            throw $this->createNotFoundException('Nie znaleziono karty klienta.');
+        }
+        return array(
+            'filia' => $filia,
+        );
+    }
+
+    /**
+     * @param $id
+     * @return array
+     * @Route("/filia/{id}/notatka", name="frontend_filia_notatka_new")
+     * @Template()
+     * @Method("GET")
+     */
+    public function nowaNotatkaFiliiAction($id)
+    {
+        //TODO dodać sprawdzenie, czy osoba zalogowana może dodawać notatki do tej filii.
+
+        $em = $this->getDoctrine()->getManager();
+        $notatka = new FiliaNotatka();
+        $filia  = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+        $notatka->setFilia($filia);
+        $notatka->setUzytkownik($this->getUser());
+
+        $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
+                'action'    =>  $this->generateUrl('url_dodaj_filie_klienta'),
+                'method'    =>  "POST",
+        ));
+
+        $form->add('submit','submit',array('label' => 'Dodaj'));
+
+        return array(
+            'notatka'   => $notatka,
+            'form'      => $form->createView(),
+        );
+
     }
 }

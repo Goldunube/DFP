@@ -30,7 +30,7 @@ class FiliaUzytkownikRepository extends EntityRepository
         }
     }
 
-    public function getZnajdzWszystkichKlientowUzytkownikaQuery($idu)
+    public function getZnajdzFilieUzytkownikaQuery($idu)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
             ->select('fu')
