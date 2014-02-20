@@ -2,19 +2,16 @@
 
 {% block content -%}
     <section>
-        <h1>Lista filii klientów</h1>
+        <h1>Lista filii</h1>
 
         <table class="records_list">
             <thead>
             <tr>
                 <th class="lp">Lp</th>
-                <th></th>
-                <th></th>
-                {#<th>{{ knp_pagination_sortable(lista_klientow,'Przypisany do','u.username') }}</th>#}
-                {#<th>{{ knp_pagination_sortable(lista_klientow,'Klient','k.nazwaSkrocona') }}</th>#}
+                <th>{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
+                <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
                 <th>Nazwa filii</th>
-                <th></th>
-                {#<th>{{ knp_pagination_sortable(lista_klientow,'Miejscowosc','f.miejscowosc') }}</th>#}
+                <th>{{ knp_pagination_sortable(lista_filii,'Miejscowosc','f.miejscowosc') }}</th>
                 <th>Kod MAX</th>
                 <th>Profil działalności</th>
                 <th></th>
@@ -23,7 +20,7 @@
             <tbody>
             {% for filia in lista_filii %}
                     <tr>
-                        <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{  loop.index }}</a></td>
+                        <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
                         <td>{% for przypisani in filia.filieUzytkownicy %}<span title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}</span>{% endfor %}</td>
                         <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
                         <td>{{ filia.nazwaFilii }}</td>
@@ -33,7 +30,7 @@
                         <td>
                             <ul>
                                 <li>
-                                    <a href="{{ path('klient_show', { 'id': filia.klient.id }) }}">pokaż</a>
+                                    <a href="{{ path('backend_filia_show', { 'id': filia.id }) }}">pokaż</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('klient_edit', { 'id': filia.klient.id }) }}">edytuj</a>
@@ -44,7 +41,9 @@
             {% endfor %}
             </tbody>
         </table>
-
+        <div class="navigation">
+            {{ knp_pagination_render(lista_filii) }}
+        </div>
     </section>
 
 {% endblock %}

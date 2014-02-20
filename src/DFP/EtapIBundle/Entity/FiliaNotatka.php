@@ -63,7 +63,7 @@ class FiliaNotatka
      * @ORM\ManyToOne(targetEntity="Uzytkownik", inversedBy="filieNotatki")
      * @ORM\JoinColumn(name="uzytkownik_id", referencedColumnName="id")
      */
-    private $notatka;
+    private $uzytkownik;
 
 
     /**
@@ -192,25 +192,25 @@ class FiliaNotatka
     }
 
     /**
-     * Set notatka
+     * Set uzytkownik
      *
-     * @param Filia $notatka
+     * @param Uzytkownik $uzytkownik
      * @return FiliaNotatka
      */
-    public function setNotatka(Filia $notatka = null)
+    public function setUzytkownik(Uzytkownik $uzytkownik = null)
     {
-        $this->notatka = $notatka;
+        $this->uzytkownik = $uzytkownik;
     
         return $this;
     }
 
     /**
-     * Get notatka
+     * Get uzytkownik
      *
      * @return Filia
      */
-    public function getNotatka()
+    public function getUzytkownik()
     {
-        return $this->notatka;
+        return $this->uzytkownik;
     }
 }

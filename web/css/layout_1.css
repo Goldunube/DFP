@@ -7,9 +7,13 @@ table .lp {
 table .lp:after {
     content: '.';
 }
-#main section h1 {
+#main section h1, #main section h2 {
     color: #FF9000;
     text-shadow: 0 0 1px #333333;
+}
+#main h1 sup {
+    font-size: 10px;
+    color: #000000;
 }
 #main table th, #main a {
     color: #333333;

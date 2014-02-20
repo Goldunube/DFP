@@ -12,9 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class FiliaRepository extends EntityRepository
 {
-    public function znajdzWszystkieFilie($klient)
+    public function getListaFiliiQuery()
     {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
+            ->select('f, k, fu, u')
+            ->innerJoin('f.klient','k')
+            ->leftJoin('f.filieUzytkownicy','fu')
+            ->leftJoin('fu.uzytkownik','u')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->getQuery();
 
+        return $query;
     }
 
     public function findOneByZip($zip)

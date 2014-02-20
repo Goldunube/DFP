@@ -66,6 +66,11 @@ class FiliaUzytkownik
     private $uzytkownik;
 
 
+    public function __toString()
+    {
+        return (string) $this->getUzytkownik();
+    }
+
     /**
      * Get id
      *

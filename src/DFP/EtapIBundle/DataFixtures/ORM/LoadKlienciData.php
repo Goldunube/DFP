@@ -41,7 +41,7 @@ class LoadKlienciData implements FixtureInterface
             $filia->setKodPocztowy($k['Kod']);
             $filia->setMiejscowosc(ucfirst($k['Miejscowosc']));
             $filia->setUlica(ucfirst($k['Ulica']));
-            $filia->setAktywny(true);
+            $filia->setAktywna(true);
             if($k['NazwaFilii'] == null)
             {
                 $filia->setNazwaFilii('Filia Główna');

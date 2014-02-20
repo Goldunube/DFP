@@ -59,8 +59,10 @@ class Filia
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="aktywna", type="boolean")
      */
-    private $aktywny;
+    private $aktywna;
 
     /**
      * @var string
@@ -662,18 +664,18 @@ class Filia
      * @return boolean
      * @return bool
      */
-    public function getAktywny()
+    public function getAktywna()
     {
-        return $this->aktywny;
+        return $this->aktywna;
     }
 
     /**
-     * @param $aktywny
-     * @param boolean $aktywny
+     * @param $aktywna
+     * @param boolean $aktywna
      */
-    public function setAktywny($aktywny)
+    public function setAktywna($aktywna)
     {
-        $this->aktywny = $aktywny;
+        $this->aktywna = $aktywna;
     }
 
     /**

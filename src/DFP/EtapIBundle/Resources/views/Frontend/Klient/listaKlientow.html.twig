@@ -36,7 +36,7 @@
                     <td class="filia-nazwa">{{ filia_uzytkownika.filia.nazwaFilii }}</td>
                     <td class="filia-miejscowosc" title="{{ filia_uzytkownika.filia.ulica }}&#10;{{ filia_uzytkownika.filia.kodPocztowy }}; {{ filia_uzytkownika.filia.miejscowosc }}&#10;{{ filia_uzytkownika.filia.wojewodztwo }}">{{ filia_uzytkownika.filia.miejscowosc }}</td>
                     <td class="kod-max">{{ filia_uzytkownika.filia.klient.kodMax }}</td>
-                    <td class="klient-profil-dzialalnosci">{{ filia_uzytkownika.filia.klient.profileDzialalnosci|join(' | ') }}</td>
+                    <td class="klient-profil-dzialalnosci">{{ filia_uzytkownika.filia.profileDzialalnosci|join(' | ') }}</td>
                     <td>{% if filia_uzytkownika.koniecPrzypisania %}{{ filia_uzytkownika.koniecPrzypisania|date('Y-m-d') }}{% endif %}</td>
                 </tr>
             {% endfor %}

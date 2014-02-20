@@ -15,10 +15,23 @@ class FiliaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('nazwaFilii')
             ->add('wojewodztwo')
             ->add('miejscowosc')
             ->add('kodPocztowy')
             ->add('ulica')
+            ->add('aktywna')
+            ->add('matlakDotychczas')
+            ->add('zuzycieMaterialow')
+            ->add('adnotacja')
+            ->add('profileDzialalnosci')
+            ->add('filieProcesyPrzygotowaniaPowierzchni', 'entity', array(
+                    'label'     =>  'Procesy przygotowania powierzchni',
+                    'class'     =>  'DFP\EtapIBundle\Entity\ProcesPrzygotowaniaPowierzchni',
+                    'property'  =>  'nazwaProcesu',
+                    'multiple'  =>  true,
+                    'expanded'  =>  true
+            ))
         ;
     }
     

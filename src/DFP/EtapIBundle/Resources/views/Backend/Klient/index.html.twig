@@ -21,7 +21,8 @@
             {% for klient in lista_klientow %}
                 {% for filia in klient.filie %}
                     <tr>
-                        <td class="lp"><a href="{{ path('klient_show', { 'id': klient.id }) }}">{{ loop.parent.loop.index }}.{{ loop.index }}</a></td>
+                        {#<td class="lp"><a href="{{ path('klient_show', { 'id': klient.id }) }}">{{ loop.parent.loop.index }}.{{ loop.index }}</a></td>#}
+                        <td class="lp"><a href="{{ path('klient_show', { 'id': klient.id }) }}">{{ lista_klientow.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
                         <td>{% for przypisani in filia.filieUzytkownicy %}<span title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}</span>{% endfor %}</td>
                         <td title="Pełna nazwa: {{ klient.nazwaPelna }}">{{ klient.nazwaSkrocona }}</td>
                         <td>{{ filia.nazwaFilii }}</td>
@@ -43,7 +44,9 @@
             {% endfor %}
             </tbody>
         </table>
-
+        <div class="navigation">
+            {{ knp_pagination_render(lista_klientow) }}
+        </div>
         <ul>
             <li>
                 <a href="{{ path('klient_new') }}">Dodaj nowego klienta</a>

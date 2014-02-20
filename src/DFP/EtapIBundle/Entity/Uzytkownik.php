@@ -53,7 +53,7 @@ class Uzytkownik extends BaseUser
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="notatka", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="uzytkownik", cascade={"persist"})
      */
     protected $filieNotatki;
 
@@ -71,6 +71,11 @@ class Uzytkownik extends BaseUser
         $this->filieUzytkownicy = new ArrayCollection();
         $this->filieNotatki = new ArrayCollection();
         $this->notatkiOsobiste = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getImie().' '.$this->getNazwisko();
     }
 
     /**

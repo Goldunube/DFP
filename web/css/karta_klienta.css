@@ -1,0 +1,64 @@
+.lewa {
+    float: left;
+}
+.prawa {
+    float: right;
+}
+#info-dodatkowe > div {
+    width: 50%;
+}
+legend {
+    color: #333333;
+}
+fieldset {
+    background-color: #F3F3F3;
+    color: #333333;
+}
+#notatki .container {
+    height: 170px;
+    overflow-y: scroll;
+}
+.notatka {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+}
+.notatka:nth-child(2n+1)
+{
+    background-color: #F3F3F3;
+}
+.notatka:nth-child(2n)
+{
+    background-color: #E0E0E0;
+}
+.notatka .naglowek {
+    border-bottom: 1px dotted #696969;
+    color: #4682B4;
+    font-size: 10px;
+    text-align: right;
+}
+.notatka .tresc {
+    text-align: justify;
+    text-indent: 20px;
+}
+.status-container {
+    position: relative;
+}
+.status-container span {
+    border: 1px solid #000000;
+    font-weight: bold;
+    padding: 3px 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    width: 100px;
+    color: #FFFFFF;
+    text-shadow: 1px 1px #000000;
+}
+.aktywny {
+    background-color: #27A727;
+}
+.nieaktywny {
+    background-color: #ee0000;
+}

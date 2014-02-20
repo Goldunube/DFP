@@ -13,6 +13,7 @@ class DFPExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('nip', array($this, 'nipFilter')),
+            new \Twig_SimpleFilter('kodPocztowy', array($this, 'kodPocztowyFilter'))
         );
     }
 
@@ -21,5 +22,18 @@ class DFPExtension extends \Twig_Extension
         $nip = sprintf("%s-%s-%s-%s",substr($numer,0,3),substr($numer,3,2),substr($numer,5,2),substr($numer,7));
 
         return $nip;
+    }
+
+    public function kodPocztowyFilter($kod)
+    {
+        $pos = strpos($kod,"-");
+        if($pos === false)
+        {
+            $kodPocztowy = sprintf("%s-%s",substr($kod,0,2),substr($kod,2));
+        }else{
+            $kodPocztowy = $kod;
+        }
+
+        return $kodPocztowy;
     }
 }
