@@ -112,16 +112,25 @@
             <div class="container">
                 {% for notatka in filia.filieNotatki %}
                     <div class="notatka">
-                        <div class="naglowek">
-                            {{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}
-                        </div>
-                        <div class="tresc">
-                            {% if notatka.status == 0 %}
+                        {% if notatka.status == 0 %}
+                            <div class="naglowek">
+                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
+                            </div>
+                            <div class="tresc">
                                 <s>{{ notatka.tresc }}</s>
-                            {% else %}
+                            </div>
+                        {% else %}
+                            <div class="naglowek">
+                                {% if date(notatka.koniecEdycji) > date('now') %}
+                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Edytuj</a></li> <li><a href="#">Usuń</a></li></ul>
+                                {% else %}
+                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Usuń</a> </li></ul>
+                                {% endif %}
+                            </div>
+                            <div class="tresc">
                                 {{ notatka.tresc }}
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

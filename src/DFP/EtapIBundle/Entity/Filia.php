@@ -407,6 +407,7 @@ class Filia
     public function addFilieNotatki(FiliaNotatka $filieNotatki)
     {
         $this->filieNotatki[] = $filieNotatki;
+//        $filieNotatki->setFilia($this);
     
         return $this;
     }

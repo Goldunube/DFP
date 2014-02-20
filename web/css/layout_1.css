@@ -60,3 +60,24 @@ tr.przeterminowane td, tr.przeterminowane th {
     background-color: #FF5050;
     color: #FFFFFF;
 }
+/* KLAWISZE AKCJI */
+.record_actions {
+    list-style: none outside none;
+    padding: 0;
+}
+.record_actions > li {
+    float: left;
+    margin: 0 4px;
+}
+.record_actions a {
+    background-color: #FF9000;
+    border: 1px solid #696969;
+    display: block;
+    /*padding: 5px 0;*/
+    text-align: center;
+    /*width: 100px;*/
+}
+#main .record_actions a:hover {
+    background-color: #8ABD22;
+    color: #B22222;
+}

@@ -16,11 +16,11 @@ class FiliaNotatkaType extends AbstractType
     {
         $builder
             ->add('tresc')
-            ->add('status')
-            ->add('dataSporzadzenia')
-            ->add('koniecEdycji')
-            ->add('filia')
-            ->add('uzytkownik')
+//            ->add('status')
+//            ->add('dataSporzadzenia')
+//            ->add('koniecEdycji')
+//            ->add('filia')
+//            ->add('uzytkownik')
         ;
     }
     

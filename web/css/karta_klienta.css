@@ -21,7 +21,7 @@ fieldset {
 .notatka {
     border: 1px solid;
     border-radius: 5px;
-    padding: 5px;
+    padding: 0 5px 5px;
     margin: 5px 0;
 }
 .notatka:nth-child(2n+1)
@@ -36,11 +36,18 @@ fieldset {
     border-bottom: 1px dotted #696969;
     color: #4682B4;
     font-size: 10px;
+    height: 15px;
+    padding: 4px 0;
     text-align: right;
+}
+.naglowek > span {
+    display: block;
+    float: right;
+    padding: 1px;
 }
 .notatka .tresc {
     text-align: justify;
-    text-indent: 20px;
+    text-indent: 30px;
 }
 .status-container {
     position: relative;
@@ -61,4 +68,20 @@ fieldset {
 }
 .nieaktywny {
     background-color: #ee0000;
+}
+/* KLAWISZE AKCJI */
+.notatka .record_actions {
+    margin: 0;
+}
+.notatka .record_actions > li {
+    float: right;
+}
+.record_actions a {
+    padding: 5px 0;
+    width: 100px;
+}
+.notatka .record_actions a {
+    border-radius: 5px;
+    padding: 0 5px;
+    width: auto;
 }

@@ -111,7 +111,7 @@ class KlientController extends Controller
     public function dodajFilieKlientaAction(Request $request)
     {
         $filia = new Filia();
-        $filia->setPotencjalny(true);
+//        $filia->setPotencjalny(true);
         $filia->setNazwaFilii('Filia Główna');
 
         $form = $this->createForm(new FiliaType(),$filia,array());
@@ -236,11 +236,11 @@ class KlientController extends Controller
     /**
      * @param $id
      *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array
      * @Route("/filia/{id}", name="frontend_pokaz_filie_klienta")
      * @Template()
      * @Method("GET")
-     *
      */
     public function pokazKarteFiliiAction($id)
     {
@@ -249,7 +249,7 @@ class KlientController extends Controller
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
 
         if (!$filia) {
-            throw $this->createNotFoundException('Nie znaleziono karty klienta.');
+            throw $this->createNotFoundException('Nie znaleziono filii klienta.');
         }
         return array(
             'filia' => $filia,
@@ -259,7 +259,7 @@ class KlientController extends Controller
     /**
      * @param $id
      * @return array
-     * @Route("/filia/{id}/notatka", name="frontend_filia_notatka_new")
+     * @Route("/filia/{id}/notatka/", name="frontend_filia_notatka_new")
      * @Template()
      * @Method("GET")
      */
@@ -274,7 +274,7 @@ class KlientController extends Controller
         $notatka->setUzytkownik($this->getUser());
 
         $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
-                'action'    =>  $this->generateUrl('url_dodaj_filie_klienta'),
+                'action'    =>  $this->generateUrl('frontend_filia_notatka_stworz' ,array('id'=>$filia->getId())),
                 'method'    =>  "POST",
         ));
 
@@ -286,4 +286,42 @@ class KlientController extends Controller
         );
 
     }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/filia/{id}/notatka/", name="frontend_filia_notatka_stworz")
+     * @Method("POST")
+     */
+    public function stworzNotatkaFiliiAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+        $notatka = new FiliaNotatka();
+        $notatka->setStatus(true);
+        $notatka->setDataSporzadzenia(new \DateTime('now'));
+        $notatka->setKoniecEdycji(new \DateTime('+30 minutes'));
+        $notatka->setFilia($filia);
+        $notatka->setUzytkownik($this->getUser());
+
+        $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
+                'action'    =>  $this->generateUrl('url_dodaj_filie_klienta'),
+                'method'    =>  "POST",
+        ));
+        $form->add('submit','submit',array('label' => 'Dodaj'));
+
+        $form->handleRequest($request);
+
+        if($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($notatka);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta',array('id'=>$id)));
+        }
+    }
+
+    //TODO dodać funkcję edycji i usuwania notatek
 }
