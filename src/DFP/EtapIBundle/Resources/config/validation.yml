@@ -1,0 +1,9 @@
+DFP\EtapIBundle\Entity\Klient:
+    properties:
+        nip:
+            - NotBlank: ~
+            - Length:
+                min:  10
+                max:  10
+                minMessage: "Każdy NIP składa się z {{ limit }} znaków."
+                maxMessage: "Każdy NIP składa się z {{ limit }} znaków."

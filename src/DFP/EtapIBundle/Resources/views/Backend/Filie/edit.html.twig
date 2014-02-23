@@ -2,14 +2,32 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>
 {% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
 
 {% block content -%}
     <section>
         <h1>Filia - edycja</h1>
-        {{ form(formularz) }}
-        <section id="info-podstawowe">
+        {{ form_start(formularz) }}
+            {{ form_errors(formularz) }}
+
+            {{ form_row(formularz.nazwaFilii) }}
+            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieUzytkownicy.vars.prototype)|e }}">
+                {% for filiaUzytkownik in formularz.filieUzytkownicy %}
+                    <li>{{ form_widget(filiaUzytkownik) }}</li>
+                {% endfor %}
+            </ul>
+            {#{{ form_row(formularz.submit) }}#}
+            {#{{ form_row(formularz._token) }}#}
+        {{ form_end(formularz) }}
+        {#<section id="info-podstawowe">
             <h2>Informacje podstawowe:</h2>
             <table class="record_properties">
                 <tbody>
@@ -120,7 +138,7 @@
                 {% endfor %}
             </div>
         </section>
-    </section>
+    </section>#}
 
 
     <ul class="record_actions">
@@ -137,3 +155,8 @@
         {#<li>{{ form(delete_form) }}</li>#}
     </ul>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('form').obslugaFormularzy();
+{% endblock javascripts %}

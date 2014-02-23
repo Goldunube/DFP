@@ -8,23 +8,28 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class FiliaType extends AbstractType
 {
-        /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
+    /**
+    * @param FormBuilderInterface $builder
+    * @param array $options
+    */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('nazwaFilii')
-            ->add('wojewodztwo')
-            ->add('miejscowosc')
+            ->add('wojewodztwo', 'text', array('label' => 'Województwo'))
+            ->add('miejscowosc', 'text', array('label' => 'Miejscowość'))
             ->add('kodPocztowy')
             ->add('ulica')
             ->add('aktywna')
             ->add('matlakDotychczas')
             ->add('zuzycieMaterialow')
             ->add('adnotacja')
-            ->add('profileDzialalnosci')
+            ->add('profileDzialalnosci', 'entity', array(
+                    'label'     =>  'Profil działalności',
+                    'class'     =>  'DFPEtapIBundle:ProfilDzialalnosci',
+                    'property'  =>  'nazwaProfilu',
+                    'multiple'  =>  true,
+                    'expanded'  =>  true,
+            ))
         ;
     }
     

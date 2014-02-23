@@ -1,20 +1,37 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
+{% block javascript %}
+    {{ parent() }}
+        <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+{% endblock javascript %}
+
 {% block content %}
     <section>
         <h1>Formularz podstawowej karty klienta</h1>
-        <h2>Etap 1/2</h2>
-        <p>Wprowadź NIP klienta, dla którego masz zamiar założyć nową kartę klienta</p>
-        {{ form_start(kartaPodstawowa) }}
-        {{ form_errors(kartaPodstawowa) }}
+        <section style="text-align: center; margin-top: 30px;">
+            <h2 style="color: #7B68EE;">Etap 1/2</h2>
+            <p>Wprowadź NIP klienta, dla którego masz zamiar założyć nową kartę klienta</p>
+            {{ form_start(kartaPodstawowa) }}
+                {{ form_errors(kartaPodstawowa) }}
+                <div>
+                    {{ form_label(kartaPodstawowa.nip, 'NIP')}} {{ form_widget(kartaPodstawowa.nip, {'attr': {'style': 'font-size: 20px; width: 140px; text-align: center; background-color: #87CEEB;'} }) }} {{ form_errors(kartaPodstawowa.nip) }}
+                </div>
+                <ul class="record_actions" style="text-align: center; margin-top: 20px;">
+                    <li style="float: none; display: inline-block; position: relative; left: 27px;">
+                        <a href="{{ path('strona_glowna') }}" style="padding: 4px 10px; border-radius: 4px;">Zaniechaj</a>
+                    </li>
+                    <li style="float: none; display: inline-block; position: relative; left: 27px; top:1px;">
+                        {{ form_row(kartaPodstawowa.submit) }}
+                    </li>
+                </ul>
+                {{ form_row(kartaPodstawowa._token) }}
 
-        {{ form_row(kartaPodstawowa.nip) }}
-        {#{{ form_row(kartaPodstawowa.filie[0].wojewodztwo) }}#}
-        {{ form_row(kartaPodstawowa.submit) }}
-        {{ form_row(kartaPodstawowa._token) }}
-
-        {{ form_end(kartaPodstawowa, {'render_rest':false}) }}
-
-        <a href="{{ path('url_lista_klientow') }}">Powrót do listy klientów</a>
+            {{ form_end(kartaPodstawowa, {'render_rest':false}) }}
+        </section>
     </section>
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('input[type=text]').mask('000-00-00-000');
+{% endblock javascripts %}

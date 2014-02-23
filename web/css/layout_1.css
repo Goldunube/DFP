@@ -7,9 +7,17 @@ table .lp {
 table .lp:after {
     content: '.';
 }
+label {
+    font-size: 20px;
+    margin-right: 10px;
+}
 #main section h1, #main section h2 {
     color: #FF9000;
     text-shadow: 0 0 1px #333333;
+}
+#main section h3 {
+    color: #FF9000;
+    text-shadow: 0 0 0.2px #333333;
 }
 #main h1 sup {
     font-size: 10px;
@@ -77,7 +85,14 @@ tr.przeterminowane td, tr.przeterminowane th {
     text-align: center;
     /*width: 100px;*/
 }
-#main .record_actions a:hover {
+.record_actions button {
+    background-color: #FF9000;
+    border: 1px solid #696969;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2px 10px;
+}
+#main .record_actions a:hover, #main .record_actions button:hover {
     background-color: #8ABD22;
     color: #B22222;
 }

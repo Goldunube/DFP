@@ -3,12 +3,15 @@
 namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\Filia;
+use DFP\EtapIBundle\Entity\FiliaUzytkownik;
 use DFP\EtapIBundle\Form\FiliaType;
+use DFP\EtapIBundle\Form\FiliaUzytkownikType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/filie")
@@ -61,13 +64,21 @@ class FilieController extends Controller
      * @param Filia $filia
      * @return \Symfony\Component\Form\Form
      */
-    public function createEditFrom(Filia $filia)
+    public function createEditForm(Filia $filia)
     {
         $form = $this->createForm(new FiliaType(), $filia, array(
                 'action'    => $this->generateUrl('backend_filia_aktualizacja',array('id'=> $filia->getId())),
                 'method'    => 'PUT',
         ));
 
+        $form->add('nazwaFilii');
+        $form->add('filieUzytkownicy', 'collection', array(
+                'type'          =>  new FiliaUzytkownikType(),
+                'label'         =>  'Przypisani',
+                'allow_add'     =>  true,
+                'allow_delete'  =>  true,
+                'by_reference'  =>  false,
+        ));
         $form->add('submit','submit', array('label'=>'Zatwierdź'));
 
         return $form;
@@ -92,7 +103,7 @@ class FilieController extends Controller
             throw $this->createNotFoundException('Nie można znaleźć wskazanej filii.');
         }
 
-        $editForm = $this->createEditFrom($filia);
+        $editForm = $this->createEditForm($filia);
 
         return array(
             'filia'     =>  $filia,
@@ -121,12 +132,32 @@ class FilieController extends Controller
             throw $this->createNotFoundException('Nie można znaleźć wskazanej filii.');
         }
 
-        $editForm = $this->createEditFrom($filia);
+        $aktualne = new ArrayCollection();
+        foreach ($filia->getFilieUzytkownicy() as $filiaUzytkownik)
+        {
+            $aktualne->add($filiaUzytkownik);
+        }
+        $filiaUzytkownik = new FiliaUzytkownik();
+        $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
+        $filiaUzytkownik->setAkcept(true);
+        $filiaUzytkownik->setPerm(false);
+        $filiaUzytkownik->setFilia($filia);
+        $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
+
+        $editForm = $this->createEditForm($filia);
         $editForm->handleRequest($request);
 
         if($editForm->isValid())
         {
-            $filia->setKlient(1);
+            foreach ($aktualne as $filiaUzytkownik)
+            {
+                if(false === $filia->getFilieUzytkownicy()->contains($filiaUzytkownik))
+                {
+                    $filia->removeFilieUzytkownicy($filiaUzytkownik);
+                }
+            }
+
+            $em->persist($filia);
             $em->flush();
 
             return $this->redirect($this->generateUrl('backend_filia_show',array('id'=>$id)));

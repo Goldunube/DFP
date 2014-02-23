@@ -6,11 +6,12 @@
     {% block stylesheets %}
         <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/layout_1.css') }}" rel="stylesheet"/>
-        {#<link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>#}
+        <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
     {% endblock %}
     {% block javascript %}
         <script type="text/javascript" src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/timepicker.js') }}"></script>
     {% endblock %}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>

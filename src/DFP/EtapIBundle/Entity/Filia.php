@@ -92,7 +92,7 @@ class Filia
     protected $klient;
 
     /**
-     * @ORM\OneToMany(targetEntity="FiliaUzytkownik", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaUzytkownik", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     private $filieUzytkownicy;
 

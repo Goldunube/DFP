@@ -1,33 +1,77 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+{% endblock javascript %}
+
 {% block content %}
     <section>
-        <p>Klient identyfikujący sie numerem NIP: {{ klient.nip }} jest już zapisany w Bazie Danych.</p>
-        <h2>{{ klient.nazwaSkrocona }}</h2>
-        <dl>
-            <dt>Pełna nazwa klienta:</dt>
-            <dd>{{ klient.nazwaPelna }}</dd>
-            <dt>Skrócona nazwa klienta:</dt>
-            <dd>{{ klient.nazwaSkrocona }}</dd>
-            <dt>NIP:</dt>
-            <dd>{{ klient.nip }}</dd>
-            <dt>Kod MAX:</dt>
-            <dd>{{ klient.kodMax }}</dd>
-            <h3>Filie klienta:</h3>
-            <dl>
-                {% for filia in klient.filie %}
-                    <dt>{{ filia.nazwaFilii }}</dt>
-                    <dd>{{ filia.wojewodztwo }}</dd>
-                    <dd>{{ filia.kodPocztowy }}; {{ filia.miejscowosc }}</dd>
-                    <dd>{{ filia.ulica }}</dd>
-                {% endfor %}
-            </dl>
-        </dl>
-    </section>
-    <section>
-        <p>Jeżeli chcesz dodać nową filię klienta wypełnij poniższy formularz:</p>
-        {{ form_start(drugiFormularz) }}
-        {{ form_row(drugiFormularz.nazwaFilii) }}
-        {{ form_end(drugiFormularz) }}
+        <h1>Formularz podstawowej karty klienta</h1>
+        <section style="text-align: left;">
+            <h2 style="color: #7B68EE;">Etap 2/2</h2>
+            <p>Pod podanym numerem NIP: {{ klient.nip|nip }} znajduje się już zapisany w Bazie Danych klient o nazwie {{ klient.nazwaPelna }}.
+                Jeżeli chcesz dodać nową filie / oddział tego klienta, wypełnij formularz znajdujący się na dole strony.</p>
+            <section id="opis-klienta" style="text-align: left;">
+                <h3>Dane klienta</h3>
+                <dl class="table-display">
+                    <dt>Pełna nazwa klienta:</dt>
+                    <dd>{{ klient.nazwaPelna }}</dd>
+                    <dt>Skrócona nazwa klienta:</dt>
+                    <dd>{{ klient.nazwaSkrocona }}</dd>
+                    <dt>NIP:</dt>
+                    <dd>{{ klient.nip|nip }}</dd>
+                    <dt>Kod MAX:</dt>
+                    <dd>{{ klient.kodMax }} </dd>
+                    <dt>Filie klienta:</dt>
+                    <dd>
+                        <dl>
+                            {% for filia in klient.filie %}
+                                <dt>{{ filia.nazwaFilii }}</dt>
+                                <dd>{{ filia.wojewodztwo }}</dd>
+                                <dd>{{ filia.kodPocztowy|kodPocztowy }}; {{ filia.miejscowosc }}</dd>
+                                <dd>{{ filia.ulica }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </dd>
+
+                </dl>
+            </section>
+            <section style="text-align: left;">
+                <h3>Nowa filia</h3>
+                <p>Jeżeli chcesz dodać nową filię klienta wypełnij poniższy formularz:</p>
+                {{ form_start(drugiFormularz) }}
+                    {{ form_row(drugiFormularz.nazwaFilii) }}
+                    {{ form_row(drugiFormularz.wojewodztwo) }}
+                    {{ form_row(drugiFormularz.miejscowosc) }}
+                    {{ form_row(drugiFormularz.kodPocztowy) }}
+                    {{ form_row(drugiFormularz.ulica) }}
+                    <div class="checks-list">
+                        {{ form_label(drugiFormularz.profileDzialalnosci, 'Profil działalności') }}
+                        <div>
+                            {% for profilDzialalnosci in drugiFormularz.profileDzialalnosci %}
+                                {{ form_label(profilDzialalnosci) }} {{ form_widget(profilDzialalnosci) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <ul class="record_actions" style="text-align: center; margin-top: 20px;">
+                        <li style="float: none; display: inline-block; position: relative; left: 27px;">
+                            <a href="{{ path('strona_glowna') }}" style="padding: 4px 10px; border-radius: 4px;">Zaniechaj</a>
+                        </li>
+                        <li style="float: none; display: inline-block; position: relative; left: 27px; top:1px;">
+                            {{ form_row(drugiFormularz.dodaj) }}
+                        </li>
+                    </ul>
+                    {{ form_row(drugiFormularz.klient) }}
+                    {{ form_row(drugiFormularz._token) }}
+
+                {{ form_end(drugiFormularz, {'render_rest': false}) }}
+            </section>
+        </section>
     </section>
 {% endblock content %}

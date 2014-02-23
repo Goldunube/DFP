@@ -187,7 +187,7 @@ class Klient
      */
     public function setNip($nip)
     {
-        $this->nip = $nip;
+        $this->nip = str_replace('-','',$nip);
     
         return $this;
     }

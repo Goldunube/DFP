@@ -15,17 +15,17 @@ class KartaKlientaPodstawowaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nip')
-            ->add('nazwaPelna')
-            ->add('nazwaSkrocona')
-            ->add('kodMax')
-            ->add('kanalDystrybucji')
+            ->add('nip', 'text', array('label'=> 'NIP'))
+            ->add('nazwaPelna', 'text', array('label'=>'Pełna nazwa'))
+            ->add('nazwaSkrocona', 'text', array('label'=>'Skrócona nazwa'))
+            ->add('kodMax', 'text', array('label'=>'Kod MAX'))
+            ->add('kanalDystrybucji', 'text', array('label'=>'Kanał dystrybucji'))
             ->add('grupyKlientow', 'entity', array(
                     'label'     =>  'Grupa klientów',
                     'class'     =>  'DFPEtapIBundle:GrupaKlientow',
                     'property'  =>  'nazwaGrupy',
                     'multiple'  =>  true,
-                    'expanded'  =>  false
+                    'expanded'  =>  true
                 )
             )
             ->add('filie', 'collection', array(

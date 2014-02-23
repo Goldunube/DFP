@@ -112,7 +112,14 @@ class KlientController extends Controller
     {
         $filia = new Filia();
 //        $filia->setPotencjalny(true);
-        $filia->setNazwaFilii('Filia Główna');
+
+        $filiaUzytkownik = new FiliaUzytkownik();
+        $filiaUzytkownik->setUzytkownik($this->getUser());
+        $filiaUzytkownik->setFilia($filia);
+        $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
+        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
+        $filiaUzytkownik->setAkcept(true);
+        $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
         $form = $this->createForm(new FiliaType(),$filia,array());
         $form
@@ -129,7 +136,6 @@ class KlientController extends Controller
             $entity = $em->getRepository('DFPEtapIBundle:Filia')->findOneByZip($filia->getKodPocztowy());
             if(!$entity)
             {
-                $filia->setNazwaFilii('Filia Główna');
                 $em->persist($filia);
                 $em->flush();
             }else{
