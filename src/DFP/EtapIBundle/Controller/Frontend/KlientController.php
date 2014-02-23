@@ -34,6 +34,7 @@ class KlientController extends Controller
      * @Route("/", name="url_lista_klientow")
      * @Method("GET")
      * @Template()
+     *
      */
     public function listaKlientowAction()
     {
