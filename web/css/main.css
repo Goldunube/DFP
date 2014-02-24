@@ -109,7 +109,7 @@ div {
 }
 #naglowek-strony img {
     margin: 16px 0 12px 14px;
-    width: 180px;
+    width: 160px;
 }
 #naglowek-strony .login-box {
     background: #FFCCCC url("images/login_box_bg.jpg") no-repeat;
@@ -340,3 +340,10 @@ footer p {
 .ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+header p.mapa-portal-dfp {
+    clear: none;
+    display: block;
+    float: left;
+    margin: 3px 0 3px 140px;
+    width: 100px;
+}

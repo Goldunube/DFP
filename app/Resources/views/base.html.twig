@@ -18,7 +18,10 @@
 <body>
     <div id="wrap">
         <header id="naglowek-strony">
-            <a href="{{ path('strona_glowna') }}"><img alt="Logo Działu Farb Przemysłowych" src="{{ asset('css/images/logo_dfp.png') }}"></a>
+            <a href="{{ path('strona_glowna') }}" style="float: left;"><img alt="Logo Działu Farb Przemysłowych" src="{{ asset('css/images/logo_dfp.png') }}"></a>
+            <p class="mapa-portal-dfp">
+                <img src="/css/images/mapka_portal_dfp.jpg">
+            </p>
             <div class="login-box">
                 <div id="login-form">
                     {% block login_box %}
