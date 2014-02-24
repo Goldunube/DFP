@@ -51,6 +51,16 @@ a.buttons {
     border-color: -moz-use-text-color #A6A6A6 #A6A6A6 -moz-use-text-color;
     padding: 1px 0 0 1px;
 }
+header p.mapa-portal-dfp img {
+    width: 187px !important;
+    margin: 13px 12px !important;
+}
+header p.mapa-portal-dfp {
+    clear: none;
+    display: block;
+    float: left;
+    margin: 0 0 0 140px;
+}
 #login-form input {
     margin: 3px 0 3px 5px;
     padding: 0 0 0 3px;
@@ -340,10 +350,3 @@ footer p {
 .ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
-header p.mapa-portal-dfp {
-    clear: none;
-    display: block;
-    float: left;
-    margin: 3px 0 3px 140px;
-    width: 100px;
-}
