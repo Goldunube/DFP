@@ -100,7 +100,7 @@ class FilieController extends Controller
 
         if(!$filia)
         {
-            throw $this->createNotFoundException('Nie można znaleźć wskazanej filii.');
+            throw $this->createNotFoundException('Nie znaleziono wskazanej filii.');
         }
 
         $editForm = $this->createEditForm($filia);

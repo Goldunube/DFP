@@ -12,6 +12,7 @@ use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\KlientType;
 use DFP\EtapIBundle\Form\KartaKlientaPodstawowaType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -331,4 +332,55 @@ class KlientController extends Controller
     }
 
     //TODO dodać funkcję edycji i usuwania notatek
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return array
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @Route("/filia/{id}/edytuj", name="frontend_filia_edytuj")
+     * @Template("@DFPEtapI/Frontend/Klient/editFilia.html.twig")
+     * @Method({"GET", "PUT"})
+     *
+     */
+    public function edytujFilieAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        //TODO dodać sprawdzenie, czy osoba która próbuje edytować filie ma odpowiednie uprawnienia
+
+        if(!$filia)
+        {
+            throw $this->createNotFoundException('Nie znaleziono wskazanej filii.');
+        }
+
+        $aktualnePPP = new ArrayCollection();
+        foreach ($filia->getFilieProcesyPrzygotowaniaPowierzchni() as $filiaPPP)
+        {
+            $aktualnePPP->add($filiaPPP);
+        }
+
+        $editFiliaForm = $this->createForm(new FiliaType(), $filia, array(
+                'action'    => $this->generateUrl('frontend_filia_edytuj', array('id' => $filia->getId())),
+                'method'    => 'PUT'
+        ));
+
+        $editFiliaForm->add('submit', 'submit', array('label' => 'Aktualizuj'));
+
+        $editFiliaForm->handleRequest($request);
+        if($editFiliaForm->isValid())
+        {
+            $em->persist($filia);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta',array('id'=>$filia->getId())));
+        }
+
+        return array(
+            'formularz' =>  $editFiliaForm->createView()
+        );
+    }
 }

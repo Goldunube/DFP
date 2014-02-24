@@ -68,3 +68,33 @@ dl.table-display {
 .table-display dd dl dt:nth-child(n+2) {
     margin-top: 10px;
 }
+/* TYMCZASOWO */
+
+.osadzony > label {
+    float: left;
+    margin: 10px 10px 10px 0;
+}
+.filia-uzytkownicy {
+    float: left;
+    list-style: none outside none;
+    margin: 3px 0 10px;
+    padding: 0;
+    width: 768px;
+}
+.filia-uzytkownicy div {
+    float: left;
+    width: 630px;
+}
+.osadzony input, .osadzony select {
+    width: 300px !important;
+}
+.osadzony ul label {
+    width: 250px;
+}
+.filia-uzytkownicy li a {
+    float: left;
+    margin: 22px 5px;
+}
+.filia-uzytkownicy > li {
+    clear: left;
+}

@@ -62,7 +62,7 @@ class Filia
      *
      * @ORM\Column(name="aktywna", type="boolean")
      */
-    private $aktywna;
+    private $aktywna = true;
 
     /**
      * @var string
@@ -512,12 +512,26 @@ class Filia
         return $this;
     }
 
+    public function addFilieProcesyPrzygotowaniaPowierzchnus(
+        FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni[] = $filieProcesyPrzygotowaniaPowierzchni;
+
+        return $this;
+    }
+
     /**
      * Remove filieProcesyPrzygotowaniaPowierzchni
      *
      * @param FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni
      */
     public function removeFilieProcesyPrzygotowaniaPowierzchni(
+        FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
+    {
+        $this->filieProcesyPrzygotowaniaPowierzchni->removeElement($filieProcesyPrzygotowaniaPowierzchni);
+    }
+
+    public function removeFilieProcesyPrzygotowaniaPowierzchnus(
         FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
     {
         $this->filieProcesyPrzygotowaniaPowierzchni->removeElement($filieProcesyPrzygotowaniaPowierzchni);

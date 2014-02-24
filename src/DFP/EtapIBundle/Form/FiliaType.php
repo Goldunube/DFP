@@ -19,7 +19,7 @@ class FiliaType extends AbstractType
             ->add('miejscowosc', 'text', array('label' => 'Miejscowość'))
             ->add('kodPocztowy')
             ->add('ulica')
-            ->add('aktywna')
+//            ->add('aktywna')
             ->add('matlakDotychczas')
             ->add('zuzycieMaterialow')
             ->add('adnotacja')
@@ -29,6 +29,13 @@ class FiliaType extends AbstractType
                     'property'  =>  'nazwaProfilu',
                     'multiple'  =>  true,
                     'expanded'  =>  true,
+            ))
+            ->add('filieProcesyPrzygotowaniaPowierzchni', 'collection', array(
+                    'type'          =>  new FiliaProcesPrzygotowaniaPowierzchniType(),
+                    'label'         =>  'Procesy przygotowania powierzchni',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
             ))
         ;
     }

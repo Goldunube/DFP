@@ -35,6 +35,9 @@ label {
 #main table tbody tr:nth-child(2n+1) {
     background-color: #E0E0E0;
 }
+.klient-profil-dzialalnosci div {
+    font-size: 9px;
+}
 .karta-klienta th {
     padding-left: 7px;
     text-align: left;

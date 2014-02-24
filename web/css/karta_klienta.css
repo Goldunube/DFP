@@ -4,6 +4,16 @@
 .prawa {
     float: right;
 }
+#main {
+    height: auto;
+}
+.record_properties tr {
+    text-align: left;
+}
+.record_properties th {
+    padding: 1px 7px;
+    width: 270px;
+}
 #info-dodatkowe > div {
     width: 50%;
 }
@@ -15,7 +25,7 @@ fieldset {
     color: #333333;
 }
 #notatki .container {
-    height: 170px;
+    height: 300px;
     overflow-y: scroll;
 }
 .notatka {
@@ -70,6 +80,9 @@ fieldset {
     background-color: #ee0000;
 }
 /* KLAWISZE AKCJI */
+.record_actions {
+    height: 10px;
+}
 .notatka .record_actions {
     margin: 0;
 }
