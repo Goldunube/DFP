@@ -12,3 +12,6 @@
 /project_access.log
 /project_error.log
 .idea
+/web/app.php
+/web/app_dev.php
+/app/console
