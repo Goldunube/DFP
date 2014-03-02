@@ -1,24 +1,27 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+{% endblock javascript %}
+
 {% block content %}
     <section>
         <h1>Notatka</h1>
         {{ form_start(form) }}
-        {#{{ form_errors(kartaPodstawowa) }}#}
-
-        {#{{ form_row(kartaPodstawowa.nazwaPelna) }}#}
-        {#{{ form_row(kartaPodstawowa.nazwaSkrocona) }}#}
-        {#{{ form_row(kartaPodstawowa.nip) }}#}
-        {#{{ form_row(kartaPodstawowa.profileDzialalnosci) }}#}
-        {#Województwo<br/>#}
-        {#Miejscowość<br/>#}
-        {#Kod Pocztowy<br/>#}
-        {#Ulica<br/>#}
-        {#{{ form_row(kartaPodstawowa.kodMax) }}#}
-        {#{{ form_row(kartaPodstawowa.kanalDystrybucji) }}#}
-
         {{ form_end(form) }}
 
         <a href="{{ path('url_lista_klientow') }}">Powrót do listy klientów</a>
     </section>
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    tinymce.init({
+    selector:'textarea',
+        language: 'pl',
+        width: 765,
+    });
+{% endblock javascripts %}

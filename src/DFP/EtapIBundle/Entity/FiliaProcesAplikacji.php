@@ -24,7 +24,7 @@ class FiliaProcesAplikacji
     /**
      * @var string
      *
-     * @ORM\Column(name="info", type="string", length=255)
+     * @ORM\Column(name="info", type="string", length=255, nullable=true)
      */
     private $info;
 
@@ -84,7 +84,7 @@ class FiliaProcesAplikacji
      * @param Filia $filia
      * @return FiliaProcesAplikacji
      */
-    public function setFilia(Filia $filia = null)
+    public function setFilia(\DFP\EtapIBundle\Entity\Filia $filia = null)
     {
         $this->filia = $filia;
     

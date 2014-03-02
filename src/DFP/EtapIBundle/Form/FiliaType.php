@@ -37,6 +37,34 @@ class FiliaType extends AbstractType
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
+            ->add('filieProcesyAplikacji', 'collection', array(
+                    'type'          =>  new FiliaProcesAplikacjiType(),
+                    'label'         =>  'Procesy aplikacji',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+            ))
+            ->add('filieWymaganiaProduktu', 'collection', array(
+                    'type'          =>  new FiliaWymaganiaProduktuType(),
+                    'label'         =>  'Wymagania produktu',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+            ))
+            ->add('filieProcesyUtwardzaniaPowloki', 'collection', array(
+                    'type'          => new FiliaProcesUtwardzaniaPowlokiType(),
+                    'label'         => 'Procesy utwardzania powłoki',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+            ))
+            ->add('filieWymaganiaPowloki', 'collection', array(
+                    'type'          => new FiliaWymaganiaPowlokiType(),
+                    'label'         => 'Wymagania powłoki',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+            ))
         ;
     }
     

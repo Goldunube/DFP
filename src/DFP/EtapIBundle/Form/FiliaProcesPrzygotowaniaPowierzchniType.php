@@ -16,7 +16,6 @@ class FiliaProcesPrzygotowaniaPowierzchniType extends AbstractType
     {
         $builder
             ->add('info')
-//            ->add('filia')
             ->add('procesPrzygotowaniaPowierzchni')
         ;
     }

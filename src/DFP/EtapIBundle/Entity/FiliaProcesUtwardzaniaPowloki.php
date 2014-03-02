@@ -24,21 +24,21 @@ class FiliaProcesUtwardzaniaPowloki
     /**
      * @var integer
      *
-     * @ORM\Column(name="tempMin", type="integer")
+     * @ORM\Column(name="tempMin", type="integer", nullable=true)
      */
     private $tempMin;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="tempMax", type="integer")
+     * @ORM\Column(name="tempMax", type="integer", nullable=true)
      */
     private $tempMax;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="czasSchniecia", type="string", length=5)
+     * @ORM\Column(name="czasSchniecia", type="string", length=5, nullable=true)
      */
     private $czasSchniecia;
 
@@ -164,12 +164,12 @@ class FiliaProcesUtwardzaniaPowloki
     /**
      * Set procesUtwardzaniaPowloki
      *
-     * @param Filia $procesUtwardzaniaPowloki
+     * @param ProcesUtwardzaniaPowloki $procesUtwardzaniaPowlok
      * @return FiliaProcesUtwardzaniaPowloki
      */
-    public function setProcesUtwardzaniaPowloki(Filia $procesUtwardzaniaPowloki = null)
+    public function setProcesUtwardzaniaPowloki(ProcesUtwardzaniaPowloki $procesUtwardzaniaPowlok = null)
     {
-        $this->procesUtwardzaniaPowloki = $procesUtwardzaniaPowloki;
+        $this->procesUtwardzaniaPowloki = $procesUtwardzaniaPowlok;
     
         return $this;
     }
@@ -177,7 +177,7 @@ class FiliaProcesUtwardzaniaPowloki
     /**
      * Get procesUtwardzaniaPowloki
      *
-     * @return Filia
+     * @return ProcesUtwardzaniaPowloki
      */
     public function getProcesUtwardzaniaPowloki()
     {

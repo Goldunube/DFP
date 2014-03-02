@@ -122,35 +122,35 @@ class Filia
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaProcesPrzygotowaniaPowierzchni", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaProcesPrzygotowaniaPowierzchni", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     protected $filieProcesyPrzygotowaniaPowierzchni;
 
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaProcesAplikacji", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaProcesAplikacji", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     protected $filieProcesyAplikacji;
 
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaProcesUtwardzaniaPowloki", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaProcesUtwardzaniaPowloki", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     protected $filieProcesyUtwardzaniaPowlok;
 
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaWymaganiaProduktu", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaWymaganiaProduktu", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     protected $filieWymaganiaProduktow;
 
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaWymaganiaPowloki", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaWymaganiaPowloki", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     protected $filieWymaganiaPowlok;
 
@@ -508,7 +508,7 @@ class Filia
         FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
     {
         $this->filieProcesyPrzygotowaniaPowierzchni[] = $filieProcesyPrzygotowaniaPowierzchni;
-    
+        $filieProcesyPrzygotowaniaPowierzchni->setFilia($this);
         return $this;
     }
 
@@ -516,7 +516,7 @@ class Filia
         FiliaProcesPrzygotowaniaPowierzchni $filieProcesyPrzygotowaniaPowierzchni)
     {
         $this->filieProcesyPrzygotowaniaPowierzchni[] = $filieProcesyPrzygotowaniaPowierzchni;
-
+        $filieProcesyPrzygotowaniaPowierzchni->setFilia($this);
         return $this;
     }
 
@@ -553,9 +553,11 @@ class Filia
      * @param FiliaProcesAplikacji $filieProcesyAplikacji
      * @return $this
      */
-    public function addFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
+    //TODO należy sprawdzić czemu następuje zmiana nazwy metody poprzez dodanie końcówki 'us'
+    public function addFilieProcesyAplikacjus(FiliaProcesAplikacji $filieProcesyAplikacji)
     {
         $this->filieProcesyAplikacji[] = $filieProcesyAplikacji;
+        $filieProcesyAplikacji->setFilia($this);
     
         return $this;
     }
@@ -565,7 +567,7 @@ class Filia
      *
      * @param FiliaProcesAplikacji $filieProcesyAplikacji
      */
-    public function removeFilieProcesyAplikacji(FiliaProcesAplikacji $filieProcesyAplikacji)
+    public function removeFilieProcesyAplikacjus(FiliaProcesAplikacji $filieProcesyAplikacji)
     {
         $this->filieProcesyAplikacji->removeElement($filieProcesyAplikacji);
     }
@@ -586,9 +588,10 @@ class Filia
      * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
      * @return $this
      */
-    public function addFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
+    public function addFilieProcesyUtwardzaniaPowlokus(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
     {
         $this->filieProcesyUtwardzaniaPowlok[] = $filieProcesyUtwardzaniaPowlok;
+        $filieProcesyUtwardzaniaPowlok->setFilia($this);
     
         return $this;
     }
@@ -598,7 +601,7 @@ class Filia
      *
      * @param FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok
      */
-    public function removeFilieProcesyUtwardzaniaPowlok(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
+    public function removeFilieProcesyUtwardzaniaPowlokus(FiliaProcesUtwardzaniaPowloki $filieProcesyUtwardzaniaPowlok)
     {
         $this->filieProcesyUtwardzaniaPowlok->removeElement($filieProcesyUtwardzaniaPowlok);
     }
@@ -608,7 +611,7 @@ class Filia
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFilieProcesyUtwardzaniaPowlok()
+    public function getFilieProcesyUtwardzaniaPowloki()
     {
         return $this->filieProcesyUtwardzaniaPowlok;
     }
@@ -619,9 +622,10 @@ class Filia
      * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
      * @return $this
      */
-    public function addFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
+    public function addFilieWymaganiaProduktu(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
     {
         $this->filieWymaganiaProduktow[] = $filieWymaganiaProduktow;
+        $filieWymaganiaProduktow->setFilia($this);
     
         return $this;
     }
@@ -631,7 +635,7 @@ class Filia
      *
      * @param FiliaWymaganiaProduktu $filieWymaganiaProduktow
      */
-    public function removeFilieWymaganiaProduktow(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
+    public function removeFilieWymaganiaProduktu(FiliaWymaganiaProduktu $filieWymaganiaProduktow)
     {
         $this->filieWymaganiaProduktow->removeElement($filieWymaganiaProduktow);
     }
@@ -641,7 +645,7 @@ class Filia
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFilieWymaganiaProduktow()
+    public function getFilieWymaganiaProduktu()
     {
         return $this->filieWymaganiaProduktow;
     }
@@ -652,9 +656,10 @@ class Filia
      * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
      * @return $this
      */
-    public function addFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
+    public function addFilieWymaganiaPowlokus(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
     {
         $this->filieWymaganiaPowlok[] = $filieWymaganiaPowlok;
+        $filieWymaganiaPowlok->setFilia($this);
     
         return $this;
     }
@@ -664,7 +669,7 @@ class Filia
      *
      * @param FiliaWymaganiaPowloki $filieWymaganiaPowlok
      */
-    public function removeFilieWymaganiaPowlok(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
+    public function removeFilieWymaganiaPowlokus(FiliaWymaganiaPowloki $filieWymaganiaPowlok)
     {
         $this->filieWymaganiaPowlok->removeElement($filieWymaganiaPowlok);
     }
@@ -674,7 +679,7 @@ class Filia
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFilieWymaganiaPowlok()
+    public function getFilieWymaganiaPowloki()
     {
         return $this->filieWymaganiaPowlok;
     }

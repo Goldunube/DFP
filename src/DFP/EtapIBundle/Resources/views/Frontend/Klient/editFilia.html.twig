@@ -7,7 +7,9 @@
 
 {% block javascript %}
     {{ parent() }}
-    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock javascript %}
@@ -26,7 +28,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="osadzony">
+            <div id="procesy-przygotowania-powierzchni" class="osadzony">
                 {{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}
                 <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                     {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
@@ -34,140 +36,60 @@
                     {% endfor %}
                 </ul>
             </div>
+            <div id="procesy-aplikacji" class="osadzony">
+                {{ form_label(formularz.filieProcesyAplikacji) }}
+                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
+                    {% for procesAplikacji in formularz.filieProcesyAplikacji %}
+                        <li>{{ form_widget(procesAplikacji) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="wymagania-produktu" class="osadzony">
+                {{ form_label(formularz.filieWymaganiaProduktu) }}
+                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
+                    {% for wymaganie in formularz.filieWymaganiaProduktu %}
+                        <li>{{ form_widget(wymaganie) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="procesy-utwardzania-powloki" class="osadzony">
+                {{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}
+                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
+                    {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
+                        <li>{{ form_widget(proces) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="wymagania-powloki" class="osadzony">
+                {{ form_label(formularz.filieWymaganiaPowloki) }}
+                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
+                    {% for wymaganie in formularz.filieWymaganiaPowloki %}
+                        <li>{{ form_widget(wymaganie) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-            {#{{ form_row(formularz.submit) }}#}
-            {#{{ form_row(formularz._token) }}#}
         {{ form_end(formularz) }}
-        {#<section id="info-podstawowe">
-            <h2>Informacje podstawowe:</h2>
-            <table class="record_properties">
-                <tbody>
-                <tr>
-                    <th>Filia klienta:</th>
-                    <td><a href="">{{ filia.klient.nazwaPelna }}</a></td>
-                </tr>
-                <tr>
-                    <th>Nazwa filii:</th>
-                    <td>{{ filia.nazwaFilii }}</td>
-                </tr>
-                <tr>
-                    <th>Adres filii:</th>
-                    <td>{{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}; ul. {{ filia.ulica }}</td>
-                </tr>
-                <tr>
-                    <th>Przypisani agenci:</th>
-                    <td>{{ filia.filieUzytkownicy|join(" | ") }}</td>
-                </tr>
-                <tr>
-                    <th>Dotychczas używane materiały lakiernicze:</th>
-                    <td>{{ filia.matlakDotychczas }}</td>
-                </tr>
-                <tr>
-                    <th>Zużycie materiałów:</th>
-                    <td>{{ filia.zuzycieMaterialow }}</td>
-                </tr>
-                <tr>
-                    <th>Adnotacje:</th>
-                    <td>{{ filia.adnotacja }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section id="info-dodatkowe" class="two-columns">
-            <h2>Informacje dodatkowe:</h2>
-            <div class="lewa">
-                <fieldset>
-                    <legend>Profile działalności</legend>
-                    <ul>
-                        {% for profilDzialalnosci in filia.profileDzialalnosci %}
-                            <li>{{ profilDzialalnosci }}</li>
-                        {% endfor %}
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend>Procesy aplikacji</legend>
-                    <ul>
-                        {% for procesAplikacji in filia.filieProcesyAplikacji %}
-                            <li>{{ procesAplikacji }}</li>
-                        {% endfor %}
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend>Wymagania produktów</legend>
-                    <ul>
-                        {% for wymaganiaProduktu in filia.filieWymaganiaProduktow %}
-                            <li>{{ wymaganiaProduktu }}</li>
-                        {% endfor %}
-                    </ul>
-                </fieldset>
-            </div>
-            <div class="prawa">
-                <fieldset>
-                    <legend>Procesy przygotowania powierzchni</legend>
-                    <ul>
-                        {% for procesPrzygotowaniaPowierzchni in filia.filieProcesyPrzygotowaniaPowierzchni %}
-                            <li>{{ procesPrzygotowaniaPowierzchni }}</li>
-                        {% endfor %}
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend>Procesy utwardzania powłoki</legend>
-                    <ul>
-                        {% for procesUtwardzaniaPowloki in filia.filieProcesyUtwardzaniaPowlok %}
-                            <li>{{ procesUtwardzaniaPowloki }}</li>
-                        {% endfor %}
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend>Wymagania powłoki</legend>
-                    <ul>
-                        {% for wymaganiaPowloki in filia.filieWymaganiaPowlok %}
-                            <li>{{ wymaganiaPowloki }}</li>
-                        {% endfor %}
-                    </ul>
-                </fieldset>
-            </div>
-        </section>
-
-        <section id="notatki">
-            <h2>Notatki:</h2>
-            <div class="container">
-                {% for notatka in filia.filieNotatki %}
-                    <div class="notatka">
-                        <div class="naglowek">
-                            {{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}
-                        </div>
-                        <div class="tresc">
-                            {% if notatka.status == 0 %}
-                                <s>{{ notatka.tresc }}</s>
-                            {% else %}
-                                {{ notatka.tresc }}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-    </section>#}
-
-
     <ul class="record_actions">
         <li>
             <a href="">
                 Powrót do listy
             </a>
         </li>
-        {#        <li>
-                    <a href="{{ path('klient_edit', { 'id': filia.id }) }}">
-                        Edytuj
-                    </a>
-                </li>#}
-        {#<li>{{ form(delete_form) }}</li>#}
     </ul>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    $('form').obslugaFormularzy();
+    $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
+    $('#procesy-aplikacji').obslugaFormularzy();
+    $('#wymagania-produktu').obslugaFormularzy();
+    $('#procesy-utwardzania-powloki').obslugaFormularzy();
+    $('#wymagania-powloki').obslugaFormularzy();
+    tinymce.init({
+        selector:'textarea',
+        language: 'pl',
+        width: 765,
+    });
+
 {% endblock javascripts %}

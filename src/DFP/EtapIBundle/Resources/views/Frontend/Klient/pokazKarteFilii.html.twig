@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <th>Dotychczas stosowany system malarski:</th>
-                    <td>{{ filia.matlakDotychczas }}</td>
+                    <td>{{ filia.matlakDotychczas|raw }}</td>
                 </tr>
                 <tr>
                     <th>Zużycie materiałów:</th>
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <th>Adnotacje:</th>
-                    <td>{{ filia.adnotacja }}</td>
+                    <td>{{ filia.adnotacja|raw }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -60,45 +60,69 @@
             <div class="lewa">
                 <fieldset>
                     <legend>Procesy aplikacji</legend>
-                    <ul>
-                        {% for procesAplikacji in filia.filieProcesyAplikacji %}
-                            <li>{{ procesAplikacji }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if filia.filieProcesyAplikacji|length > 0 %}
+                        <dl class="table-display">
+                            {% for procesFilii in filia.filieProcesyAplikacji %}
+                                <dt>{{ procesFilii.procesAplikacji.nazwaProcesu }}</dt>
+                                <dd>{{ procesFilii.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
                 </fieldset>
                 <fieldset>
                     <legend>Wymagania produktów</legend>
-                    <ul>
-                        {% for wymaganiaProduktu in filia.filieWymaganiaProduktow %}
-                            <li>{{ wymaganiaProduktu }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if filia.filieWymaganiaProduktu|length > 0 %}
+                        <dl class="table-display">
+                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
+                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
                 </fieldset>
             </div>
             <div class="prawa">
                 <fieldset>
                     <legend>Procesy przygotowania powierzchni</legend>
-                    <ul>
-                        {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
-                            <li>{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if filia.filieProcesyPrzygotowaniaPowierzchni|length > 0 %}
+                        <dl class="table-display">
+                            {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
+                                <dt>{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
+                                <dd>{{ procesFilii.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
                 </fieldset>
                 <fieldset>
                     <legend>Procesy utwardzania powłoki</legend>
-                    <ul>
-                        {% for procesUtwardzaniaPowloki in filia.filieProcesyUtwardzaniaPowlok %}
-                            <li>{{ procesUtwardzaniaPowloki }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if filia.filieProcesyUtwardzaniaPowloki|length > 0 %}
+                        <dl class="table-display">
+                            {% for procesFilii in filia.filieProcesyUtwardzaniaPowloki %}
+                                <dt>{{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
+                                <dd>
+                                    <dl>
+                                        <dt>Temp. min:</dt>
+                                        <dd>{{ procesFilii.tempMin }}&#176;C</dd>
+                                        <dt>Temp max:</dt>
+                                        <dd>{{ procesFilii.tempMax }}&#176;C</dd>
+                                        <dt>Czas:</dt>
+                                        <dd>{{ procesFilii.czasSchniecia }} min</dd>
+                                    </dl>
+                                </dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
                 </fieldset>
                 <fieldset>
                     <legend>Wymagania powłoki</legend>
-                    <ul>
-                        {% for wymaganiaPowloki in filia.filieWymaganiaPowlok %}
-                            <li>{{ wymaganiaPowloki }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% if filia.filieWymaganiaPowloki|length > 0 %}
+                        <dl class="table-display">
+                            {% for wymaganiaPowloki in filia.filieWymaganiaPowloki %}
+                                <dt>{{ wymaganiaPowloki.wymaganiaPowloki.nazwaParametru }}</dt>
+                                <dd>{{ wymaganiaPowloki.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
                 </fieldset>
             </div>
         </section>
@@ -117,14 +141,18 @@
                             </div>
                         {% else %}
                             <div class="naglowek">
-                                {% if date(notatka.koniecEdycji) > date('now') %}
-                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Edytuj</a></li> <li><a href="#">Usuń</a></li></ul>
+                                {% if notatka.uzytkownik == app.user %}
+                                    {% if date(notatka.koniecEdycji) > date('now') %}
+                                        <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Edytuj</a></li> <li><a href="#">Usuń</a></li></ul>
+                                    {% else %}
+                                        <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Usuń</a> </li></ul>
+                                    {% endif %}
                                 {% else %}
-                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Usuń</a> </li></ul>
+                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
                                 {% endif %}
                             </div>
                             <div class="tresc">
-                                {{ notatka.tresc }}
+                                {{ notatka.tresc|raw }}
                             </div>
                         {% endif %}
                     </div>

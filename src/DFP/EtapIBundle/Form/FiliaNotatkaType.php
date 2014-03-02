@@ -15,7 +15,7 @@ class FiliaNotatkaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tresc')
+            ->add('tresc','textarea', array('label'=>'Treść'))
 //            ->add('status')
 //            ->add('dataSporzadzenia')
 //            ->add('koniecEdycji')

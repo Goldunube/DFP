@@ -7,7 +7,7 @@
 
 {% block javascript %}
     {{ parent() }}
-    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    {% javascripts 'bundles/dfpetapi/js/dfp_obsluga_formularzy.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock javascript %}
@@ -19,11 +19,14 @@
             {{ form_errors(formularz) }}
 
             {{ form_row(formularz.nazwaFilii) }}
-            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieUzytkownicy.vars.prototype)|e }}">
-                {% for filiaUzytkownik in formularz.filieUzytkownicy %}
-                    <li>{{ form_widget(filiaUzytkownik) }}</li>
-                {% endfor %}
-            </ul>
+            <div id="filia-uzytkownicy" class="osadzony">
+                {{ form_label(formularz.filieUzytkownicy) }}
+                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieUzytkownicy.vars.prototype)|e }}">
+                    {% for filiaUzytkownik in formularz.filieUzytkownicy %}
+                        <li>{{ form_widget(filiaUzytkownik) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
             {#{{ form_row(formularz.submit) }}#}
             {#{{ form_row(formularz._token) }}#}
         {{ form_end(formularz) }}
@@ -158,5 +161,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    $('form').obslugaFormularzy();
+    $('#filia-uzytkownicy').obslugaFormularzy();
 {% endblock javascripts %}

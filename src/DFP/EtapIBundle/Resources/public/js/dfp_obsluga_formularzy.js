@@ -1,28 +1,28 @@
 (function($)
 {
-    var $collectionHolder;
-
-    var $addFiliaUzytkownikLink = $('<a href="#" class="add-filiauzytkownik-link">Dodaj</a>');
-    var $newLinkLi = $('<li></li>').append($addFiliaUzytkownikLink);
-
     $.fn.obslugaFormularzy = function()
     {
+        var $collectionHolder;
+
+        var $addLink = $('<a href="#" class="add-link">Dodaj</a>');
+        var $newLinkLi = $('<li></li>').append($addLink);
+
         var $this = $(this);
 
-        $collectionHolder = $('ul.filia-uzytkownicy');
+        $collectionHolder = $this.find('ul');
 
         $collectionHolder.append($newLinkLi);
 
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-        $addFiliaUzytkownikLink.on('click',function(e){
+        $addLink.on('click',function(e){
             e.preventDefault();
 
-            addFiliaUzytkownikForm($collectionHolder, $newLinkLi);
+            addForm($collectionHolder, $newLinkLi);
         });
 
         $collectionHolder.find('li').each(function() {
-            addFiliaUzytkownikFormDeleteLink($(this));
+            addFormDeleteLink($(this));
         });
 
         $this.on('focusin','input[type=datetime]', function()
@@ -30,7 +30,7 @@
             $(this).datetimepicker({dateFormat: "yy-mm-dd"});
         });
 
-        function addFiliaUzytkownikForm($collectionHolder, $newLinkLi)
+        function addForm($collectionHolder, $newLinkLi)
         {
             var prototype = $collectionHolder.data('prototype');
 
@@ -43,20 +43,20 @@
             var $newFormLi = $('<li></li>').append(newForm);
             $newLinkLi.before($newFormLi);
 
-            addFiliaUzytkownikFormDeleteLink($newFormLi);
+            addFormDeleteLink($newFormLi);
         }
 
-        function addFiliaUzytkownikFormDeleteLink($fuFormLi)
+        function addFormDeleteLink($FormLi)
         {
-            var $removeFormA = $('<a href="#">Usuń</a> ');
+            var $removeForm = $('<a href="#">Usuń</a> ');
 
-            $fuFormLi.append($removeFormA);
+            $FormLi.append($removeForm);
 
-            $removeFormA.on('click', function(e)
+            $removeForm.on('click', function(e)
             {
                 e.preventDefault();
 
-                $fuFormLi.remove();
+                $FormLi.remove();
             })
         }
 

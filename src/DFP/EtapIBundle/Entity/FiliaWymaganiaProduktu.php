@@ -24,7 +24,7 @@ class FiliaWymaganiaProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="info", type="string", length=255)
+     * @ORM\Column(name="info", type="string", length=255, nullable=true)
      */
     private $info;
 
@@ -104,12 +104,12 @@ class FiliaWymaganiaProduktu
     /**
      * Set wymaganiaProduktu
      *
-     * @param Filia $wymaganiaProduktu
+     * @param WymaganiaProduktu $filieWymaganiaProduktow
      * @return FiliaWymaganiaProduktu
      */
-    public function setWymaganiaProduktu(Filia $wymaganiaProduktu = null)
+    public function setWymaganiaProduktu(WymaganiaProduktu $filieWymaganiaProduktow = null)
     {
-        $this->wymaganiaProduktu = $wymaganiaProduktu;
+        $this->wymaganiaProduktu = $filieWymaganiaProduktow;
     
         return $this;
     }

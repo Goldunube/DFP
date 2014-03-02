@@ -18,7 +18,9 @@
     width: 50%;
 }
 legend {
-    color: #333333;
+    color: #0085FF;
+    font-weight: bold;
+    text-shadow: 0 0 0.5px #000000;
 }
 fieldset {
     background-color: #F3F3F3;
@@ -78,6 +80,40 @@ fieldset {
 }
 .nieaktywny {
     background-color: #ee0000;
+}
+dl.table-display {
+    border-bottom: 1px solid #999999;
+    float: left;
+    margin: 1em 0;
+    padding: 0;
+    width: 99%;
+}
+.table-display > dt {
+    border-top: 1px solid #999999;
+    clear: left;
+    float: left;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px;
+    width: 50%;
+}
+.table-display > dd {
+    border-top: 1px solid #999999;
+    float: left;
+    margin: 0;
+    padding: 5px;
+    width: 45%;
+}
+.table-display dd dl dd {
+    border-left: 6px groove;
+    margin: 0;
+    padding-left: 10px;
+}
+.table-display dd dl dt {
+    font-weight: bold;
+}
+.table-display dd dl dt:nth-child(n+2) {
+    margin-top: 10px;
 }
 /* KLAWISZE AKCJI */
 .record_actions {

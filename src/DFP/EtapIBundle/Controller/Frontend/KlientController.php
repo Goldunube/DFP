@@ -332,6 +332,21 @@ class KlientController extends Controller
     }
 
     //TODO dodać funkcję edycji i usuwania notatek
+    public function usunNotatkeFiliiAction()
+    {
+
+    }
+
+    public function edytujNotatkeFiliiAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $notatka = $em->getRepository('DFPEtapIBundle:FiliaNotatka')->find($id);
+
+        if(!$notatka)
+        {
+            throw $this->createNotFoundException('Nie znaleziono wskazanej notatki.');
+        }
+    }
 
     /**
      * @param $id
@@ -347,7 +362,6 @@ class KlientController extends Controller
     public function edytujFilieAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
 
         //TODO dodać sprawdzenie, czy osoba która próbuje edytować filie ma odpowiednie uprawnienia
@@ -363,6 +377,12 @@ class KlientController extends Controller
             $aktualnePPP->add($filiaPPP);
         }
 
+        $aktualnePA = new ArrayCollection();
+        foreach($filia->getFilieProcesyAplikacji() as $filiaPA)
+        {
+            $aktualnePA->add($filiaPA);
+        }
+
         $editFiliaForm = $this->createForm(new FiliaType(), $filia, array(
                 'action'    => $this->generateUrl('frontend_filia_edytuj', array('id' => $filia->getId())),
                 'method'    => 'PUT'
@@ -373,10 +393,18 @@ class KlientController extends Controller
         $editFiliaForm->handleRequest($request);
         if($editFiliaForm->isValid())
         {
+            foreach($aktualnePPP as $ppp)
+            {
+                if(false === $filia->getFilieProcesyPrzygotowaniaPowierzchni()->contains($ppp))
+                {
+                    $filia->removeFilieProcesyPrzygotowaniaPowierzchnus($ppp);
+                }
+            }
+
             $em->persist($filia);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta',array('id'=>$filia->getId())));
+            return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta', array('id'=>$filia->getId())));
         }
 
         return array(
