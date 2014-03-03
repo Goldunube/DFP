@@ -279,8 +279,6 @@ class KlientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $notatka = new FiliaNotatka();
         $filia  = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
-        $notatka->setFilia($filia);
-        $notatka->setUzytkownik($this->getUser());
 
         $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
                 'action'    =>  $this->generateUrl('frontend_filia_notatka_stworz' ,array('id'=>$filia->getId())),
@@ -290,7 +288,6 @@ class KlientController extends Controller
         $form->add('submit','submit',array('label' => 'Dodaj'));
 
         return array(
-            'notatka'   => $notatka,
             'form'      => $form->createView(),
         );
 
@@ -308,14 +305,9 @@ class KlientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
         $notatka = new FiliaNotatka();
-        $notatka->setStatus(true);
-        $notatka->setDataSporzadzenia(new \DateTime('now'));
-        $notatka->setKoniecEdycji(new \DateTime('+30 minutes'));
-        $notatka->setFilia($filia);
-        $notatka->setUzytkownik($this->getUser());
 
         $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
-                'action'    =>  $this->generateUrl('url_dodaj_filie_klienta'),
+                'action'    =>  $this->generateUrl('frontend_filia_notatka_stworz' ,array('id'=>$filia->getId())),
                 'method'    =>  "POST",
         ));
         $form->add('submit','submit',array('label' => 'Dodaj'));
@@ -324,7 +316,12 @@ class KlientController extends Controller
 
         if($form->isValid())
         {
-            $em = $this->getDoctrine()->getManager();
+            $notatka->setStatus(true);
+            $notatka->setDataSporzadzenia(new \DateTime('now'));
+            $notatka->setKoniecEdycji(new \DateTime('+30 minutes'));
+            $notatka->setFilia($filia);
+            $notatka->setUzytkownik($this->getUser());
+
             $em->persist($notatka);
             $em->flush();
 
@@ -332,10 +329,36 @@ class KlientController extends Controller
         }
     }
 
-    //TODO dodać funkcję edycji i usuwania notatek
-    public function usunNotatkeFiliiAction()
+    /**
+     * @param $id
+     *
+     * @Route("/filia/notatka/{id}/usun", name="frontend_filia_notatka_usun")
+     */
+    public function usunNotatkeFiliiAction($id)
     {
 
+        $em = $this->getDoctrine()->getManager();
+        $notatka = $em->getRepository('DFPEtapIBundle:FiliaNotatka')->find($id);
+
+        $filia = $notatka->getFilia();
+        if(!$notatka)
+        {
+            throw $this->createNotFoundException('Notatka, którą chcesz usunąć, nie istnieje.');
+        }
+
+        $autor = $notatka->getUzytkownik();
+        if($this->getUser() == $autor)
+        {
+            if($notatka->getKoniecEdycji() > new \DateTime('now') )
+            {
+                $em->remove($notatka);
+            }else{
+                $notatka->setStatus(false);
+            }
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta', array('id'=>$filia->getId())));
     }
 
     public function edytujNotatkeFiliiAction($id, Request $request)
