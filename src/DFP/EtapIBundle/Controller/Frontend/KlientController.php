@@ -8,6 +8,7 @@ use DFP\EtapIBundle\Entity\Uzytkownik;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
 use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
+use DFP\EtapIBundle\Entity\FiliaProcesPrzygotowaniaPowierzchni;
 use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\KlientType;
@@ -363,6 +364,8 @@ class KlientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+        $filiaPPP = new FiliaProcesPrzygotowaniaPowierzchni();
+        $filiaPPP->setFilia($filia);
 
         //TODO dodać sprawdzenie, czy osoba która próbuje edytować filie ma odpowiednie uprawnienia
 
@@ -408,6 +411,7 @@ class KlientController extends Controller
         }
 
         return array(
+            'filia'     =>  $filia,
             'formularz' =>  $editFiliaForm->createView()
         );
     }

@@ -32,7 +32,7 @@ class FiliaProcesPrzygotowaniaPowierzchni
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieProcesyPrzygotowaniaPowierzchni")
-     * @ORM\JoinColumn(name="filia_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="filia_id", referencedColumnName="id", nullable=false)
      */
     private $filia;
 
@@ -40,7 +40,7 @@ class FiliaProcesPrzygotowaniaPowierzchni
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="ProcesPrzygotowaniaPowierzchni", inversedBy="filieProcesyPrzygotowaniaPowierzchni")
-     * @ORM\JoinColumn(name="proces_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="proces_id", referencedColumnName="id", nullable=false)
      */
     private $procesPrzygotowaniaPowierzchni;
 
