@@ -1,17 +1,42 @@
 #main {
     height: auto;
 }
+#main table th {
+    width: 260px;
+}
+#main table {
+    text-align: left;
+}
+#main table tbody td {
+    overflow: auto;
+    padding: 0;
+}
+#main table tbody td div {
+    max-height: none;
+    border: 0 none;
+    margin: 0;
+}
+#dfp_etapibundle_filia_kodPocztowy {
+    width: 7.1%;
+}
+#dfp_etapibundle_filia_miejscowosc {
+    width: 88.6%;
+}
 form div {
     margin: 4px 0;
 }
 form label {
-    display: inline-block;
-    font-size: 16px;
-    width: 170px;
+    font-size: 13px;
+    margin: 0;
 }
 form input[type="text"] {
+    background-color: #DEEAF8;
+    border: 0 none;
     font-size: 16px;
-    width: 765px;
+    height: 100%;
+    margin: 0;
+    padding: 0 5px;
+    width: 98.5%;
 }
 .checks-list label {
     float: left;

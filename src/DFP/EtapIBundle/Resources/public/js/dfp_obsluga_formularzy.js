@@ -11,18 +11,18 @@
 
         $collectionHolder = $this.find('ul');
 
+        $collectionHolder.find('li').each(function() {
+            addFormDeleteLink($(this));
+        });
+
         $collectionHolder.append($newLinkLi);
 
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-        $addLink.on('click',function(e){
+        $addLink.on('click',function(e) {
             e.preventDefault();
 
             addForm($collectionHolder, $newLinkLi);
-        });
-
-        $collectionHolder.find('li').each(function() {
-            addFormDeleteLink($(this));
         });
 
         $this.on('focusin','input[type=datetime]', function()

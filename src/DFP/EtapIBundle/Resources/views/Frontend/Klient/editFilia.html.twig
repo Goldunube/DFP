@@ -1,4 +1,4 @@
-{% extends '@DFPEtapI/Backend/index.html.twig' %}
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -18,58 +18,115 @@
     <section>
         <h1>Filia - edycja</h1>
         {{ form_start(formularz) }}
-            {{ form_errors(formularz) }}
+        {{ form_errors(formularz) }}
+            <table class="record_properties">
+                <caption>Informacje podstawowe</caption>
+                <tbody>
+                <tr>
+                    <th>Filia klienta:</th>
+                    <td><a href="{{ path('url_pokaz_karte_klienta', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaPelna }}</a></td>
+                </tr>
+                <tr>
+                    <th>Nazwa filii:</th>
+                    <td>{{ filia.nazwaFilii }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(formularz.wojewodztwo) }}:</th>
+                    <td>{{ form_widget(formularz.wojewodztwo) }}</td>
+                </tr>
+                <tr>
+                    <th>Miejscowość:</th>
+                    <td>{{ form_widget(formularz.kodPocztowy) }}; {{ form_widget(formularz.miejscowosc) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(formularz.ulica) }}:</th>
+                    <td>{{ form_widget(formularz.ulica) }}</td>
+                </tr>
+                <tr>
+                    <th>Dotychczas stosowany system malarski:</th>
+                    <td>{{ form_widget(formularz.matlakDotychczas) }}</td>
+                </tr>
+                <tr>
+                    <th>Poziom zużycia materiałów:</th>
+                    <td>{{ form_widget(formularz.zuzycieMaterialow) }}</td>
+                </tr>
+                <tr>
+                    <th>Profile działalności:</th>
+                    <td>
+                        <div class="checks-list">
+                            <div>
+                                {% for profil in formularz.profileDzialalnosci %}
+                                    {{ form_label(profil) }} {{ form_widget(profil) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(formularz.adnotacja) }}</th>
+                    <td>{{ form_widget(formularz.adnotacja) }}</td>
+                </tr>
+                </tbody>
+            </table>
 
-            <div class="checks-list">
-                {{ form_label(formularz.profileDzialalnosci) }}
-                <div>
-                    {% for profil in formularz.profileDzialalnosci %}
-                        {{ form_label(profil) }} {{ form_widget(profil) }}
-                    {% endfor %}
-                </div>
-            </div>
-            <div id="procesy-przygotowania-powierzchni" class="osadzony">
-                {{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}
-                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
-                    {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
-                        <li>{{ form_widget(proces) }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="procesy-aplikacji" class="osadzony">
-                {{ form_label(formularz.filieProcesyAplikacji) }}
-                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
-                    {% for procesAplikacji in formularz.filieProcesyAplikacji %}
-                        <li>{{ form_widget(procesAplikacji) }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="wymagania-produktu" class="osadzony">
-                {{ form_label(formularz.filieWymaganiaProduktu) }}
-                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
-                    {% for wymaganie in formularz.filieWymaganiaProduktu %}
-                        <li>{{ form_widget(wymaganie) }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="procesy-utwardzania-powloki" class="osadzony">
-                {{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}
-                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
-                    {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
-                        <li>{{ form_widget(proces) }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="wymagania-powloki" class="osadzony">
-                {{ form_label(formularz.filieWymaganiaPowloki) }}
-                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
-                    {% for wymaganie in formularz.filieWymaganiaPowloki %}
-                        <li>{{ form_widget(wymaganie) }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-        {{ form_end(formularz) }}
+            <table>
+                <caption>Informacje dodatkowe</caption>
+                <tbody>
+                    <tr id="procesy-przygotowania-powierzchni">
+                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}</th>
+                        <td>
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
+                                {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
+                                    <li>{{ form_widget(proces) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr id="procesy-aplikacji">
+                        <th>{{ form_label(formularz.filieProcesyAplikacji) }}</th>
+                        <td>
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
+                                {% for procesAplikacji in formularz.filieProcesyAplikacji %}
+                                    <li>{{ form_widget(procesAplikacji) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr id="wymagania-produktu">
+                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }}</th>
+                        <td>
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
+                                {% for wymaganie in formularz.filieWymaganiaProduktu %}
+                                    <li>{{ form_widget(wymaganie) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr id="procesy-utwardzania-powloki">
+                        <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}</th>
+                        <td>
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
+                                {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
+                                    <li>{{ form_widget(proces) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr id="wymagania-powloki">
+                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }}</th>
+                        <td>
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
+                                {% for wymaganie in formularz.filieWymaganiaPowloki %}
+                                    <li>{{ form_widget(wymaganie) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {{ form_row(formularz._token) }}
+            {{ form_row(formularz.submit) }}
+        {{ form_end(formularz, {'render_rest':false}) }}
     <ul class="record_actions">
         <li>
             <a href="">
@@ -88,8 +145,49 @@
     $('#wymagania-powloki').obslugaFormularzy();
     tinymce.init({
         selector:'textarea',
+        plugins: 'paste,autosave,autoresize,table,image,fullscreen,charmap',
+        toolbar: "styleselect | table | bold italic underline removeformat | justifyleft justifycenter justifyright justifyfull | bullist numlist | outdent indent | cut copy paste | charmap image | undo redo | restoredraft | fullscreen",
+        toolbar_items_size : 'small',
+        paste_as_text: true,
+        paste_data_images: false,
+        browser_spellcheck : true,
+        font_formats: "Times New Roman=times new roman,times;",
+        keep_styles: false,
+        schema: "html5",
+        visual: true,
+        menubar : false,
+        height : 300,
+        autoresize_max_height: 500,
+        table_default_border: 1,
+        table_default_cellpadding: 3,
+        table_default_cellspacing: 0,
+        entity_encoding : "raw",
         language: 'pl',
-        width: 765,
+
+        style_formats : [
+            {title: 'Nagłówki', items: [
+                {title: 'Nagłówek 1', block: 'h1'},
+                {title: 'Nagłówek 2', block: 'h2'},
+                {title: 'Nagłówek 3', block: 'h3'},
+                {title: 'Nagłówek 4', block: 'h4'},
+                {title: 'Nagłówek 5', block: 'h5'},
+                {title: 'Nagłówek 6', block: 'h6'}
+            ]},
+            {title: 'Alignment', items: [
+                {title: 'Left', block: 'div', styles : {textAlign : 'left'}, icon: 'alignleft'},
+                {title: 'Center', block: 'div', styles : {textAlign : 'center'}, icon: 'aligncenter'},
+                {title: 'Right', block: 'div', styles : {textAlign : 'right'}, icon: 'alignright'},
+                {title: 'Justify', block: 'div', styles : {textAlign : 'justify'}, icon: 'alignjustify'}
+            ]},
+            {title: 'Table', items: [
+                {title: 'Wzór 1', selector: 'table', classes: 'table1'}
+            ]},
+            {title: 'Pogrubiony', inline: 'b', icon: 'bold'},
+            {title: 'Kursywa', inline: 'i', icon: 'italic'},
+            {title: 'Podkre¶lenie', inline: 'span', styles : {textDecoration : 'underline'}, icon: 'underline'},
+            {title: 'Indeks górny', inline: 'sup', icon: 'superscript'},
+            {title: 'Indeks dolny', inline: 'sub', icon: 'subscript'},
+        ],
     });
 
 {% endblock javascripts %}
