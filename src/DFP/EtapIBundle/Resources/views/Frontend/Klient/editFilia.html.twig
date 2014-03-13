@@ -24,35 +24,35 @@
                 <tbody>
                 <tr>
                     <th>Filia klienta:</th>
-                    <td><a href="{{ path('url_pokaz_karte_klienta', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaPelna }}</a></td>
+                    <td><p>{{ filia.klient.nazwaPelna }}</p></td>
                 </tr>
                 <tr>
                     <th>Nazwa filii:</th>
-                    <td>{{ filia.nazwaFilii }}</td>
+                    <td><p>{{ filia.nazwaFilii }}</p></td>
                 </tr>
                 <tr>
                     <th>{{ form_label(formularz.wojewodztwo) }}:</th>
-                    <td>{{ form_widget(formularz.wojewodztwo) }}</td>
+                    <td class="edycja">{{ form_widget(formularz.wojewodztwo) }}</td>
                 </tr>
                 <tr>
                     <th>Miejscowość:</th>
-                    <td>{{ form_widget(formularz.kodPocztowy) }}; {{ form_widget(formularz.miejscowosc) }}</td>
+                    <td class="edycja">{{ form_widget(formularz.kodPocztowy) }}; {{ form_widget(formularz.miejscowosc) }}</td>
                 </tr>
                 <tr>
                     <th>{{ form_label(formularz.ulica) }}:</th>
-                    <td>{{ form_widget(formularz.ulica) }}</td>
+                    <td class="edycja">{{ form_widget(formularz.ulica) }}</td>
                 </tr>
                 <tr>
                     <th>Dotychczas stosowany system malarski:</th>
-                    <td>{{ form_widget(formularz.matlakDotychczas) }}</td>
+                    <td class="edycja">{{ form_widget(formularz.matlakDotychczas) }}</td>
                 </tr>
                 <tr>
                     <th>Poziom zużycia materiałów:</th>
-                    <td>{{ form_widget(formularz.zuzycieMaterialow) }}</td>
+                    <td class="edycja">{{ form_widget(formularz.zuzycieMaterialow) }}</td>
                 </tr>
                 <tr>
                     <th>Profile działalności:</th>
-                    <td>
+                    <td class="edycja">
                         <div class="checks-list">
                             <div>
                                 {% for profil in formularz.profileDzialalnosci %}
@@ -64,7 +64,7 @@
                 </tr>
                 <tr>
                     <th>{{ form_label(formularz.adnotacja) }}</th>
-                    <td>{{ form_widget(formularz.adnotacja) }}</td>
+                    <td class="edycja">{{ form_widget(formularz.adnotacja) }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -74,7 +74,7 @@
                 <tbody>
                     <tr id="procesy-przygotowania-powierzchni">
                         <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}</th>
-                        <td>
+                        <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
                                     <li>{{ form_widget(proces) }}</li>
@@ -84,7 +84,7 @@
                     </tr>
                     <tr id="procesy-aplikacji">
                         <th>{{ form_label(formularz.filieProcesyAplikacji) }}</th>
-                        <td>
+                        <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
                                 {% for procesAplikacji in formularz.filieProcesyAplikacji %}
                                     <li>{{ form_widget(procesAplikacji) }}</li>
@@ -94,7 +94,7 @@
                     </tr>
                     <tr id="wymagania-produktu">
                         <th>{{ form_label(formularz.filieWymaganiaProduktu) }}</th>
-                        <td>
+                        <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaProduktu %}
                                     <li>{{ form_widget(wymaganie) }}</li>
@@ -104,7 +104,7 @@
                     </tr>
                     <tr id="procesy-utwardzania-powloki">
                         <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}</th>
-                        <td>
+                        <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
                                     <li>{{ form_widget(proces) }}</li>
@@ -114,7 +114,7 @@
                     </tr>
                     <tr id="wymagania-powloki">
                         <th>{{ form_label(formularz.filieWymaganiaPowloki) }}</th>
-                        <td>
+                        <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaPowloki %}
                                     <li>{{ form_widget(wymaganie) }}</li>
@@ -125,15 +125,19 @@
                 </tbody>
             </table>
             {{ form_row(formularz._token) }}
-            {{ form_row(formularz.submit) }}
+            <ul class="record_actions">
+                <li>
+                    <a href="" style="padding: 4px 10px; border-radius: 4px;">
+                        Powrót do listy
+                    </a>
+                </li>
+                <li>
+                    {{ form_row(formularz.submit) }}
+                </li>
+            </ul>
+
         {{ form_end(formularz, {'render_rest':false}) }}
-    <ul class="record_actions">
-        <li>
-            <a href="">
-                Powrót do listy
-            </a>
-        </li>
-    </ul>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -145,6 +149,7 @@
     $('#wymagania-powloki').obslugaFormularzy();
     tinymce.init({
         selector:'textarea',
+        content_css: '/css/tinymce_content.css',
         plugins: 'paste,autosave,autoresize,table,image,fullscreen,charmap',
         toolbar: "styleselect | table | bold italic underline removeformat | justifyleft justifycenter justifyright justifyfull | bullist numlist | outdent indent | cut copy paste | charmap image | undo redo | restoredraft | fullscreen",
         toolbar_items_size : 'small',

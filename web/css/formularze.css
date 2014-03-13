@@ -6,10 +6,21 @@
 }
 #main table {
     text-align: left;
+    margin-top: 20px;
+}
+#main caption {
+    color: #7B68EE;
+    text-shadow: 0 0 1px #333333;
+    margin: 5px 0;
+    font-size: 15px;
 }
 #main table tbody td {
     overflow: auto;
     padding: 0;
+}
+#main table tbody td p {
+    padding: 0 5px;
+    margin: 0;
 }
 #main table tbody td div {
     max-height: none;
@@ -17,10 +28,19 @@
     margin: 0;
 }
 #dfp_etapibundle_filia_kodPocztowy {
-    width: 7.1%;
+    width: 6.1%;
 }
 #dfp_etapibundle_filia_miejscowosc {
-    width: 88.6%;
+    width: 89.6%;
+}
+.edycja {
+    background-color: #DEEAF8;
+}
+.edycja > div {
+    background-color: inherit;
+}
+.checks-list > div {
+    background-color: inherit;
 }
 form div {
     margin: 4px 0;
@@ -32,7 +52,7 @@ form label {
 form input[type="text"] {
     background-color: #DEEAF8;
     border: 0 none;
-    font-size: 16px;
+    font-size: 13px;
     height: 100%;
     margin: 0;
     padding: 0 5px;
@@ -42,17 +62,15 @@ form input[type="text"] {
     float: left;
 }
 .checks-list div {
-    background-color: #F0F0F0;
     border: 1px solid #AAAAAA;
     float: left;
     height: auto;
-    padding: 3px;
-    width: 759px;
+    padding: 5px;
 }
 .checks-list input {
     cursor: pointer;
     float: left;
-    margin: 2px 155px 2px 0;
+    margin: 2px 85px 2px 0;
 }
 .checks-list div label {
     cursor: pointer;
@@ -122,4 +140,7 @@ dl.table-display {
 }
 .filia-uzytkownicy > li {
     clear: left;
+}
+.record_actions div {
+    margin: 0;
 }
