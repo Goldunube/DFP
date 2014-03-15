@@ -1,5 +1,16 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% form_theme delete_form _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button czerwony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
 {% block content -%}
     <h1>Proces Aplikacji</h1>
 
@@ -22,12 +33,12 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('url_procesaplikacji') }}">
+        <a href="{{ path('url_procesaplikacji') }}" class="art-button">
             Powrót do listy
         </a>
     </li>
     <li>
-        <a href="{{ path('url_procesaplikacji_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('url_procesaplikacji_edit', { 'id': entity.id }) }}" class="art-button">
             Edytuj
         </a>
     </li>

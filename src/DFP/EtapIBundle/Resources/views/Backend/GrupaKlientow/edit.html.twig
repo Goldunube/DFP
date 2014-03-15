@@ -1,5 +1,16 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% form_theme delete_form _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button czerwony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
 {% block content -%}
     <h1>Edycja grupy klientów</h1>
 
@@ -7,7 +18,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('grupaklientow') }}">
+        <a href="{{ path('grupaklientow') }}" class="art-button">
             Powrót do listy
         </a>
     </li>

@@ -1,5 +1,16 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% form_theme form _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button zielony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
 {% block content -%}
     <h1>Tworzenie nowego Procesu przygotowania powierzchni</h1>
 
@@ -7,7 +18,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('url_procesprzygotowaniapowierzchni') }}">
+        <a href="{{ path('url_procesprzygotowaniapowierzchni') }}" class="art-button">
             Powrót do listy
         </a>
     </li>

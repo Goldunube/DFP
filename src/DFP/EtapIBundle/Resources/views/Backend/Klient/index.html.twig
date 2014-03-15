@@ -32,10 +32,10 @@
                         <td>
                             <ul>
                                 <li>
-                                    <a href="{{ path('klient_show', { 'id': klient.id }) }}">pokaż</a>
+                                    <a href="{{ path('klient_show', { 'id': klient.id }) }}" class="art-button zielony">pokaż</a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('klient_edit', { 'id': klient.id }) }}">edytuj</a>
+                                    <a href="{{ path('klient_edit', { 'id': klient.id }) }}" class="art-button">edytuj</a>
                                 </li>
                             </ul>
                         </td>
@@ -49,7 +49,7 @@
         </div>
         <ul>
             <li>
-                <a href="{{ path('klient_new') }}">Dodaj nowego klienta</a>
+                <a href="{{ path('klient_new') }}" class="art-button zielony">Dodaj nowego klienta</a>
             </li>
         </ul>
     </section>

@@ -1,5 +1,16 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
+{% form_theme kartaPodstawowa _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button zielony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
@@ -127,7 +138,7 @@
             {{ form_row(formularz._token) }}
             <ul class="record_actions">
                 <li>
-                    <a href="" style="padding: 4px 10px; border-radius: 4px;">
+                    <a href="" class="art-button">
                         Powrót do listy
                     </a>
                 </li>
