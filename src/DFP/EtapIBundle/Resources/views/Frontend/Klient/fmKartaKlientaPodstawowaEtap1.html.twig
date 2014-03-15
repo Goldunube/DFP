@@ -1,5 +1,16 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
+{% form_theme kartaPodstawowa _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button zielony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
 {% block javascript %}
     {{ parent() }}
         <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
@@ -18,9 +29,9 @@
                 </div>
                 <ul class="record_actions" style="text-align: center; margin-top: 20px;">
                     <li style="float: none; display: inline-block; position: relative; left: 27px;">
-                        <a href="{{ path('strona_glowna') }}" style="padding: 4px 10px; border-radius: 4px;">Zaniechaj</a>
+                        <a href="{{ path('strona_glowna') }}" class="art-button czerwony">Zaniechaj</a>
                     </li>
-                    <li style="float: none; display: inline-block; position: relative; left: 27px; top:1px;">
+                    <li style="float: none; display: inline-block; position: relative; left: 27px;">
                         {{ form_row(kartaPodstawowa.submit) }}
                     </li>
                 </ul>

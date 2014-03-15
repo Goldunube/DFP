@@ -31,9 +31,9 @@
                                 <dd><a href="{{ path('fos_user_profile_show') }}">{{ app.user.imie }} {{ app.user.nazwisko }}</a> </dd>
                             </dl>
                             <div>
-                                <p><a class="buttons" href="{{ path('fos_user_security_logout') }}">Wyloguj</a></p>
+                                <p><a class="art-button" href="{{ path('fos_user_security_logout') }}">Wyloguj</a></p>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <p><a class="buttons" href="{{ path('zaplecze_glowna') }}">Zaplecze</a></p>
+                                    <p><a class="art-button czarny" href="{{ path('zaplecze_glowna') }}">Zaplecze</a></p>
                                 {% endif %}
                             </div>
                         {% else %}

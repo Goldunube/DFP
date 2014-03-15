@@ -21,35 +21,9 @@ input[type="checkbox"], input[type="radio"] {
 a {
     text-decoration: none;
 }
-a.buttons {
-    display: inline-block;
-    height: 19px;
-    text-align: center;
-    text-decoration: none;
-    width: 75px;
-}
 .ui-state-active {
     background-color: #FFA500;
     color: #FFFFFF !important;
-}
-.buttons {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background-color: #A6A6A6;
-    border-color: -moz-use-text-color #808080 #808080 -moz-use-text-color;
-    border-image: none;
-    border-style: none solid solid none;
-    border-width: 0 1px 1px 0;
-    color: #FFFFFF;
-    cursor: pointer;
-    font-size: 12px;
-}
-.buttons:hover {
-    background-color: #808080;
-    border-color: -moz-use-text-color #A6A6A6 #A6A6A6 -moz-use-text-color;
-    padding: 1px 0 0 1px;
 }
 header p.mapa-portal-dfp img {
     width: 187px !important;
@@ -67,14 +41,15 @@ header p.mapa-portal-dfp {
     width: 150px;
 }
 #login-form input[type="submit"] {
-    height: 19px;
+    left: 5px;
     position: relative;
-    top: 25px;
-    width: 75px;
+    top: 28px;
+    width: 65px;
 }
 #login-form #remember-label {
     color: #666666;
     cursor: pointer;
+    font-size: 12px;
     position: relative;
     top: -3px;
 }
