@@ -6,38 +6,38 @@
 
         <table class="records_list">
             <thead>
-            <tr>
-                <th class="lp">Lp</th>
-                <th>{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
-                <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
-                <th>Nazwa filii</th>
-                <th>{{ knp_pagination_sortable(lista_filii,'Miejscowosc','f.miejscowosc') }}</th>
-                <th>Kod MAX</th>
-                <th>Profil działalności</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th class="lp">Lp</th>
+                    <th>{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
+                    <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
+                    <th>Nazwa filii</th>
+                    <th>{{ knp_pagination_sortable(lista_filii,'Miejscowosc','f.miejscowosc') }}</th>
+                    <th>Kod MAX</th>
+                    <th>Profil działalności</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             {% for filia in lista_filii %}
-                    <tr>
-                        <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
-                        <td>{% for przypisani in filia.filieUzytkownicy %}<span title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}</span>{% endfor %}</td>
-                        <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
-                        <td>{{ filia.nazwaFilii }}</td>
-                        <td title="{{ filia.ulica }}&#10;{{ filia.kodPocztowy }}; {{ filia.miejscowosc }}&#10;{{ filia.wojewodztwo }}">{{ filia.miejscowosc }}</td>
-                        <td>{{ filia.klient.kodMax }}</td>
-                        <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
-                        <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('backend_filia_show', { 'id': filia.id }) }}">pokaż</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('klient_edit', { 'id': filia.klient.id }) }}">edytuj</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
+                    <td>{% for przypisani in filia.filieUzytkownicy %}<span title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}</span>{% endfor %}</td>
+                    <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
+                    <td>{{ filia.nazwaFilii }}</td>
+                    <td title="{{ filia.ulica }}&#10;{{ filia.kodPocztowy }}; {{ filia.miejscowosc }}&#10;{{ filia.wojewodztwo }}">{{ filia.miejscowosc }}</td>
+                    <td>{{ filia.klient.kodMax }}</td>
+                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('backend_filia_show', { 'id': filia.id }) }}">pokaż</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('klient_edit', { 'id': filia.klient.id }) }}">edytuj</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

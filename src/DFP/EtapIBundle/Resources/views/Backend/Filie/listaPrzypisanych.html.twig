@@ -1,0 +1,46 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Przedłużenie przypisania</h1>
+
+        <table class="records_list">
+            <thead>
+            <tr>
+                <th class="lp">Lp</th>
+                <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
+                <th>Nazwa filii</th>
+                <th>Kod MAX</th>
+                <th>{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for filia in lista_filii %}
+                <tr>
+                    <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
+                    <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
+                    <td>{{ filia.nazwaFilii }}</td>
+                    <td>{{ filia.klient.kodMax }}</td>
+                    <td>
+                        {% if filia.filieUzytkownicy|length > 0 %}
+                        <dl>
+                            {% for przypisani in filia.filieUzytkownicy %}
+                                <dt>{{ przypisani.uzytkownik }}</dt>
+                                <dd>{{ przypisani.koniecPrzypisania|date("Y-m-d") }}</dd>
+                            {% endfor %}
+                        </dl>
+                        {% endif %}
+                        <ul class="record_actions">
+                            <li><a href="#" style="padding: 1px 5px; border-radius: 3px;">Dodaj</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(lista_filii) }}
+        </div>
+    </section>
+
+{% endblock %}

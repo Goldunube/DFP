@@ -29,7 +29,23 @@ class FilieController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery();
-//        $query =  $em->createQuery("SELECT f, k, fu, u FROM DFPEtapIBundle:Filia f INNER JOIN f.klient k LEFT JOIN f.filieUzytkownicy fu LEFT JOIN fu.uzytkownik u");
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),11);
+
+        return array(
+            'lista_filii'   => $pagination,
+        );
+    }
+
+    /**
+     * @return array
+     * @Route("/przypisane", name="backend_filie_do_przedluzenia")
+     * @Template()
+     */
+    public function listaPrzypisanychAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery();
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),11);
 
         return array(

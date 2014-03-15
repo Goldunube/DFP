@@ -71,6 +71,30 @@ tr.przeterminowane td, tr.przeterminowane th {
     background-color: #FF5050;
     color: #FFFFFF;
 }
+.records_list dl {
+    border-bottom: 1px solid;
+    float: left;
+    margin: 0;
+    width: 99%;
+}
+.records_list dt {
+    border-top: 1px solid;
+    float: left;
+    width: 50%;
+}
+.records_list dd {
+    border-top: 1px solid;
+    float: left;
+    margin-left: 0;
+    padding-left: 0;
+    width: 50%;
+}
+#main table tr .record_actions {
+    float: right;
+    list-style: none outside none;
+    margin: 3px 0;
+    padding: 0;
+}
 /* KLAWISZE AKCJI */
 .record_actions {
     list-style: none outside none;
