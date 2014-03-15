@@ -104,25 +104,6 @@ tr.przeterminowane td, tr.przeterminowane th {
     float: left;
     margin: 0 4px;
 }
-/*.record_actions a {
-    background-color: #FF9000;
-    border: 1px solid #696969;
-    display: block;
-    *//*padding: 5px 0;*//*
-    text-align: center;
-    *//*width: 100px;*//*
-}
-.record_actions button {
-    background-color: #FF9000;
-    border: 1px solid #696969;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 2px 10px;
-}
-#main .record_actions a:hover, #main .record_actions button:hover {
-    background-color: #8ABD22;
-    color: #B22222;
-}*/
 .art-button
 {
     border-collapse: separate;
@@ -234,6 +215,16 @@ input.art-button {
     line-height: 18px;
     height: 18px;
 }
+.art-button.pomaranczowy {
+    background: #EA7908 url("images/button.png") scroll;
+    background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -webkit-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -webkit-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -moz-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -moz-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -o-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -o-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -ms-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -ms-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    -svg-background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+}
 .art-button.zielony
 {
     background: #005206 url("images/button.png") scroll;
@@ -276,4 +267,78 @@ input.art-button {
     background: -ms-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -ms-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
     background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
     -svg-background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+}
+a.art-button.maly.zielony, a.art-button.maly.czerwony, a.art-button.maly.czarny, a.art-button.maly.pomaranczowy, a.art-button.maly
+{
+    height: 14px;
+    line-height: 14px;
+    font-size: 10px;
+}
+/* DEKLEARACJE SZEROKOŚCI i WYSOKOŚCI ELEMENTÓW */
+.szer-370
+{
+    width: 370px;
+}
+.wys-50
+{
+    height: 50px;
+}
+
+.przypisanie-container {
+    border-bottom: 1px dotted;
+}
+.przypisany {
+    float: left;
+    margin: 4px 0;
+    text-align: left;
+    width: 150px;
+}
+.data {
+    float: left;
+    margin: 4px 0;
+    text-align: left;
+}
+
+/* PAGINACJA */
+.pagination {
+    background-image: url("images/pagi-bg.png");
+    background-position: 50% 37%;
+    background-repeat: no-repeat;
+    font-size: 12px;
+    text-align: center;
+}
+.pagination span {
+    display: inline-block;
+    height: 32px;
+    margin: 10px auto;
+    padding: 10px 0 0;
+}
+.current, .page {
+    width: 28px;
+}
+.current {
+    background-image: url("images/pagi-current.png");
+    background-repeat: no-repeat;
+    color: #FFFFFF;
+    cursor: default;
+    height: 28px;
+}
+.previous {
+    background-image: url("images/pagi-prev.png");
+    background-position: 50% 40%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    width: 14px;
+}
+.next {
+    background-image: url("images/pagi-next.png");
+    background-position: 50% 40%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    width: 14px;
+}
+.previous > a, .next > a {
+    display: inline-block;
+    height: 10px;
+    width: 14px;
 }

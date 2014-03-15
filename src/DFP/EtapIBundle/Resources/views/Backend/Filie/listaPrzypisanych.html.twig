@@ -11,27 +11,36 @@
                 <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
                 <th>Nazwa filii</th>
                 <th>Kod MAX</th>
-                <th>{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
+                <th class="szer-370">{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
             </tr>
             </thead>
             <tbody>
             {% for filia in lista_filii %}
-                <tr>
+                <tr class="wys-50">
                     <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
                     <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
                     <td>{{ filia.nazwaFilii }}</td>
                     <td>{{ filia.klient.kodMax }}</td>
                     <td>
                         {% if filia.filieUzytkownicy|length > 0 %}
-                        <dl>
                             {% for przypisani in filia.filieUzytkownicy %}
-                                <dt>{{ przypisani.uzytkownik }}</dt>
-                                <dd>{{ przypisani.koniecPrzypisania|date("Y-m-d") }}</dd>
+                                <div class="przypisanie-container">
+                                    <div class="przypisany">
+                                        {{ przypisani.uzytkownik }}
+                                    </div>
+                                    <div class="data">
+                                        {{ przypisani.koniecPrzypisania|date("Y-m-d") }}
+                                    </div>
+                                    <div class="record_actions">
+                                        <a href="#" class="art-button maly pomaranczowy">Edytuj</a>
+                                        <a href="#" class="art-button maly czerwony">Usuń</a>
+                                    </div>
+                                </div>
+
                             {% endfor %}
-                        </dl>
                         {% endif %}
                         <ul class="record_actions">
-                            <li><a href="#" class="art-button zielony">Dodaj</a></li>
+                            <li><a href="#" class="art-button maly zielony">Dodaj</a></li>
                         </ul>
                     </td>
                 </tr>
