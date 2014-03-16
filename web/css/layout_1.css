@@ -100,6 +100,9 @@ tr.przeterminowane td, tr.przeterminowane th {
     list-style: none outside none;
     padding: 0;
 }
+.record_actions form {
+    float: right;
+}
 .record_actions > li {
     float: left;
     margin: 0 4px;
@@ -268,7 +271,7 @@ input.art-button {
     background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
     -svg-background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
 }
-a.art-button.maly.zielony, a.art-button.maly.czerwony, a.art-button.maly.czarny, a.art-button.maly.pomaranczowy, a.art-button.maly
+a.art-button.maly.zielony, a.art-button.maly.czerwony, a.art-button.maly.czarny, a.art-button.maly.pomaranczowy, a.art-button.maly, button.art-button.maly.zielony, button.art-button.maly.czerwony, button.art-button.maly.czarny, button.art-button.maly.pomaranczowy, button.art-button.maly
 {
     height: 14px;
     line-height: 14px;
@@ -341,4 +344,43 @@ a.art-button.maly.zielony, a.art-button.maly.czerwony, a.art-button.maly.czarny,
     display: inline-block;
     height: 10px;
     width: 14px;
+}
+/* WYGLĄD LIST DEFINICJI */
+div.dlt-container {
+    overflow: auto;
+    height: auto;
+}
+dl.table-display {
+    border-bottom: 1px solid #999999;
+    float: left;
+    margin: 1em 0;
+    padding: 0;
+    width: 520px;
+}
+.table-display > dt {
+    border-top: 1px solid #999999;
+    clear: left;
+    float: left;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px;
+    width: 200px;
+}
+.table-display > dd {
+    border-top: 1px solid #999999;
+    float: left;
+    margin: 0;
+    padding: 5px;
+    width: 300px;
+}
+.table-display dd dl dd {
+    margin: 0;
+    border-left: 6px groove;
+    padding-left: 10px;
+}
+.table-display dd dl dt {
+    font-weight: bold;
+}
+.table-display dd dl dt:nth-child(n+2) {
+    margin-top: 10px;
 }

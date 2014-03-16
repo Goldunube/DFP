@@ -1,0 +1,57 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Przypisz Filię do Użytkownika</h1>
+        <div class="dlt-container" style="margin-bottom: 15px;">
+            <h2>Dane filii</h2>
+            <dl class="table-display">
+                <dt>Nazwa klienta:</dt>
+                <dd>{{ filia.klient.nazwaPelna }}</dd>
+                <dt>Nazwa filii: </dt>
+                <dd>{{ filia }}</dd>
+                <dt>Adres:</dt>
+                <dd>{{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}; {{ filia.ulica }}</dd>
+                <dt>Profil działalności:</dt>
+                <dd>{{ filia.profileDzialalnosci|join(' | ') }}</dd>
+            </dl>
+        </div>
+
+        {{ form_start(formularz) }}
+        <table class="records_list">
+            <thead>
+            <tr>
+                <th rowspan="2">Użytkownik</th>
+                <th colspan="2">Przypisany</th>
+            </tr>
+            <tr>
+                <th>poczatek</th>
+                <th>koniec</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <th>{{ form_widget(formularz.uzytkownik) }}</th>
+                <td>{{ form_widget(formularz.poczatekPrzypisania, {'attr' : {'class':'dataczas'} }) }}</td>
+                <td>{{ form_widget(formularz.koniecPrzypisania, {'attr' : {'class':'dataczas'} }) }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('backend_przypisanie_lista') }}" class="art-button">Powrót</a>
+            </li>
+            <li>
+                {{ form_row(formularz.submit, {'attr' : {'class':'art-button zielony'} }) }}
+            </li>
+        </ul>
+        {{ form_end(formularz) }}
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('.dataczas').datetimepicker({dateFormat: "yy-mm-dd"});
+{% endblock javascripts %}

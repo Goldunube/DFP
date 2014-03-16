@@ -61,7 +61,7 @@ class FiliaUzytkownik
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="Uzytkownik", inversedBy="filieUzytkownicy")
-     * @ORM\JoinColumn(name="uzytkownik_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="uzytkownik_id", referencedColumnName="id", nullable=false)
      */
     private $uzytkownik;
 

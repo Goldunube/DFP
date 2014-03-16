@@ -15,12 +15,15 @@ class FiliaUzytkownikType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('uzytkownik')
+            ->add('poczatekPrzypisania','datetime', array(
+                    'widget'        =>  'single_text',
+                    'format'        =>  'yyyy-MM-dd HH:mm',
+                ))
             ->add('koniecPrzypisania','datetime', array(
                     'widget'        =>  'single_text',
-//                    'format'   =>  'yyyy-MM-dd HH:mm',
-                ))
-            ->add('uzytkownik')
-        ;
+                    'format'        =>  'yyyy-MM-dd HH:mm',
+                ));
     }
     
     /**

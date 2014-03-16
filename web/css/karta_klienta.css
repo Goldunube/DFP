@@ -26,6 +26,13 @@ fieldset {
     background-color: #F3F3F3;
     color: #333333;
 }
+#notatki {
+    border-bottom: 1px dashed #FF9000;
+    padding-bottom: 15px;
+}
+#notatki h2 {
+    border-bottom: 1px dashed #FF9000;
+}
 #notatki .container {
     height: 300px;
     overflow-y: scroll;
@@ -34,7 +41,7 @@ fieldset {
     border: 1px solid;
     border-radius: 5px;
     padding: 0 5px 5px;
-    margin: 5px 0;
+    margin: 5px 10px 5px 0;
 }
 .notatka:nth-child(2n+1)
 {
@@ -117,17 +124,15 @@ dl.table-display {
 }
 /* KLAWISZE AKCJI */
 .record_actions {
-    height: 10px;
+    height: auto;
+    margin: 20px 0 0;
+    overflow: auto;
 }
 .notatka .record_actions {
     margin: 0;
 }
 .notatka .record_actions > li {
     float: right;
-}
-.record_actions a {
-    padding: 5px 0;
-    width: 100px;
 }
 .notatka .record_actions a {
     border-radius: 5px;

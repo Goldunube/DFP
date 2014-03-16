@@ -143,9 +143,9 @@
                             <div class="naglowek">
                                 {% if notatka.uzytkownik == app.user %}
                                     {% if date(notatka.koniecEdycji) > date('now') %}
-                                        <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Edytuj</a></li> <li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}">Usuń</a></li></ul>
+                                        <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Edytuj</a></li> <li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly pomaranczowy">Usuń</a></li></ul>
                                     {% else %}
-                                        <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}">Usuń</a> </li></ul>
+                                        <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a> </li></ul>
                                     {% endif %}
                                 {% else %}
                                     <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>

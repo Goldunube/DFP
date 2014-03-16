@@ -332,6 +332,8 @@ class KlientController extends Controller
     /**
      * @param $id
      *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/filia/notatka/{id}/usun", name="frontend_filia_notatka_usun")
      */
     public function usunNotatkeFiliiAction($id)

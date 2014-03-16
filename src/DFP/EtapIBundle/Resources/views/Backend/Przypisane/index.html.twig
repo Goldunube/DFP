@@ -32,15 +32,17 @@
                                         {{ przypisani.koniecPrzypisania|date("Y-m-d") }}
                                     </div>
                                     <div class="record_actions">
-                                        <a href="#" class="art-button maly pomaranczowy">Edytuj</a>
-                                        <a href="#" class="art-button maly czerwony">Usuń</a>
+                                        <a href="{{ path("backend_przypisane_edycja", {'id' : przypisani.id}) }}" class="art-button maly pomaranczowy">Edytuj</a>
+                                        {{ form_start(delete_forms[przypisani.id], {'action':path('backend_przypisane_usun', {'id' : przypisani.id} )}) }}
+                                            {{ form_row(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony'} }) }}
+                                        {{ form_end(delete_forms[przypisani.id]) }}
                                     </div>
                                 </div>
 
                             {% endfor %}
                         {% endif %}
                         <ul class="record_actions">
-                            <li><a href="#" class="art-button maly zielony">Dodaj</a></li>
+                            <li><a href="{{ path('backend_przypisanie_nowe', {'filiaId':filia.id} ) }}" class="art-button maly zielony">Dodaj</a></li>
                         </ul>
                     </td>
                 </tr>

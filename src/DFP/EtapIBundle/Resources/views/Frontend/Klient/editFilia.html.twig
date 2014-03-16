@@ -1,6 +1,6 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
-{% form_theme kartaPodstawowa _self %}
+{% form_theme formularz _self %}
 
 {% block button_widget %}
     {% spaceless %}
@@ -138,7 +138,7 @@
             {{ form_row(formularz._token) }}
             <ul class="record_actions">
                 <li>
-                    <a href="" class="art-button">
+                    <a href="{{ path('url_lista_klientow') }}" class="art-button">
                         Powrót do listy
                     </a>
                 </li>
