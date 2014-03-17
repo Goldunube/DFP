@@ -36,8 +36,10 @@ class PrzypisaneController extends Controller
         $deleteForms = new ArrayCollection();
         foreach($pagination as $filia)
         {
+            /* @var $filia Filia */
             foreach($filia->getFilieUzytkownicy() as $przypisany)
             {
+                /* @var $przypisany FiliaUzytkownik */
                 $deleteForms[$przypisany->getId()] = $this->createDeleteForm()->createView();
             }
         }
@@ -168,24 +170,31 @@ class PrzypisaneController extends Controller
 
     /**
      * @param Request $request
+     * @param $filiaId
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route("/", name="backend_przypisane_utworz")
+     * @Route("/{filiaId}", name="backend_przypisane_utworz")
      * @Template("@DFPEtapI/Backend/Przypisane/new.html.twig")
      * @Method("POST")
      */
-    public function createPrzypisanieAction(Request $request)
+    public function createPrzypisanieAction(Request $request, $filiaId)
     {
+        $em = $this->getDoctrine()->getManager();
         $przypisanie = new FiliaUzytkownik();
-        $filia = new Filia();
+        $przypisanie->setAkcept(true);
+        $przypisanie->setPerm(false);
+
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($filiaId);
+
+        if(!$filia)
+        {
+            throw $this->createNotFoundException('Filia, do której chcesz przypisać użytkownika, nie istnieje');
+        }
         $przypisanie->setFilia($filia);
 
         $form = $this->createForm(new FiliaUzytkownikType(), $przypisanie, array(
-                'action'        =>  $this->generateUrl('backend_przypisane_utworz'),
+                'action'        =>  $this->generateUrl('backend_przypisane_utworz', array('filiaId'=>$filiaId )),
                 'method'        =>  'POST',
-            ));
-        $form->add('filia','hidden', array(
-                'data'  =>  'DFPEtapIBundle:Filia'
             ));
         $form->add('submit','submit', array('label'=>"Utwórz"));
 
@@ -193,9 +202,6 @@ class PrzypisaneController extends Controller
 
         if($form->isValid())
         {
-            $em = $this->getDoctrine()->getManager();
-            $przypisanie->setAkcept(true);
-            $przypisanie->setPerm(false);
             $em->persist($przypisanie);
             $em->flush();
         }
@@ -221,11 +227,8 @@ class PrzypisaneController extends Controller
         $filiaUzytkownik = new FiliaUzytkownik();
         $filiaUzytkownik->setFilia($filia);
         $form = $this->createForm(new FiliaUzytkownikType(), $filiaUzytkownik, array(
-                'action'        =>  $this->generateUrl('backend_przypisane_utworz'),
+                'action'        =>  $this->generateUrl('backend_przypisane_utworz', array('filiaId'=>$filiaId )),
                 'method'        =>  'POST',
-            ));
-        $form->add('filia','hidden', array(
-                'data'  =>  'DFPEtapIBundle:Filia'
             ));
         $form->add('submit','submit', array('label'=>"Utwórz"));
 
