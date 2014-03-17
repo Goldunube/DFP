@@ -5,6 +5,7 @@ namespace DFP\EtapIBundle\Controller\Backend;
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
 use DFP\EtapIBundle\Form\FiliaUzytkownikType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,6 +33,7 @@ class PrzypisaneController extends Controller
         $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery();
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),11);
 
+        $deleteForms = new ArrayCollection();
         foreach($pagination as $filia)
         {
             foreach($filia->getFilieUzytkownicy() as $przypisany)
@@ -44,7 +46,7 @@ class PrzypisaneController extends Controller
 
         return array(
             'lista_filii'   => $pagination,
-            'delete_forms'   => $deleteForms,
+            'delete_forms'  => $deleteForms,
         );
     }
 
