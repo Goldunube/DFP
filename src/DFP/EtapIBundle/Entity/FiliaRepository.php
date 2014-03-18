@@ -15,7 +15,7 @@ class FiliaRepository extends EntityRepository
     public function getListaFiliiQuery()
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
-            ->select('f, k, fu, u')
+            ->select('f, k, fu, u, pd')
             ->innerJoin('f.klient','k')
             ->leftJoin('f.filieUzytkownicy','fu')
             ->leftJoin('fu.uzytkownik','u')

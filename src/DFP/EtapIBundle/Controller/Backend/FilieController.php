@@ -29,7 +29,7 @@ class FilieController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery();
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),11);
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
         return array(
             'lista_filii'   => $pagination,
