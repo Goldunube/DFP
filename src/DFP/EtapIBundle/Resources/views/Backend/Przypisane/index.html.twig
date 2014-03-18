@@ -31,10 +31,10 @@
                                     <div class="data">
                                         {{ przypisani.koniecPrzypisania|date("Y-m-d") }}
                                     </div>
-                                    <div class="record_actions">
-                                        <a href="{{ path("backend_przypisane_edycja", {'id' : przypisani.id}) }}" class="art-button maly pomaranczowy">Edytuj</a>
+                                    <div class="record_actions" style="width: 120px">
+                                        <a href="{{ path("backend_przypisane_edycja", {'id' : przypisani.id}) }}" class="art-button maly pomaranczowy" style="float: left;">Edytuj</a>
                                         {{ form_start(delete_forms[przypisani.id], {'action':path('backend_przypisane_usun', {'id' : przypisani.id} )}) }}
-                                            {{ form_row(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony'} }) }}
+                                            {{ form_widget(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony','style':'float:right;'} }) }}
                                         {{ form_end(delete_forms[przypisani.id]) }}
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                             {% endfor %}
                         {% endif %}
                         <ul class="record_actions">
-                            <li><a href="{{ path('backend_przypisanie_nowe', {'filiaId':filia.id} ) }}" class="art-button maly zielony">Dodaj</a></li>
+                            <li style="margin: 0;"><a href="{{ path('backend_przypisanie_nowe', {'filiaId':filia.id} ) }}" class="art-button maly zielony">Dodaj</a></li>
                         </ul>
                     </td>
                 </tr>

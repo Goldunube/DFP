@@ -100,9 +100,9 @@ tr.przeterminowane td, tr.przeterminowane th {
     list-style: none outside none;
     padding: 0;
 }
-.record_actions form {
+/*.record_actions form {
     float: right;
-}
+}*/
 .record_actions > li {
     float: left;
     margin: 0 4px;
@@ -261,7 +261,7 @@ input.art-button {
     background: linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
     -svg-background: linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
 }
-.art-button.zielony:hover, .art-button.czerwony:hover , .art-button.czarny:hover {
+.art-button.zielony:hover, .art-button.czerwony:hover , .art-button.czarny:hover, .art-button.pomaranczowy:hover {
     background: #A1ADBA url("images/hoveredbutton.png") scroll;
     background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
     background: -webkit-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -webkit-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
