@@ -11,6 +11,11 @@ label {
     font-size: 20px;
     margin-right: 10px;
 }
+#main {
+    min-height: 800px;
+    height:auto !important;
+    height: 800px;
+}
 #main section h1, #main section h2 {
     color: #FF9000;
     text-shadow: 0 0 1px #333333;

@@ -30,10 +30,11 @@ class KlientRepository extends EntityRepository
     public function getListaKlientowQuery()
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Klient')->createQueryBuilder('k')
-            ->select('k,f,fu,u')
+            ->select('k,f,fu,u,gk')
             ->leftJoin('k.filie','f')
             ->leftJoin('f.filieUzytkownicy','fu')
             ->leftJoin('fu.uzytkownik','u')
+            ->leftJoin('k.grupyKlientow','gk')
             ->getQuery();
 
         return $query;

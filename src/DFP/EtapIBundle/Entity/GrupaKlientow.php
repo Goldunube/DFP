@@ -46,6 +46,14 @@ class GrupaKlientow
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getNazwaGrupy();
+    }
+
+    /**
      * Get id
      *
      * @return integer

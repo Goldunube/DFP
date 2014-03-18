@@ -34,7 +34,7 @@ class KlientController extends Controller
 
         $query = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowQuery();
 
-        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),11);
+        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
 
         return array(
             'lista_klientow' => $pagination,
