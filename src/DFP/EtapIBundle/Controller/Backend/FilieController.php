@@ -103,10 +103,12 @@ class FilieController extends Controller
         }
 
         $editForm = $this->createEditForm($filia);
+        $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'filia'     =>  $filia,
-            'formularz' =>  $editForm->createView(),
+            'filia'         =>  $filia,
+            'formularz'     =>  $editForm->createView(),
+            'delete_form'   =>  $deleteForm->createView(),
         );
 
     }
@@ -143,6 +145,7 @@ class FilieController extends Controller
         $filiaUzytkownik->setFilia($filia);
         $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
+        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($filia);
         $editForm->handleRequest($request);
 
@@ -163,8 +166,52 @@ class FilieController extends Controller
         }
 
         return array(
-            'filia'     =>  $filia,
-            'formularz' =>  $editForm->createView(),
+            'filia'         =>  $filia,
+            'formularz'     =>  $editForm->createView(),
+            'delete_form'   =>  $deleteForm->createView(),
         );
+    }
+
+    /**
+     * Deletes a Filia entity.
+     *
+     * @Route("/{id}", name="backend_filia_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+            if (!$filia) {
+                throw $this->createNotFoundException('Brak możliwości usunięcia filii.');
+            }
+
+            $em->remove($filia);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('backend_filie'));
+    }
+
+    /**
+     * Creates a form to delete a Filia entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('backend_filia_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Usuń'))
+            ->getForm()
+            ;
     }
 }

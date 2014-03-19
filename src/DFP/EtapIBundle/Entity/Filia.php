@@ -99,7 +99,7 @@ class Filia
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="filia", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
      */
     protected $filieNotatki;
 
