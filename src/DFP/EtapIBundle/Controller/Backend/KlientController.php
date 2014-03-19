@@ -58,7 +58,6 @@ class KlientController extends Controller
         {
             $filia->setNazwaFilii('Filia Główna');
         }
-        $filia->setPotencjalny(true);
         $filia->setKlient($entity);
         $entity->getFilie()->add($filia);
 
@@ -166,7 +165,7 @@ class KlientController extends Controller
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
