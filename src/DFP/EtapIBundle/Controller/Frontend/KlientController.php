@@ -178,6 +178,8 @@ class KlientController extends Controller
         if($form->isValid())
         {
             $em = $this->getDoctrine()->getManager();
+
+            /* @var $entity Klient */
             $entity = $em->getRepository('DFPEtapIBundle:Klient')->findOneByNIP($klient->getNip());
             if(!$entity)
             {
@@ -278,6 +280,8 @@ class KlientController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $notatka = new FiliaNotatka();
+
+        /* @var $filia Filia*/
         $filia  = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
 
         $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
@@ -303,6 +307,8 @@ class KlientController extends Controller
     public function stworzNotatkaFiliiAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+
+        /* @var $filia Filia */
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
         $notatka = new FiliaNotatka();
 
@@ -340,8 +346,11 @@ class KlientController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
+
+        /* @var $notatka FiliaNotatka */
         $notatka = $em->getRepository('DFPEtapIBundle:FiliaNotatka')->find($id);
 
+        /* @var $filia Filia */
         $filia = $notatka->getFilia();
         if(!$notatka)
         {
@@ -388,6 +397,8 @@ class KlientController extends Controller
     public function edytujFilieAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
+        /* @var $filia Filia */
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
         $filiaPPP = new FiliaProcesPrzygotowaniaPowierzchni();
         $filiaPPP->setFilia($filia);

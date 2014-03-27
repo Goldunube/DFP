@@ -1,27 +1,232 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% form_theme delete_form _self %}
+{% form_theme form _self %}
 
 {% block button_widget %}
     {% spaceless %}
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button czerwony">{{ label|trans({}, translation_domain) }}</button>
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button zielony">{{ label|trans({}, translation_domain) }}</button>
     {% endspaceless %}
 {% endblock button_widget %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
 {% block content -%}
-    <h1>Edycja klienta</h1>
+    <section>
+        <h1>Formularz nowego klienta</h1>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
 
-    {{ form(edit_form) }}
+        <table class="record_properties">
+            <caption>Informacje podstawowe</caption>
+            <tbody>
+            <tr>
+                <th>Pełna nazwa:</th>
+                <td>{{ form_widget(form.nazwaPelna) }}</td>
+            </tr>
+            <tr>
+                <th>Skrócona nazwa:</th>
+                <td>{{ form_widget(form.nazwaSkrocona) }}</td>
+            </tr>
+            <tr>
+                <th>NIP:</th>
+                <td>{{ form_widget(form.nip) }}</td>
+            </tr>
+            <tr>
+                <th>Kod MAX:</th>
+                <td>{{ form_widget(form.kodMax) }}</td>
+            </tr>
+            <tr>
+                <th>Kanał dystrybucji:</th>
+                <td>{{ form_widget(form.kanalDystrybucji) }}</td>
+            </tr>
+            <tr>
+                <th>Grupa klienta:</th>
+                <td>{{ form_widget(form.grupyKlientow) }}</td>
+            </tr>
+            </tbody>
+        </table>
 
+        {% for filia in form.filie %}
+            <table>
+                <caption>Główna filia:</caption>
+                <tbody>
+                <tr>
+                    <th>{{ form_label(filia.wojewodztwo) }}:</th>
+                    <td class="edycja">{{ form_widget(filia.wojewodztwo) }}</td>
+                </tr>
+                <tr>
+                    <th>Miejscowość:</th>
+                    <td class="edycja">{{ form_widget(filia.kodPocztowy) }}; {{ form_widget(filia.miejscowosc) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(filia.ulica) }}:</th>
+                    <td class="edycja">{{ form_widget(filia.ulica) }}</td>
+                </tr>
+                <tr>
+                    <th>Dotychczas stosowany system malarski:</th>
+                    <td class="edycja">{{ form_widget(filia.matlakDotychczas) }}</td>
+                </tr>
+                <tr>
+                    <th>Poziom zużycia materiałów:</th>
+                    <td class="edycja">{{ form_widget(filia.zuzycieMaterialow) }}</td>
+                </tr>
+                <tr>
+                    <th>Profile działalności:</th>
+                    <td class="edycja">
+                        <div class="checks-list">
+                            <div>
+                                {% for profil in filia.profileDzialalnosci %}
+                                    {{ form_label(profil) }} {{ form_widget(profil) }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(filia.adnotacja) }}</th>
+                    <td class="edycja">{{ form_widget(filia.adnotacja) }}</td>
+                </tr>
+                <tr id="procesy-przygotowania-powierzchni">
+                    <th>{{ form_label(filia.filieProcesyPrzygotowaniaPowierzchni) }}</th>
+                    <td class="edycja">
+                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
+                            {% for proces in filia.filieProcesyPrzygotowaniaPowierzchni %}
+                                <li>{{ form_widget(proces) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr id="procesy-aplikacji">
+                    <th>{{ form_label(filia.filieProcesyAplikacji) }}</th>
+                    <td class="edycja">
+                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyAplikacji.vars.prototype)|e }}">
+                            {% for procesAplikacji in filia.filieProcesyAplikacji %}
+                                <li>{{ form_widget(procesAplikacji) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr id="wymagania-produktu">
+                    <th>{{ form_label(filia.filieWymaganiaProduktu) }}</th>
+                    <td class="edycja">
+                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaProduktu.vars.prototype)|e }}">
+                            {% for wymaganie in filia.filieWymaganiaProduktu %}
+                                <li>{{ form_widget(wymaganie) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr id="procesy-utwardzania-powloki">
+                    <th>{{ form_label(filia.filieProcesyUtwardzaniaPowloki) }}</th>
+                    <td class="edycja">
+                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
+                            {% for proces in filia.filieProcesyUtwardzaniaPowloki %}
+                                <li>{{ form_widget(proces) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr id="wymagania-powloki">
+                    <th>{{ form_label(filia.filieWymaganiaPowloki) }}</th>
+                    <td class="edycja">
+                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaPowloki.vars.prototype)|e }}">
+                            {% for wymaganie in filia.filieWymaganiaPowloki %}
+                                <li>{{ form_widget(wymaganie) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        {% endfor %}
+        {{ form_row(form._token) }}
         <ul class="record_actions">
             <li>
-                <a href="{{ path('backend_klient') }}" class="art-button">
-                    Powrót do listy
-                </a>
+                <a href="{{ path('backend_klient') }}" class="art-button pomaranczowy">Powrót do listy</a>
             </li>
-            <li>{{ form(delete_form) }}</li>
+            <li>
+                {{ form_row(form.submit) }}
+            </li>
         </ul>
+        {{ form_end(form, {'render_rest':false}) }}
+        <ul class="record_actions">
+            <li>
+                {{ form_start(delete_form) }}
+                    {{ form_row(delete_form.submit, {'attr' : {'class':'art-button czerwony'} }) }}
+                {{ form_end(delete_form) }}
+            </li>
+        </ul>
+    </section>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
+    $('#procesy-aplikacji').obslugaFormularzy();
+    $('#wymagania-produktu').obslugaFormularzy();
+    $('#procesy-utwardzania-powloki').obslugaFormularzy();
+    $('#wymagania-powloki').obslugaFormularzy();
+    tinymce.init({
+    selector:'textarea',
+    content_css: '/css/tinymce_content.css',
+    plugins: 'paste,autosave,autoresize,table,image,fullscreen,charmap',
+    toolbar: "styleselect | table | bold italic underline removeformat | justifyleft justifycenter justifyright justifyfull | bullist numlist | outdent indent | cut copy paste | charmap image | undo redo | restoredraft | fullscreen",
+    toolbar_items_size : 'small',
+    paste_as_text: true,
+    paste_data_images: false,
+    browser_spellcheck : true,
+    font_formats: "Times New Roman=times new roman,times;",
+    keep_styles: false,
+    schema: "html5",
+    visual: true,
+    menubar : false,
+    height : 300,
+    autoresize_max_height: 500,
+    table_default_border: 1,
+    table_default_cellpadding: 3,
+    table_default_cellspacing: 0,
+    entity_encoding : "raw",
+    language: 'pl',
+
+    style_formats : [
+    {title: 'Nagłówki', items: [
+    {title: 'Nagłówek 1', block: 'h1'},
+    {title: 'Nagłówek 2', block: 'h2'},
+    {title: 'Nagłówek 3', block: 'h3'},
+    {title: 'Nagłówek 4', block: 'h4'},
+    {title: 'Nagłówek 5', block: 'h5'},
+    {title: 'Nagłówek 6', block: 'h6'}
+    ]},
+    {title: 'Alignment', items: [
+    {title: 'Left', block: 'div', styles : {textAlign : 'left'}, icon: 'alignleft'},
+    {title: 'Center', block: 'div', styles : {textAlign : 'center'}, icon: 'aligncenter'},
+    {title: 'Right', block: 'div', styles : {textAlign : 'right'}, icon: 'alignright'},
+    {title: 'Justify', block: 'div', styles : {textAlign : 'justify'}, icon: 'alignjustify'}
+    ]},
+    {title: 'Table', items: [
+    {title: 'Wzór 1', selector: 'table', classes: 'table1'}
+    ]},
+    {title: 'Pogrubiony', inline: 'b', icon: 'bold'},
+    {title: 'Kursywa', inline: 'i', icon: 'italic'},
+    {title: 'Podkre¶lenie', inline: 'span', styles : {textDecoration : 'underline'}, icon: 'underline'},
+    {title: 'Indeks górny', inline: 'sup', icon: 'superscript'},
+    {title: 'Indeks dolny', inline: 'sub', icon: 'subscript'},
+    ],
+    });
+
+{% endblock javascripts %}

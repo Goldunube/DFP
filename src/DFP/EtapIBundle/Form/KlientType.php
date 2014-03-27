@@ -29,8 +29,9 @@ class KlientType extends AbstractType
                 )
             )
             ->add('filie', 'collection', array(
-                    'type'  =>  new FiliaType(),
-                    'label' =>  'Filia',
+                    'type'      =>  new FiliaType(),
+                    'label'     =>  false,
+                    'options'   => array('label' => false),
                 )
             )
         ;

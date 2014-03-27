@@ -19,7 +19,7 @@
             <tbody>
             {% for filia in lista_filii %}
                 <tr>
-                    <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
+                    <td class="lp"><a href="{{ path('backend_filia_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
                     <td>{% for przypisani in filia.filieUzytkownicy %}<span title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}, </span>{% endfor %}</td>
                     <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
                     <td>{{ filia.nazwaFilii }}</td>
