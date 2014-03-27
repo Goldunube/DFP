@@ -102,7 +102,7 @@ class KlientController extends Controller
     /**
      * Displays a form to create a new Klient entity.
      *
-     * @Route("/new", name="klient_new")
+     * @Route("/new", name="backend_klient_new")
      * @Method("GET")
      * @Template()
      */
