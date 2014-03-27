@@ -65,6 +65,13 @@ class FiliaType extends AbstractType
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
+            ->add('filieRodzajePowierzchni', 'collection', array(
+                    'type'          => new FiliaRodzajPowierzchniType(),
+                    'label'         => 'Rodzaj powierzchni',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+            ))
         ;
     }
     

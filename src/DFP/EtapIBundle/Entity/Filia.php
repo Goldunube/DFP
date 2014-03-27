@@ -154,6 +154,13 @@ class Filia
      */
     protected $filieWymaganiaPowlok;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaRodzajPowierzchni", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $filieRodzajePowierzchni;
+
 
     public function __construct()
     {
@@ -723,5 +730,38 @@ class Filia
     public function getAdnotacja()
     {
         return $this->adnotacja;
+    }
+
+    /**
+     * Add filieRodzajePowierzchni
+     *
+     * @param FiliaRodzajPowierzchni $filieRodzajePowierzchni
+     * @return Filia
+     */
+    public function addFilieRodzajePowierzchni(FiliaRodzajPowierzchni $filieRodzajePowierzchni)
+    {
+        $this->filieRodzajePowierzchni[] = $filieRodzajePowierzchni;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filieRodzajePowierzchni
+     *
+     * @param FiliaRodzajPowierzchni $filieRodzajePowierzchni
+     */
+    public function removeFilieRodzajePowierzchni(FiliaRodzajPowierzchni $filieRodzajePowierzchni)
+    {
+        $this->filieRodzajePowierzchni->removeElement($filieRodzajePowierzchni);
+    }
+
+    /**
+     * Get filieRodzajePowierzchni
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFilieRodzajePowierzchni()
+    {
+        return $this->filieRodzajePowierzchni;
     }
 }
