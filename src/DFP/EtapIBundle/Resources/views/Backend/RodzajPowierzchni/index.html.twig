@@ -1,0 +1,35 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista rodzajów powierzchni</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('url_backend_rodzajpowierzchni_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nazwa }}</td>
+                <td>{{ entity.opis }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('url_backend_rodzajpowierzchni_show', { 'id': entity.id }) }}" class="art-button">pokaż</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('url_backend_rodzajpowierzchni_edit', { 'id': entity.id }) }}" class="art-button">edytuj</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

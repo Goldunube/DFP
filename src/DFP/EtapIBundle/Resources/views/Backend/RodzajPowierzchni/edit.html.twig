@@ -1,0 +1,27 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% form_theme delete_form _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button czerwony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
+{% block content -%}
+    <h1>Edycja rodzaju powierzchni</h1>
+
+    {{ form(edit_form) }}
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('url_backend_rodzajpowierzchni') }}" class="art-button">
+                Powrót do listy
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
+{% endblock %}

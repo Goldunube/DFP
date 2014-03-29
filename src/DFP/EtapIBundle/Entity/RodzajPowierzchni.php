@@ -32,7 +32,7 @@ class RodzajPowierzchni
     /**
      * @var string
      *
-     * @ORM\Column(name="opis", type="text")
+     * @ORM\Column(name="opis", type="text", nullable=true)
      */
     private $opis;
 
@@ -43,6 +43,23 @@ class RodzajPowierzchni
      */
     private $filieRodzajePowierzchni;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->filieRodzajePowierzchni = new ArrayCollection();
+    }
+
+    /**
+     * To String
+     * @return string
+     *
+     */
+    public function __toString()
+    {
+        return (string) $this->getNazwa();
+    }
 
     /**
      * Get id
@@ -98,13 +115,6 @@ class RodzajPowierzchni
     public function getOpis()
     {
         return $this->opis;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->filieRodzajePowierzchni = new ArrayCollection();
     }
     
     /**
