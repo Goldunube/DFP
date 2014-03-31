@@ -83,6 +83,16 @@
             <table>
                 <caption>Informacje dodatkowe</caption>
                 <tbody>
+                    <tr id="rodzaje-powierzchni">
+                        <th>{{ form_label(formularz.filieRodzajePowierzchni) }}</th>
+                        <td class="edycja">
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieRodzajePowierzchni.vars.prototype)|e }}">
+                                {% for rodzaj in formularz.filieRodzajePowierzchni %}
+                                    <li>{{ form_widget(rodzaj) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
                     <tr id="procesy-przygotowania-powierzchni">
                         <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}</th>
                         <td class="edycja">
@@ -153,6 +163,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    $('#rodzaje-powierzchni').obslugaFormularzy();
     $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
     $('#procesy-aplikacji').obslugaFormularzy();
     $('#wymagania-produktu').obslugaFormularzy();

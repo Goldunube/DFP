@@ -59,6 +59,17 @@
             <h2>Informacje dodatkowe:</h2>
             <div class="lewa">
                 <fieldset>
+                    <legend>Rodzaje powierzchni</legend>
+                    {% if filia.filieRodzajePowierzchni|length > 0 %}
+                        <dl class="table-display">
+                            {% for rodzajPowierzchniFilii in filia.filieRodzajePowierzchni %}
+                                <dt>{{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</dt>
+                                <dd>{{ rodzajPowierzchniFilii.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
+                </fieldset>
+                <fieldset>
                     <legend>Procesy aplikacji</legend>
                     {% if filia.filieProcesyAplikacji|length > 0 %}
                         <dl class="table-display">
