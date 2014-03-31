@@ -102,10 +102,10 @@
                     <td class="edycja">{{ form_widget(filia.adnotacja) }}</td>
                 </tr>
                 <tr id="rodzaje-powierzchni">
-                    <th>{{ form_label(formularz.filieRodzajePowierzchni) }}</th>
+                    <th>{{ form_label(filia.filieRodzajePowierzchni) }}</th>
                     <td class="edycja">
-                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieRodzajePowierzchni.vars.prototype)|e }}">
-                            {% for rodzaj in formularz.filieRodzajePowierzchni %}
+                        <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieRodzajePowierzchni.vars.prototype)|e }}">
+                            {% for rodzaj in filia.filieRodzajePowierzchni %}
                                 <li>{{ form_widget(rodzaj) }}</li>
                             {% endfor %}
                         </ul>

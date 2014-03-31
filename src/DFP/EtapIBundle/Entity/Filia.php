@@ -73,9 +73,16 @@ class Filia
     /**
      * @var string
      *
-     * @ORM\Column(name="zuzycie_materialow", type="string", length=255, nullable=true)
+     * @ORM\Column(name="zuzycie_materialow", type="text", nullable=true)
      */
     private $zuzycieMaterialow;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="stosowana_kolorystyka", type="text", nullable=true)
+     */
+    private $kolorystyka;
 
     /**
      * @var string
@@ -167,6 +174,7 @@ class Filia
         $this->filieUzytkownicy = new ArrayCollection();
         $this->profileDzialalnosci = new ArrayCollection();
         $this->filieProcesyPrzygotowaniaPowierzchni = new ArrayCollection();
+        $this->filieRodzajePowierzchni = new ArrayCollection();
         $this->filieProcesyAplikacji = new ArrayCollection();
         $this->filieProcesyUtwardzaniaPowlok = new ArrayCollection();
         $this->filieWymaganiaProduktow = new ArrayCollection();
@@ -403,6 +411,29 @@ class Filia
     public function getZuzycieMaterialow()
     {
         return $this->zuzycieMaterialow;
+    }
+
+    /**
+     * Set kolorystyka
+     *
+     * @param string $kolorystyka
+     * @return Filia
+     */
+    public function setKolorystyka($kolorystyka)
+    {
+        $this->kolorystyka = $kolorystyka;
+
+        return $this;
+    }
+
+    /**
+     * Get kolorystyka
+     *
+     * @return string
+     */
+    public function getKolorystyka()
+    {
+        return $this->kolorystyka;
     }
 
     /**
@@ -738,10 +769,11 @@ class Filia
      * @param FiliaRodzajPowierzchni $filieRodzajePowierzchni
      * @return Filia
      */
-    public function addFilieRodzajePowierzchni(FiliaRodzajPowierzchni $filieRodzajePowierzchni)
+    public function addFilieRodzajePowierzchnus(FiliaRodzajPowierzchni $filieRodzajePowierzchni)
     {
         $this->filieRodzajePowierzchni[] = $filieRodzajePowierzchni;
-    
+        $filieRodzajePowierzchni->setFilia($this);
+
         return $this;
     }
 
@@ -750,7 +782,7 @@ class Filia
      *
      * @param FiliaRodzajPowierzchni $filieRodzajePowierzchni
      */
-    public function removeFilieRodzajePowierzchni(FiliaRodzajPowierzchni $filieRodzajePowierzchni)
+    public function removeFilieRodzajePowierzchnus(FiliaRodzajPowierzchni $filieRodzajePowierzchni)
     {
         $this->filieRodzajePowierzchni->removeElement($filieRodzajePowierzchni);
     }

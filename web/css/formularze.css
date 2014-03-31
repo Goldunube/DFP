@@ -3,6 +3,19 @@
 }
 #main table th {
     width: 260px;
+    padding-left: 5px;
+}
+#main table th sup {
+    background-color: #FFA500;
+    border: 1px solid #000000;
+    border-radius: 15px;
+    color: #4B0082;
+    cursor: help;
+    display: inline-block;
+    font-weight: bold;
+    height: 12px;
+    text-align: center;
+    width: 12px;
 }
 #main table {
     text-align: left;

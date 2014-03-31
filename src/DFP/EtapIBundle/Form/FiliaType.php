@@ -22,7 +22,8 @@ class FiliaType extends AbstractType
 //            ->add('aktywna')
             ->add('matlakDotychczas')
             ->add('zuzycieMaterialow')
-            ->add('adnotacja')
+            ->add('kolorystyka')
+            ->add('adnotacja',null,array('label'=>'Inne materiały'))
             ->add('profileDzialalnosci', 'entity', array(
                     'label'     =>  'Profil działalności',
                     'class'     =>  'DFPEtapIBundle:ProfilDzialalnosci',
@@ -32,42 +33,42 @@ class FiliaType extends AbstractType
             ))
             ->add('filieProcesyPrzygotowaniaPowierzchni', 'collection', array(
                     'type'          =>  new FiliaProcesPrzygotowaniaPowierzchniType(),
-                    'label'         =>  'Procesy przygotowania powierzchni',
+                    'label'         =>  'Metoda przygotowania powierzchni',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
             ->add('filieProcesyAplikacji', 'collection', array(
                     'type'          =>  new FiliaProcesAplikacjiType(),
-                    'label'         =>  'Procesy aplikacji',
+                    'label'         =>  'Metoda aplikacji farby',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
             ->add('filieWymaganiaProduktu', 'collection', array(
                     'type'          =>  new FiliaWymaganiaProduktuType(),
-                    'label'         =>  'Wymagania produktu',
+                    'label'         =>  'Parametry produktu',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
             ->add('filieProcesyUtwardzaniaPowloki', 'collection', array(
                     'type'          => new FiliaProcesUtwardzaniaPowlokiType(),
-                    'label'         => 'Procesy utwardzania powłoki',
+                    'label'         => 'Parametry utwardzania powłoki',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
             ->add('filieWymaganiaPowloki', 'collection', array(
                     'type'          => new FiliaWymaganiaPowlokiType(),
-                    'label'         => 'Wymagania powłoki',
+                    'label'         => 'Wymagania powłoki lakierowej',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,
             ))
             ->add('filieRodzajePowierzchni', 'collection', array(
                     'type'          => new FiliaRodzajPowierzchniType(),
-                    'label'         => 'Rodzaj powierzchni',
+                    'label'         => 'Rodzaj podłoża',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,

@@ -32,7 +32,7 @@ class FiliaWymaganiaProduktu
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filieWymaganiaProduktow")
-     * @ORM\JoinColumn(name="filia_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="filia_id", referencedColumnName="id", nullable=false)
      */
     private $filia;
 
@@ -40,7 +40,7 @@ class FiliaWymaganiaProduktu
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="WymaganiaProduktu", inversedBy="filieWymaganiaProduktow")
-     * @ORM\JoinColumn(name="wymagania_produktu_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="wymagania_produktu_id", referencedColumnName="id", nullable=false)
      */
     private $wymaganiaProduktu;
 

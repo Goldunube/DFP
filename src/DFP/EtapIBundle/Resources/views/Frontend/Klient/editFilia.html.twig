@@ -54,15 +54,7 @@
                     <td class="edycja">{{ form_widget(formularz.ulica) }}</td>
                 </tr>
                 <tr>
-                    <th>Dotychczas stosowany system malarski:</th>
-                    <td class="edycja">{{ form_widget(formularz.matlakDotychczas) }}</td>
-                </tr>
-                <tr>
-                    <th>Poziom zużycia materiałów:</th>
-                    <td class="edycja">{{ form_widget(formularz.zuzycieMaterialow) }}</td>
-                </tr>
-                <tr>
-                    <th>Profile działalności:</th>
+                    <th>Profile działalności: <sup title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
                     <td class="edycja">
                         <div class="checks-list">
                             <div>
@@ -74,17 +66,29 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(formularz.adnotacja) }}</th>
+                    <th>Stosowany system malarski: <sup title="podać zestaw stosowany obecnie przez klienta tzn.: czy grunt+nawierzchnia czy tylko gruntoemalia//podać typ farby: alkid, poliuretan czy epoxyd//podać nazwy handlowe farb i producenta). Poziom dotychczasowych cen (może być bez podawania nazw produktów">?</sup></th>
+                    <td class="edycja">{{ form_widget(formularz.matlakDotychczas) }}</td>
+                </tr>
+                <tr>
+                    <th>Wielkość zużycia: <sup title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
+                    <td class="edycja">{{ form_widget(formularz.zuzycieMaterialow) }}</td>
+                </tr>
+                <tr>
+                    <th>Kolorystyka: <sup title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
+                    <td class="edycja">{{ form_widget(formularz.kolorystyka) }}</td>
+                </tr>
+                <tr>
+                    <th>{{ form_label(formularz.adnotacja) }}: <sup title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
                     <td class="edycja">{{ form_widget(formularz.adnotacja) }}</td>
                 </tr>
                 </tbody>
             </table>
 
             <table>
-                <caption>Informacje dodatkowe</caption>
+                <caption>Informacje o procesie wykonywania powłoki lakierowej, parametry techniczne</caption>
                 <tbody>
                     <tr id="rodzaje-powierzchni">
-                        <th>{{ form_label(formularz.filieRodzajePowierzchni) }}</th>
+                        <th>{{ form_label(formularz.filieRodzajePowierzchni) }}:</th>
                         <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieRodzajePowierzchni.vars.prototype)|e }}">
                                 {% for rodzaj in formularz.filieRodzajePowierzchni %}
@@ -94,7 +98,7 @@
                         </td>
                     </tr>
                     <tr id="procesy-przygotowania-powierzchni">
-                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}</th>
+                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}: <sup title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
                         <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
@@ -104,7 +108,7 @@
                         </td>
                     </tr>
                     <tr id="procesy-aplikacji">
-                        <th>{{ form_label(formularz.filieProcesyAplikacji) }}</th>
+                        <th>{{ form_label(formularz.filieProcesyAplikacji) }}:</th>
                         <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
                                 {% for procesAplikacji in formularz.filieProcesyAplikacji %}
@@ -113,18 +117,8 @@
                             </ul>
                         </td>
                     </tr>
-                    <tr id="wymagania-produktu">
-                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }}</th>
-                        <td class="edycja">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
-                                {% for wymaganie in formularz.filieWymaganiaProduktu %}
-                                    <li>{{ form_widget(wymaganie) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
                     <tr id="procesy-utwardzania-powloki">
-                        <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}</th>
+                        <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}:</th>
                         <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
@@ -134,10 +128,20 @@
                         </td>
                     </tr>
                     <tr id="wymagania-powloki">
-                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }}</th>
+                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }}: <sup title="parametry jakie musi spełniać">?</sup></th>
                         <td class="edycja">
                             <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaPowloki %}
+                                    <li>{{ form_widget(wymaganie) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr id="wymagania-produktu">
+                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }}: <sup title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
+                        <td class="edycja">
+                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
+                                {% for wymaganie in formularz.filieWymaganiaProduktu %}
                                     <li>{{ form_widget(wymaganie) }}</li>
                                 {% endfor %}
                             </ul>
@@ -190,6 +194,8 @@
         table_default_cellspacing: 0,
         entity_encoding : "raw",
         language: 'pl',
+        statusbar: false,
+        toolbar: false,
 
         style_formats : [
             {title: 'Nagłówki', items: [

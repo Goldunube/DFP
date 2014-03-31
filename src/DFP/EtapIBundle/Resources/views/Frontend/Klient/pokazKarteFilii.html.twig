@@ -40,15 +40,19 @@
                     <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
                 </tr>
                 <tr>
-                    <th>Dotychczas stosowany system malarski:</th>
+                    <th>Stosowany system malarski:</th>
                     <td>{{ filia.matlakDotychczas|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Zużycie materiałów:</th>
-                    <td>{{ filia.zuzycieMaterialow }}</td>
+                    <th>Wielkość zużycia:</th>
+                    <td>{{ filia.zuzycieMaterialow|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Adnotacje:</th>
+                    <th>Kolorystyka:</th>
+                    <td>{{ filia.kolorystyka|raw }}</td>
+                </tr>
+                <tr>
+                    <th>Inne materiały:</th>
                     <td>{{ filia.adnotacja|raw }}</td>
                 </tr>
                 </tbody>
@@ -59,7 +63,7 @@
             <h2>Informacje dodatkowe:</h2>
             <div class="lewa">
                 <fieldset>
-                    <legend>Rodzaje powierzchni</legend>
+                    <legend>Rodzaj podłoża</legend>
                     {% if filia.filieRodzajePowierzchni|length > 0 %}
                         <dl class="table-display">
                             {% for rodzajPowierzchniFilii in filia.filieRodzajePowierzchni %}
@@ -70,31 +74,7 @@
                     {% endif %}
                 </fieldset>
                 <fieldset>
-                    <legend>Procesy aplikacji</legend>
-                    {% if filia.filieProcesyAplikacji|length > 0 %}
-                        <dl class="table-display">
-                            {% for procesFilii in filia.filieProcesyAplikacji %}
-                                <dt>{{ procesFilii.procesAplikacji.nazwaProcesu }}</dt>
-                                <dd>{{ procesFilii.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-                <fieldset>
-                    <legend>Wymagania produktów</legend>
-                    {% if filia.filieWymaganiaProduktu|length > 0 %}
-                        <dl class="table-display">
-                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
-                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
-                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-            </div>
-            <div class="prawa">
-                <fieldset>
-                    <legend>Procesy przygotowania powierzchni</legend>
+                    <legend>Metoda przygotowania powierzchni</legend>
                     {% if filia.filieProcesyPrzygotowaniaPowierzchni|length > 0 %}
                         <dl class="table-display">
                             {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
@@ -105,7 +85,20 @@
                     {% endif %}
                 </fieldset>
                 <fieldset>
-                    <legend>Procesy utwardzania powłoki</legend>
+                    <legend>Metoda aplikacji farby</legend>
+                    {% if filia.filieProcesyAplikacji|length > 0 %}
+                        <dl class="table-display">
+                            {% for procesFilii in filia.filieProcesyAplikacji %}
+                                <dt>{{ procesFilii.procesAplikacji.nazwaProcesu }}</dt>
+                                <dd>{{ procesFilii.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
+                </fieldset>
+            </div>
+            <div class="prawa">
+                <fieldset>
+                    <legend>Parametry utwardzania powłoki</legend>
                     {% if filia.filieProcesyUtwardzaniaPowloki|length > 0 %}
                         <dl class="table-display">
                             {% for procesFilii in filia.filieProcesyUtwardzaniaPowloki %}
@@ -125,7 +118,7 @@
                     {% endif %}
                 </fieldset>
                 <fieldset>
-                    <legend>Wymagania powłoki</legend>
+                    <legend>Wymagania powłoki lakierowej</legend>
                     {% if filia.filieWymaganiaPowloki|length > 0 %}
                         <dl class="table-display">
                             {% for wymaganiaPowloki in filia.filieWymaganiaPowloki %}
@@ -135,11 +128,22 @@
                         </dl>
                     {% endif %}
                 </fieldset>
+                <fieldset>
+                    <legend>Parametry produktu</legend>
+                    {% if filia.filieWymaganiaProduktu|length > 0 %}
+                        <dl class="table-display">
+                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
+                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
+                </fieldset>
             </div>
         </section>
 
         <section id="notatki">
-            <h2>Notatki:</h2>
+            <h2>Wymagania klienta, harmonogram działań, notatki bieżące:</h2>
             <div class="container">
                 {% for notatka in filia.filieNotatki %}
                     <div class="notatka">
