@@ -89,14 +89,14 @@ fieldset {
     background-color: #ee0000;
 }
 dl.table-display {
-    border-bottom: 1px solid #999999;
+    border-bottom: 1px solid #E0E0E0;
     float: left;
     margin: 1em 0;
     padding: 0;
     width: 99%;
 }
 .table-display > dt {
-    border-top: 1px solid #999999;
+    border-top: 1px solid #E0E0E0;
     clear: left;
     float: left;
     font-weight: bold;
@@ -105,7 +105,7 @@ dl.table-display {
     width: 50%;
 }
 .table-display > dd {
-    border-top: 1px solid #999999;
+    border-top: 1px solid #E0E0E0;
     float: left;
     margin: 0;
     padding: 5px;
