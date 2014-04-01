@@ -98,7 +98,6 @@ class KlientController extends Controller
 
             return $this->redirect($this->generateUrl('url_lista_klientow'));
         };
-
         return array(
             'klient'    => $klient,
             'form'      => $form->createView(),

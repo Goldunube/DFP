@@ -25,38 +25,68 @@
     <section>
         <h1>Formularz podstawowej karty klienta</h1>
         <section style="text-align: left; margin-top: 30px;">
-            <h2 style="color: #7B68EE;">Etap 2/2</h2>
+            <h2 style="color: #7B68EE;text-align: center;">Etap 2/2</h2>
             <p>Dla Klienta identyfikującego się NIP'em: {{ klient.nip|nip }} nie została jeszcze założona karta klienta. Wypełnij poniższe pola formularza, aby tego dokonać.</p>
             {{ form_start(kartaPodstawowa) }}
-                {{ form_errors(kartaPodstawowa) }}
-                <div>
-                    {{ form_row(kartaPodstawowa.nip) }}
-                    {{ form_row(kartaPodstawowa.nazwaPelna) }}
-                    {{ form_row(kartaPodstawowa.nazwaSkrocona) }}
-                    <div class="checks-list">
-                        {{ form_label(kartaPodstawowa.grupyKlientow) }}
-                        <div>
-                            {% for grupa in kartaPodstawowa.grupyKlientow %}
-                                {{ form_label(grupa) }} {{ form_widget(grupa) }}
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                    {{ form_row(kartaPodstawowa.filie[0].wojewodztwo) }}
-                    {{ form_row(kartaPodstawowa.filie[0].kodPocztowy) }}
-                    {{ form_row(kartaPodstawowa.filie[0].miejscowosc) }}
-                    {{ form_row(kartaPodstawowa.filie[0].ulica) }}
-                </div>
-                <ul class="record_actions" style="text-align: center; margin-top: 20px;">
-                    <li style="float: none; display: inline-block; position: relative; left: 27px;">
-                        <a href="{{ path('strona_glowna') }}" class="art-button czerwony">Zaniechaj</a>
-                    </li>
-                    <li style="float: none; display: inline-block; position: relative; left: 27px; top:1px;">
-                        {{ form_row(kartaPodstawowa.submit) }}
-                    </li>
-                </ul>
-                {{ form_row(kartaPodstawowa._token) }}
-
+            {{ form_errors(kartaPodstawowa) }}
+            <table class="record_properties">
+                <tbody>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.nazwaPelna) }}</th>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.nazwaPelna) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.nazwaSkrocona) }}</th>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.nazwaSkrocona) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.filie[0].wojewodztwo) }}</th>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].wojewodztwo) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.filie[0].miejscowosc) }}</th>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].kodPocztowy, {'attr': {'style':'width: 6.1%;'} }) }}; {{ form_widget(kartaPodstawowa.filie[0].miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.filie[0].ulica) }}</th>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].ulica) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.grupyKlientow) }}</th>
+                        <td class="edycja">
+                            <div class="checks-list">
+                                <div>
+                                    {% for grupa in kartaPodstawowa.grupyKlientow %}
+                                        {{ form_label(grupa) }} {{ form_widget(grupa) }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{{ form_label(kartaPodstawowa.filie[0].profileDzialalnosci) }}</th>
+                        <td class="edycja">
+                            <div class="checks-list">
+                                <div>
+                                    {% for profilDzialalnosci in kartaPodstawowa.filie[0].profileDzialalnosci %}
+                                        {{ form_label(profilDzialalnosci) }} {{ form_widget(profilDzialalnosci) }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {{ form_row(kartaPodstawowa.nip) }}
+            {{ form_row(kartaPodstawowa._token) }}
+            <ul class="record_actions">
+                <li>
+                    <a href="{{ path('strona_glowna') }}" class="art-button czerwony">Zaniechaj</a>
+                </li>
+                <li>
+                    {{ form_row(kartaPodstawowa.submit) }}
+                </li>
+            </ul>
             {{ form_end(kartaPodstawowa, {'render_rest':false}) }}
         </section>
     </section>

@@ -41,7 +41,7 @@
                 </tr>
                 <tr>
                     <th>Zużycie materiałów:</th>
-                    <td>{{ filia.zuzycieMaterialow }}</td>
+                    <td>{{ filia.zuzycieMaterialow|raw }}</td>
                 </tr>
                 <tr>
                     <th>Adnotacje:</th>
@@ -133,9 +133,9 @@
                         </div>
                         <div class="tresc">
                             {% if notatka.status == 0 %}
-                                <s>{{ notatka.tresc }}</s>
+                                <s>{{ notatka.tresc|raw }}</s>
                             {% else %}
-                                {{ notatka.tresc }}
+                                {{ notatka.tresc|raw }}
                             {% endif %}
                         </div>
                     </div>

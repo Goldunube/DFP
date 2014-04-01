@@ -4,8 +4,8 @@
     {
         var $collectionHolder;
 
-        var $addLink = $('<a href="#" class="add-link">Dodaj</a>');
-        var $newLinkLi = $('<li></li>').append($addLink);
+        var $addLink = $('<a href="#" class="add-link art-button maly zielony">Dodaj</a>');
+        var $newLinkLi = $('<li style="margin-top: 10px;"></li>').append($addLink);
 
         var $this = $(this);
 
@@ -40,7 +40,7 @@
 
             $collectionHolder.data('index', index + 1);
 
-            var $newFormLi = $('<li></li>').append(newForm);
+            var $newFormLi = $('<li class="parametr-container"></li>').append(newForm);
             $newLinkLi.before($newFormLi);
 
             addFormDeleteLink($newFormLi);
@@ -48,7 +48,7 @@
 
         function addFormDeleteLink($FormLi)
         {
-            var $removeForm = $('<a href="#">Usuń</a> ');
+            var $removeForm = $('<a href="#" class="art-button maly czerwony">Usuń</a> ');
 
             $FormLi.append($removeForm);
 
