@@ -15,8 +15,8 @@ class FiliaRodzajPowierzchniType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('info')
             ->add('rodzajPowierzchni')
+            ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }
 

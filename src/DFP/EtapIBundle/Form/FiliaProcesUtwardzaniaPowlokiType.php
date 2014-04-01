@@ -15,10 +15,10 @@ class FiliaProcesUtwardzaniaPowlokiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tempMin')
-            ->add('tempMax')
-            ->add('czasSchniecia')
             ->add('procesUtwardzaniaPowloki')
+            ->add('tempMin',null,array('label'=>'Temperatura MIN', 'attr'=> array('class'=>'input-temp')))
+            ->add('tempMax',null,array('label'=>'Temperatura MAX', 'attr'=> array('class'=>'input-temp')))
+            ->add('czasSchniecia',null,array('label'=>'Czas schnięcia', 'attr'=> array('class'=>'input-czas')))
         ;
     }
     

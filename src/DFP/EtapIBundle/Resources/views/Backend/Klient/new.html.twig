@@ -104,7 +104,7 @@
                     <tr id="procesy-przygotowania-powierzchni">
                         <th>{{ form_label(filia.filieProcesyPrzygotowaniaPowierzchni) }}</th>
                         <td class="edycja">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
+                            <ul class="filia-parametry-tech" data-prototype="{{ form_widget(filia.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                                 {% for proces in filia.filieProcesyPrzygotowaniaPowierzchni %}
                                     <li>{{ form_widget(proces) }}</li>
                                 {% endfor %}
@@ -114,7 +114,7 @@
                     <tr id="procesy-aplikacji">
                         <th>{{ form_label(filia.filieProcesyAplikacji) }}</th>
                         <td class="edycja">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyAplikacji.vars.prototype)|e }}">
+                            <ul class="filia-parametry-tech" data-prototype="{{ form_widget(filia.filieProcesyAplikacji.vars.prototype)|e }}">
                                 {% for procesAplikacji in filia.filieProcesyAplikacji %}
                                     <li>{{ form_widget(procesAplikacji) }}</li>
                                 {% endfor %}
@@ -124,7 +124,7 @@
                     <tr id="wymagania-produktu">
                         <th>{{ form_label(filia.filieWymaganiaProduktu) }}</th>
                         <td class="edycja">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaProduktu.vars.prototype)|e }}">
+                            <ul class="filia-parametry-tech" data-prototype="{{ form_widget(filia.filieWymaganiaProduktu.vars.prototype)|e }}">
                                 {% for wymaganie in filia.filieWymaganiaProduktu %}
                                     <li>{{ form_widget(wymaganie) }}</li>
                                 {% endfor %}
@@ -134,7 +134,7 @@
                     <tr id="procesy-utwardzania-powloki">
                         <th>{{ form_label(filia.filieProcesyUtwardzaniaPowloki) }}</th>
                         <td class="edycja">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
+                            <ul class="filia-parametry-tech" data-prototype="{{ form_widget(filia.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
                                 {% for proces in filia.filieProcesyUtwardzaniaPowloki %}
                                     <li>{{ form_widget(proces) }}</li>
                                 {% endfor %}
@@ -144,7 +144,7 @@
                     <tr id="wymagania-powloki">
                         <th>{{ form_label(filia.filieWymaganiaPowloki) }}</th>
                         <td class="edycja">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaPowloki.vars.prototype)|e }}">
+                            <ul class="filia-parametry-tech" data-prototype="{{ form_widget(filia.filieWymaganiaPowloki.vars.prototype)|e }}">
                                 {% for wymaganie in filia.filieWymaganiaPowloki %}
                                     <li>{{ form_widget(wymaganie) }}</li>
                                 {% endfor %}

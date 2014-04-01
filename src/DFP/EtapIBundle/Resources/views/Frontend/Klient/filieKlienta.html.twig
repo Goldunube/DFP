@@ -25,8 +25,8 @@
     <section>
         <h1>Formularz podstawowej karty klienta</h1>
         <section style="text-align: left;">
-            <h2 style="color: #7B68EE;">Etap 2/2</h2>
-            <p>Pod podanym numerem NIP: {{ klient.nip|nip }} znajduje się już zapisany w Bazie Danych klient o nazwie {{ klient.nazwaPelna }}.
+            <h2 style="color: #7B68EE;text-align: center;">Etap 2/2</h2>
+            <p>Pod podanym numerem NIP: <strong>{{ klient.nip|nip }}</strong> znajduje się już zapisany w Bazie Danych klient o nazwie <strong>{{ klient.nazwaPelna }}</strong>.
                 Jeżeli chcesz dodać nową filie / oddział tego klienta, wypełnij formularz znajdujący się na dole strony.</p>
             <section id="opis-klienta" style="text-align: left;">
                 <h3>Dane klienta</h3>
@@ -57,30 +57,48 @@
                 <h3>Nowa filia</h3>
                 <p>Jeżeli chcesz dodać nową filię klienta wypełnij poniższy formularz:</p>
                 {{ form_start(drugiFormularz) }}
-                    {{ form_row(drugiFormularz.nazwaFilii) }}
-                    {{ form_row(drugiFormularz.wojewodztwo) }}
-                    {{ form_row(drugiFormularz.miejscowosc) }}
-                    {{ form_row(drugiFormularz.kodPocztowy) }}
-                    {{ form_row(drugiFormularz.ulica) }}
-                    <div class="checks-list">
-                        {{ form_label(drugiFormularz.profileDzialalnosci, 'Profil działalności') }}
-                        <div>
-                            {% for profilDzialalnosci in drugiFormularz.profileDzialalnosci %}
-                                {{ form_label(profilDzialalnosci) }} {{ form_widget(profilDzialalnosci) }}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <ul class="record_actions" style="text-align: center; margin-top: 20px;">
-                        <li style="float: none; display: inline-block; position: relative; left: 27px;">
-                            <a href="{{ path('strona_glowna') }}" class="art-button czerwony">Zaniechaj</a>
-                        </li>
-                        <li style="float: none; display: inline-block; position: relative; left: 27px; top:1px;">
-                            {{ form_row(drugiFormularz.dodaj) }}
-                        </li>
-                    </ul>
-                    {{ form_row(drugiFormularz.klient) }}
-                    {{ form_row(drugiFormularz._token) }}
-
+                <table class="record_properties">
+                    <tbody>
+                        <tr>
+                            <th>{{ form_label(drugiFormularz.nazwaFilii) }}</th>
+                            <td class="edycja">{{ form_widget(drugiFormularz.nazwaFilii) }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ form_label(drugiFormularz.wojewodztwo) }}</th>
+                            <td class="edycja">{{ form_widget(drugiFormularz.wojewodztwo) }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ form_label(drugiFormularz.miejscowosc) }}</th>
+                            <td class="edycja">{{ form_widget(drugiFormularz.kodPocztowy) }}; {{ form_widget(drugiFormularz.miejscowosc) }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ form_label(drugiFormularz.ulica) }}</th>
+                            <td class="edycja">{{ form_widget(drugiFormularz.ulica) }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ form_label(drugiFormularz.profileDzialalnosci) }}</th>
+                            <td class="edycja">
+                                <div class="checks-list">
+                                    <div>
+                                        {% for profilDzialalnosci in drugiFormularz.profileDzialalnosci %}
+                                            {{ form_label(profilDzialalnosci) }} {{ form_widget(profilDzialalnosci) }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {{ form_row(drugiFormularz.klient) }}
+                {{ form_row(drugiFormularz._token) }}
+                <ul class="record_actions">
+                    <li>
+                        <a href="{{ path('strona_glowna') }}" class="art-button czerwony">Zaniechaj</a>
+                    </li>
+                    <li>
+                        {{ form_row(drugiFormularz.dodaj) }}
+                    </li>
+                </ul>
                 {{ form_end(drugiFormularz, {'render_rest': false}) }}
             </section>
         </section>

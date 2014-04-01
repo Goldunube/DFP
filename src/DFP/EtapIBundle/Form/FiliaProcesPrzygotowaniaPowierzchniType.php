@@ -15,8 +15,8 @@ class FiliaProcesPrzygotowaniaPowierzchniType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('info')
             ->add('procesPrzygotowaniaPowierzchni')
+            ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }
     

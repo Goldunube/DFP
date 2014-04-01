@@ -15,8 +15,8 @@ class FiliaWymaganiaProduktuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('info')
             ->add('wymaganiaProduktu')
+            ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }
     

@@ -15,8 +15,8 @@ class FiliaProcesAplikacjiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('info')
             ->add('procesAplikacji')
+            ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }
     

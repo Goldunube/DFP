@@ -62,14 +62,14 @@ form label {
     font-size: 13px;
     margin: 0;
 }
-form input[type="text"] {
+form input[type="text"], form input[type="number"] {
     background-color: #DEEAF8;
     border: 0 none;
     font-size: 13px;
-    height: 100%;
     margin: 0;
-    padding: 0 5px;
+    margin: 0 5px;
     width: 98.5%;
+    border-bottom: 1px dashed #AAAAAA;
 }
 .checks-list label {
     float: left;
@@ -90,6 +90,36 @@ form input[type="text"] {
     font-size: 13px;
     width: 200px;
 }
+.filia-parametry-tech ul {
+    padding: 0 5px;
+}
+.filia-parametry-tech ul li {
+    list-style: none outside none;
+}
+.filia-parametry-tech ul li:nth-last-child(2) {
+    border-bottom: 1px solid #AAA;
+}
+.parametr-container {
+    border: 1px none #AAAAAA;
+    border-top-style: solid;
+    clear: both;
+    height: auto;
+    overflow: auto;
+    padding: 3px 0;
+}
+.parametr-box {
+    float: left;
+    width: 90%;
+}
+.parametr-box div label {
+    display: inline-block;
+    width: 220px;
+}
+.parametr-box select, .parametr-container .parametr-box input {
+    margin: 0;
+    width: 360px;
+}
+
 /*dl.table-display {
     border-bottom: 1px solid #999999;
     float: left;
