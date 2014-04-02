@@ -25,7 +25,7 @@ class KlientType extends AbstractType
                     'class'     =>  'DFPEtapIBundle:GrupaKlientow',
                     'property'  =>  'nazwaGrupy',
                     'multiple'  =>  true,
-                    'expanded'  =>  false
+                    'expanded'  =>  true
                 )
             )
             ->add('filie', 'collection', array(

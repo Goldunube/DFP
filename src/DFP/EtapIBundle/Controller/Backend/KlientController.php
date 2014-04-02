@@ -164,9 +164,9 @@ class KlientController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity'        => $entity,
+            'form'          => $editForm->createView(),
+            'delete_form'   => $deleteForm->createView(),
         );
     }
 
@@ -184,7 +184,7 @@ class KlientController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Aktualizuj'));
 
         return $form;
     }
@@ -260,7 +260,7 @@ class KlientController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('klient_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
         ;
     }

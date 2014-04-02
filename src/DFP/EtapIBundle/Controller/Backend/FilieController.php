@@ -78,7 +78,7 @@ class FilieController extends Controller
                 'allow_delete'  =>  true,
                 'by_reference'  =>  false,
         ));
-        $form->add('submit','submit', array('label'=>'Zatwierdź'));
+        $form->add('submit','submit', array('label'=>'Aktualizuj'));
 
         return $form;
     }
