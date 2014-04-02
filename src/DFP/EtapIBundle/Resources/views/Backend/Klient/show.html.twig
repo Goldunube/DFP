@@ -12,56 +12,58 @@
 {% endblock button_widget %}
 
 {% block content -%}
-    <h1>Klient</h1>
+    <section>
+        <h1>Karta klienta: {{ entity.nazwaSkrocona }}</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Pełna nazwa</th>
-                <td>{{ entity.nazwaPelna }}</td>
-            </tr>
-            <tr>
-                <th>Skrócona nazwa</th>
-                <td>{{ entity.nazwaSkrocona }}</td>
-            </tr>
-            <tr>
-                <th>Data założenia</th>
-                <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>NIP</th>
-                <td>{{ entity.nip }}</td>
-            </tr>
-            <tr>
-                <th>Kod MAXx</th>
-                <td>{{ entity.kodMax }}</td>
-            </tr>
-            <tr>
-                <th>Kanał Dystrybucji</th>
-                <td>{{ entity.kanalDystrybucji }}</td>
-            </tr>
-            <tr>
-                <th>Aktywny</th>
-                <td>{{ entity.aktywny }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="karta-klienta">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Pełna nazwa</th>
+                    <td>{{ entity.nazwaPelna }}</td>
+                </tr>
+                <tr>
+                    <th>Skrócona nazwa</th>
+                    <td>{{ entity.nazwaSkrocona }}</td>
+                </tr>
+                <tr>
+                    <th>Data założenia</th>
+                    <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>NIP</th>
+                    <td>{{ entity.nip }}</td>
+                </tr>
+                <tr>
+                    <th>Kod MAXx</th>
+                    <td>{{ entity.kodMax }}</td>
+                </tr>
+                <tr>
+                    <th>Kanał Dystrybucji</th>
+                    <td>{{ entity.kanalDystrybucji }}</td>
+                </tr>
+                <tr>
+                    <th>Aktywny</th>
+                    <td>{{ entity.aktywny }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('backend_klient') }}" class="art-button">
-            Powrót do listy
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('klient_edit', { 'id': entity.id }) }}" class="art-button">
-            Edytuj
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('backend_klient') }}" class="art-button">
+                Powrót do listy
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('klient_edit', { 'id': entity.id }) }}" class="art-button">
+                Edytuj
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
 {% endblock %}
