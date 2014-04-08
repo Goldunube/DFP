@@ -32,9 +32,26 @@
     {% endspaceless %}
 {% endblock form_widget_compound %}
 
+{% block choice_widget_options %}
+    {% spaceless %}
+        {% for group_label, choice in options %}
+            {% if choice is iterable %}
+                <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                    {% set options = choice %}
+                    {{ block('choice_widget_options') }}
+                </optgroup>
+            {% else %}
+                <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock choice_widget_options %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
@@ -42,6 +59,8 @@
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/qTipOptions.js') }}"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -247,5 +266,6 @@
     $('#dfp_etapibundle_filia_kodPocztowy').mask('00-000');
     $('.input-temp').mask('###000 \u00B0C', {reverse: true});
     $('.input-czas').mask('###000 minut', {reverse: true});
+    $('[title!=""]').qtip(qTipOptions);
 
 {% endblock javascripts %}
