@@ -61,4 +61,15 @@
         }
 
     }
+
+    $.fn.qTipHelper = function()
+    {
+        var $this = $(this);
+
+        $this.qtip({
+            content: {
+                text: 'test'
+            }
+        });
+    }
 })(jQuery);

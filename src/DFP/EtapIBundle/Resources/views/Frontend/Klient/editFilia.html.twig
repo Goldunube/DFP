@@ -267,5 +267,18 @@
     $('.input-temp').mask('###000 \u00B0C', {reverse: true});
     $('.input-czas').mask('###000 minut', {reverse: true});
     $('[title!=""]').qtip(qTipOptions);
+    $('#procesy-aplikacji').qTipHelper();
+    {#$('.filia-parametry-tech').on('change', 'select', function(){#}
+        {#$.get('{{ path('frontend_filia_edytuj_ajax_metoda_aplikacji_opis') }}',#}
+            {#{id: this.value},#}
+            {#function(response)#}
+            {#{#}
+                {#if(response.code == 100 && response.success)#}
+                {#{#}
+                    {#alert(response.opis);#}
+                {#}#}
+            {#}#}
+        {#);#}
+    {#})#}
 
 {% endblock javascripts %}

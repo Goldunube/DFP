@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -449,5 +450,21 @@ class KlientController extends Controller
             'filia'     =>  $filia,
             'formularz' =>  $editFiliaForm->createView()
         );
+    }
+
+    /**
+     * @Route("/filia/edytuj/ajax/metoda_aplikacji", name="frontend_filia_edytuj_ajax_metoda_aplikacji_opis")
+     */
+    public function pobierzOpisAplikacji()
+    {
+        $request = $this->container->get('request');
+        $idMetodyAplikacji = $request->query->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $metodaAplikacji = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->find($idMetodyAplikacji);
+
+        $response = array("code"=>100, "success"=>true, "opis"=>$metodaAplikacji->getOpis());
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
     }
 }
