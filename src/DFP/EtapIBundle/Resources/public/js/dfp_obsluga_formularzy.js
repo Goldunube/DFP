@@ -73,6 +73,7 @@
         },options);
 
         var qTipOptionsDefaults = {
+            prerender: true,
             style: {
                 widget: true,
                 def: false
@@ -82,7 +83,8 @@
                 at: 'top center',
                 adjust: {
                     y: -10
-                }
+                },
+                effect: false
             },
             show: {
                 event: 'click mouseover',
