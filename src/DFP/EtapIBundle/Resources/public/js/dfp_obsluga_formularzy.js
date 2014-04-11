@@ -114,7 +114,7 @@
                         })
                         .then(function(content)
                         {
-                            return content.opis;
+                            return content.opis === null ? api.hide() : content.opis ;
                         },function(xhr, status, error){
                             api.set('content.text', status + ': ' + error)
                         })

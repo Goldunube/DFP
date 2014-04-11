@@ -467,4 +467,84 @@ class KlientController extends Controller
 
         return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
     }
+
+    /**
+     * @Route("/filia/edytuj/ajax/rodzaj_powierzchni", name="frontend_filia_edytuj_ajax_rodzaj_powierzchni_opis")
+     */
+    public function pobierzOpisRodzajowPowierzchni()
+    {
+        $request = $this->container->get('request');
+        $idRodzajPowierzchni = $request->query->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $RodzajPowierzchni = $em->getRepository('DFPEtapIBundle:RodzajPowierzchni')->find($idRodzajPowierzchni);
+
+        $response = array("code"=>100, "success"=>true, "opis"=>$RodzajPowierzchni->getOpis());
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+    }
+
+    /**
+     * @Route("/filia/edytuj/ajax/proces_przygotowania_powierzchni", name="frontend_filia_edytuj_ajax_proces_przygotowania_powierzchni_opis")
+     */
+    public function pobierzOpisProcesowPrzygotowaniaPowierzchni()
+    {
+        $request = $this->container->get('request');
+        $idProcesuPrzygotowaniaPowierzchni = $request->query->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $ProcesuPrzygotowaniaPowierzchni = $em->getRepository('DFPEtapIBundle:ProcesPrzygotowaniaPowierzchni')->find($idProcesuPrzygotowaniaPowierzchni);
+
+        $response = array("code"=>100, "success"=>true, "opis"=>$ProcesuPrzygotowaniaPowierzchni->getOpis());
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+    }
+
+    /**
+     * @Route("/filia/edytuj/ajax/parametr_utwardzania_powloki", name="frontend_filia_edytuj_ajax_parametr_utwardzania_powloki_opis")
+     */
+    public function pobierzOpisParametrUtwardzaniaPowloki()
+    {
+        $request = $this->container->get('request');
+        $idParametruUtwardzaniaPowloki = $request->query->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $ParametrUtwardzaniaPowloki = $em->getRepository('DFPEtapIBundle:ProcesUtwardzaniaPowloki')->find($idParametruUtwardzaniaPowloki);
+
+        $response = array("code"=>100, "success"=>true, "opis"=>$ParametrUtwardzaniaPowloki->getOpis());
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+    }
+
+    /**
+     * @Route("/filia/edytuj/ajax/wymagania_powloki", name="frontend_filia_edytuj_ajax_wymagania_powloki_opis")
+     */
+    public function pobierzOpisWymaganiaPowloki()
+    {
+        $request = $this->container->get('request');
+        $idWymaganiaPowloki = $request->query->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $WymaganiaPowloki = $em->getRepository('DFPEtapIBundle:WymaganiaPowloki')->find($idWymaganiaPowloki);
+
+        $response = array("code"=>100, "success"=>true, "opis"=>$WymaganiaPowloki->getOpis());
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+    }
+
+    /**
+     * @Route("/filia/edytuj/ajax/wymagania_produktu", name="frontend_filia_edytuj_ajax_wymagania_produktu_opis")
+     */
+    public function pobierzOpisWymaganiaProduktu()
+    {
+        $request = $this->container->get('request');
+        $idWymaganiaProduktu = $request->query->get('id');
+
+        $em = $this->getDoctrine()->getManager();
+        $WymaganiaProduktu = $em->getRepository('DFPEtapIBundle:WymaganiaProduktu')->find($idWymaganiaProduktu);
+
+        $response = array("code"=>100, "success"=>true, "opis"=>$WymaganiaProduktu->getOpis());
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+    }
 }

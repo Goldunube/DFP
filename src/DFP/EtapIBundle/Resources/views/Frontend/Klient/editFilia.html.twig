@@ -275,5 +275,10 @@
     {#  qTip  #}
     $('.pomoc').qTipHelper();
     $('#procesy-aplikacji').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_metoda_aplikacji_opis') }}'});
+    $('#rodzaje-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_rodzaj_powierzchni_opis') }}'});
+    $('#procesy-przygotowania-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_proces_przygotowania_powierzchni_opis') }}'});
+    $('#procesy-utwardzania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_parametr_utwardzania_powloki_opis') }}'});
+    $('#wymagania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_powloki_opis') }}'});
+    $('#wymagania-produktu').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_produktu_opis') }}'});
 
 {% endblock javascripts %}
