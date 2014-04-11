@@ -60,7 +60,7 @@
             })
         }
 
-    }
+    };
 
     $.fn.qTipHelper = function(options)
     {
@@ -99,8 +99,8 @@
         {
             $this.qtip(qTipOptionsDefaults);
         }else{
-            var qTipOptions = $.extend({
-                overwrite: false, // Make sure the tooltip won't be overridden once created
+            var qTipOptions = $.extend( {},qTipOptionsDefaults,{
+                overwrite: false,
                 content: {
                     text: function(event, api)
                     {
@@ -114,32 +114,32 @@
                         })
                         .then(function(content)
                         {
-                            return content.opis
-                        },function(xhr, sttus, error){
+                            return content.opis;
+                        },function(xhr, status, error){
                             api.set('content.text', status + ': ' + error)
                         })
                     }
                 },
-                show: false
-/*                show: {
-                    ready: true // Show the tooltip as soon as it's bound, vital so it shows up the first time you hover!
-                }*/
-            }, qTipOptionsDefaults);
+                show: {
+                    ready: true
+                },
+                position: {
+                }
+            });
 
             var $helperContainer = $this.find('.'+settings.przypisz_do);
-/*            $helperContainer.on('mouseover','select', function(event){
-//                $(this).qtip(qTipOptions, event);
-            })*/
-            var tooltips = $helperContainer.qtip(qTipOptions);
+
+            $helperContainer.on('mouseover','select', function(event){
+                $(this).qtip(qTipOptions, event);
+            });
 
             $helperContainer.on('change','select',function(event){
-                $(this).qtip('destroy',true);
-                $(this).qtip(qTipOptions, event);
-/*                var tooltips = $(this).qtip(qTipOptions);
-                var api = tooltips.qtip('api');
-                api.toggle(true);*/
+                $(this).qtip('destroy', true);
+                var tooltip = $(this).qtip(qTipOptions, event);
+                var api = tooltip.qtip('api');
+                api.show();
             })
-            .each(function(i) {
+            .each(function() {
                 $.attr(this, 'oldtitle', $.attr(this, 'title'));
                 this.removeAttribute('title');
             });
