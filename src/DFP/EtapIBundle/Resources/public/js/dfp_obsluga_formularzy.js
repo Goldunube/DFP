@@ -101,41 +101,48 @@
         }else{
             var qTipOptions = $.extend({
                 overwrite: false, // Make sure the tooltip won't be overridden once created
-                content: 'Wybierz parametr!',
-                show: {
+                content: {
+                    text: function(event, api)
+                    {
+                        return $.ajax({
+                            url: settings.url,
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {
+                                id: $(this).val()
+                            }
+                        })
+                        .then(function(content)
+                        {
+                            return content.opis
+                        },function(xhr, sttus, error){
+                            api.set('content.text', status + ': ' + error)
+                        })
+                    }
+                },
+                show: false
+/*                show: {
                     ready: true // Show the tooltip as soon as it's bound, vital so it shows up the first time you hover!
-                }
+                }*/
             }, qTipOptionsDefaults);
 
             var $helperContainer = $this.find('.'+settings.przypisz_do);
-            $helperContainer.on('mouseover','select', function(event){
+/*            $helperContainer.on('mouseover','select', function(event){
+//                $(this).qtip(qTipOptions, event);
+            })*/
+            var tooltips = $helperContainer.qtip(qTipOptions);
+
+            $helperContainer.on('change','select',function(event){
+                $(this).qtip('destroy',true);
                 $(this).qtip(qTipOptions, event);
+/*                var tooltips = $(this).qtip(qTipOptions);
+                var api = tooltips.qtip('api');
+                api.toggle(true);*/
             })
             .each(function(i) {
                 $.attr(this, 'oldtitle', $.attr(this, 'title'));
                 this.removeAttribute('title');
             });
-
-            $helperContainer.on('change','select',function(){
-                var idParametru = this.value;
-                $(this).qtip('api').set('content.text', function(event, api){
-                    $.get(settings.url,
-                    {
-                        id: idParametru
-                    },
-                    function(response)
-                    {
-                        if(response.code == 100 && response.success)
-                        {
-                            if(response.opis != null)
-                            {
-                                api.set('content.text', response.opis)
-                            }
-                        }
-                    }
-                    );
-                });
-            })
 
         }
 
