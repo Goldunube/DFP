@@ -104,6 +104,8 @@
                 content: {
                     text: function(event, api)
                     {
+                        api.tooltip.css('visibility', 'hidden');
+
                         return $.ajax({
                             url: settings.url,
                             type: 'GET',
@@ -118,6 +120,9 @@
                         },function(xhr, status, error){
                             api.set('content.text', status + ': ' + error)
                         })
+                        .done(function() {
+                            api.tooltip.css('visibility', '');
+                        });
                     }
                 },
                 show: {
