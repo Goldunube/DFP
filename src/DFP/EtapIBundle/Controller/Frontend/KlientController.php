@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\Klient;
+use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\ProcesAplikacji;
 use DFP\EtapIBundle\Entity\ProcesPrzygotowaniaPowierzchni;
 use DFP\EtapIBundle\Entity\ProcesUtwardzaniaPowloki;
@@ -467,6 +468,37 @@ class KlientController extends Controller
             'filia'     =>  $filia,
             'formularz' =>  $editFiliaForm->createView()
         );
+    }
+
+    /**
+     * @param $id
+     *
+     * @Route("/filia/{id}/ajax/zamowienie_oferty", name="frontend_filia_ajax_zamowienie_oferty")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
+     * @Method({"GET"})
+     */
+    public function zamowOferteHandlowaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $filia Filia
+         */
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        $ofertaHandlowa = new OfertaHandlowa();
+        $ofertaHandlowa->setFilia($filia);
+        $ofertaHandlowa->setDataZlozeniaZamowienia(new \DateTime('now'));
+        $ofertaHandlowa->setZamawiajacy($this->getUser());
+
+        $em->persist($ofertaHandlowa);
+        $em->flush();
+
+        $response = array("code"=>100, "success"=>true, "info"=>"Zamówienie oferty zostało przyjęte.");
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+
     }
 
     /**
