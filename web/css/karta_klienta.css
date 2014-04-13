@@ -68,6 +68,32 @@ fieldset {
     text-align: justify;
     text-indent: 30px;
 }
+/*  KATEGORIE NOTATEK  */
+.naglowek .kategorie-notatek {
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    float: left;
+    text-align: center;
+    width: 110px;
+}
+.kategoria-1 {
+    background-color: #ff282f;
+    color: #000000;
+}
+.kategoria-2 {
+    background-color: #00aa00;
+    color: #000000;
+}
+.kategoria-3 {
+    background-color: #F78008;
+    color: #000000;
+}
+.kategoria-4 {
+    background-color: #87CEEB;
+    color: #000000;
+}
 .status-container {
     position: relative;
 }
@@ -130,6 +156,7 @@ dl.table-display {
 }
 .notatka .record_actions {
     margin: 0;
+    float: right;
 }
 .notatka .record_actions > li {
     float: right;

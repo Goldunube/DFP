@@ -11,6 +11,42 @@
     {% endspaceless %}
 {% endblock button_widget %}
 
+{% block collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
+        {% endif %}
+        {{ block('form_widget') }}
+    {% endspaceless %}
+{% endblock collection_widget %}
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} class="parametr-box">
+            {% if form.parent is empty %}
+                {{ form_errors(form) }}
+            {% endif %}
+            {{ block('form_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_widget_compound %}
+
+{% block choice_widget_options %}
+    {% spaceless %}
+        {% for group_label, choice in options %}
+            {% if choice is iterable %}
+                <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                    {% set options = choice %}
+                    {{ block('choice_widget_options') }}
+                </optgroup>
+            {% else %}
+                <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock choice_widget_options %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
@@ -19,6 +55,9 @@
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock javascript %}
 
 {% block content %}
@@ -50,6 +89,16 @@
                     <tr>
                         <th>{{ form_label(kartaPodstawowa.filie[0].ulica) }}</th>
                         <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].ulica) }}</td>
+                    </tr>
+                    <tr id="filie-pracownicy">
+                        <th>{{ form_label(kartaPodstawowa.filie[0].filiePracownicy) }}</th>
+                        <td class="edycja filia-parametry-tech">
+                            <ul data-prototype="{{ form_widget(kartaPodstawowa.filie[0].filiePracownicy.vars.prototype)|e }}">
+                                {% for pracownik in kartaPodstawowa.filie[0].filiePracownicy %}
+                                    <li class="parametr-container">{{ form_widget(pracownik) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
                     </tr>
                     <tr>
                         <th>{{ form_label(kartaPodstawowa.grupyKlientow) }}</th>
@@ -94,4 +143,5 @@
 
 {% block javascripts %}
     {{ parent() }}
+    $('#filie-pracownicy').obslugaFormularzy();
 {% endblock javascripts %}

@@ -15,6 +15,14 @@ class FiliaNotatkaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('rodzaj','choice',array(
+                    'choices'   =>  array(
+                        1 => 'Wymagania klienta',
+                        2 => 'Informacje handlowe',
+                        3 => 'Harmonogram działań',
+                        4 => 'Notatki z wizyt'
+                    )
+                ))
             ->add('tresc','textarea', array('label'=>'Treść','required'=>false))
 //            ->add('status')
 //            ->add('dataSporzadzenia')

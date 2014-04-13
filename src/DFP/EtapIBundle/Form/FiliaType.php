@@ -2,6 +2,8 @@
 
 namespace DFP\EtapIBundle\Form;
 
+use DFP\EtapIBundle\Entity\FiliaMaterialUzupelniajacy;
+use DFP\EtapIBundle\Entity\FiliaPracownik;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -19,11 +21,25 @@ class FiliaType extends AbstractType
             ->add('miejscowosc', 'text', array('label' => 'Miejscowość'))
             ->add('kodPocztowy')
             ->add('ulica')
+            ->add('filiePracownicy', 'collection', array(
+                    'type'          =>  new FiliaPracownikType(),
+                    'label'         =>  'Osoby kontaktowe',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+                ))
 //            ->add('aktywna')
             ->add('matlakDotychczas')
             ->add('zuzycieMaterialow')
             ->add('kolorystyka')
-            ->add('adnotacja',null,array('label'=>'Inne materiały'))
+            ->add('filieMaterialyUzupelniajace', 'collection', array(
+                    'type'          =>  new FiliaMaterialUzupelniajacyType(),
+                    'label'         =>  'Materiały uzupełniające',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+            ))
+            ->add('adnotacja')
             ->add('profileDzialalnosci', 'entity', array(
                     'label'     =>  'Profil działalności',
                     'class'     =>  'DFPEtapIBundle:ProfilDzialalnosci',

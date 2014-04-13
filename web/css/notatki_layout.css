@@ -1,0 +1,7 @@
+#notatki .tresc h1, #notatki .tresc h2, #notatki .tresc h3, #notatki .tresc h4, #notatki .tresc h5, #notatki .tresc h6 {
+    box-shadow: none;
+    color: #696969;
+    text-align: left;
+    text-indent: 0;
+    border: none;
+}

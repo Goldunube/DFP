@@ -93,6 +93,16 @@
                     <th>{{ form_label(formularz.ulica) }}:</th>
                     <td class="edycja">{{ form_widget(formularz.ulica) }}</td>
                 </tr>
+                <tr id="filie-pracownicy">
+                    <th>{{ form_label(formularz.filiePracownicy) }}</th>
+                    <td class="edycja filia-parametry-tech">
+                        <ul data-prototype="{{ form_widget(formularz.filiePracownicy.vars.prototype)|e }}">
+                            {% for pracownik in formularz.filiePracownicy %}
+                                <li class="parametr-container">{{ form_widget(pracownik) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
                 <tr>
                     <th>Profile działalności: <sup class="pomoc" title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
                     <td class="edycja">
@@ -117,8 +127,18 @@
                     <th>Kolorystyka: <sup class="pomoc" title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
                     <td class="edycja">{{ form_widget(formularz.kolorystyka) }}</td>
                 </tr>
+                <tr id="materialy-uzupelniajace">
+                    <th>{{ form_label(formularz.filieMaterialyUzupelniajace) }}: <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                    <td class="edycja filia-parametry-tech">
+                        <ul data-prototype="{{ form_widget(formularz.filieMaterialyUzupelniajace.vars.prototype)|e }}">
+                            {% for material in formularz.filieMaterialyUzupelniajace %}
+                                <li class="parametr-container">{{ form_widget(material) }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
                 <tr>
-                    <th>{{ form_label(formularz.adnotacja) }}: <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                    <th>{{ form_label(formularz.adnotacja) }}:</th>
                     <td class="edycja">{{ form_widget(formularz.adnotacja) }}</td>
                 </tr>
                 </tbody>
@@ -127,7 +147,7 @@
             <table>
                 <caption>Informacje o procesie wykonywania powłoki lakierowej, parametry techniczne</caption>
                 <tbody>
-                    <tr id="rodzaje-powierzchni" class="pomoc-ajax">
+                    <tr id="rodzaje-powierzchni">
                         <th>{{ form_label(formularz.filieRodzajePowierzchni) }}:</th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieRodzajePowierzchni.vars.prototype)|e }}">
@@ -147,7 +167,7 @@
                             </ul>
                         </td>
                     </tr>
-                    <tr id="procesy-aplikacji" class="pomoc-ajax">
+                    <tr id="procesy-aplikacji">
                         <th>{{ form_label(formularz.filieProcesyAplikacji) }}:</th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
@@ -209,6 +229,8 @@
     {{ parent() }}
 
     {#  Obgługa formularzy  #}
+    $('#filie-pracownicy').obslugaFormularzy();
+    $('#materialy-uzupelniajace').obslugaFormularzy();
     $('#rodzaje-powierzchni').obslugaFormularzy();
     $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
     $('#procesy-aplikacji').obslugaFormularzy();
@@ -251,10 +273,11 @@
                 {title: 'Nagłówek 6', block: 'h6'}
             ]},
             {title: 'Alignment', items: [
-                {title: 'Left', block: 'div', styles : {textAlign : 'left'}, icon: 'alignleft'},
-                {title: 'Center', block: 'div', styles : {textAlign : 'center'}, icon: 'aligncenter'},
-                {title: 'Right', block: 'div', styles : {textAlign : 'right'}, icon: 'alignright'},
-                {title: 'Justify', block: 'div', styles : {textAlign : 'justify'}, icon: 'alignjustify'}
+                {title: 'Alignment', items: [
+                {title: 'Left', icon: 'alignleft', format: "alignleft"},
+                {title: 'Center', icon: 'aligncenter', format: "aligncenter"},
+                {title: 'Right', icon: 'alignright', format: "alignright"},
+                {title: 'Justify', icon: 'alignjustify', format: "alignjustify"},
             ]},
             {title: 'Table', items: [
                 {title: 'Wzór 1', selector: 'table', classes: 'table1'}

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -104,9 +105,15 @@ class Filia
     private $filieUzytkownicy;
 
     /**
+     * @ORM\OneToMany(targetEntity="FiliaPracownik", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $filiePracownicy;
+
+    /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="FiliaNotatka", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"dataSporzadzenia" = "DESC"})
      */
     protected $filieNotatki;
 
@@ -168,11 +175,20 @@ class Filia
      */
     protected $filieRodzajePowierzchni;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaMaterialUzupelniajacy", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $filieMaterialyUzupelniajace;
+
 
     public function __construct()
     {
         $this->filieUzytkownicy = new ArrayCollection();
+        $this->filiePracownicy = new ArrayCollection();
         $this->profileDzialalnosci = new ArrayCollection();
+        $this->filieMaterialyUzupelniajace = new ArrayCollection();
         $this->filieProcesyPrzygotowaniaPowierzchni = new ArrayCollection();
         $this->filieRodzajePowierzchni = new ArrayCollection();
         $this->filieProcesyAplikacji = new ArrayCollection();
@@ -180,6 +196,7 @@ class Filia
         $this->filieWymaganiaProduktow = new ArrayCollection();
         $this->filieWymaganiaPowlok = new ArrayCollection();
         $this->zobowiazania = new ArrayCollection();
+        $this->filieNotatki = new ArrayCollection();
     }
 
     public function __toString()
@@ -365,6 +382,40 @@ class Filia
     public function getFilieUzytkownicy()
     {
         return $this->filieUzytkownicy;
+    }
+
+    /**
+     * Add filiePracownicy
+     *
+     * @param FiliaPracownik $filiePracownicy
+     * @return Filia
+     */
+    public function addFiliePracownicy(FiliaPracownik $filiePracownicy)
+    {
+        $this->filiePracownicy[] = $filiePracownicy;
+        $filiePracownicy->setFilia($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove filiePracownicy
+     *
+     * @param FiliaPracownik $filiePracownicy
+     */
+    public function removeFiliePracownicy(FiliaPracownik $filiePracownicy)
+    {
+        $this->filiePracownicy->removeElement($filiePracownicy);
+    }
+
+    /**
+     * Get filiePracownicy
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFiliePracownicy()
+    {
+        return $this->filiePracownicy;
     }
 
     /**
@@ -796,4 +847,54 @@ class Filia
     {
         return $this->filieRodzajePowierzchni;
     }
+
+    /**
+     * Add filieMaterialyUzupelniajace
+     *
+     * @param FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace
+     * @return Filia
+     */
+    public function addFilieMaterialyUzupelniajace(FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace)
+    {
+        $this->filieMaterialyUzupelniajace[] = $filieMaterialyUzupelniajace;
+        $filieMaterialyUzupelniajace->setFilia($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove filieMaterialyUzupelniajace
+     *
+     * @param FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace
+     */
+    public function removeFilieMaterialyUzupelniajace(FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace)
+    {
+        $this->filieMaterialyUzupelniajace->removeElement($filieMaterialyUzupelniajace);
+    }
+
+    /**
+     * Get filieMaterialyUzupelniajace
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFilieMaterialyUzupelniajace()
+    {
+        return $this->filieMaterialyUzupelniajace;
+    }
+
+    /**
+     * Set filieMaterialyUzupelniajace
+     *
+     * @param FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace
+     *
+     * @return Filia
+     */
+    public function setFilieMaterialyUzupelniajace(FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace)
+    {
+        $this->filieMaterialyUzupelniajace[] = $filieMaterialyUzupelniajace;
+        $filieMaterialyUzupelniajace->setFilia($this);
+
+        return $this;
+    }
+
 }

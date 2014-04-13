@@ -11,6 +11,27 @@
     {% endspaceless %}
 {% endblock button_widget %}
 
+{% block collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
+        {% endif %}
+        {{ block('form_widget') }}
+    {% endspaceless %}
+{% endblock collection_widget %}
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} class="parametr-box">
+            {% if form.parent is empty %}
+                {{ form_errors(form) }}
+            {% endif %}
+            {{ block('form_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_widget_compound %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
@@ -19,6 +40,9 @@
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock javascript %}
 
 {% block content %}
@@ -75,6 +99,16 @@
                             <th>{{ form_label(drugiFormularz.ulica) }}</th>
                             <td class="edycja">{{ form_widget(drugiFormularz.ulica) }}</td>
                         </tr>
+                        <tr id="filie-pracownicy">
+                            <th>{{ form_label(drugiFormularz.filiePracownicy) }}</th>
+                            <td class="edycja filia-parametry-tech">
+                                <ul data-prototype="{{ form_widget(drugiFormularz.filiePracownicy.vars.prototype)|e }}">
+                                    {% for pracownik in drugiFormularz.filiePracownicy %}
+                                        <li class="parametr-container">{{ form_widget(pracownik) }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
                         <tr>
                             <th>{{ form_label(drugiFormularz.profileDzialalnosci) }}</th>
                             <td class="edycja">
@@ -104,3 +138,8 @@
         </section>
     </section>
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('#filie-pracownicy').obslugaFormularzy();
+{% endblock javascripts %}

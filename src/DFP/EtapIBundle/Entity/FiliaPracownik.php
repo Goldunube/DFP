@@ -45,49 +45,49 @@ class FiliaPracownik
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telefon_1", type="string", length=20)
+     * @ORM\Column(name="telefon_1", type="string", length=20, nullable=true)
      */
     private $telefon1;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="telefon_2", type="string", length=20)
+     * @ORM\Column(name="telefon_2", type="string", length=20, nullable=true)
      */
     private $telefon2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fax", type="string", length=20)
+     * @ORM\Column(name="fax", type="string", length=20, nullable=true)
      */
     private $fax;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mobile", type="string", length=20)
+     * @ORM\Column(name="mobile", type="string", length=20, nullable=true)
      */
     private $mobile;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="skype", type="string", length=255)
+     * @ORM\Column(name="skype", type="string", length=255, nullable=true)
      */
     private $skype;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="notatka", type="text")
+     * @ORM\Column(name="notatka", type="text", nullable=true)
      */
     private $notatka;
 
@@ -98,6 +98,19 @@ class FiliaPracownik
      */
     private $osobaKontaktowa;
 
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Filia", inversedBy="filiePracownicy")
+     * @ORM\JoinColumn(name="filia_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $filia;
+
+
+    public function __toString()
+    {
+        return (string) '<span title="'.$this->buildTitle().'">'.$this->getImie().' '.$this->getNazwisko().'</span>';
+    }
 
     /**
      * Get id
@@ -360,5 +373,78 @@ class FiliaPracownik
     public function getOsobaKontaktowa()
     {
         return $this->osobaKontaktowa;
+    }
+
+    /**
+     * Get filia
+     *
+     * @return Filia
+     */
+    public function getFilia()
+    {
+        return $this->filia;
+    }
+
+    /**
+     * Set filia
+     *
+     * @param Filia $filia
+     * @return FiliaPracownik
+     */
+    public function setFilia(Filia $filia)
+    {
+        $this->filia = $filia;
+
+        return $this;
+    }
+
+    /**
+     * Funkcja prywatna służąca do budowania title w tagu FiliePracownicy
+     *
+     * @return string
+     */
+    private function buildTitle()
+    {
+        $stanowisko = $this->getStanowisko();
+        $tel1 = $this->getTelefon1();
+        $tel2 = $this->getTelefon2();
+        $mobile = $this->getMobile();
+        $email = $this->getEmail();
+        $skype = $this->getSkype();
+        $notatka = $this->getNotatka();
+
+        $html = <<<HTML
+            <table>
+                <tr>
+                    <th>Stanowisko:</th>
+                    <td>$stanowisko</td>
+                </tr>
+                <tr>
+                    <th>Telefon 1:</th>
+                    <td>$tel1</td>
+                </tr>
+                <tr>
+                    <th>Telefon 2:</th>
+                    <td>$tel2</td>
+                </tr>
+                <tr>
+                    <th>Mobile:</th>
+                    <td>$mobile</td>
+                </tr>
+                <tr>
+                    <th>e-mail</th>
+                    <td>$email</td>
+                </tr>
+                <tr>
+                    <th>Skype:</th>
+                    <td>$skype</td>
+                </tr>
+                <tr>
+                    <th>Notatki:</th>
+                    <td>$notatka</td>
+                </tr>
+            </table>
+HTML;
+        return $html;
     }
 }

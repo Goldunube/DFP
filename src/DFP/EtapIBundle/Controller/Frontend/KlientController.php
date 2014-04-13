@@ -4,11 +4,17 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\Klient;
+use DFP\EtapIBundle\Entity\ProcesAplikacji;
+use DFP\EtapIBundle\Entity\ProcesPrzygotowaniaPowierzchni;
+use DFP\EtapIBundle\Entity\ProcesUtwardzaniaPowloki;
+use DFP\EtapIBundle\Entity\RodzajPowierzchni;
 use DFP\EtapIBundle\Entity\Uzytkownik;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
 use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
 use DFP\EtapIBundle\Entity\FiliaProcesPrzygotowaniaPowierzchni;
+use DFP\EtapIBundle\Entity\WymaganiaPowloki;
+use DFP\EtapIBundle\Entity\WymaganiaProduktu;
 use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\KlientType;
@@ -78,7 +84,8 @@ class KlientController extends Controller
         $filiaUzytkownik->setUzytkownik($this->getUser());
         $filiaUzytkownik->setFilia($filia);
         $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
-        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
+        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+30 days'));
+//        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
         $filiaUzytkownik->setAkcept(true);
         $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
@@ -88,13 +95,13 @@ class KlientController extends Controller
             )
         );
         $form->add('submit', 'submit', array('label'=> 'Utworz'));
-
         $form->handleRequest($request);
 
         if($form->isValid())
         {
             $em = $this->getDoctrine()->getManager();
             $em->persist($klient);
+            $klient->setKanalDystrybucji('DFP');
             $em->flush();
 
             return $this->redirect($this->generateUrl('url_lista_klientow'));
@@ -120,7 +127,8 @@ class KlientController extends Controller
         $filiaUzytkownik->setUzytkownik($this->getUser());
         $filiaUzytkownik->setFilia($filia);
         $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
-        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
+        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+30 days'));
+//        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
         $filiaUzytkownik->setAkcept(true);
         $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
@@ -262,8 +270,17 @@ class KlientController extends Controller
         if (!$filia) {
             throw $this->createNotFoundException('Nie znaleziono filii klienta.');
         }
+
+        $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
+
         return array(
             'filia' => $filia,
+            'notatka_kategorie' => $kategorieNotatek
         );
     }
 
@@ -461,6 +478,10 @@ class KlientController extends Controller
         $idMetodyAplikacji = $request->query->get('id');
 
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $metodaAplikacji ProcesAplikacji
+         */
         $metodaAplikacji = $em->getRepository('DFPEtapIBundle:ProcesAplikacji')->find($idMetodyAplikacji);
 
         $response = array("code"=>100, "success"=>true, "opis"=>$metodaAplikacji->getOpis());
@@ -477,6 +498,10 @@ class KlientController extends Controller
         $idRodzajPowierzchni = $request->query->get('id');
 
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $RodzajPowierzchni RodzajPowierzchni
+         */
         $RodzajPowierzchni = $em->getRepository('DFPEtapIBundle:RodzajPowierzchni')->find($idRodzajPowierzchni);
 
         $response = array("code"=>100, "success"=>true, "opis"=>$RodzajPowierzchni->getOpis());
@@ -493,6 +518,10 @@ class KlientController extends Controller
         $idProcesuPrzygotowaniaPowierzchni = $request->query->get('id');
 
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ProcesuPrzygotowaniaPowierzchni ProcesPrzygotowaniaPowierzchni
+         */
         $ProcesuPrzygotowaniaPowierzchni = $em->getRepository('DFPEtapIBundle:ProcesPrzygotowaniaPowierzchni')->find($idProcesuPrzygotowaniaPowierzchni);
 
         $response = array("code"=>100, "success"=>true, "opis"=>$ProcesuPrzygotowaniaPowierzchni->getOpis());
@@ -509,6 +538,10 @@ class KlientController extends Controller
         $idParametruUtwardzaniaPowloki = $request->query->get('id');
 
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ParametrUtwardzaniaPowloki ProcesUtwardzaniaPowloki
+         */
         $ParametrUtwardzaniaPowloki = $em->getRepository('DFPEtapIBundle:ProcesUtwardzaniaPowloki')->find($idParametruUtwardzaniaPowloki);
 
         $response = array("code"=>100, "success"=>true, "opis"=>$ParametrUtwardzaniaPowloki->getOpis());
@@ -525,6 +558,10 @@ class KlientController extends Controller
         $idWymaganiaPowloki = $request->query->get('id');
 
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $WymaganiaPowloki WymaganiaPowloki
+         */
         $WymaganiaPowloki = $em->getRepository('DFPEtapIBundle:WymaganiaPowloki')->find($idWymaganiaPowloki);
 
         $response = array("code"=>100, "success"=>true, "opis"=>$WymaganiaPowloki->getOpis());
@@ -541,6 +578,10 @@ class KlientController extends Controller
         $idWymaganiaProduktu = $request->query->get('id');
 
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $WymaganiaProduktu WymaganiaProduktu
+         */
         $WymaganiaProduktu = $em->getRepository('DFPEtapIBundle:WymaganiaProduktu')->find($idWymaganiaProduktu);
 
         $response = array("code"=>100, "success"=>true, "opis"=>$WymaganiaProduktu->getOpis());

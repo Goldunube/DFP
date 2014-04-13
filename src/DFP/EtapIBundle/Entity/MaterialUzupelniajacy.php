@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,25 @@ class MaterialUzupelniajacy
      */
     private $opis;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaMaterialUzupelniajacy", mappedBy="materialUzupelniajacy", cascade={"persist"})
+     */
+    private $filieMaterialyUzupelniajace;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->filieMaterialyUzupelniajace = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return (string) $this->getNazwa();
@@ -89,10 +109,43 @@ class MaterialUzupelniajacy
     /**
      * Get opis
      *
-     * @return string 
+     * @return string
      */
     public function getOpis()
     {
         return $this->opis;
+    }
+
+    /**
+     * Add filieMaterialyUzupelniajace
+     *
+     * @param FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace
+     * @return MaterialUzupelniajacy
+     */
+    public function addFilieMaterialyUzupelniajace(FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace)
+    {
+        $this->filieMaterialyUzupelniajace[] = $filieMaterialyUzupelniajace;
+
+        return $this;
+    }
+
+    /**
+     * Remove filieMaterialyUzupelniajace
+     *
+     * @param FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace
+     */
+    public function removeFilieMaterialyUzupelniajace(FiliaMaterialUzupelniajacy $filieMaterialyUzupelniajace)
+    {
+        $this->filieMaterialyUzupelniajace->removeElement($filieMaterialyUzupelniajace);
+    }
+
+    /**
+     * Get filieMaterialyUzupelniajace
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFilieMaterialyUzupelniajace()
+    {
+        return $this->filieMaterialyUzupelniajace;
     }
 }

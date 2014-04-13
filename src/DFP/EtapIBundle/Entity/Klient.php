@@ -231,7 +231,7 @@ class Klient
      * @param string $kanalDystrybucji
      * @return Klient
      */
-    public function setKanalDystrybucji($kanalDystrybucji)
+    public function setKanalDystrybucji($kanalDystrybucji = "DFP")
     {
         $this->kanalDystrybucji = $kanalDystrybucji;
     

@@ -119,41 +119,9 @@ form input[type="text"], form input[type="number"] {
     margin: 0;
     width: 360px;
 }
-
-/*dl.table-display {
-    border-bottom: 1px solid #999999;
-    float: left;
-    margin: 1em 0;
-    padding: 0;
-    width: 520px;
+.parametr-box input[type="checkbox"] {
+    width: auto;
 }
-.table-display > dt {
-    border-top: 1px solid #999999;
-    clear: left;
-    float: left;
-    font-weight: bold;
-    margin: 0;
-    padding: 5px;
-    width: 200px;
-}
-.table-display > dd {
-    border-top: 1px solid #999999;
-    float: left;
-    margin: 0;
-    padding: 5px;
-    width: 300px;
-}
-.table-display dd dl dd {
-    margin: 0;
-    border-left: 6px groove;
-    padding-left: 10px;
-}
-.table-display dd dl dt {
-    font-weight: bold;
-}
-.table-display dd dl dt:nth-child(n+2) {
-    margin-top: 10px;
-}*/
 /* TYMCZASOWO */
 
 .osadzony > label {

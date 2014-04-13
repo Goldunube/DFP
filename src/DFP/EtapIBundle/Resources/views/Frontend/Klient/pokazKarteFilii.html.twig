@@ -3,7 +3,17 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/notatki_layout.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
+{% endblock javascript %}
 
 {% block content -%}
     <section>
@@ -32,8 +42,8 @@
                     <td>{{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}; ul. {{ filia.ulica }}</td>
                 </tr>
                 <tr>
-                    <th>Przypisani agenci:</th>
-                    <td>{{ filia.filieUzytkownicy|join(" | ") }}</td>
+                    <th>Osoby kontaktowe:</th>
+                    <td>{{ filia.filiePracownicy|join(" | ")|raw }}</td>
                 </tr>
                 <tr>
                     <th>Profil działalności:</th>
@@ -52,7 +62,11 @@
                     <td>{{ filia.kolorystyka|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Inne materiały:</th>
+                    <th>Materiały uzupełniające:</th>
+                    <td>{{ filia.filieMaterialyUzupelniajace|join(" | ")|raw }}</td>
+                </tr>
+                <tr>
+                    <th>Adnotajce:</th>
                     <td>{{ filia.adnotacja|raw }}</td>
                 </tr>
                 </tbody>
@@ -149,7 +163,8 @@
                     <div class="notatka">
                         {% if notatka.status == 0 %}
                             <div class="naglowek">
-                                    <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
+                                <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
+                                <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
                             </div>
                             <div class="tresc">
                                 <s>{{ notatka.tresc|raw }}</s>
@@ -158,11 +173,14 @@
                             <div class="naglowek">
                                 {% if notatka.uzytkownik == app.user %}
                                     {% if date(notatka.koniecEdycji) > date('now') %}
+                                        <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
                                         <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#">Edytuj</a></li> <li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly pomaranczowy">Usuń</a></li></ul>
                                     {% else %}
+                                        <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
                                         <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a> </li></ul>
                                     {% endif %}
                                 {% else %}
+                                    <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
                                     <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
                                 {% endif %}
                             </div>
@@ -193,5 +211,15 @@
                 Dodaj notatkę
             </a>
         </li>
+        {#<li>
+            <a href="{{ path('frontend_filia_notatka_new', {'id': filia.id}) }}" class="art-button">
+                Lista pracowników
+            </a>
+        </li>#}
     </ul>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('#main [title]').qtip();
+{% endblock javascripts %}

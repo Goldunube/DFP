@@ -18,8 +18,6 @@ class KartaKlientaPodstawowaType extends AbstractType
             ->add('nip', 'text', array('label'=> 'NIP'))
             ->add('nazwaPelna', 'text', array('label'=>'Pełna nazwa'))
             ->add('nazwaSkrocona', 'text', array('label'=>'Skrócona nazwa'))
-            ->add('kodMax', 'text', array('label'=>'Kod MAX'))
-            ->add('kanalDystrybucji', 'text', array('label'=>'Kanał dystrybucji'))
             ->add('grupyKlientow', 'entity', array(
                     'label'     =>  'Grupa klientów',
                     'class'     =>  'DFPEtapIBundle:GrupaKlientow',

@@ -43,6 +43,13 @@ class FiliaNotatka
     private $dataSporzadzenia;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="rodzaj", type="integer", nullable=true)
+     */
+    private $rodzaj = 1;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="koniecEdycji", type="datetime")
@@ -213,4 +220,28 @@ class FiliaNotatka
     {
         return $this->uzytkownik;
     }
+
+    /**
+     * Get rodzaj
+     *
+     * @return integer
+     */
+    public function getRodzaj()
+    {
+        return $this->rodzaj;
+    }
+
+    /**
+     * Set rodzaj
+     *
+     * @param int $rodzaj
+     * @return $this
+     */
+    public function setRodzaj($rodzaj)
+    {
+        $this->rodzaj = $rodzaj;
+
+        return $this;
+    }
+
 }
