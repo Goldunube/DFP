@@ -19,8 +19,16 @@ class FiliaPracownikType extends AbstractType
             ->add('nazwisko')
             ->add('email')
             ->add('stanowisko')
-            ->add('telefon1')
-            ->add('mobile')
+            ->add('telefon1',null,array(
+                    'label' =>  'Telefon stacjonarny',
+                    'attr'  =>  array('class' =>  'tel-stacjonarny')
+                )
+            )
+            ->add('mobile',null,array(
+                    'label' =>  'Telefon komórkowy',
+                    'attr'  =>  array('class' =>  'tel-komorkowy')
+                )
+            )
             ->add('osobaKontaktowa','checkbox',array(
                 'required'      => false
             ))
