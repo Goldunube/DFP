@@ -2,6 +2,8 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use DFP\EtapIBundle\Entity\OfertaHandlowa;
+use DFP\EtapIBundle\Entity\SystemMalarski;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -54,7 +56,7 @@ class OfertaHandlowaController extends Controller
      * @Method("GET")
      * @Template("@DFPEtapI/Backend/OfertaHandlowa/listaOczekujacychSM.html.twig")
      */
-    public function listaOczekujacychNaDoborSystemuMalarskiego()
+    public function listaOczekujacychNaDoborSystemuMalarskiegoAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -85,7 +87,7 @@ class OfertaHandlowaController extends Controller
      * @Method("GET")
      * @Template("@DFPEtapI/Backend/OfertaHandlowa/listaOczekujacychOH.html.twig")
      */
-    public function listaOczekujacychNaOpracowanieOfertyHandlowej()
+    public function listaOczekujacychNaOpracowanieOfertyHandlowejAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -107,5 +109,27 @@ class OfertaHandlowaController extends Controller
             'oczekujace'        =>  $pagination,
             'statusy'           =>  $nazwyStatusow,
         );
+    }
+
+    /**
+     * Wyświetla formularz systemu malarskiego oraz dodaje system malarski do oferty handlowej
+     *
+     * @Route("/opracowanie_systemu_malarskiego", name="backend_opracowanie_systemu_malarskiego")
+     * @Template()
+     * @Method({"GET", "POST"})
+     */
+    public function opracujSystemMalarskiAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+
+        $systemMalarski = new SystemMalarski();
+
+
+
     }
 }
