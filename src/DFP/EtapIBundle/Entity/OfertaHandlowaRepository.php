@@ -39,4 +39,16 @@ class OfertaHandlowaRepository extends EntityRepository
 
         return $query;
     }
+
+    public function findWTrakciePrzygotowania($filia)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh')
+            ->where('oh.status != 5')
+            ->andWhere('oh.filia = :id')
+            ->setParameter('id',$filia)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

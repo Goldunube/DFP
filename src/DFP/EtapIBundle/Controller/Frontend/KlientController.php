@@ -487,18 +487,41 @@ class KlientController extends Controller
          */
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
 
-        $ofertaHandlowa = new OfertaHandlowa();
-        $ofertaHandlowa->setFilia($filia);
-        $ofertaHandlowa->setDataZlozeniaZamowienia(new \DateTime('now'));
-        $ofertaHandlowa->setZamawiajacy($this->getUser());
+        if(!$this->sprawdzCzyOtwartaOfertaHandlowa($filia))
+        {
+            $ofertaHandlowa = new OfertaHandlowa();
+            $ofertaHandlowa->setFilia($filia);
+            $ofertaHandlowa->setDataZlozeniaZamowienia(new \DateTime('now'));
+            $ofertaHandlowa->setZamawiajacy($this->getUser());
 
-        $em->persist($ofertaHandlowa);
-        $em->flush();
+            $em->persist($ofertaHandlowa);
+            $em->flush();
 
-        $response = array("code"=>100, "success"=>true, "info"=>"Zamówienie oferty zostało przyjęte.");
+            $response = array("code"=>100, "success"=>true, "info"=>"Zamówienie oferty zostało przyjęte.");
+
+        }else{
+
+            $response = array("code"=>200, "success"=>true, "info"=>"Nowe zamówienie nie zostało wysłane,\nponieważ poprzednie nie zostało jeszcze zamknięte.\nSkontaktuj się z koordynatorem DT.");
+
+        }
 
         return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
 
+    }
+
+    /**
+     * Funkcja sprawdzająca,czy istnieje jakaś oferta handlowa w trakcie przygotowania dla wskazanej filii
+     *
+     * @param Filia $filia
+     * @return bool
+     */
+    private function sprawdzCzyOtwartaOfertaHandlowa(Filia $filia)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ofertaHandlowa = $em->getRepository("DFPEtapIBundle:OfertaHandlowa")->findWTrakciePrzygotowania($filia->getId());
+
+        return !$ofertaHandlowa ? false : true;
     }
 
     /**
