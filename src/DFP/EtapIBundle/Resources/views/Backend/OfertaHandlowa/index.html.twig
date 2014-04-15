@@ -1,0 +1,33 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista ofert handlowych</h1>
+
+    <table class="records_list">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Klient</th>
+                <th>Profil działalności</th>
+                <th>Zamawiający</th>
+                <th title="Data złożenia zamówienia">Data złożenia</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for oferta in oferty_handlowe %}
+            <tr>
+                <th>{{ oferta.id }}</th>
+                <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
+                <td>{{ oferta.zamawiajacy }}</td>
+                <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
+                <td>{{ attribute(statusy, oferta.status) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{#    <div class="navigation">
+        {{ knp_pagination_render(entities) }}
+    </div>#}
+{% endblock %}

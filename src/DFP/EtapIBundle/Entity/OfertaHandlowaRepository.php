@@ -12,4 +12,31 @@ use Doctrine\ORM\EntityRepository;
  */
 class OfertaHandlowaRepository extends EntityRepository
 {
+    public function getListaOczekujacychNaDoborSystemuMalarskiegoQuery()
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh','f','uz','k','pd')
+            ->innerJoin('oh.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->innerJoin('oh.zamawiajacy','uz')
+            ->where('oh.status IN (0,1)')
+            ->getQuery();
+
+        return $query;
+    }
+
+    public function getListaOczekujacychNaOpracowanieOfertyHandlowejQuery()
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh','f','uz','k','pd')
+            ->innerJoin('oh.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->innerJoin('oh.zamawiajacy','uz')
+            ->where('oh.status IN (2,3)')
+            ->getQuery();
+
+        return $query;
+    }
 }

@@ -44,8 +44,8 @@ class OfertaHandlowa
     private $filia;
 
     /**
-     * @ORM\OneToOne(targetEntity="Uzytkownik", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="zamawiajacy", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Uzytkownik", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="zamawiajacy", referencedColumnName="id", unique=false)
      */
     private $zamawiajacy;
 
