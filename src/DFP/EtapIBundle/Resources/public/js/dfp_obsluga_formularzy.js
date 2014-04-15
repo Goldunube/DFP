@@ -79,7 +79,7 @@
                 def: false
             },
             position: {
-                my: 'bottom right',
+                my: 'bottom center',
                 at: 'top center',
                 adjust: {
                     y: -10
