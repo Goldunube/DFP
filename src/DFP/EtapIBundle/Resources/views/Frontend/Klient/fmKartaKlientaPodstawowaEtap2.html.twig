@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <th>{{ form_label(kartaPodstawowa.filie[0].miejscowosc) }}</th>
-                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].kodPocztowy, {'attr': {'style':'width: 6.1%;'} }) }}; {{ form_widget(kartaPodstawowa.filie[0].miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].kodPocztowy, {'attr': {'style':'width: 41px;'} }) }}; {{ form_widget(kartaPodstawowa.filie[0].miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
                     </tr>
                     <tr>
                         <th>{{ form_label(kartaPodstawowa.filie[0].ulica) }}</th>
@@ -143,5 +143,6 @@
 
 {% block javascripts %}
     {{ parent() }}
+    $('.kod-pocztowy').mask('00-000');
     $('#filie-pracownicy').obslugaFormularzy();
 {% endblock javascripts %}

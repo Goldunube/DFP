@@ -86,7 +86,7 @@
                     <td class="edycja">{{ form_widget(formularz.wojewodztwo) }}</td>
                 </tr>
                 <tr>
-                    <th>Miejscowość:</th>
+                    <th>Kod pocztowy / Miejscowość:</th>
                     <td class="edycja">{{ form_widget(formularz.kodPocztowy) }}; {{ form_widget(formularz.miejscowosc) }}</td>
                 </tr>
                 <tr>
@@ -290,7 +290,7 @@
     });
 
     {#  Input Mask  #}
-    $('#dfp_etapibundle_filia_kodPocztowy').mask('00-000');
+    $('.kod-pocztowy').mask('00-000');
     $('#procesy-utwardzania-powloki').on('focus', '.input-temp', function(event) {
         $(this).mask('###000 \u00B0C', {reverse: true});
     });

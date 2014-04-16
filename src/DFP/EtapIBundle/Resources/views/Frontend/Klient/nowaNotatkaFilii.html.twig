@@ -61,8 +61,8 @@
     tinymce.init({
         selector:'textarea',
         content_css: '/css/tinymce_content.css',
-        plugins: 'paste,autosave,table,image,fullscreen,charmap',
-        toolbar: "styleselect | table | bold italic underline removeformat | justifyleft justifycenter justifyright justifyfull | bullist numlist | outdent indent | cut copy paste | charmap image | undo redo | restoredraft | fullscreen",
+        plugins: 'paste,autosave,table,image,fullscreen,charmap,template',
+        toolbar: "styleselect | table | bold italic underline removeformat | justifyleft justifycenter justifyright justifyfull | bullist numlist | outdent indent | cut copy paste | charmap image template | undo redo | restoredraft | fullscreen",
         toolbar_items_size : 'small',
         paste_as_text: true,
         paste_data_images: false,
@@ -103,5 +103,11 @@
             {title: 'Indeks górny', inline: 'sup', icon: 'superscript'},
             {title: 'Indeks dolny', inline: 'sub', icon: 'subscript'},
         ],
+
+        templates: [
+            {"title": "Wymagania klienta", "description": "Szablon notatki z wymagań klienta", "url": "{{ asset('js/tinymce/plugins/template/notatkiWymaganiaKlientaTempl.html') }}"},
+            {"title": "Informacje handlowe", "description": "Szablon notatki zebranych informacji handlowych od klienta", "url": "{{ asset('js/tinymce/plugins/template/notatkiInformacjeHandloweTempl.html') }}"},
+            {"title": "Harmonogram działań", "description": "Szablon notatki roboczego harmonogramu działań, zdań do realizacji", "url": "{{ asset('js/tinymce/plugins/template/notatakiHarmonogramDzialanTempl.html') }}"},
+        ]
     });
 {% endblock javascripts %}

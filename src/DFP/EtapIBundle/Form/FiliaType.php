@@ -19,7 +19,13 @@ class FiliaType extends AbstractType
         $builder
             ->add('wojewodztwo', 'text', array('label' => 'Województwo'))
             ->add('miejscowosc', 'text', array('label' => 'Miejscowość'))
-            ->add('kodPocztowy')
+            ->add('kodPocztowy',null,array(
+                    'attr'  =>  array(
+                        'class' =>  'kod-pocztowy'
+                    ),
+                    'required'  =>  false
+                )
+            )
             ->add('ulica')
             ->add('filiePracownicy', 'collection', array(
                     'type'          =>  new FiliaPracownikType(),
