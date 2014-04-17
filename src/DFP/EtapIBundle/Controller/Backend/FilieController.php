@@ -54,8 +54,17 @@ class FilieController extends Controller
         if (!$filia) {
             throw $this->createNotFoundException('Nie znaleziono karty klienta.');
         }
+
+        $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
+
         return array(
             'filia' => $filia,
+            'notatka_kategorie' => $kategorieNotatek
         );
     }
 
