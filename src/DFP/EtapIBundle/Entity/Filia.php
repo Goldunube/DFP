@@ -360,6 +360,7 @@ class Filia
     public function addFilieUzytkownicy(FiliaUzytkownik $filieUzytkownicy)
     {
         $this->filieUzytkownicy[] = $filieUzytkownicy;
+        $filieUzytkownicy->setFilia($this);
     
         return $this;
     }
