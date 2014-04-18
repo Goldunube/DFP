@@ -167,6 +167,7 @@ class Uzytkownik extends BaseUser
     public function addFilieUzytkownicy(FiliaUzytkownik $filieUzytkownicy)
     {
         $this->filieUzytkownicy[] = $filieUzytkownicy;
+        $filieUzytkownicy->setUzytkownik($this);
     
         return $this;
     }

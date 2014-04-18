@@ -3,7 +3,17 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/notatki_layout.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
+{% endblock javascript %}
 
 {% block content -%}
     <section>
@@ -36,6 +46,10 @@
                     <td>{{ filia.filieUzytkownicy|join(" | ") }}</td>
                 </tr>
                 <tr>
+                    <th>Osoby kontaktowe:</th>
+                    <td>{{ filia.filiePracownicy|join(" | ")|raw }}</td>
+                </tr>
+                <tr>
                     <th>Profil działalności:</th>
                     <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
                 </tr>
@@ -52,7 +66,11 @@
                     <td>{{ filia.kolorystyka|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Inne materiały:</th>
+                    <th>Materiały uzupełniające:</th>
+                    <td>{{ filia.filieMaterialyUzupelniajace|join(" | ")|raw }}</td>
+                </tr>
+                <tr>
+                    <th>Adnotajce:</th>
                     <td>{{ filia.adnotacja|raw }}</td>
                 </tr>
                 </tbody>
@@ -148,7 +166,8 @@
                 {% for notatka in filia.filieNotatki %}
                     <div class="notatka">
                         <div class="naglowek">
-                            {{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}
+                            <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
+                            <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
                         </div>
                         <div class="tresc">
                             {% if notatka.status == 0 %}
@@ -177,3 +196,8 @@
         </li>
     </ul>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('#main [title]').qtip();
+{% endblock javascripts %}

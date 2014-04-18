@@ -32,9 +32,26 @@
     {% endspaceless %}
 {% endblock form_widget_compound %}
 
+{% block choice_widget_options %}
+    {% spaceless %}
+        {% for group_label, choice in options %}
+            {% if choice is iterable %}
+                <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                    {% set options = choice %}
+                    {{ block('choice_widget_options') }}
+                </optgroup>
+            {% else %}
+                <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock choice_widget_options %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
@@ -42,6 +59,7 @@
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -68,15 +86,25 @@
                         <td class="edycja">{{ form_widget(formularz.wojewodztwo) }}</td>
                     </tr>
                     <tr>
-                        <th>Miejscowość:</th>
+                        <th>Kod pocztowy / Miejscowość:</th>
                         <td class="edycja">{{ form_widget(formularz.kodPocztowy) }}; {{ form_widget(formularz.miejscowosc) }}</td>
                     </tr>
                     <tr>
                         <th>{{ form_label(formularz.ulica) }}:</th>
                         <td class="edycja">{{ form_widget(formularz.ulica) }}</td>
                     </tr>
+                    <tr id="filie-pracownicy">
+                        <th>{{ form_label(formularz.filiePracownicy) }}</th>
+                        <td class="edycja filia-parametry-tech">
+                            <ul data-prototype="{{ form_widget(formularz.filiePracownicy.vars.prototype)|e }}">
+                                {% for pracownik in formularz.filiePracownicy %}
+                                    <li class="parametr-container">{{ form_widget(pracownik) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
                     <tr>
-                        <th>Profile działalności: <sup title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
+                        <th>Profile działalności: <sup class="pomoc" title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
                         <td class="edycja">
                             <div class="checks-list">
                                 <div>
@@ -88,19 +116,29 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Stosowany system malarski: <sup title="podać zestaw stosowany obecnie przez klienta tzn.: czy grunt+nawierzchnia czy tylko gruntoemalia//podać typ farby: alkid, poliuretan czy epoxyd//podać nazwy handlowe farb i producenta). Poziom dotychczasowych cen (może być bez podawania nazw produktów">?</sup></th>
+                        <th>Stosowany system malarski: <sup class="pomoc" title="podać zestaw stosowany obecnie przez klienta tzn.: czy grunt+nawierzchnia czy tylko gruntoemalia//podać typ farby: alkid, poliuretan czy epoxyd//podać nazwy handlowe farb i producenta). Poziom dotychczasowych cen (może być bez podawania nazw produktów">?</sup></th>
                         <td class="edycja">{{ form_widget(formularz.matlakDotychczas) }}</td>
                     </tr>
                     <tr>
-                        <th>Wielkość zużycia: <sup title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
+                        <th>Wielkość zużycia: <sup class="pomoc" title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
                         <td class="edycja">{{ form_widget(formularz.zuzycieMaterialow) }}</td>
                     </tr>
                     <tr>
-                        <th>Kolorystyka: <sup title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
+                        <th>Kolorystyka: <sup class="pomoc" title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
                         <td class="edycja">{{ form_widget(formularz.kolorystyka) }}</td>
                     </tr>
+                    <tr id="materialy-uzupelniajace">
+                        <th>{{ form_label(formularz.filieMaterialyUzupelniajace) }}: <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                        <td class="edycja filia-parametry-tech">
+                            <ul data-prototype="{{ form_widget(formularz.filieMaterialyUzupelniajace.vars.prototype)|e }}">
+                                {% for material in formularz.filieMaterialyUzupelniajace %}
+                                    <li class="parametr-container">{{ form_widget(material) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
                     <tr>
-                        <th>{{ form_label(formularz.adnotacja) }}: <sup title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                        <th>{{ form_label(formularz.adnotacja) }}:</th>
                         <td class="edycja">{{ form_widget(formularz.adnotacja) }}</td>
                     </tr>
                 </tbody>
@@ -120,7 +158,7 @@
                         </td>
                     </tr>
                     <tr id="procesy-przygotowania-powierzchni">
-                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}: <sup title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
+                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}: <sup class="pomoc" title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
@@ -150,7 +188,7 @@
                         </td>
                     </tr>
                     <tr id="wymagania-powloki">
-                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }}: <sup title="parametry jakie musi spełniać">?</sup></th>
+                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }}: <sup class="pomoc" title="parametry jakie musi spełniać">?</sup></th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaPowloki %}
@@ -160,7 +198,7 @@
                         </td>
                     </tr>
                     <tr id="wymagania-produktu">
-                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }}: <sup title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
+                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }}: <sup class="pomoc" title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaProduktu %}
@@ -171,36 +209,42 @@
                     </tr>
                 </tbody>
             </table>
-        {{ form_row(formularz._token) }}
-        <ul class="record_actions">
-            <li>
-                <a href="{{ path('backend_filie') }}" class="art-button">
-                    Powrót do listy
-                </a>
-            </li>
-            <li>
-                {{ form_row(formularz.submit) }}
-            </li>
-        </ul>
-        {{ form_end(formularz, {'render_rest':false}) }}
-        <ul class="record_actions">
-            <li>
-                {{ form_start(delete_form) }}
-                {{ form_row(delete_form.submit, {'attr' : {'class':'art-button czerwony'} }) }}
-                {{ form_end(delete_form) }}
-            </li>
-        </ul>
+            {{ form_row(formularz._token) }}
+            <ul class="record_actions">
+                <li>
+                    <a href="{{ path('backend_filie') }}" class="art-button">
+                        Powrót do listy
+                    </a>
+                </li>
+                <li>
+                    {{ form_row(formularz.submit) }}
+                </li>
+            </ul>
+            {{ form_end(formularz, {'render_rest':false}) }}
+            <ul class="record_actions">
+                <li>
+                    {{ form_start(delete_form) }}
+                    {{ form_row(delete_form.submit, {'attr' : {'class':'art-button czerwony'} }) }}
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
     </section>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+
+    {#  Obgługa formularzy  #}
+    $('#filie-pracownicy').obslugaFormularzy();
+    $('#materialy-uzupelniajace').obslugaFormularzy();
     $('#rodzaje-powierzchni').obslugaFormularzy();
     $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
     $('#procesy-aplikacji').obslugaFormularzy();
     $('#wymagania-produktu').obslugaFormularzy();
     $('#procesy-utwardzania-powloki').obslugaFormularzy();
     $('#wymagania-powloki').obslugaFormularzy();
+
+    {#  tinyMCE  #}
     tinymce.init({
         selector:'textarea',
         content_css: '/css/tinymce_content.css',
@@ -222,6 +266,8 @@
         table_default_cellspacing: 0,
         entity_encoding : "raw",
         language: 'pl',
+        statusbar: false,
+        toolbar: false,
 
         style_formats : [
             {title: 'Nagłówki', items: [
@@ -233,10 +279,10 @@
                 {title: 'Nagłówek 6', block: 'h6'}
             ]},
             {title: 'Alignment', items: [
-                {title: 'Left', block: 'div', styles : {textAlign : 'left'}, icon: 'alignleft'},
-                {title: 'Center', block: 'div', styles : {textAlign : 'center'}, icon: 'aligncenter'},
-                {title: 'Right', block: 'div', styles : {textAlign : 'right'}, icon: 'alignright'},
-                {title: 'Justify', block: 'div', styles : {textAlign : 'justify'}, icon: 'alignjustify'}
+                {title: 'Left', icon: 'alignleft', format: "alignleft"},
+                {title: 'Center', icon: 'aligncenter', format: "aligncenter"},
+                {title: 'Right', icon: 'alignright', format: "alignright"},
+                {title: 'Justify', icon: 'alignjustify', format: "alignjustify"}
             ]},
             {title: 'Table', items: [
                 {title: 'Wzór 1', selector: 'table', classes: 'table1'}
@@ -248,6 +294,29 @@
             {title: 'Indeks dolny', inline: 'sub', icon: 'subscript'},
         ],
     });
-    $('#dfp_etapibundle_filia_kodPocztowy').mask('00-000');
+
+    {#  Input Mask  #}
+    $('.kod-pocztowy').mask('00-000');
+    $('#procesy-utwardzania-powloki').on('focus', '.input-temp', function(event) {
+        $(this).mask('###000 \u00B0C', {reverse: true});
+    });
+    $('#procesy-utwardzania-powloki').on('focus', '.input-czas', function(event) {
+        $(this).mask('###000 minut', {reverse: true});
+    });
+    $('.record_properties').on('focus','.tel-stacjonarny', function(event) {
+        $(this).mask('(900) 000-00-00', {reverse: false});
+    })
+    $('.record_properties').on('focus','.tel-komorkowy', function(event) {
+        $(this).mask('0-000-000-000', {reverse: false});
+    })
+
+    {#  qTip  #}
+    $('.pomoc').qTipHelper();
+    $('#procesy-aplikacji').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_metoda_aplikacji_opis') }}'});
+    $('#rodzaje-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_rodzaj_powierzchni_opis') }}'});
+    $('#procesy-przygotowania-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_proces_przygotowania_powierzchni_opis') }}'});
+    $('#procesy-utwardzania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_parametr_utwardzania_powloki_opis') }}'});
+    $('#wymagania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_powloki_opis') }}'});
+    $('#wymagania-produktu').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_produktu_opis') }}'});
 
 {% endblock javascripts %}
