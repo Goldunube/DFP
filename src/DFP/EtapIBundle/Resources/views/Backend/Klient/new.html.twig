@@ -100,12 +100,22 @@
                             <td class="edycja">{{ form_widget(filia.wojewodztwo) }}</td>
                         </tr>
                         <tr>
-                            <th>Miejscowość:</th>
+                            <th>Kod Pocztowy / Miejscowość:</th>
                             <td class="edycja">{{ form_widget(filia.kodPocztowy, {'attr': {'style':'width: 6.1%;'} }) }}; {{ form_widget(filia.miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
                         </tr>
                         <tr>
                             <th>{{ form_label(filia.ulica) }}:</th>
                             <td class="edycja">{{ form_widget(filia.ulica) }}</td>
+                        </tr>
+                        <tr id="filie-pracownicy">
+                            <th>{{ form_label(formularz.filiePracownicy) }}</th>
+                            <td class="edycja filia-parametry-tech">
+                                <ul data-prototype="{{ form_widget(formularz.filiePracownicy.vars.prototype)|e }}">
+                                    {% for pracownik in formularz.filiePracownicy %}
+                                        <li class="parametr-container">{{ form_widget(pracownik) }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
                         </tr>
                         <tr>
                             <th>Profile działalności: <sup title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
@@ -131,66 +141,76 @@
                             <th>Kolorystyka: <sup title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
                             <td class="edycja">{{ form_widget(filia.kolorystyka) }}</td>
                         </tr>
+                        <tr id="materialy-uzupelniajace">
+                            <th>{{ form_label(formularz.filieMaterialyUzupelniajace) }}: <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                            <td class="edycja filia-parametry-tech">
+                                <ul data-prototype="{{ form_widget(formularz.filieMaterialyUzupelniajace.vars.prototype)|e }}">
+                                    {% for material in formularz.filieMaterialyUzupelniajace %}
+                                        <li class="parametr-container">{{ form_widget(material) }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
                         <tr>
                             <th>{{ form_label(filia.adnotacja) }}: <sup title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
                             <td class="edycja">{{ form_widget(filia.adnotacja) }}</td>
                         </tr>
                         <tr id="rodzaje-powierzchni">
-                            <th>{{ form_label(filia.filieRodzajePowierzchni) }}:</th>
+                            <th>{{ form_label(formularz.filieRodzajePowierzchni) }}:</th>
                             <td class="edycja filia-parametry-tech">
-                                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieRodzajePowierzchni.vars.prototype)|e }}">
-                                    {% for rodzaj in filia.filieRodzajePowierzchni %}
-                                        <li>{{ form_widget(rodzaj) }}</li>
+                                <ul data-prototype="{{ form_widget(formularz.filieRodzajePowierzchni.vars.prototype)|e }}">
+                                    {% for rodzaj in formularz.filieRodzajePowierzchni %}
+                                        <li class="parametr-container">{{ form_widget(rodzaj) }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                         </tr>
                         <tr id="procesy-przygotowania-powierzchni">
-                            <th>{{ form_label(filia.filieProcesyPrzygotowaniaPowierzchni) }}: <sup title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
+                            <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}: <sup class="pomoc" title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
                             <td class="edycja filia-parametry-tech">
-                                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
-                                    {% for proces in filia.filieProcesyPrzygotowaniaPowierzchni %}
-                                        <li>{{ form_widget(proces) }}</li>
+                                <ul data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
+                                    {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
+                                        <li class="parametr-container">{{ form_widget(proces) }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                         </tr>
                         <tr id="procesy-aplikacji">
-                            <th>{{ form_label(filia.filieProcesyAplikacji) }}:</th>
+                            <th>{{ form_label(formularz.filieProcesyAplikacji) }}:</th>
                             <td class="edycja filia-parametry-tech">
-                                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyAplikacji.vars.prototype)|e }}">
-                                    {% for procesAplikacji in filia.filieProcesyAplikacji %}
-                                        <li>{{ form_widget(procesAplikacji) }}</li>
+                                <ul data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
+                                    {% for procesAplikacji in formularz.filieProcesyAplikacji %}
+                                        <li class="parametr-container">{{ form_widget(procesAplikacji) }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                         </tr>
                         <tr id="procesy-utwardzania-powloki">
-                            <th>{{ form_label(filia.filieProcesyUtwardzaniaPowloki) }}:</th>
+                            <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}:</th>
                             <td class="edycja filia-parametry-tech">
-                                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
-                                    {% for proces in filia.filieProcesyUtwardzaniaPowloki %}
-                                        <li>{{ form_widget(proces) }}</li>
+                                <ul data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
+                                    {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
+                                        <li class="parametr-container">{{ form_widget(proces) }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                         </tr>
                         <tr id="wymagania-powloki">
-                            <th>{{ form_label(filia.filieWymaganiaPowloki) }}: <sup title="parametry jakie musi spełniać">?</sup></th>
+                            <th>{{ form_label(formularz.filieWymaganiaPowloki) }}: <sup class="pomoc" title="parametry jakie musi spełniać">?</sup></th>
                             <td class="edycja filia-parametry-tech">
-                                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaPowloki.vars.prototype)|e }}">
-                                    {% for wymaganie in filia.filieWymaganiaPowloki %}
-                                        <li>{{ form_widget(wymaganie) }}</li>
+                                <ul data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
+                                    {% for wymaganie in formularz.filieWymaganiaPowloki %}
+                                        <li class="parametr-container">{{ form_widget(wymaganie) }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
                         </tr>
                         <tr id="wymagania-produktu">
-                            <th>{{ form_label(filia.filieWymaganiaProduktu) }}:  <sup title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
+                            <th>{{ form_label(formularz.filieWymaganiaProduktu) }}: <sup class="pomoc" title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
                             <td class="edycja filia-parametry-tech">
-                                <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaProduktu.vars.prototype)|e }}">
-                                    {% for wymaganie in filia.filieWymaganiaProduktu %}
-                                        <li>{{ form_widget(wymaganie) }}</li>
+                                <ul data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
+                                    {% for wymaganie in formularz.filieWymaganiaProduktu %}
+                                        <li class="parametr-container">{{ form_widget(wymaganie) }}</li>
                                     {% endfor %}
                                 </ul>
                             </td>
@@ -213,11 +233,17 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    {#  Obgługa formularzy  #}
+    $('#filie-pracownicy').obslugaFormularzy();
+    $('#materialy-uzupelniajace').obslugaFormularzy();
+    $('#rodzaje-powierzchni').obslugaFormularzy();
     $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
     $('#procesy-aplikacji').obslugaFormularzy();
     $('#wymagania-produktu').obslugaFormularzy();
     $('#procesy-utwardzania-powloki').obslugaFormularzy();
     $('#wymagania-powloki').obslugaFormularzy();
+
     tinymce.init({
     selector:'textarea',
     content_css: '/css/tinymce_content.css',
