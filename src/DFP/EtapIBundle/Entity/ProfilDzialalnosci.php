@@ -42,13 +42,18 @@ class ProfilDzialalnosci
      */
     private $filie;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity="ProfilSystem", mappedBy="profilDzialalnosci", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $profileSystemy;
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->filie = new ArrayCollection();
+        $this->profileSystemy = new ArrayCollection();
     }
 
     public function __toString()
@@ -143,5 +148,38 @@ class ProfilDzialalnosci
     public function getFilie()
     {
         return $this->filie;
+    }
+
+    /**
+     * Add profileSystemy
+     *
+     * @param ProfilSystem $profileSystemy
+     * @return ProfilDzialalnosci
+     */
+    public function addProfileSystemy(ProfilSystem $profileSystemy)
+    {
+        $this->profileSystemy[] = $profileSystemy;
+    
+        return $this;
+    }
+
+    /**
+     * Remove profileSystemy
+     *
+     * @param ProfilSystem $profileSystemy
+     */
+    public function removeProfileSystemy(ProfilSystem $profileSystemy)
+    {
+        $this->profileSystemy->removeElement($profileSystemy);
+    }
+
+    /**
+     * Get profileSystemy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProfileSystemy()
+    {
+        return $this->profileSystemy;
     }
 }

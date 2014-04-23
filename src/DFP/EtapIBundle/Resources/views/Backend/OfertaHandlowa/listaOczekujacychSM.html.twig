@@ -18,7 +18,7 @@
         <tbody>
         {% for oferta in oczekujace %}
             <tr>
-                <th class="lp"><a href="{{ path('backend_opracowanie_systemu_malarskiego') }}">{{ oferta.id }}</a></th>
+                <th class="lp"><a href="{{ path('backend_opracowanie_systemu_malarskiego', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
                 <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
                 <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
                 <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>

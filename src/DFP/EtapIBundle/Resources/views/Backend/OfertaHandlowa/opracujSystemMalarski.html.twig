@@ -1,34 +1,50 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
 {% block content -%}
-    <h1>Lista oczekujących na dobór Systemu Malarskiego</h1>
+    <section>
+        <h1>Dobór Systemu Malarskiego</h1>
 
-    <table class="records_list">
-        <thead>
-        <tr>
-            <th class="lp">ID</th>
-            <th>Klient</th>
-            <th>Profil działalności</th>
-            <th title="Poziom zużycia materiałów lakierniczych.">Zużycie mat-lak</th>
-            <th>Zamawiający</th>
-            <th title="Data złożenia zamówienia">Data złożenia</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for oferta in oczekujace %}
-            <tr>
-                <th class="lp">{{ oferta.id }}</th>
-                <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
-                <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
-                <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
-                <td>{{ oferta.zamawiajacy }}</td>
-                <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
-                <td>{{ attribute(statusy, oferta.status) }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="records_list">
+            <thead>
+                <tr>
+                    <th>Profil działalności</th>
+                    <th>System malarski</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profil in oferta.filia.profileDzialalnosci %}
+                    <tr>
+                        <th>
+                            {{ profil.nazwaProfilu }}
+                        </th>
+                        <td>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <aside>
+        {{ form_start(oferta_system_form) }}
+        {{ form_end(oferta_system_form) }}
+    </aside>
+
+    <div class="popup-windows">
+        {{ form_start(system_form) }}
+        {{ form_end(system_form) }}
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a href="#" class="art-button">Powrót do listy</a>
+        </li>
+        <li>
+            <a href="#" class="art-button zielony">Otwórz zamówienie</a>
+        </li>
+    </ul>
+
     {#    <div class="navigation">
             {{ knp_pagination_render(entities) }}
         </div>#}

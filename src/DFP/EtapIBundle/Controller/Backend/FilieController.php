@@ -126,6 +126,9 @@ class FilieController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var $filia Filia
+         */
         $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
 
         if(!$filia)

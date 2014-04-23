@@ -5,12 +5,12 @@ namespace DFP\EtapIBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SystemMalarskiAlternatywa
+ * OfertaHandlowaProfSys
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="DFP\EtapIBundle\Entity\SystemMalarskiAlternatywaRepository")
+ * @ORM\Entity
  */
-class SystemMalarskiAlternatywa
+class OfertaHandlowaProfSys
 {
     /**
      * @var integer
@@ -24,9 +24,9 @@ class SystemMalarskiAlternatywa
     /**
      * @var string
      *
-     * @ORM\Column(name="info", type="text")
+     * @ORM\Column(name="uwagi", type="text")
      */
-    private $info;
+    private $uwagi;
 
 
     /**
@@ -40,25 +40,25 @@ class SystemMalarskiAlternatywa
     }
 
     /**
-     * Set info
+     * Set uwagi
      *
-     * @param string $info
-     * @return SystemMalarskiAlternatywa
+     * @param string $uwagi
+     * @return OfertaHandlowaProfSys
      */
-    public function setInfo($info)
+    public function setUwagi($uwagi)
     {
-        $this->info = $info;
+        $this->uwagi = $uwagi;
     
         return $this;
     }
 
     /**
-     * Get info
+     * Get uwagi
      *
      * @return string 
      */
-    public function getInfo()
+    public function getUwagi()
     {
-        return $this->info;
+        return $this->uwagi;
     }
 }

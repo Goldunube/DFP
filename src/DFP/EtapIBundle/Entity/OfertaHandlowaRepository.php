@@ -44,7 +44,7 @@ class OfertaHandlowaRepository extends EntityRepository
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
             ->select('oh')
-            ->where('oh.status != 5')
+            ->where('oh.status != 4')
             ->andWhere('oh.filia = :id')
             ->setParameter('id',$filia)
             ->getQuery();

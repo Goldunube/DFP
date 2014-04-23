@@ -3,7 +3,10 @@
 namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\OfertaHandlowa;
+use DFP\EtapIBundle\Entity\OfertaSystem;
 use DFP\EtapIBundle\Entity\SystemMalarski;
+use DFP\EtapIBundle\Form\OfertaSystemType;
+use DFP\EtapIBundle\Form\SystemMalarskiType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -114,9 +117,13 @@ class OfertaHandlowaController extends Controller
     /**
      * Wyświetla formularz systemu malarskiego oraz dodaje system malarski do oferty handlowej
      *
-     * @Route("/opracowanie_systemu_malarskiego", name="backend_opracowanie_systemu_malarskiego")
+     * @param $id
+     * @param Request $request
+     *
+     * @Route("/{id}/opracowanie_systemu_malarskiego", name="backend_opracowanie_systemu_malarskiego")
      * @Template()
      * @Method({"GET", "POST"})
+     * @return array
      */
     public function opracujSystemMalarskiAction($id, Request $request)
     {
@@ -126,10 +133,44 @@ class OfertaHandlowaController extends Controller
          * @var $ofertaHandlowa OfertaHandlowa
          */
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+        $profileDzialalnosci = $ofertaHandlowa->getFilia()->getProfileDzialalnosci();
 
         $systemMalarski = new SystemMalarski();
+        $systemForm = $this->createNewSystemForm($systemMalarski);
 
+        $ofertaSystem = new OfertaSystem();
+        $ofertaSystemForm = $this->createNewOfertaSystemForm($ofertaSystem);
 
+        return array(
+            'oferta'                =>  $ofertaHandlowa,
+            'system_form'           =>  $systemForm->createView(),
+            'oferta_system_form'    =>  $ofertaSystemForm->createView(),
+        );
+    }
 
+    private function createNewSystemForm(SystemMalarski $system)
+    {
+        $form = $this->createForm(new SystemMalarskiType(), $system, array(
+                'action'    =>  $this->generateUrl('backend_system_malarski_create'),
+                'method'    =>  'POST'
+            )
+        );
+
+        $form->add('submit', 'submit', array('label'=>'Utwórz'));
+
+        return $form;
+    }
+
+    private function createNewOfertaSystemForm(OfertaSystem $system)
+    {
+        $form = $this->createForm(new OfertaSystemType(), $system, array(
+                'action'    =>  '#',
+                'method'    =>  'POST'
+            )
+        );
+
+        $form->add('submit', 'submit', array('label'=>'Utwórz'));
+
+        return $form;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -70,6 +71,12 @@ class OfertaHandlowa
      */
     private $status = 0;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="OfertaHandlowaProfSys", mappedBy="ofertaHandlowa", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $systemyMalarskie;
 
     /**
      * Get id
