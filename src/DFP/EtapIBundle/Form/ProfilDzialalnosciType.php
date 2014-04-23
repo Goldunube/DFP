@@ -16,6 +16,7 @@ class ProfilDzialalnosciType extends AbstractType
     {
         $builder
             ->add('nazwaProfilu')
+            ->add('info')
             ->add('zweryfikowany', 'choice', array(
                     'choices'=>array(
                         true=>'TAK',

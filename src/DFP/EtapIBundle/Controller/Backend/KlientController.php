@@ -66,6 +66,7 @@ class KlientController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setKanalDystrybucji('DFP');
             $em->persist($entity);
             $em->persist($filia);
             $em->flush();

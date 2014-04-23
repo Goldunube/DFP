@@ -69,7 +69,7 @@ class FiliaType extends AbstractType
             ))
             ->add('filieWymaganiaProduktu', 'collection', array(
                     'type'          =>  new FiliaWymaganiaProduktuType(),
-                    'label'         =>  'Parametry produktu',
+                    'label'         =>  'Parametry produktu obecnie stosowanego',
                     'allow_add'     =>  true,
                     'allow_delete'  =>  true,
                     'by_reference'  =>  false,

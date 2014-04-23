@@ -47,7 +47,7 @@ class FiliaUzytkownik
      *
      * @ORM\Column(name="akcept", type="boolean")
      */
-    private $akcept;
+    private $akcept = true;
 
     /**
      * @var integer

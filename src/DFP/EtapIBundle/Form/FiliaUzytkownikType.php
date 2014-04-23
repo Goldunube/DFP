@@ -19,10 +19,12 @@ class FiliaUzytkownikType extends AbstractType
             ->add('poczatekPrzypisania','datetime', array(
                     'widget'        =>  'single_text',
                     'format'        =>  'yyyy-MM-dd HH:mm',
+                    'attr'          =>  array('class'=>'dataczas'),
                 ))
             ->add('koniecPrzypisania','datetime', array(
                     'widget'        =>  'single_text',
                     'format'        =>  'yyyy-MM-dd HH:mm',
+                    'attr'          =>  array('class'=>'dataczas'),
                 ));
     }
     

@@ -209,11 +209,27 @@
                     </tr>
                 </tbody>
             </table>
+
+            <table>
+                <caption>Użytkownicy przypisani do tej filii</caption>
+                <tbody>
+                    <tr id="filie-uzytkownicy">
+                        <th>{{ form_label(formularz.filieUzytkownicy) }}</th>
+                        <td class="edycja filia-parametry-tech">
+                            <ul data-prototype="{{ form_widget(formularz.filieUzytkownicy.vars.prototype)|e }}">
+                                {% for uzytkownik in formularz.filieUzytkownicy %}
+                                    <li class="parametr-container">{{ form_widget(uzytkownik) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             {{ form_row(formularz._token) }}
             <ul class="record_actions">
                 <li>
-                    <a href="{{ path('backend_filie') }}" class="art-button">
-                        Powrót do listy
+                    <a href="{{ powrot_url }}" class="art-button">
+                        Powrót
                     </a>
                 </li>
                 <li>
@@ -236,6 +252,7 @@
 
     {#  Obgługa formularzy  #}
     $('#filie-pracownicy').obslugaFormularzy();
+    $('#filie-uzytkownicy').obslugaFormularzy();
     $('#materialy-uzupelniajace').obslugaFormularzy();
     $('#rodzaje-powierzchni').obslugaFormularzy();
     $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
@@ -267,7 +284,6 @@
         entity_encoding : "raw",
         language: 'pl',
         statusbar: false,
-        toolbar: false,
 
         style_formats : [
             {title: 'Nagłówki', items: [
@@ -318,5 +334,9 @@
     $('#procesy-utwardzania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_parametr_utwardzania_powloki_opis') }}'});
     $('#wymagania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_powloki_opis') }}'});
     $('#wymagania-produktu').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_produktu_opis') }}'});
+
+    $('#filie-uzytkownicy').on('focus', '.dataczas', function(event) {
+        $(this).datetimepicker({dateFormat: "yy-mm-dd"});
+    });
 
 {% endblock javascripts %}

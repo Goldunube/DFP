@@ -113,11 +113,13 @@ class FilieController extends Controller
 
         $editForm = $this->createEditForm($filia);
         $deleteForm = $this->createDeleteForm($id);
+        $previousUrl = $this->getRequest()->headers->get('referer');
 
         return array(
             'filia'         =>  $filia,
             'formularz'     =>  $editForm->createView(),
             'delete_form'   =>  $deleteForm->createView(),
+            'powrot_url'    =>  $previousUrl,
         );
 
     }

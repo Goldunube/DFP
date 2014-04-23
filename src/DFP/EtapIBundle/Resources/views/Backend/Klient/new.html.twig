@@ -32,9 +32,26 @@
     {% endspaceless %}
 {% endblock form_widget_compound %}
 
+{% block choice_widget_options %}
+    {% spaceless %}
+        {% for group_label, choice in options %}
+            {% if choice is iterable %}
+                <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                    {% set options = choice %}
+                    {{ block('choice_widget_options') }}
+                </optgroup>
+            {% else %}
+                <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endif %}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock choice_widget_options %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
@@ -42,6 +59,7 @@
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -92,7 +110,7 @@
             </table>
 
             {% for filia in form.filie %}
-                <table>
+                <table class="record_properties">
                     <caption>Główna filia:</caption>
                     <tbody>
                         <tr>
@@ -101,7 +119,7 @@
                         </tr>
                         <tr>
                             <th>Kod Pocztowy / Miejscowość:</th>
-                            <td class="edycja">{{ form_widget(filia.kodPocztowy, {'attr': {'style':'width: 6.1%;'} }) }}; {{ form_widget(filia.miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
+                            <td class="edycja">{{ form_widget(filia.kodPocztowy) }}; {{ form_widget(filia.miejscowosc, {'attr': {'style':'width: 88%;'} }) }}</td>
                         </tr>
                         <tr>
                             <th>{{ form_label(filia.ulica) }}:</th>
@@ -152,9 +170,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>{{ form_label(filia.adnotacja) }}: <sup title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                            <th>{{ form_label(filia.adnotacja) }}:</th>
                             <td class="edycja">{{ form_widget(filia.adnotacja) }}</td>
                         </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <caption>Informacje o procesie wykonywania powłoki lakierowej, parametry techniczne</caption>
+                    <tbody>
                         <tr id="rodzaje-powierzchni">
                             <th>{{ form_label(filia.filieRodzajePowierzchni) }}:</th>
                             <td class="edycja filia-parametry-tech">
@@ -265,6 +289,7 @@
     table_default_cellspacing: 0,
     entity_encoding : "raw",
     language: 'pl',
+    statusbar: false,
 
     style_formats : [
         {title: 'Nagłówki', items: [
@@ -275,13 +300,13 @@
             {title: 'Nagłówek 5', block: 'h5'},
             {title: 'Nagłówek 6', block: 'h6'}
         ]},
-            {title: 'Alignment', items: [
-            {title: 'Left', block: 'div', styles : {textAlign : 'left'}, icon: 'alignleft'},
-            {title: 'Center', block: 'div', styles : {textAlign : 'center'}, icon: 'aligncenter'},
-            {title: 'Right', block: 'div', styles : {textAlign : 'right'}, icon: 'alignright'},
-            {title: 'Justify', block: 'div', styles : {textAlign : 'justify'}, icon: 'alignjustify'}
+        {title: 'Alignment', items: [
+            {title: 'Left', icon: 'alignleft', format: "alignleft"},
+            {title: 'Center', icon: 'aligncenter', format: "aligncenter"},
+            {title: 'Right', icon: 'alignright', format: "alignright"},
+            {title: 'Justify', icon: 'alignjustify', format: "alignjustify"}
         ]},
-            {title: 'Table', items: [
+        {title: 'Table', items: [
             {title: 'Wzór 1', selector: 'table', classes: 'table1'}
         ]},
         {title: 'Pogrubiony', inline: 'b', icon: 'bold'},
@@ -291,6 +316,29 @@
         {title: 'Indeks dolny', inline: 'sub', icon: 'subscript'},
         ],
     });
-    $('#dfp_etapibundle_klient_filie_0_kodPocztowy').mask('00-000');
+
+    {#  Input Mask  #}
+    $('.kod-pocztowy').mask('00-000');
+    $('#procesy-utwardzania-powloki').on('focus', '.input-temp', function(event) {
+        $(this).mask('###000 \u00B0C', {reverse: true});
+    });
+    $('#procesy-utwardzania-powloki').on('focus', '.input-czas', function(event) {
+        $(this).mask('###000 minut', {reverse: true});
+    });
+    $('.record_properties').on('focus','.tel-stacjonarny', function(event) {
+        $(this).mask('(900) 000-00-00', {reverse: false});
+    })
+    $('.record_properties').on('focus','.tel-komorkowy', function(event) {
+        $(this).mask('0-000-000-000', {reverse: false});
+    })
+
+    {#  qTip  #}
+    $('.pomoc').qTipHelper();
+    $('#procesy-aplikacji').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_metoda_aplikacji_opis') }}'});
+    $('#rodzaje-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_rodzaj_powierzchni_opis') }}'});
+    $('#procesy-przygotowania-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_proces_przygotowania_powierzchni_opis') }}'});
+    $('#procesy-utwardzania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_parametr_utwardzania_powloki_opis') }}'});
+    $('#wymagania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_powloki_opis') }}'});
+    $('#wymagania-produktu').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_produktu_opis') }}'});
 
 {% endblock javascripts %}

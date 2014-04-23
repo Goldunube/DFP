@@ -37,6 +37,13 @@ class ProfilDzialalnosci
     private $zweryfikowany;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="info", type="text", nullable=true)
+     */
+    private $info;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Filia", mappedBy="profileDzialalnosci")
      *
      */
@@ -54,6 +61,7 @@ class ProfilDzialalnosci
     public function __toString()
     {
         return (string) $this->getNazwaProfilu();
+//        return (string) '<span title="'.$this->getInfo().'">'.$this->getNazwaProfilu().'</span>';
     }
 
     /**
@@ -143,5 +151,28 @@ class ProfilDzialalnosci
     public function getFilie()
     {
         return $this->filie;
+    }
+
+    /**
+     * Set info
+     *
+     * @param string $info
+     * @return ProfilDzialalnosci
+     */
+    public function setInfo($info)
+    {
+        $this->info = $info;
+    
+        return $this;
+    }
+
+    /**
+     * Get info
+     *
+     * @return string 
+     */
+    public function getInfo()
+    {
+        return $this->info;
     }
 }
