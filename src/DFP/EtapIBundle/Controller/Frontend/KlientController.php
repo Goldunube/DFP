@@ -85,7 +85,6 @@ class KlientController extends Controller
         $filiaUzytkownik->setFilia($filia);
         $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
         $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+30 days'));
-//        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
         $filiaUzytkownik->setAkcept(true);
         $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
@@ -128,7 +127,6 @@ class KlientController extends Controller
         $filiaUzytkownik->setFilia($filia);
         $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
         $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+30 days'));
-//        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime('+7 days'));
         $filiaUzytkownik->setAkcept(true);
         $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
@@ -279,8 +277,8 @@ class KlientController extends Controller
         );
 
         return array(
-            'filia' => $filia,
-            'notatka_kategorie' => $kategorieNotatek
+            'filia'             =>  $filia,
+            'notatka_kategorie' =>  $kategorieNotatek,
         );
     }
 
@@ -464,8 +462,8 @@ class KlientController extends Controller
         }
 
         return array(
-            'filia'     =>  $filia,
-            'formularz' =>  $editFiliaForm->createView()
+            'filia'         =>  $filia,
+            'formularz'     =>  $editFiliaForm->createView(),
         );
     }
 

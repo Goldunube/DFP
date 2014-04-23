@@ -141,7 +141,7 @@ class Klient
      */
     public function setNazwaSkrocona($nazwaSkrocona)
     {
-        $this->nazwaSkrocona = $nazwaSkrocona;
+        $this->nazwaSkrocona = mb_strtoupper($nazwaSkrocona, 'utf8');
     
         return $this;
     }
@@ -233,7 +233,7 @@ class Klient
      */
     public function setKanalDystrybucji($kanalDystrybucji = "DFP")
     {
-        $this->kanalDystrybucji = $kanalDystrybucji;
+        $this->kanalDystrybucji = strtoupper($kanalDystrybucji);
     
         return $this;
     }

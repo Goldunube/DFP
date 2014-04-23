@@ -24,15 +24,40 @@ class FilieController extends Controller
      * @Route("/", name="backend_filie")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $filia = new Filia();
+        $klient = $filia->getKlient();
+
+        $form = $this->createFormBuilder($klient)
+            ->add('nazwaSkrocona',null,array(
+                    'label'     =>  'Nazwa klienta:',
+                    'required'  => false,
+                )
+            )
+            ->add('submit','submit',array(
+                    'label'   =>  'Szukaj',
+                    'attr'    =>  array('class'=>'art-button maly')
+                )
+            )
+            ->getForm();
+
+        $kryteria = Array();
+
+        $form->handleRequest($request);
+        if($form->isValid())
+        {
+            $kryteria = $form->getData();
+        }
+
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery();
+        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery($kryteria);
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
         return array(
-            'lista_filii'   => $pagination,
+            'lista_filii'   =>  $pagination,
+            'szukaj_form'   =>  $form->createView()
         );
     }
 

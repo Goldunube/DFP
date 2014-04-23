@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class FiliaRepository extends EntityRepository
 {
-    public function getListaFiliiQuery()
+    public function getListaFiliiQuery($params)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
             ->select('f, k, fu, u, pd')
@@ -20,7 +20,17 @@ class FiliaRepository extends EntityRepository
             ->leftJoin('f.filieUzytkownicy','fu')
             ->leftJoin('fu.uzytkownik','u')
             ->leftJoin('f.profileDzialalnosci','pd')
-            ->getQuery();
+            ->orderBy('k.nazwaSkrocona','ASC');
+
+        if(is_array($params) && !empty($params))
+        {
+            foreach($params as $key => $value)
+            {
+                $query->andWhere("k.$key LIKE '%$value%'");
+            }
+        }
+
+        $query->getQuery();
 
         return $query;
     }

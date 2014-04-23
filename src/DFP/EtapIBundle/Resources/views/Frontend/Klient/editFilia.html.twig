@@ -212,8 +212,8 @@
             {{ form_row(formularz._token) }}
             <ul class="record_actions">
                 <li>
-                    <a href="{{ path('url_lista_klientow') }}" class="art-button">
-                        Powrót do listy
+                    <a href="{{ path('frontend_pokaz_filie_klienta', {'id': filia.id } ) }}" class="art-button czerwony">
+                        Anuluj
                     </a>
                 </li>
                 <li>

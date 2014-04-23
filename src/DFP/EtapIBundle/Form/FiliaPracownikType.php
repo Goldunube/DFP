@@ -17,7 +17,7 @@ class FiliaPracownikType extends AbstractType
         $builder
             ->add('imie')
             ->add('nazwisko')
-            ->add('email')
+            ->add('email','email')
             ->add('stanowisko')
             ->add('telefon1',null,array(
                     'label' =>  'Telefon stacjonarny',

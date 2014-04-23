@@ -97,7 +97,7 @@ class Uzytkownik extends BaseUser
      */
     public function setImie($imie)
     {
-        $this->imie = $imie;
+        $this->imie = ucfirst($imie);
     
         return $this;
     }
@@ -120,7 +120,7 @@ class Uzytkownik extends BaseUser
      */
     public function setNazwisko($nazwisko)
     {
-        $this->nazwisko = $nazwisko;
+        $this->nazwisko = ucfirst($nazwisko);
     
         return $this;
     }

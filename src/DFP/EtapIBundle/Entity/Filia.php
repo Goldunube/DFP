@@ -244,7 +244,7 @@ class Filia
      */
     public function setWojewodztwo($wojewodztwo)
     {
-        $this->wojewodztwo = $wojewodztwo;
+        $this->wojewodztwo = ucfirst($wojewodztwo);
     
         return $this;
     }
@@ -267,7 +267,7 @@ class Filia
      */
     public function setMiejscowosc($miejscowosc)
     {
-        $this->miejscowosc = $miejscowosc;
+        $this->miejscowosc = ucwords($miejscowosc);
     
         return $this;
     }

@@ -130,7 +130,7 @@ class FiliaPracownik
      */
     public function setImie($imie)
     {
-        $this->imie = $imie;
+        $this->imie = ucfirst($imie);
     
         return $this;
     }
@@ -153,7 +153,7 @@ class FiliaPracownik
      */
     public function setNazwisko($nazwisko)
     {
-        $this->nazwisko = $nazwisko;
+        $this->nazwisko = ucfirst($nazwisko);
     
         return $this;
     }
@@ -176,7 +176,7 @@ class FiliaPracownik
      */
     public function setStanowisko($stanowisko)
     {
-        $this->stanowisko = $stanowisko;
+        $this->stanowisko = ucfirst($stanowisko);
     
         return $this;
     }

@@ -49,29 +49,49 @@ class KlientController extends Controller
      */
     public function createAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $entity = new Klient();
-        $entity->setDataZalozenia(new \DateTime('now'));
-        $entity->setAktywny();
 
         $filia = new Filia();
-        if($filia->getNazwaFilii() == null)
-        {
-            $filia->setNazwaFilii('Filia Główna');
-        }
         $filia->setKlient($entity);
         $entity->getFilie()->add($filia);
 
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity->setKanalDystrybucji('DFP');
-            $em->persist($entity);
-            $em->persist($filia);
-            $em->flush();
+        /* @var $istniejacyKlient Klient */
+        $istniejacyKlient = $em->getRepository('DFPEtapIBundle:Klient')->findOneByNIP($form->getData()->getNip());
 
-            return $this->redirect($this->generateUrl('klient_show', array('id' => $entity->getId())));
+        //SPRAWDZENIE CZY KLIENT ISTNIEJE W BAZIE DANYCH
+        if($istniejacyKlient)
+        {
+            if($form->isValid())
+            {
+                $istniejacyKlient->getFilie()->add($filia);
+                $filia->setNazwaFilii('Oddział');
+                $filia->setKlient($istniejacyKlient);
+                $em->persist($filia);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('backend_klient'));
+            }
+        }else{
+            if ($form->isValid()) {
+                $entity->setKanalDystrybucji('DFP');
+                $entity->setDataZalozenia(new \DateTime('now'));
+                $entity->setAktywny();
+                if($filia->getNazwaFilii() == null)
+                {
+                    $filia->setNazwaFilii('Filia Główna');
+                }
+
+                $em->persist($entity);
+                $em->persist($filia);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('backend_klient'));
+            }
         }
 
         return array(
