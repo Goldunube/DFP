@@ -3,7 +3,9 @@
 namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\Filia;
+use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
+use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\FiliaUzytkownikType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -252,5 +254,118 @@ class FilieController extends Controller
             ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
             ;
+    }
+
+    // TYMCZASOWO !!!!!!!!!!!!!!!
+
+    /**
+     * @param $id
+     * @return array
+     * @Route("/filia/{id}/notatka/", name="backend_filia_notatka_new")
+     * @Template()
+     * @Method("GET")
+     */
+    public function nowaNotatkaFiliiAction($id)
+    {
+        //TODO dodać sprawdzenie, czy osoba zalogowana może dodawać notatki do tej filii.
+
+        $em = $this->getDoctrine()->getManager();
+        $notatka = new FiliaNotatka();
+
+        /* @var $filia Filia*/
+        $filia  = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
+                'action'    =>  $this->generateUrl('backend_filia_notatka_stworz' ,array('id'=>$filia->getId())),
+                'method'    =>  "POST",
+            ));
+
+        $form->add('submit','submit',array('label' => 'Dodaj'));
+
+        $previousUrl = $this->getRequest()->headers->get('referer');
+
+        return array(
+            'form'      => $form->createView(),
+            'powrot_url'    =>  $previousUrl,
+        );
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/filia/{id}/notatka/", name="backend_filia_notatka_stworz")
+     * @Method("POST")
+     */
+    public function stworzNotatkaFiliiAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /* @var $filia Filia */
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+        $notatka = new FiliaNotatka();
+
+        $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
+                'action'    =>  $this->generateUrl('backend_filia_notatka_stworz' ,array('id'=>$filia->getId())),
+                'method'    =>  "POST",
+            ));
+        $form->add('submit','submit',array('label' => 'Dodaj'));
+
+        $form->handleRequest($request);
+
+        if($form->isValid())
+        {
+            $notatka->setStatus(true);
+            $notatka->setDataSporzadzenia(new \DateTime('now'));
+            $notatka->setKoniecEdycji(new \DateTime('+30 minutes'));
+            $notatka->setFilia($filia);
+            $notatka->setUzytkownik($this->getUser());
+
+            $em->persist($notatka);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('backend_filia_show',array('id'=>$id)));
+        }
+    }
+
+    /**
+     * @param $id
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/filia/notatka/{id}/usun", name="backend_filia_notatka_usun")
+     */
+    public function usunNotatkeFiliiAction($id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        /* @var $notatka FiliaNotatka */
+        $notatka = $em->getRepository('DFPEtapIBundle:FiliaNotatka')->find($id);
+
+        /* @var $filia Filia */
+        $filia = $notatka->getFilia();
+        if(!$notatka)
+        {
+            throw $this->createNotFoundException('Notatka, którą chcesz usunąć, nie istnieje.');
+        }
+
+        $em->remove($notatka);
+        $em->flush();
+
+/*        $autor = $notatka->getUzytkownik();
+        if($this->getUser() == $autor)
+        {
+            if($notatka->getKoniecEdycji() > new \DateTime('now') )
+            {
+                $em->remove($notatka);
+            }else{
+                $notatka->setStatus(false);
+            }
+            $em->flush();
+        }*/
+
+        return $this->redirect($this->generateUrl('backend_filia_show', array('id'=>$filia->getId())));
     }
 }

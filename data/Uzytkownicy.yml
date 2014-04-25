@@ -14,3 +14,243 @@
 - { Username: MJacukowicz, Email: mjacukowicz@csv.pl, Password: 123, Imie: Małgorzata, Nazwisko: Jacukowicz, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
 - { Username: JDmuchowska, Email: jdmuchowska@csv.pl, Password: 123, Imie: Justyna, Nazwisko: Dmuchowska, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
 - { Username: BZienkiewicz-Sasin, Email: bzienkiewicz@csv.pl, Password: 123, Imie: Bogusława, Nazwisko: Zienkiewicz-Sasin, Plec: Kobieta, Stanowisko: Koordynator DFP, Role: ROLE_KDFP }
+-
+  id: 42
+  Username: "BWietrzychowski"
+  username_canonical: "bwietrzychowski"
+  Email: "bwietrzychowski@csv.pl"
+  email_canonical: "bwietrzychowski@csv.pl"
+  enabled: 1
+  salt: "q5c4haj5u9wkokg004400ooo4gwok88"
+  Password: 123
+  last_login: "2014-04-23 13:32:15"
+  locked: 0
+  expired: 0
+  Role: ROLE_KDFP
+  credentials_expired: 0
+  Imie: "Bartek"
+  Nazwisko: "Wietrzychowski"
+  Plec: Mężczyzna
+  Stanowisko: Koordynator DFP
+  Role: ROLE_KDFP
+-
+  Username: "AWysocka"
+  Password: 123
+  Email: "awysocka@csv.pl"
+  Role: ROLE_KDFP
+  Stanowisko: Koordynator DFP
+  Imie: "Anna"
+  Nazwisko: "Wysocka"
+  id: 43
+  Plec: Mężczyzna
+-
+  Username: "PStanczyk"
+  Password: 123
+  Email: "pstanczyk@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Paweł"
+  Nazwisko: "Stańczyk"
+  id: 44
+  Plec: Mężczyzna
+-
+  Username: "ACzyz"
+  Password: 123
+  Email: "aczyz@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Artur"
+  Nazwisko: "Czyż"
+  id: 45
+  Plec: Mężczyzna
+-
+  Username: "PKopycki"
+  Password: 123
+  Email: "pkopycki@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Paweł"
+  Nazwisko: "Kopycki"
+  id: 46
+  Plec: Mężczyzna
+-
+  Username: "GGorniak"
+  Password: 123
+  Email: "ggorniak@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Grzegorz"
+  Nazwisko: "Górniak"
+  id: 47
+  Plec: Mężczyzna
+-
+  Username: "MMargas"
+  Password: 123
+  Email: "mmargas@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Mariusz"
+  Nazwisko: "Margas"
+  id: 48
+  Plec: Mężczyzna
+-
+  Username: "StMikulko"
+  Password: 123
+  Email: "smikulko@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Stanisław"
+  Nazwisko: "Mikułko"
+  id: 49
+  Plec: Mężczyzna
+-
+  Username: "PPaluch"
+  Password: 123
+  Email: "ppaluch@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Paweł"
+  Nazwisko: "Paluch"
+  id: 50
+  Plec: Mężczyzna
+-
+  Username: "PSternicki"
+  Password: 123
+  Email: "psternicki@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Piotr"
+  Nazwisko: "Sternicki"
+  id: 51
+  Plec: Mężczyzna
+-
+  Username: "RSasin"
+  Password: 123
+  Email: "rsasin@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Robert"
+  Nazwisko: "Sasin"
+  id: 52
+  Plec: Mężczyzna
+-
+  Username: "PJaszczak"
+  Password: 123
+  Email: "pjaszczak@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Piotr"
+  Nazwisko: "Jaszczak"
+  id: 53
+  Plec: Mężczyzna
+-
+  Username: "MFrackowiak"
+  Password: 123
+  Email: "mfrackowiak@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Marcin"
+  Nazwisko: "Frąckowiak"
+  id: 54
+  Plec: Mężczyzna
+-
+  Username: "DPrzeplata"
+  Password: 123
+  Stanowisko: Agent WPS
+  Email: "dprzeplata@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Daniel"
+  Nazwisko: "Przepłata"
+  id: 55
+  Plec: Mężczyzna
+-
+  Username: "ANowicka"
+  Password: 123
+  Email: "anowicka@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Agnieszka"
+  Nazwisko: "Nowicka"
+  id: 56
+  Plec: Mężczyzna
+-
+  Username: "WMarciniak"
+  Password: 123
+  Email: "wmarciniak@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Witold"
+  Nazwisko: "Marciniak"
+  id: 57
+  Plec: Mężczyzna
+-
+  Username: "LJucha"
+  Password: 123
+  Email: "ljucha@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Leszek"
+  Nazwisko: "Jucha"
+  id: 58
+  Plec: Mężczyzna
+-
+  Username: "DSokolowski"
+  Password: 123
+  Email: "dsokolowski@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Dawid"
+  Nazwisko: "Sokołowski"
+  id: 59
+  Plec: Mężczyzna
+-
+  Username: "MMatras"
+  Password: 123
+  Email: "mmatras@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Mieczysław"
+  Nazwisko: "Matras"
+  id: 60
+  Plec: Mężczyzna
+-
+  Username: "MPikor"
+  Password: 123
+  Email: "mpikor@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Marek"
+  Nazwisko: "Pikor"
+  id: 61
+  Plec: Mężczyzna
+-
+  Username: "ADrozdowski"
+  Password: 123
+  Email: "adrozdowski@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Andrzej"
+  Nazwisko: "Drozdowski"
+  id: 62
+  Plec: Mężczyzna
+-
+  Username: "RLachowicz"
+  Password: 123
+  Email: "rlachowicz@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Robert"
+  Nazwisko: "Lachowicz"
+  id: 63
+  Plec: Mężczyzna
+-
+  Username: "JLaskowska"
+  Password: 123
+  Email: "jlaskowska@csv.pl"
+  Role: ROLE_AWPS
+  Stanowisko: Agent WPS
+  Imie: "Joanna"
+  Nazwisko: "Laskowska"
+  id: 64
+  Plec: Mężczyzna

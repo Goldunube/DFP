@@ -167,7 +167,7 @@
                     <div class="notatka">
                         <div class="naglowek">
                             <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
-                            <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
+                            <span>{{ notatka.uzytkownik }} {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('backend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a></li></ul>
                         </div>
                         <div class="tresc">
                             {% if notatka.status == 0 %}
@@ -192,6 +192,11 @@
         <li>
             <a href="{{ path('backend_filia_edytuj', { 'id': filia.id }) }}" class="art-button">
                 Edytuj
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('backend_filia_notatka_new', {'id': filia.id}) }}" class="art-button">
+                Dodaj notatkę
             </a>
         </li>
     </ul>
