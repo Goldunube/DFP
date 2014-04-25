@@ -17,16 +17,34 @@ class FiliaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('wojewodztwo', 'text', array('label' => 'Województwo'))
-            ->add('miejscowosc', 'text', array('label' => 'Miejscowość'))
+            ->add('wojewodztwo', 'text', array(
+                    'label'         =>  'Województwo',
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź nazwę województwa'
+                    )
+                )
+            )
+            ->add('miejscowosc', 'text', array(
+                    'label'         =>  'Miejscowość',
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź nazwę miejscowości'
+                    )
+                )
+            )
             ->add('kodPocztowy',null,array(
                     'attr'  =>  array(
-                        'class' =>  'kod-pocztowy'
+                        'class'         =>  'kod-pocztowy',
+                        'placeholder'   =>  'Kod pocztowy'
                     ),
                     'required'  =>  false
                 )
             )
-            ->add('ulica')
+            ->add('ulica',null,array(
+                    'attr'  =>  array(
+                        'placeholder'   => 'Wprowadź nazwę ulicy bez podawania przedrostków typy "ul." / "al."'
+                    )
+                )
+            )
             ->add('filiePracownicy', 'collection', array(
                     'type'          =>  new FiliaPracownikType(),
                     'label'         =>  'Osoby kontaktowe',

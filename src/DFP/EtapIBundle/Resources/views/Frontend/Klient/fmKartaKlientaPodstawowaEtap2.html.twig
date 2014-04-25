@@ -83,8 +83,8 @@
                         <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].wojewodztwo) }}</td>
                     </tr>
                     <tr>
-                        <th>{{ form_label(kartaPodstawowa.filie[0].miejscowosc) }}</th>
-                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].kodPocztowy, {'attr': {'style':'width: 41px;'} }) }}; {{ form_widget(kartaPodstawowa.filie[0].miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
+                        <th>{{ form_label(kartaPodstawowa.filie[0].kodPocztowy) }} / {{ form_label(kartaPodstawowa.filie[0].miejscowosc) }}</th>
+                        <td class="edycja">{{ form_widget(kartaPodstawowa.filie[0].kodPocztowy, {'attr': {'style':'width: 55px;'} }) }}; {{ form_widget(kartaPodstawowa.filie[0].miejscowosc, {'attr': {'style':'width: 87%;'} }) }}</td>
                     </tr>
                     <tr>
                         <th>{{ form_label(kartaPodstawowa.filie[0].ulica) }}</th>
@@ -144,5 +144,11 @@
 {% block javascripts %}
     {{ parent() }}
     $('.kod-pocztowy').mask('00-000');
+    $('#filie-pracownicy').on('focus','.tel-stacjonarny', function(event) {
+        $(this).mask('(900) 000-00-00', {reverse: false});
+    })
+    $('#filie-pracownicy').on('focus','.tel-komorkowy', function(event) {
+        $(this).mask('0-000-000-000', {reverse: false});
+    })
     $('#filie-pracownicy').obslugaFormularzy();
 {% endblock javascripts %}

@@ -15,18 +15,44 @@ class FiliaPracownikType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('imie')
-            ->add('nazwisko')
-            ->add('email','email')
-            ->add('stanowisko')
+            ->add('imie',null,array(
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź imię'
+                    )
+                )
+            )
+            ->add('nazwisko',null,array(
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź nazwisko'
+                    )
+                )
+            )
+            ->add('email','email',array(
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Jeżeli nie znasz wprowadź: nazwaklienta@test.pl'
+                    )
+                )
+            )
+            ->add('stanowisko',null,array(
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź stanowisko'
+                    )
+                )
+            )
             ->add('telefon1',null,array(
                     'label' =>  'Telefon stacjonarny',
-                    'attr'  =>  array('class' =>  'tel-stacjonarny')
+                    'attr'  =>  array(
+                        'class'         =>  'tel-stacjonarny',
+                        'placeholder'   =>  'Wprowadź numer w formacie (000) 000-00-00'
+                    )
                 )
             )
             ->add('mobile',null,array(
                     'label' =>  'Telefon komórkowy',
-                    'attr'  =>  array('class' =>  'tel-komorkowy')
+                    'attr'  =>  array(
+                        'class' =>  'tel-komorkowy',
+                        'placeholder'   =>  'Wprowadź numer w formacie 0-000-000-000'
+                    )
                 )
             )
             ->add('osobaKontaktowa','checkbox',array(
