@@ -1,12 +1,13 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
 {% block content %}
-    <h1>Lista użytkowników</h1>
+    <section>
+        <h1>Lista użytkowników</h1>
 
-    <table class="record_list">
-        <thead>
+        <table class="record_list">
+            <thead>
             <tr>
-                <th>Lp.</th>
+                <th class="lp">Lp</th>
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Login</th>
@@ -15,20 +16,27 @@
                 <th>Ostatnie logowanie</th>
                 <th>Aktywny</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="#">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}.</a></td>
-                <td>{{ entity.Imie }}</td>
-                <td>{{ entity.Nazwisko }}</td>
-                <td>{{ entity.username }}</td>
-                <td>{{ entity.profilUzytkownika.stanowisko }}</td>
-                <td>{{ entity.email }}</td>
-                <td>{{ entity.lastLogin is empty ? "-" : entity.lastLogin|date('Y-m-d H:i:s') }}</td>
-                <td>{{  entity.enabled == 1 ? "Tak" : "Nie" }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td class="lp"><a href="#">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
+                    <td>{{ entity.Imie }}</td>
+                    <td>{{ entity.Nazwisko }}</td>
+                    <td>{{ entity.username }}</td>
+                    <td>{{ entity.profilUzytkownika.stanowisko }}</td>
+                    <td>{{ entity.email }}</td>
+                    <td>{{ entity.lastLogin is empty ? "-" : entity.lastLogin|date('Y-m-d H:i:s') }}</td>
+                    <td>{{  entity.enabled == 1 ? "Tak" : "Nie" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(entities) }}
+        </div>
+
+    </section>
+
 {% endblock %}
