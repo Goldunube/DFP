@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class FiliaRepository extends EntityRepository
 {
-    public function getListaFiliiQuery($params)
+    public function getListaFiliiQuery($params = Array())
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
             ->select('f, k, fu, u, pd')
