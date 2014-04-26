@@ -18,6 +18,14 @@ class KartaKlientaPodstawowaType extends AbstractType
             ->add('nip', 'text', array('label'=> 'NIP'))
             ->add('nazwaPelna', 'text', array('label'=>'Pełna nazwa'))
             ->add('nazwaSkrocona', 'text', array('label'=>'Skrócona nazwa'))
+            ->add('stronaWWW','url', array(
+                    'label'     =>  'Adres strony WWW',
+                    'required'  =>  false,
+                    'attr'      =>  array(
+                        'placeholder'   =>  'Poprawny adres WWW musi zaczynać się od frazy `http://` np. `http://www.csv.pl`'
+                    )
+                )
+            )
             ->add('grupyKlientow', 'entity', array(
                     'label'     =>  'Grupa klientów',
                     'class'     =>  'DFPEtapIBundle:GrupaKlientow',

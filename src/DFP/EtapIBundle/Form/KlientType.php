@@ -17,6 +17,14 @@ class KlientType extends AbstractType
         $builder
             ->add('nazwaPelna')
             ->add('nazwaSkrocona')
+            ->add('stronaWWW','url', array(
+                    'label'     =>  'Adres strony WWW',
+                    'required'  =>  false,
+                    'attr'      =>  array(
+                        'placeholder'   =>  'Poprawny adres WWW musi zaczynać się od frazy `http://` np. `http://www.csv.pl`',
+                    )
+                )
+            )
             ->add('nip')
             ->add('kodMax')
             ->add('kanalDystrybucji')

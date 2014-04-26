@@ -93,6 +93,13 @@ class Klient
      */
     private $grupyKlientow;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="strona_www", type="string", length=120, nullable=true)
+     */
+    private $stronaWWW;
+
     public function __construct()
     {
         $this->filie = new ArrayCollection();
@@ -337,8 +344,6 @@ class Klient
         return $this->grupyKlientow;
     }
 
-
-
     /**
      * Set adnotacja
      *
@@ -360,5 +365,27 @@ class Klient
     public function getAdnotacja()
     {
         return $this->adnotacja;
+    }
+
+    /**
+     * Get stronaWWW
+     *
+     * @return string
+     */
+    public function getStronaWWW()
+    {
+        return $this->stronaWWW;
+    }
+
+    /**
+     * Set stronaWWW
+     *
+     * @param string $stronaWWW
+     * @return Klient
+     */
+    public function setStronaWWW($stronaWWW)
+    {
+        $this->stronaWWW = $stronaWWW;
+        return $this;
     }
 }

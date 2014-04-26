@@ -63,7 +63,7 @@ form label {
     font-size: 13px;
     margin: 0;
 }
-form input[type="text"], form input[type="number"], form input[type="email"] {
+form input[type="text"], form input[type="number"], form input[type="email"], form input[type="url"] {
     background-color: #DEEAF8;
     border: 0 none;
     font-size: 13px;

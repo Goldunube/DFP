@@ -19,6 +19,14 @@
                 <td>{{ klient.nazwaSkrocona }}</td>
             </tr>
             <tr>
+                <th>Adres strony WWW:</th>
+                <td>
+                    {% if klient.stronaWWW %}
+                        <a class="link" href="{{ klient.stronaWWW }}" target="_blank">{{ klient.stronaWWW }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
                 <th>Profil działalności</th>
                 <td>
                     {% for filia in klient.filie %}
@@ -51,15 +59,15 @@
 
         <ul class="record_actions">
             <li>
-                <a href="{{ path('url_lista_klientow') }}" class="art-button">
-                    Powrót do listy
+                <a href="javascript: history.back();" class="art-button">
+                    Powrót
                 </a>
             </li>
-            <li>
+            {#<li>
                 <a href="#" class="art-button">
                     Edytuj
                 </a>
-            </li>
+            </li>#}
         </ul>
     </section>
 {% endblock %}

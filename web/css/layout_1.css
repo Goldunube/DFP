@@ -1,6 +1,10 @@
 a, a:visited {
     color: #696969;
 }
+a.link {
+    color: #FF4500;
+    text-decoration: underline;
+}
 table .lp {
     width: 35px;
 }

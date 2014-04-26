@@ -33,7 +33,15 @@
                 <tbody>
                 <tr>
                     <th>Filia klienta:</th>
-                    <td><a href="{{ path('url_pokaz_karte_klienta', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaPelna }}</a></td>
+                    <td><a class="link" href="{{ path('url_pokaz_karte_klienta', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaPelna }}</a></td>
+                </tr>
+                <tr>
+                    <th>Adres strony WWW:</th>
+                    <td>
+                        {% if filia.klient.stronaWWW %}
+                            <a class="link" href="{{ filia.klient.stronaWWW }}" target="_blank">{{ filia.klient.stronaWWW }}</a>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <th>Nazwa filii:</th>

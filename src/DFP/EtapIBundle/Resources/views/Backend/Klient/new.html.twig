@@ -83,6 +83,10 @@
                         <td class="edycja">{{ form_widget(form.nazwaSkrocona) }}</td>
                     </tr>
                     <tr>
+                        <th>{{ form_label(form.stronaWWW) }}:</th>
+                        <td class="edycja adres-www">{{ form_widget(form.stronaWWW) }}</td>
+                    </tr>
+                    <tr>
                         <th>NIP:</th>
                         <td class="edycja">{{ form_widget(form.nip) }}</td>
                     </tr>
@@ -330,6 +334,14 @@
     })
     $('.record_properties').on('focus','.tel-komorkowy', function(event) {
         $(this).mask('0-000-000-000', {reverse: false});
+    })
+
+    $('.adres-www input').focusin(function() {
+        var url = $(this).val();
+        if(url == "")
+        {
+            $(this).val('http://');
+        }
     })
 
     {#  qTip  #}

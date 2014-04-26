@@ -65,6 +65,10 @@
                     <td class="edycja">{{ form_widget(form.nazwaSkrocona) }}</td>
                 </tr>
                 <tr>
+                    <th>{{ form_label(form.stronaWWW) }}:</th>
+                    <td class="edycja adres-www">{{ form_widget(form.stronaWWW) }}</td>
+                </tr>
+                <tr>
                     <th>NIP:</th>
                     <td class="edycja">{{ form_widget(form.nip) }}</td>
                 </tr>
@@ -90,114 +94,6 @@
                 </tr>
             </tbody>
         </table>
-
-{#        {% for filia in form.filie %}
-            <table>
-                <caption>Główna filia:</caption>
-                <tbody>
-                    <tr>
-                        <th>{{ form_label(filia.wojewodztwo) }}:</th>
-                        <td class="edycja">{{ form_widget(filia.wojewodztwo) }}</td>
-                    </tr>
-                    <tr>
-                        <th>Miejscowość:</th>
-                        <td class="edycja">{{ form_widget(filia.kodPocztowy, {'attr': {'style':'width: 6.1%;'} }) }}; {{ form_widget(filia.miejscowosc, {'attr': {'style':'width: 89.6%;'} }) }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ form_label(filia.ulica) }}:</th>
-                        <td class="edycja">{{ form_widget(filia.ulica) }}</td>
-                    </tr>
-                    <tr>
-                        <th>Profile działalności: <sup title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
-                        <td class="edycja">
-                            <div class="checks-list">
-                                <div>
-                                    {% for profil in filia.profileDzialalnosci %}
-                                        {{ form_label(profil) }} {{ form_widget(profil) }}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Stosowany system malarski: <sup title="podać zestaw stosowany obecnie przez klienta tzn.: czy grunt+nawierzchnia czy tylko gruntoemalia//podać typ farby: alkid, poliuretan czy epoxyd//podać nazwy handlowe farb i producenta). Poziom dotychczasowych cen (może być bez podawania nazw produktów">?</sup></th>
-                        <td class="edycja">{{ form_widget(filia.matlakDotychczas) }}</td>
-                    </tr>
-                    <tr>
-                        <th>Wielkość zużycia: <sup title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
-                        <td class="edycja">{{ form_widget(filia.zuzycieMaterialow) }}</td>
-                    </tr>
-                    <tr>
-                        <th>Kolorystyka: <sup title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
-                        <td class="edycja">{{ form_widget(filia.kolorystyka) }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ form_label(filia.adnotacja) }}: <sup title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
-                        <td class="edycja">{{ form_widget(filia.adnotacja) }}</td>
-                    </tr>
-                    <tr id="rodzaje-powierzchni">
-                        <th>{{ form_label(filia.filieRodzajePowierzchni) }}:</th>
-                        <td class="edycja filia-parametry-tech">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieRodzajePowierzchni.vars.prototype)|e }}">
-                                {% for rodzaj in filia.filieRodzajePowierzchni %}
-                                    <li>{{ form_widget(rodzaj) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="procesy-przygotowania-powierzchni">
-                        <th>{{ form_label(filia.filieProcesyPrzygotowaniaPowierzchni) }}: <sup title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
-                        <td class="edycja filia-parametry-tech">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
-                                {% for proces in filia.filieProcesyPrzygotowaniaPowierzchni %}
-                                    <li>{{ form_widget(proces) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="procesy-aplikacji">
-                        <th>{{ form_label(filia.filieProcesyAplikacji) }}:</th>
-                        <td class="edycja filia-parametry-tech">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyAplikacji.vars.prototype)|e }}">
-                                {% for procesAplikacji in filia.filieProcesyAplikacji %}
-                                    <li>{{ form_widget(procesAplikacji) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="procesy-utwardzania-powloki">
-                        <th>{{ form_label(filia.filieProcesyUtwardzaniaPowloki) }}:</th>
-                        <td class="edycja filia-parametry-tech">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
-                                {% for proces in filia.filieProcesyUtwardzaniaPowloki %}
-                                    <li>{{ form_widget(proces) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="wymagania-powloki">
-                        <th>{{ form_label(filia.filieWymaganiaPowloki) }}: <sup title="parametry jakie musi spełniać">?</sup></th>
-                        <td class="edycja filia-parametry-tech">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaPowloki.vars.prototype)|e }}">
-                                {% for wymaganie in filia.filieWymaganiaPowloki %}
-                                    <li>{{ form_widget(wymaganie) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr id="wymagania-produktu">
-                        <th>{{ form_label(filia.filieWymaganiaProduktu) }}:  <sup title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
-                        <td class="edycja filia-parametry-tech">
-                            <ul class="filia-uzytkownicy" data-prototype="{{ form_widget(filia.filieWymaganiaProduktu.vars.prototype)|e }}">
-                                {% for wymaganie in filia.filieWymaganiaProduktu %}
-                                    <li>{{ form_widget(wymaganie) }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        {% endfor %}#}
         {{ form_row(form._token) }}
         <ul class="record_actions">
             <li>
@@ -275,4 +171,11 @@
     });
     $('#dfp_etapibundle_klient_filie_0_kodPocztowy').mask('00-000');
 
+    $('.adres-www input').focusin(function() {
+        var url = $(this).val();
+        if(url == "")
+        {
+            $(this).val('http://');
+        }
+    })
 {% endblock javascripts %}
