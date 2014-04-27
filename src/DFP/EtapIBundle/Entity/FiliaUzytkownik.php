@@ -62,6 +62,7 @@ class FiliaUzytkownik
      *
      * @ORM\ManyToOne(targetEntity="Uzytkownik", inversedBy="filieUzytkownicy")
      * @ORM\JoinColumn(name="uzytkownik_id", referencedColumnName="id", nullable=false)
+     * @ORM\OrderBy({"imie"="ASC"})
      */
     private $uzytkownik;
 

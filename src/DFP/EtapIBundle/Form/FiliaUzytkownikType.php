@@ -15,7 +15,10 @@ class FiliaUzytkownikType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('uzytkownik')
+            ->add('uzytkownik',null,array(
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('u')->orderBy('u.imie','ASC');}
+                )
+            )
             ->add('poczatekPrzypisania','datetime', array(
                     'widget'        =>  'single_text',
                     'format'        =>  'yyyy-MM-dd HH:mm',

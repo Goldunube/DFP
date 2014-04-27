@@ -15,7 +15,10 @@ class FiliaWymaganiaProduktuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('wymaganiaProduktu')
+            ->add('wymaganiaProduktu',null,array(
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('wp')->orderBy('wp.nazwaParametru','ASC');}
+                )
+            )
             ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }

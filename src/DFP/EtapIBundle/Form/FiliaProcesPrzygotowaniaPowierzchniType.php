@@ -15,7 +15,10 @@ class FiliaProcesPrzygotowaniaPowierzchniType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('procesPrzygotowaniaPowierzchni')
+            ->add('procesPrzygotowaniaPowierzchni',null,array(
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('ppp')->orderBy('ppp.nazwaProcesu','ASC');},
+                )
+            )
             ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }

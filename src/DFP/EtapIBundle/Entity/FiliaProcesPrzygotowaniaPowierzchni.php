@@ -41,6 +41,7 @@ class FiliaProcesPrzygotowaniaPowierzchni
      *
      * @ORM\ManyToOne(targetEntity="ProcesPrzygotowaniaPowierzchni", inversedBy="filieProcesyPrzygotowaniaPowierzchni")
      * @ORM\JoinColumn(name="proces_id", referencedColumnName="id", nullable=false)
+     * @ORM\OrderBy({"nazwa" = "ASC"})
      */
     private $procesPrzygotowaniaPowierzchni;
 

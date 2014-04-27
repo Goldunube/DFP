@@ -15,7 +15,11 @@ class FiliaMaterialUzupelniajacyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('materialUzupelniajacy',null,array('label' => 'Materiał'))
+            ->add('materialUzupelniajacy',null,array(
+                    'label' => 'Materiał',
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('mu')->orderBy('mu.nazwa','ASC');},
+                )
+            )
             ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }

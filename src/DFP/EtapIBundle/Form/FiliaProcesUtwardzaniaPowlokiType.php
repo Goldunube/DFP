@@ -15,7 +15,10 @@ class FiliaProcesUtwardzaniaPowlokiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('procesUtwardzaniaPowloki')
+            ->add('procesUtwardzaniaPowloki', null, array(
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('pup')->orderBy('pup.nazwaProcesu','ASC');},
+                )
+            )
             ->add('tempMin',null,array('label'=>'Temperatura MIN', 'attr'=> array('class'=>'input-temp')))
             ->add('tempMax',null,array('label'=>'Temperatura MAX', 'attr'=> array('class'=>'input-temp')))
             ->add('czasSchniecia',null,array('label'=>'Czas schnięcia', 'attr'=> array('class'=>'input-czas')))

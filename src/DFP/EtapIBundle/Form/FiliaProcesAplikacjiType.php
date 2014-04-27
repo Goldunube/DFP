@@ -15,7 +15,10 @@ class FiliaProcesAplikacjiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('procesAplikacji')
+            ->add('procesAplikacji',null,array(
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('pa')->orderBy('pa.nazwaProcesu','ASC');},
+                )
+            )
             ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }

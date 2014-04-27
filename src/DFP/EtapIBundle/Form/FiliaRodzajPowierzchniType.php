@@ -15,7 +15,10 @@ class FiliaRodzajPowierzchniType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('rodzajPowierzchni')
+            ->add('rodzajPowierzchni',null,array(
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('rp')->orderBy('rp.nazwa','ASC');}
+                )
+            )
             ->add('info',null,array('label'=>'Informacje dodatkowe'))
         ;
     }
