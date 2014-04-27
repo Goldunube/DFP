@@ -34,6 +34,14 @@
                     <td><a href="{{ path('klient_show', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaPelna }}</a></td>
                 </tr>
                 <tr>
+                    <th>Adres strony WWW:</th>
+                    <td>
+                        {% if filia.klient.stronaWWW %}
+                            <a class="link" href="{{ filia.klient.stronaWWW }}" target="_blank">{{ filia.klient.stronaWWW }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
                     <th>Nazwa filii:</th>
                     <td>{{ filia.nazwaFilii }}</td>
                 </tr>

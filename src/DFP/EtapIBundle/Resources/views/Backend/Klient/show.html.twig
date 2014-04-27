@@ -18,24 +18,40 @@
         <table class="karta-klienta">
             <tbody>
                 <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <td>{{ entity.id }}</td>
                 </tr>
                 <tr>
-                    <th>Pełna nazwa</th>
+                    <th>Pełna nazwa klienta</th>
                     <td>{{ entity.nazwaPelna }}</td>
                 </tr>
                 <tr>
-                    <th>Skrócona nazwa</th>
+                    <th>Skrócona nazwa klienta</th>
                     <td>{{ entity.nazwaSkrocona }}</td>
                 </tr>
                 <tr>
-                    <th>Data założenia</th>
+                    <th>Adres strony WWW:</th>
+                    <td>
+                        {% if entity.stronaWWW %}
+                            <a class="link" href="{{ entity.stronaWWW }}" target="_blank">{{ entity.stronaWWW }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Profil działalności</th>
+                    <td>
+                        {% for filia in entity.filie %}
+                            {{ filia.profileDzialalnosci|join(" | ") }}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Data założenia karty</th>
                     <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
                 </tr>
                 <tr>
                     <th>NIP</th>
-                    <td>{{ entity.nip }}</td>
+                    <td>{{ entity.nip|nip }}</td>
                 </tr>
                 <tr>
                     <th>Kod MAXx</th>
