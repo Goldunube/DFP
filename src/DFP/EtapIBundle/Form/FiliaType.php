@@ -87,7 +87,7 @@ class FiliaType extends AbstractType
             ->add('profileDzialalnosci', 'entity', array(
                     'label'         =>  'Profile działalności:',
                     'class'         =>  'DFPEtapIBundle:ProfilDzialalnosci',
-                    'property'      =>  'nazwaProfilu',
+                    'query_builder' =>  function($repository) {return $repository->createQueryBuilder('pd')->orderBy('pd.nazwaProfilu','ASC');},
                     'multiple'      =>  true,
                     'expanded'      =>  true,
                     'required'      =>  true,
