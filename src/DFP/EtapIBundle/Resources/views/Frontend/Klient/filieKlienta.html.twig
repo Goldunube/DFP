@@ -92,7 +92,7 @@
                             <td class="edycja">{{ form_widget(drugiFormularz.wojewodztwo) }}</td>
                         </tr>
                         <tr>
-                            <th>{{ form_label(drugiFormularz.miejscowosc) }}</th>
+                            <th>{{ form_label(drugiFormularz.kodPocztowy) }} / {{ form_label(drugiFormularz.miejscowosc) }}</th>
                             <td class="edycja">{{ form_widget(drugiFormularz.kodPocztowy) }}; {{ form_widget(drugiFormularz.miejscowosc) }}</td>
                         </tr>
                         <tr>
@@ -123,6 +123,8 @@
                         </tr>
                     </tbody>
                 </table>
+                <span class="required">Pola oznaczone * są wymagane.</span>
+
                 {{ form_row(drugiFormularz.klient) }}
                 {{ form_row(drugiFormularz._token) }}
                 <ul class="record_actions">
@@ -141,5 +143,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+    $('.record_properties').on('focusin','.kod-pocztowy', function() {
+        $(this).mask('00-000');
+    });
     $('#filie-pracownicy').obslugaFormularzy();
 {% endblock javascripts %}

@@ -15,21 +15,41 @@ class KlientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nazwaPelna')
-            ->add('nazwaSkrocona')
+            ->add('nazwaPelna',null,array(
+                    'label'     =>  'Pełna nazwa klienta:',
+                    'required'  =>  true,
+                )
+            )
+            ->add('nazwaSkrocona',null,array(
+                    'label'     =>  'Skrócona nazwa klienta:',
+                    'required'  =>  true,
+                )
+            )
             ->add('stronaWWW','url', array(
-                    'label'     =>  'Adres strony WWW',
+                    'label'     =>  'Adres strony WWW:',
                     'required'  =>  false,
                     'attr'      =>  array(
                         'placeholder'   =>  'Poprawny adres WWW musi zaczynać się od frazy `http://` np. `http://www.csv.pl`',
                     )
                 )
             )
-            ->add('nip')
-            ->add('kodMax')
-            ->add('kanalDystrybucji')
+            ->add('nip',null,array(
+                    'label'     =>  'NIP:',
+                    'required'  =>  true,
+                )
+            )
+            ->add('kodMax',null,array(
+                    'label'     =>  'Kod MAX:',
+                    'required'  =>  false,
+                )
+            )
+            ->add('kanalDystrybucji',null,array(
+                    'label'     =>  'Kanał Dystrybucji:',
+                    'required'  =>  false,
+                )
+            )
             ->add('grupyKlientow', 'entity', array(
-                    'label'     =>  'Grupa klientów',
+                    'label'     =>  'Grupa klientów:',
                     'class'     =>  'DFPEtapIBundle:GrupaKlientow',
                     'property'  =>  'nazwaGrupy',
                     'multiple'  =>  true,

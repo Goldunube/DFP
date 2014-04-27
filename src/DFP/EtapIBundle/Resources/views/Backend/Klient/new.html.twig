@@ -75,31 +75,31 @@
                 <caption>Informacje podstawowe</caption>
                 <tbody>
                     <tr>
-                        <th>Pełna nazwa:</th>
+                        <th>{{ form_label(form.nazwaPelna) }}</th>
                         <td class="edycja">{{ form_widget(form.nazwaPelna) }}</td>
                     </tr>
                     <tr>
-                        <th>Skrócona nazwa:</th>
+                        <th>{{ form_label(form.nazwaSkrocona) }}</th>
                         <td class="edycja">{{ form_widget(form.nazwaSkrocona) }}</td>
                     </tr>
                     <tr>
-                        <th>{{ form_label(form.stronaWWW) }}:</th>
+                        <th>{{ form_label(form.stronaWWW) }}</th>
                         <td class="edycja adres-www">{{ form_widget(form.stronaWWW) }}</td>
                     </tr>
                     <tr>
-                        <th>NIP:</th>
+                        <th>{{ form_label(form.nip) }}</th>
                         <td class="edycja">{{ form_widget(form.nip) }}</td>
                     </tr>
                     <tr>
-                        <th>Kod MAX:</th>
+                        <th>{{ form_label(form.kodMax) }}</th>
                         <td class="edycja">{{ form_widget(form.kodMax) }}</td>
                     </tr>
                     <tr>
-                        <th>Kanał dystrybucji:</th>
+                        <th>{{ form_label(form.kanalDystrybucji) }}</th>
                         <td class="edycja">{{ form_widget(form.kanalDystrybucji) }}</td>
                     </tr>
                     <tr>
-                        <th>{{ form_label(form.grupyKlientow) }}:</th>
+                        <th>{{ form_label(form.grupyKlientow) }}</th>
                         <td class="edycja">
                             <div class="checks-list">
                                 <div>
@@ -112,21 +112,22 @@
                     </tr>
                 </tbody>
             </table>
+            <span class="required">Pola oznaczone * są wymagane.</span>
 
             {% for filia in form.filie %}
                 <table class="record_properties">
                     <caption>Główna filia:</caption>
                     <tbody>
                         <tr>
-                            <th>{{ form_label(filia.wojewodztwo) }}:</th>
+                            <th>{{ form_label(filia.wojewodztwo) }}</th>
                             <td class="edycja">{{ form_widget(filia.wojewodztwo) }}</td>
                         </tr>
                         <tr>
-                            <th>Kod Pocztowy / Miejscowość:</th>
+                            <th>{{ form_label(filia.kodPocztowy) }} / {{ form_label(filia.miejscowosc) }}</th>
                             <td class="edycja">{{ form_widget(filia.kodPocztowy) }}; {{ form_widget(filia.miejscowosc, {'attr': {'style':'width: 87%;'} }) }}</td>
                         </tr>
                         <tr>
-                            <th>{{ form_label(filia.ulica) }}:</th>
+                            <th>{{ form_label(filia.ulica) }}</th>
                             <td class="edycja">{{ form_widget(filia.ulica) }}</td>
                         </tr>
                         <tr id="filie-pracownicy">
@@ -140,7 +141,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Profile działalności: <sup class="pomoc" title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
+                            <th>{{ form_label(filia.profileDzialalnosci) }} <sup class="pomoc" title="podać rodzaje elementów lub produktów finalnych, które są malowane">?</sup></th>
                             <td class="edycja">
                                 <div class="checks-list">
                                     <div>
@@ -152,19 +153,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Stosowany system malarski: <sup class="pomoc" title="podać zestaw stosowany obecnie przez klienta tzn.: czy grunt+nawierzchnia czy tylko gruntoemalia//podać typ farby: alkid, poliuretan czy epoxyd//podać nazwy handlowe farb i producenta). Poziom dotychczasowych cen (może być bez podawania nazw produktów">?</sup></th>
+                            <th>{{ form_label(filia.matlakDotychczas) }} <sup class="pomoc" title="podać zestaw stosowany obecnie przez klienta tzn.: czy grunt+nawierzchnia czy tylko gruntoemalia//podać typ farby: alkid, poliuretan czy epoxyd//podać nazwy handlowe farb i producenta). Poziom dotychczasowych cen (może być bez podawania nazw produktów">?</sup></th>
                             <td class="edycja">{{ form_widget(filia.matlakDotychczas) }}</td>
                         </tr>
                         <tr>
-                            <th>Wielkość zużycia: <sup class="pomoc" title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
+                            <th>{{ form_label(filia.zuzycieMaterialow) }} <sup class="pomoc" title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
                             <td class="edycja">{{ form_widget(filia.zuzycieMaterialow) }}</td>
                         </tr>
                         <tr>
-                            <th>Kolorystyka: <sup class="pomoc" title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
+                            <th>{{ form_label(filia.kolorystyka) }} <sup class="pomoc" title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
                             <td class="edycja">{{ form_widget(filia.kolorystyka) }}</td>
                         </tr>
                         <tr id="materialy-uzupelniajace">
-                            <th>{{ form_label(filia.filieMaterialyUzupelniajace) }}: <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                            <th>{{ form_label(filia.filieMaterialyUzupelniajace) }} <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieMaterialyUzupelniajace.vars.prototype)|e }}">
                                     {% for material in filia.filieMaterialyUzupelniajace %}
@@ -174,17 +175,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>{{ form_label(filia.adnotacja) }}:</th>
+                            <th>{{ form_label(filia.adnotacja) }}</th>
                             <td class="edycja">{{ form_widget(filia.adnotacja) }}</td>
                         </tr>
                     </tbody>
                 </table>
+                <span class="required">Pola oznaczone * są wymagane.</span>
 
                 <table>
                     <caption>Informacje o procesie wykonywania powłoki lakierowej, parametry techniczne</caption>
                     <tbody>
                         <tr id="rodzaje-powierzchni">
-                            <th>{{ form_label(filia.filieRodzajePowierzchni) }}:</th>
+                            <th>{{ form_label(filia.filieRodzajePowierzchni) }}</th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieRodzajePowierzchni.vars.prototype)|e }}">
                                     {% for rodzaj in filia.filieRodzajePowierzchni %}
@@ -194,7 +196,7 @@
                             </td>
                         </tr>
                         <tr id="procesy-przygotowania-powierzchni">
-                            <th>{{ form_label(filia.filieProcesyPrzygotowaniaPowierzchni) }}: <sup class="pomoc" title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
+                            <th>{{ form_label(filia.filieProcesyPrzygotowaniaPowierzchni) }} <sup class="pomoc" title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                                     {% for proces in filia.filieProcesyPrzygotowaniaPowierzchni %}
@@ -204,7 +206,7 @@
                             </td>
                         </tr>
                         <tr id="procesy-aplikacji">
-                            <th>{{ form_label(filia.filieProcesyAplikacji) }}:</th>
+                            <th>{{ form_label(filia.filieProcesyAplikacji) }}</th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieProcesyAplikacji.vars.prototype)|e }}">
                                     {% for procesAplikacji in filia.filieProcesyAplikacji %}
@@ -214,7 +216,7 @@
                             </td>
                         </tr>
                         <tr id="procesy-utwardzania-powloki">
-                            <th>{{ form_label(filia.filieProcesyUtwardzaniaPowloki) }}:</th>
+                            <th>{{ form_label(filia.filieProcesyUtwardzaniaPowloki) }}</th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
                                     {% for proces in filia.filieProcesyUtwardzaniaPowloki %}
@@ -224,7 +226,7 @@
                             </td>
                         </tr>
                         <tr id="wymagania-powloki">
-                            <th>{{ form_label(filia.filieWymaganiaPowloki) }}: <sup class="pomoc" title="parametry jakie musi spełniać">?</sup></th>
+                            <th>{{ form_label(filia.filieWymaganiaPowloki) }} <sup class="pomoc" title="parametry jakie musi spełniać">?</sup></th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieWymaganiaPowloki.vars.prototype)|e }}">
                                     {% for wymaganie in filia.filieWymaganiaPowloki %}
@@ -234,7 +236,7 @@
                             </td>
                         </tr>
                         <tr id="wymagania-produktu">
-                            <th>{{ form_label(filia.filieWymaganiaProduktu) }}: <sup class="pomoc" title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
+                            <th>{{ form_label(filia.filieWymaganiaProduktu) }} <sup class="pomoc" title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
                             <td class="edycja filia-parametry-tech">
                                 <ul data-prototype="{{ form_widget(filia.filieWymaganiaProduktu.vars.prototype)|e }}">
                                     {% for wymaganie in filia.filieWymaganiaProduktu %}
@@ -245,6 +247,8 @@
                         </tr>
                     </tbody>
                 </table>
+                <span class="required">Pola oznaczone * są wymagane.</span>
+
             {% endfor %}
             {{ form_row(form._token) }}
             <ul class="record_actions">

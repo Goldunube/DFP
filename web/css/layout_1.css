@@ -15,6 +15,15 @@ label {
     font-size: 20px;
     margin-right: 10px;
 }
+label.required:after {
+    content: " *";
+    color: #FF0000;
+}
+span.required {
+    color: #FF0000;
+    font-weight: normal;
+    font-style: italic;
+}
 #main {
     min-height: 800px;
     height:auto !important;

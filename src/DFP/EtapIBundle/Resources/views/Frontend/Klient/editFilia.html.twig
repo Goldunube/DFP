@@ -82,15 +82,15 @@
                     <td><p>{{ filia.nazwaFilii }}</p></td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(formularz.wojewodztwo) }}:</th>
+                    <th>{{ form_label(formularz.wojewodztwo) }}</th>
                     <td class="edycja">{{ form_widget(formularz.wojewodztwo) }}</td>
                 </tr>
                 <tr>
-                    <th>Kod pocztowy / Miejscowość:</th>
+                    <th>{{ form_label(formularz.kodPocztowy) }} / {{ form_label(formularz.miejscowosc) }}</th>
                     <td class="edycja">{{ form_widget(formularz.kodPocztowy) }}; {{ form_widget(formularz.miejscowosc) }}</td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(formularz.ulica) }}:</th>
+                    <th>{{ form_label(formularz.ulica) }}</th>
                     <td class="edycja">{{ form_widget(formularz.ulica) }}</td>
                 </tr>
                 <tr id="filie-pracownicy">
@@ -128,7 +128,7 @@
                     <td class="edycja">{{ form_widget(formularz.kolorystyka) }}</td>
                 </tr>
                 <tr id="materialy-uzupelniajace">
-                    <th>{{ form_label(formularz.filieMaterialyUzupelniajace) }}: <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
+                    <th>{{ form_label(formularz.filieMaterialyUzupelniajace) }} <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
                     <td class="edycja filia-parametry-tech">
                         <ul data-prototype="{{ form_widget(formularz.filieMaterialyUzupelniajace.vars.prototype)|e }}">
                             {% for material in formularz.filieMaterialyUzupelniajace %}
@@ -138,17 +138,18 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(formularz.adnotacja) }}:</th>
+                    <th>{{ form_label(formularz.adnotacja) }}</th>
                     <td class="edycja">{{ form_widget(formularz.adnotacja) }}</td>
                 </tr>
                 </tbody>
             </table>
+            <span class="required">Pola oznaczone * są wymagane.</span>
 
             <table>
                 <caption>Informacje o procesie wykonywania powłoki lakierowej, parametry techniczne</caption>
                 <tbody>
                     <tr id="rodzaje-powierzchni">
-                        <th>{{ form_label(formularz.filieRodzajePowierzchni) }}:</th>
+                        <th>{{ form_label(formularz.filieRodzajePowierzchni) }}</th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieRodzajePowierzchni.vars.prototype)|e }}">
                                 {% for rodzaj in formularz.filieRodzajePowierzchni %}
@@ -158,7 +159,7 @@
                         </td>
                     </tr>
                     <tr id="procesy-przygotowania-powierzchni">
-                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }}: <sup class="pomoc" title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
+                        <th>{{ form_label(formularz.filieProcesyPrzygotowaniaPowierzchni) }} <sup class="pomoc" title="W przypadku używania materiałów ściernych podać łączne zużycie miesięczne: krążków, ściernic itd. pomocne będą zdjęcia stosowanych materiałów ściernych">?</sup></th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieProcesyPrzygotowaniaPowierzchni.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyPrzygotowaniaPowierzchni %}
@@ -168,7 +169,7 @@
                         </td>
                     </tr>
                     <tr id="procesy-aplikacji">
-                        <th>{{ form_label(formularz.filieProcesyAplikacji) }}:</th>
+                        <th>{{ form_label(formularz.filieProcesyAplikacji) }}</th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieProcesyAplikacji.vars.prototype)|e }}">
                                 {% for procesAplikacji in formularz.filieProcesyAplikacji %}
@@ -178,7 +179,7 @@
                         </td>
                     </tr>
                     <tr id="procesy-utwardzania-powloki">
-                        <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}:</th>
+                        <th>{{ form_label(formularz.filieProcesyUtwardzaniaPowloki) }}</th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieProcesyUtwardzaniaPowloki.vars.prototype)|e }}">
                                 {% for proces in formularz.filieProcesyUtwardzaniaPowloki %}
@@ -188,7 +189,7 @@
                         </td>
                     </tr>
                     <tr id="wymagania-powloki">
-                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }}: <sup class="pomoc" title="parametry jakie musi spełniać">?</sup></th>
+                        <th>{{ form_label(formularz.filieWymaganiaPowloki) }} <sup class="pomoc" title="parametry jakie musi spełniać">?</sup></th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieWymaganiaPowloki.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaPowloki %}
@@ -198,7 +199,7 @@
                         </td>
                     </tr>
                     <tr id="wymagania-produktu">
-                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }}: <sup class="pomoc" title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
+                        <th>{{ form_label(formularz.filieWymaganiaProduktu) }} <sup class="pomoc" title="alternatywnie można pozyskać karty techniczne produktów">?</sup></th>
                         <td class="edycja filia-parametry-tech">
                             <ul data-prototype="{{ form_widget(formularz.filieWymaganiaProduktu.vars.prototype)|e }}">
                                 {% for wymaganie in formularz.filieWymaganiaProduktu %}
@@ -209,6 +210,8 @@
                     </tr>
                 </tbody>
             </table>
+            <span class="required">Pola oznaczone * są wymagane.</span>
+
             {{ form_row(formularz._token) }}
             <ul class="record_actions">
                 <li>

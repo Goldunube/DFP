@@ -106,13 +106,18 @@ class FilieController extends Controller
                 'method'    => 'PUT',
         ));
 
-        $form->add('nazwaFilii');
+        $form->add('nazwaFilii',null,array(
+                'label'         =>  'Nazwa filii:',
+                'required'      =>  true,
+            )
+        );
         $form->add('filieUzytkownicy', 'collection', array(
                 'type'          =>  new FiliaUzytkownikType(),
-                'label'         =>  'Przypisani',
+                'label'         =>  'Przypisani użytkownicy:',
                 'allow_add'     =>  true,
                 'allow_delete'  =>  true,
                 'by_reference'  =>  false,
+                'required'      =>  false,
         ));
         $form->add('submit','submit', array('label'=>'Aktualizuj'));
 

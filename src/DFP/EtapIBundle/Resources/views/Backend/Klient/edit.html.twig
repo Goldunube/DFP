@@ -57,31 +57,31 @@
             <caption>Informacje podstawowe</caption>
             <tbody>
                 <tr>
-                    <th>Pełna nazwa:</th>
+                    <th>{{ form_label(form.nazwaPelna) }}</th>
                     <td class="edycja">{{ form_widget(form.nazwaPelna) }}</td>
                 </tr>
                 <tr>
-                    <th>Skrócona nazwa:</th>
+                    <th>{{ form_label(form.nazwaSkrocona) }}</th>
                     <td class="edycja">{{ form_widget(form.nazwaSkrocona) }}</td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(form.stronaWWW) }}:</th>
+                    <th>{{ form_label(form.stronaWWW) }}</th>
                     <td class="edycja adres-www">{{ form_widget(form.stronaWWW) }}</td>
                 </tr>
                 <tr>
-                    <th>NIP:</th>
+                    <th>{{ form_label(form.nip) }}</th>
                     <td class="edycja">{{ form_widget(form.nip) }}</td>
                 </tr>
                 <tr>
-                    <th>Kod MAX:</th>
+                    <th>{{ form_label(form.kodMax) }}</th>
                     <td class="edycja">{{ form_widget(form.kodMax) }}</td>
                 </tr>
                 <tr>
-                    <th>Kanał dystrybucji:</th>
+                    <th>{{ form_label(form.kanalDystrybucji) }}</th>
                     <td class="edycja">{{ form_widget(form.kanalDystrybucji) }}</td>
                 </tr>
                 <tr>
-                    <th>{{ form_label(form.grupyKlientow) }}:</th>
+                    <th>{{ form_label(form.grupyKlientow) }}</th>
                     <td class="edycja">
                         <div class="checks-list">
                             <div>
@@ -94,6 +94,8 @@
                 </tr>
             </tbody>
         </table>
+        <span class="required">Pola oznaczone * są wymagane.</span>
+
         {{ form_row(form._token) }}
         <ul class="record_actions">
             <li>
