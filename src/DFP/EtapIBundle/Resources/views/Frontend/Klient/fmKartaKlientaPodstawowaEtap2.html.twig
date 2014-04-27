@@ -65,7 +65,7 @@
         <h1>Formularz podstawowej karty klienta</h1>
         <section style="text-align: left; margin-top: 30px;">
             <h2 style="color: #7B68EE;text-align: center;">Etap 2/2</h2>
-            <p>Dla Klienta identyfikującego się NIP'em: <strong>{{ klient.nip }}</strong> nie została jeszcze założona karta klienta. Wypełnij poniższe pola formularza, aby tego dokonać.</p>
+            <p>Dla Klienta identyfikującego się NIP'em: <strong>{{ klient.nip|nip }}</strong> nie została jeszcze założona karta klienta. Wypełnij poniższe pola formularza, aby tego dokonać.</p>
             {{ form_start(kartaPodstawowa) }}
             {{ form_errors(kartaPodstawowa) }}
             <table class="record_properties">

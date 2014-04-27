@@ -22,7 +22,7 @@
                     <td class="lp"><a href="{{ path('klient_show', { 'id': klient.id }) }}">{{ lista_klientow.getPaginationData['firstItemNumber'] + loop.index - 1 }}</a></td>
                     <td title="Pełna nazwa: {{ klient.nazwaPelna }}">{{ klient.nazwaSkrocona }}</td>
                     <td>{{ klient.kodMax }}</td>
-                    <td>{{ klient.nip }}</td>
+                    <td>{{ klient.nip|nip }}</td>
                     <td>{{ klient.filie|length }}</td>
                     <td>{{ klient.grupyKlientow|join(" | ") }}</td>
                     <td>
