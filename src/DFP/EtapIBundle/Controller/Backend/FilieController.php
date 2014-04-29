@@ -5,6 +5,7 @@ namespace DFP\EtapIBundle\Controller\Backend;
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
+use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
 use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
 use DFP\EtapIBundle\Form\FiliaUzytkownikType;
@@ -146,12 +147,23 @@ class FilieController extends Controller
         $editForm = $this->createEditForm($filia);
         $deleteForm = $this->createDeleteForm($id);
         $previousUrl = $this->getRequest()->headers->get('referer');
+        $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
+        $tablicaProfileDzialalnosci = new ArrayCollection();
+
+        /**
+         * @var ProfilDzialalnosci $profil
+         */
+        foreach($profileDzialalnosci as $profil)
+        {
+            $tablicaProfileDzialalnosci[$profil->getId()] = $profil->getInfo();
+        }
 
         return array(
             'filia'         =>  $filia,
             'formularz'     =>  $editForm->createView(),
             'delete_form'   =>  $deleteForm->createView(),
             'powrot_url'    =>  $previousUrl,
+            'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
         );
 
     }

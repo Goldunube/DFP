@@ -35,11 +35,14 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/formularze.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript" src="/js/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/dfp_obsluga_formularzy.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -115,7 +118,7 @@
                                 <div class="checks-list">
                                     <div>
                                         {% for profilDzialalnosci in drugiFormularz.profileDzialalnosci %}
-                                            {{ form_label(profilDzialalnosci) }} {{ form_widget(profilDzialalnosci) }}
+                                            {{ form_label(profilDzialalnosci,null,{'label_attr' : {'title': profile_dzialalnosci[profilDzialalnosci.vars.value] } }) }} {{ form_widget(profilDzialalnosci) }}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -147,4 +150,5 @@
         $(this).mask('00-000');
     });
     $('#filie-pracownicy').obslugaFormularzy();
+    $('.record_properties [title!=""]').qtip({style: {widget:true}, position: { my: 'top left', at: 'bottom center' } });
 {% endblock javascripts %}

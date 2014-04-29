@@ -3,6 +3,8 @@
 namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\Filia;
+use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -57,6 +59,17 @@ class KlientController extends Controller
         $filia->setKlient($entity);
         $entity->getFilie()->add($filia);
 
+        $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
+        $tablicaProfileDzialalnosci = new ArrayCollection();
+
+        /**
+         * @var ProfilDzialalnosci $profil
+         */
+        foreach($profileDzialalnosci as $profil)
+        {
+            $tablicaProfileDzialalnosci[$profil->getId()] = $profil->getInfo();
+        }
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -97,6 +110,7 @@ class KlientController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
         );
     }
 
@@ -128,14 +142,29 @@ class KlientController extends Controller
      */
     public function newAction()
     {
+        $em = $this->getDoctrine()->getManager();
         $entity = new Klient();
         $filia = new Filia();
         $entity->getFilie()->add($filia);
+
+        $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
+        $tablicaProfileDzialalnosci = new ArrayCollection();
+
+        /**
+         * @var ProfilDzialalnosci $profil
+         */
+        foreach($profileDzialalnosci as $profil)
+        {
+            $tablicaProfileDzialalnosci[$profil->getId()] = $profil->getInfo();
+        }
+
         $form   = $this->createCreateForm($entity);
 
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
+
         );
     }
 

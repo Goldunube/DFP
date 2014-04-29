@@ -68,6 +68,19 @@ class KlientController extends Controller
      */
     public function utworzKartePodstawowaAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
+        $tablicaProfileDzialalnosci = new ArrayCollection();
+
+        /**
+         * @var ProfilDzialalnosci $profil
+         */
+        foreach($profileDzialalnosci as $profil)
+        {
+            $tablicaProfileDzialalnosci[$profil->getId()] = $profil->getInfo();
+        }
+
         $klient = new Klient();
         $klient->setDataZalozenia(new \DateTime('now'));
         $klient->setAktywny();
@@ -108,6 +121,7 @@ class KlientController extends Controller
         return array(
             'klient'    => $klient,
             'form'      => $form->createView(),
+            'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
         );
     }
 
@@ -168,6 +182,19 @@ class KlientController extends Controller
      */
     public function wyswietlFmPodstawowaKarteKlientaEtap1Action(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
+        $tablicaProfileDzialalnosci = new ArrayCollection();
+
+        /**
+         * @var ProfilDzialalnosci $profil
+         */
+        foreach($profileDzialalnosci as $profil)
+        {
+            $tablicaProfileDzialalnosci[$profil->getId()] = $profil->getInfo();
+        }
+
         $klient = new Klient();
         $filia = new Filia();
         $klient->getFilie()->add($filia);
@@ -199,6 +226,7 @@ class KlientController extends Controller
                 return $this->render('DFPEtapIBundle:Frontend/Klient:fmKartaKlientaPodstawowaEtap2.html.twig',array(
                     'klient'            => $klient,
                     'kartaPodstawowa'   => $form->createView(),
+                    'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
                 ));
             }else{
                 $filia = new Filia();
@@ -219,6 +247,7 @@ class KlientController extends Controller
                 return $this->render('DFPEtapIBundle:Frontend/Klient:filieKlienta.html.twig',array(
                     'klient'            => $entity,
                     'drugiFormularz'    => $form2step->createView(),
+                    'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
                 ));
             }
         }
@@ -226,6 +255,7 @@ class KlientController extends Controller
         return array(
             'klient'                => $klient,
             'kartaPodstawowa'       => $form->createView(),
+            'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
         );
     }
 
@@ -418,6 +448,17 @@ class KlientController extends Controller
         $filiaPPP = new FiliaProcesPrzygotowaniaPowierzchni();
         $filiaPPP->setFilia($filia);
 
+        $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
+        $tablicaProfileDzialalnosci = new ArrayCollection();
+
+        /**
+         * @var ProfilDzialalnosci $profil
+         */
+        foreach($profileDzialalnosci as $profil)
+        {
+            $tablicaProfileDzialalnosci[$profil->getId()] = $profil->getInfo();
+        }
+
         //TODO dodać sprawdzenie, czy osoba która próbuje edytować filie ma odpowiednie uprawnienia
 
         if(!$filia)
@@ -464,6 +505,7 @@ class KlientController extends Controller
         return array(
             'filia'         =>  $filia,
             'formularz'     =>  $editFiliaForm->createView(),
+            'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
         );
     }
 
