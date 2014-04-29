@@ -78,18 +78,19 @@ form input[type="text"], form input[type="number"], form input[type="email"], fo
 .checks-list div {
     border: 1px solid #AAAAAA;
     float: left;
-    height: auto;
+    height: 150px;
     padding: 5px;
+    overflow-y: scroll !important;
 }
 .checks-list input {
     cursor: pointer;
     float: left;
-    margin: 2px 85px 2px 0;
+    margin: 0;
 }
 .checks-list div label {
     cursor: pointer;
     font-size: 13px;
-    width: 200px;
+    width: 95%;
 }
 .filia-parametry-tech ul {
     padding: 0 5px;
