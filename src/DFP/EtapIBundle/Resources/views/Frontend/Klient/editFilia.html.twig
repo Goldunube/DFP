@@ -311,7 +311,7 @@
 
     {#  qTip  #}
     $('.pomoc').qTipHelper();
-    $('.record_properties [title!=""]').qtip({style: {widget:true}, position: { my: 'top left', at: 'bottom center' } });
+    $('.record_properties [title!=""]').qtip({style: {widget:true}, position: { my: 'bottom left', at: 'top left', adjust: { x:30 } } });
     $('#procesy-aplikacji').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_metoda_aplikacji_opis') }}'});
     $('#rodzaje-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_rodzaj_powierzchni_opis') }}'});
     $('#procesy-przygotowania-powierzchni').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_proces_przygotowania_powierzchni_opis') }}'});
