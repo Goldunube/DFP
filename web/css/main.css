@@ -227,6 +227,7 @@ div {
     white-space: nowrap;
     float: none;
     text-transform: none;
+    color: #FFFFFF;
 }
 #mainmenu ul a:hover {
     background-color: #0186ba;
