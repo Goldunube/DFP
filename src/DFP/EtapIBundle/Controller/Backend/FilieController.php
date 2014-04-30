@@ -120,6 +120,14 @@ class FilieController extends Controller
                 'by_reference'  =>  false,
                 'required'      =>  false,
         ));
+        $form->add('stronaWWW','url',array(
+                'label'     =>  'Adres strony WWW:',
+                'required'  =>  false,
+                'attr'      =>  array(
+                    'placeholder'   =>  'Poprawny adres WWW musi zaczynać się od frazy `http://` np. `http://www.csv.pl`',
+                )
+            )
+        );
         $form->add('submit','submit', array('label'=>'Aktualizuj'));
 
         return $form;

@@ -898,4 +898,24 @@ class Filia
         return $this;
     }
 
+    /**
+     * Get Strona WWW klienta
+     *
+     * @return string
+     */
+    public function getStronaWWW()
+    {
+        return $this->getKlient()->getStronaWWW();
+    }
+
+    /**
+     * Set Strona WWW Klienta
+     *
+     * @param $stronaWWW
+     */
+    public function setStronaWWW($stronaWWW)
+    {
+        $this->getKlient()->setStronaWWW($stronaWWW);
+    }
+
 }

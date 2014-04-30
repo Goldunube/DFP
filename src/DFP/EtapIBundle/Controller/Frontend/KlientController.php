@@ -491,6 +491,14 @@ class KlientController extends Controller
         ));
 
         $editFiliaForm->add('submit', 'submit', array('label' => 'Aktualizuj'));
+        $editFiliaForm->add('stronaWWW','url',array(
+                'label'     =>  'Adres strony WWW:',
+                'required'  =>  false,
+                'attr'      =>  array(
+                    'placeholder'   =>  'Poprawny adres WWW musi zaczynać się od frazy `http://` np. `http://www.csv.pl`',
+                )
+            )
+        );
 
         $editFiliaForm->handleRequest($request);
         if($editFiliaForm->isValid())
