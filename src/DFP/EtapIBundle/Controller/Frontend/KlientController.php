@@ -107,6 +107,12 @@ class KlientController extends Controller
             )
         );
         $form->add('submit', 'submit', array('label'=> 'Utworz'));
+        $form->add('filie', 'collection', array(
+                    'type'      =>  new FiliaType(),
+                    'label'     =>  false,
+                    'options'   => array('label' => false),
+                )
+        );
         $form->handleRequest($request);
 
         if($form->isValid())

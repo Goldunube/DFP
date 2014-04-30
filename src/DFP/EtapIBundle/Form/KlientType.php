@@ -56,12 +56,12 @@ class KlientType extends AbstractType
                     'expanded'  =>  true
                 )
             )
-            ->add('filie', 'collection', array(
+            /*->add('filie', 'collection', array(
                     'type'      =>  new FiliaType(),
                     'label'     =>  false,
                     'options'   => array('label' => false),
                 )
-            )
+            )*/
         ;
     }
     

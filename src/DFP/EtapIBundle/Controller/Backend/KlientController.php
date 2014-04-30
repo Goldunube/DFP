@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
+use DFP\EtapIBundle\Form\FiliaType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -129,6 +130,12 @@ class KlientController extends Controller
         ));
 
         $form->add('submit', 'submit', array('label' => 'Utwórz'));
+        $form->add('filie', 'collection', array(
+                    'type'      =>  new FiliaType(),
+                    'label'     =>  false,
+                    'options'   => array('label' => false),
+            )
+        );
 
         return $form;
     }
