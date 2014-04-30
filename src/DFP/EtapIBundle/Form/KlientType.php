@@ -16,13 +16,19 @@ class KlientType extends AbstractType
     {
         $builder
             ->add('nazwaPelna',null,array(
-                    'label'     =>  'Pełna nazwa klienta:',
-                    'required'  =>  true,
+                    'label'         =>  'Pełna nazwa klienta:',
+                    'required'      =>  true,
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź pełną nazwę klienta'
+                    )
                 )
             )
             ->add('nazwaSkrocona',null,array(
-                    'label'     =>  'Skrócona nazwa klienta:',
-                    'required'  =>  true,
+                    'label'         =>  'Skrócona nazwa klienta:',
+                    'required'      =>  true,
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź skróconą nazwę klienta'
+                    )
                 )
             )
             ->add('stronaWWW','url', array(

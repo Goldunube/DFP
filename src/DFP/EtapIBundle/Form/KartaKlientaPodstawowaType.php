@@ -16,10 +16,22 @@ class KartaKlientaPodstawowaType extends AbstractType
     {
         $builder
             ->add('nip', 'text', array('label'=> 'NIP'))
-            ->add('nazwaPelna', 'text', array('label'=>'Pełna nazwa'))
-            ->add('nazwaSkrocona', 'text', array('label'=>'Skrócona nazwa'))
+            ->add('nazwaPelna', 'text', array(
+                    'label'=>'Pełna nazwa:',
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź pełną nazwę klienta'
+                    )
+                )
+            )
+            ->add('nazwaSkrocona', 'text', array(
+                    'label'=>'Skrócona nazwa:',
+                    'attr'          =>  array(
+                        'placeholder'   =>  'Wprowadź skróconą nazwę klienta'
+                    )
+                )
+            )
             ->add('stronaWWW','url', array(
-                    'label'     =>  'Adres strony WWW',
+                    'label'     =>  'Adres strony WWW:',
                     'required'  =>  false,
                     'attr'      =>  array(
                         'placeholder'   =>  'Poprawny adres WWW musi zaczynać się od frazy `http://` np. `http://www.csv.pl`'
