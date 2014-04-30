@@ -433,7 +433,7 @@ class FiliaPracownik
                 </tr>
                 <tr>
                     <th>e-mail</th>
-                    <td>$email</td>
+                    <td><a href='mailto:$email' class='link'>$email</a></td>
                 </tr>
                 <tr>
                     <th>Skype:</th>
