@@ -156,14 +156,14 @@ class KlientController extends Controller
         if($form->isSubmitted())
         {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('DFPEtapIBundle:Filia')->findOneByZip($filia->getKodPocztowy());
-            if(!$entity)
-            {
+            //$entity = $em->getRepository('DFPEtapIBundle:Filia')->findOneByZip($filia->getKodPocztowy());
+            //if(!$entity)
+            //{
                 $em->persist($filia);
                 $em->flush();
-            }else{
+            //}else{
                 //TODO: Dodać warunek sprawdzający przypisanie klienta do użytkownika
-            }
+            //}
 
         }else{
             //return $this->redirect($this->generateUrl('strona_glowna'));
@@ -244,6 +244,7 @@ class KlientController extends Controller
                     )
                     ->add('powrot','submit',array('label'=>'Powrót'))
                     ->add('dodaj','submit',array('label'=>'Dodaj'));
+
                 return $this->render('DFPEtapIBundle:Frontend/Klient:filieKlienta.html.twig',array(
                     'klient'            => $entity,
                     'drugiFormularz'    => $form2step->createView(),
