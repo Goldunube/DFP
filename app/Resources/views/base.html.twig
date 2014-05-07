@@ -32,7 +32,7 @@
                             </dl>
                             <div>
                                 <p><a class="art-button" href="{{ path('fos_user_security_logout') }}">Wyloguj</a></p>
-                                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_KDFP') or is_granted('ROLE_KP') or is_granted('ROLE_DYR') %}
+                                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_KDFP') or is_granted('ROLE_KP') or is_granted('ROLE_DYR') or is_granted('ROLE_TECHNIK') or is_granted('ROLE_TECHNOLOG') %}
                                     <p><a class="art-button czarny" href="{{ path('zaplecze_glowna') }}">Zaplecze</a></p>
                                 {% endif %}
                             </div>
