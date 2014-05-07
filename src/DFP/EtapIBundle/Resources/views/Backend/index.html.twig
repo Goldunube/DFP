@@ -67,6 +67,13 @@
             </li>
         </ul>
     </li>
+    <li><a class="poziom" href="#">Oferty handlowe</a>
+        <ul>
+            <li><a href="{{ path('backend_oferty_handlowe_wszystkie') }}">Lista wszystkich ofert</a></li>
+            <li><a title="Lista ofert oczekujących na dobór systemu malarskiego" href="{{ path('backend_oferty_handlowe_oczekujace_sm') }}">Oczekujące na dobór</a></li>
+            <li><a title="Lista ofert oczekujących na opracowanie oferty handlowej" href="{{ path('backend_oferty_handlowe_oczekujace_oh') }}">Oczekujące na ofertę</a></li>
+        </ul>
+    </li>
     <li><a class="poziom" href="#">Użytkownicy</a>
         <ul>
             <li><a href="{{ path('url_lista_uzytkownikow') }}">Lista użytkowników</a></li>

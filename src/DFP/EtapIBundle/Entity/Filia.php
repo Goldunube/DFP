@@ -182,6 +182,12 @@ class Filia
      */
     protected $filieMaterialyUzupelniajace;
 
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="OfertaHandlowa", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $filieOfertyHandlowe;
 
     public function __construct()
     {
@@ -197,6 +203,7 @@ class Filia
         $this->filieWymaganiaPowlok = new ArrayCollection();
         $this->zobowiazania = new ArrayCollection();
         $this->filieNotatki = new ArrayCollection();
+        $this->filieOfertyHandlowe = new ArrayCollection();
     }
 
     public function __toString()
@@ -244,7 +251,7 @@ class Filia
      */
     public function setWojewodztwo($wojewodztwo)
     {
-        $this->wojewodztwo = ucfirst($wojewodztwo);
+        $this->wojewodztwo = $wojewodztwo;
     
         return $this;
     }
@@ -916,6 +923,47 @@ class Filia
     public function setStronaWWW($stronaWWW)
     {
         $this->getKlient()->setStronaWWW($stronaWWW);
+    }
+
+    /**
+     * Add filieOfertyHandlowe
+     *
+     * @param OfertaHandlowa $filieOfertyHandlowe
+     */
+    public function addFilieOfertyHandlowe(OfertaHandlowa $filieOfertyHandlowe)
+    {
+        $this->filieOfertyHandlowe[] = $filieOfertyHandlowe;
+    }
+
+    /**
+     * Remove filieOfertyHandlowe
+     *
+     * @param OfertaHandlowa $filieOfertyHandlowe
+     */
+    public function removeFilieOfertyHandlowe(OfertaHandlowa $filieOfertyHandlowe)
+    {
+        $this->filieOfertyHandlowe->removeElement($filieOfertyHandlowe);
+    }
+
+    /**
+     * Get filieOfertyHandlowe
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFilieOfertyHandlowe()
+    {
+        return $this->filieOfertyHandlowe;
+    }
+
+    /**
+     * Set filieOfertyHandlowe
+     *
+     * @param OfertaHandlowa $filieOfertyHandlowe
+     *
+     */
+    public function setFilieOfertyHandlowe(OfertaHandlowa $filieOfertyHandlowe)
+    {
+        $this->filieOfertyHandlowe = $filieOfertyHandlowe;
     }
 
 }

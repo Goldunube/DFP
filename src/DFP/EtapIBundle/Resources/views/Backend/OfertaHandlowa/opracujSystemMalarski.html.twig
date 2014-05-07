@@ -1,0 +1,51 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Dobór Systemu Malarskiego</h1>
+
+        <table class="records_list">
+            <thead>
+                <tr>
+                    <th>Profil działalności</th>
+                    <th>System malarski</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profil in oferta.filia.profileDzialalnosci %}
+                    <tr>
+                        <th>
+                            {{ profil.nazwaProfilu }}
+                        </th>
+                        <td>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <aside>
+        {{ form_start(oferta_system_form) }}
+        {{ form_end(oferta_system_form) }}
+    </aside>
+
+    <div class="popup-windows">
+        {{ form_start(system_form) }}
+        {{ form_end(system_form) }}
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a href="#" class="art-button">Powrót do listy</a>
+        </li>
+        <li>
+            <a href="#" class="art-button zielony">Otwórz zamówienie</a>
+        </li>
+    </ul>
+
+    {#    <div class="navigation">
+            {{ knp_pagination_render(entities) }}
+        </div>#}
+{% endblock %}
