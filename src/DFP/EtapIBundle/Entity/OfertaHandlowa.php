@@ -74,9 +74,9 @@ class OfertaHandlowa
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="OfertaHandlowaProfSys", mappedBy="ofertaHandlowa", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="OfertaHandlowaProfilSystem", mappedBy="ofertaHandlowa", cascade={"persist"}, orphanRemoval=true)
      */
-    protected $systemyMalarskie;
+    protected $ofertyProfileSystemy;
 
     /**
      * Get id

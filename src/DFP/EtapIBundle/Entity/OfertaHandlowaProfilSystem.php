@@ -5,12 +5,12 @@ namespace DFP\EtapIBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OfertaHandlowaProfSys
+ * OfertaHandlowaProfilSystem
  *
- * @ORM\Table()
+ * @ORM\Table(name="oferty_profile_systemy")
  * @ORM\Entity
  */
-class OfertaHandlowaProfSys
+class OfertaHandlowaProfilSystem
 {
     /**
      * @var integer
@@ -28,6 +28,12 @@ class OfertaHandlowaProfSys
      */
     private $uwagi;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="OfertaHandlowa", inversedBy="ofertyProfileSystemy")
+     * @ORM\JoinColumn(name="oferta_handlowa_id", referencedColumnName="id", nullable=false)
+     */
+    private $ofertaHandlowa;
+
 
     /**
      * Get id
@@ -43,7 +49,7 @@ class OfertaHandlowaProfSys
      * Set uwagi
      *
      * @param string $uwagi
-     * @return OfertaHandlowaProfSys
+     * @return OfertaHandlowaProfilSystem
      */
     public function setUwagi($uwagi)
     {

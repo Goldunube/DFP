@@ -160,17 +160,4 @@ class OfertaHandlowaController extends Controller
 
         return $form;
     }
-
-    private function createNewOfertaSystemForm(OfertaSystem $system)
-    {
-        $form = $this->createForm(new OfertaSystemType(), $system, array(
-                'action'    =>  '#',
-                'method'    =>  'POST'
-            )
-        );
-
-        $form->add('submit', 'submit', array('label'=>'Utwórz'));
-
-        return $form;
-    }
 }

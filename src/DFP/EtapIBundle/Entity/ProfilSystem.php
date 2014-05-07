@@ -40,6 +40,11 @@ class ProfilSystem
      */
     private $systemMalarski;
 
+    /**
+     * @ORM\OneToMany(targetEntity="OfertaHandlowaProfilSystem", mappedBy="profilSystem", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $ofertyProfileSystemy;
+
 
     /**
      * Get id
