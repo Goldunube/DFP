@@ -239,16 +239,23 @@
                 <li>
                     {{ form_row(formularz.submit) }}
                 </li>
+                <li>
+                    <input type="button" class="confirm-delete" value="Test">
+                </li>
             </ul>
             {{ form_end(formularz, {'render_rest':false}) }}
             <ul class="record_actions">
                 <li>
                     {{ form_start(delete_form) }}
-                    {{ form_row(delete_form.submit, {'attr' : {'class':'art-button czerwony'} }) }}
+                    {{ form_row(delete_form.submit, {'attr' : {'class':'art-button czerwony confirm-delete'} }) }}
                     {{ form_end(delete_form) }}
                 </li>
             </ul>
     </section>
+
+    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Potwierdzenie spowoduje nieodwracalne usunięcie elementu z bazy danych Portalu DFP.</p>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -344,4 +351,28 @@
         $(this).datetimepicker({dateFormat: "yy-mm-dd"});
     });
 
+    {#   Confirm-Dialog  #}
+    $('#dialog-delete-confirm').dialog({
+        autoOpen: false,
+        resizable: false,
+        height: 180,
+        modal: true,
+        buttons: {
+            "Usuń": function() {
+                $( this ).dialog( "close" );
+            },
+            Anuluj: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        hide: {
+            effect: "blind",
+            duration: 500
+        },
+        closeOnEscape: true
+    })
 {% endblock javascripts %}
