@@ -6,6 +6,7 @@ use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
 use DFP\EtapIBundle\Form\FiliaType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -211,6 +212,9 @@ class KlientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var Klient $entity
+         */
         $entity = $em->getRepository('DFPEtapIBundle:Klient')->find($id);
 
         if (!$entity) {
@@ -256,6 +260,9 @@ class KlientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var Klient $entity
+         */
         $entity = $em->getRepository('DFPEtapIBundle:Klient')->find($id);
 
         if (!$entity) {
@@ -320,5 +327,25 @@ class KlientController extends Controller
             ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
         ;
+    }
+
+    /**
+     * @Route("/ajax/spr_nip", name="backend_sprawdz_czy_jest_juz_nip")
+     */
+    public function sprawdzCzyIstniejeKlientPoNipAjaxAction()
+    {
+        $request = $this->container->get('request');
+        $nip = $request->query->get('nip');
+
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var Klient $klient
+         */
+        $klient = $em->getRepository('DFPEtapIBundle:Klient')->findOneByNIP($nip);
+        $nip_response =  $klient ? true : false ;
+        $response = array("code"=>100, "success"=>true, 'nip'=>$nip_response);
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
     }
 }

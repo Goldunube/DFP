@@ -88,7 +88,7 @@
                     </tr>
                     <tr>
                         <th>{{ form_label(form.nip) }}</th>
-                        <td class="edycja">{{ form_widget(form.nip) }}</td>
+                        <td class="edycja">{{ form_widget(form.nip, { 'attr' : { 'class' : 'input-nip', 'autocomplete' : 'off' }  }) }}</td>
                     </tr>
                     <tr>
                         <th>{{ form_label(form.kodMax) }}</th>
@@ -359,5 +359,24 @@
     $('#procesy-utwardzania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_parametr_utwardzania_powloki_opis') }}'});
     $('#wymagania-powloki').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_powloki_opis') }}'});
     $('#wymagania-produktu').qTipHelper({ajax:true, przypisz_do:'filia-parametry-tech', url: '{{ path('frontend_filia_edytuj_ajax_wymagania_produktu_opis') }}'});
+
+    $('.input-nip').change(function(){
+        $.ajax({
+            url: '{{ path('backend_sprawdz_czy_jest_juz_nip') }}',
+            type: 'GET',
+            data: {
+                nip: $(this).val()
+            }
+        })
+        .then(function(response)
+        {
+            if(response.nip == true)
+            {
+                alert("W bazie danych jest już klient o podanym przez Ciebie NIP'ie.\nWysłanie tego formularza spowoduje założenie filii/oddziału klienta. ");
+            }
+        },function(xhr, status, error){
+            alert(status + ': ' + error)
+        })
+    })
 
 {% endblock javascripts %}
