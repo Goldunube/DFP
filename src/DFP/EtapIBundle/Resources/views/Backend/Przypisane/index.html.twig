@@ -34,7 +34,7 @@
                                     <div class="record_actions" style="width: 120px">
                                         <a href="{{ path("backend_przypisane_edycja", {'id' : przypisani.id}) }}" class="art-button maly pomaranczowy" style="float: left;">Edytuj</a>
                                         {{ form_start(delete_forms[przypisani.id], {'action':path('backend_przypisane_usun', {'id' : przypisani.id} )}) }}
-                                            {{ form_widget(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony','style':'float:right;'} }) }}
+                                            {{ form_widget(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony confirm-delete','style':'float:right;'} }) }}
                                         {{ form_end(delete_forms[przypisani.id]) }}
                                     </div>
                                 </div>
@@ -54,4 +54,45 @@
         </div>
     </section>
 
+    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Potwierdzenie spowoduje nieodwracalne usunięcie elementu z bazy danych Portalu DFP.</p>
+    </div>
+
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {#   Confirm-Dialog  #}
+    $('.confirm-delete').click(function(e){
+        e.preventDefault();
+        $('#dialog-delete-confirm')
+            .data('submit-form', $(this).closest('form'))
+            .dialog("open");
+    });
+
+    $('#dialog-delete-confirm').dialog({
+        autoOpen: false,
+        resizable: false,
+        height: 180,
+        modal: true,
+        buttons: {
+            "Usuń": function() {
+                $( this ).dialog( "close" );
+                $(this).data('submit-form').submit();
+            },
+            Anuluj: function(event) {
+                $( this ).dialog( "close" );
+            }
+        },
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        hide: {
+            effect: "blind",
+            duration: 500
+        },
+        closeOnEscape: true
+    })
+{% endblock javascripts %}

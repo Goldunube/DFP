@@ -239,9 +239,6 @@
                 <li>
                     {{ form_row(formularz.submit) }}
                 </li>
-                <li>
-                    <input type="button" class="confirm-delete" value="Test">
-                </li>
             </ul>
             {{ form_end(formularz, {'render_rest':false}) }}
             <ul class="record_actions">
@@ -352,6 +349,13 @@
     });
 
     {#   Confirm-Dialog  #}
+    $('.confirm-delete').click(function(e){
+        e.preventDefault();
+        $('#dialog-delete-confirm')
+            .data('submit-form', $(this).closest('form'))
+            .dialog("open");
+    });
+
     $('#dialog-delete-confirm').dialog({
         autoOpen: false,
         resizable: false,
@@ -360,8 +364,9 @@
         buttons: {
             "Usuń": function() {
                 $( this ).dialog( "close" );
+                $(this).data('submit-form').submit();
             },
-            Anuluj: function() {
+            Anuluj: function(event) {
                 $( this ).dialog( "close" );
             }
         },
