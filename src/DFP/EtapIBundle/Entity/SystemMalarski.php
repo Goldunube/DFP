@@ -30,7 +30,7 @@ class SystemMalarski
     private $komentarz;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Produkt", inversedBy="sytemyMalarskie")
+     * @ORM\ManyToMany(targetEntity="Produkt", inversedBy="systemyMalarskie")
      * @ORM\JoinTable(name="systemymalarskie_produkty",
      *      joinColumns={@ORM\JoinColumn(name="system_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="produkt_id", referencedColumnName="id")}

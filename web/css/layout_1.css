@@ -53,6 +53,11 @@ span.required {
 #main table tbody tr:nth-child(2n+1) {
     background-color: #E0E0E0;
 }
+aside h4 {
+    color: #A0522D;
+    font-size: 13px;
+    margin: 2px 0;
+}
 .klient-profil-dzialalnosci div {
     font-size: 9px;
 }
@@ -401,4 +406,14 @@ dl.table-display {
 }
 .table-display dd dl dt:nth-child(n+2) {
     margin-top: 10px;
+}
+.two-columns dl.table-display {
+    width: 440px;
+}
+.two-columns .table-display > dt {
+    width: 150px;
+    color: #4682B4;
+}
+.two-columns .table-display > dd {
+    width: 270px;
 }

@@ -309,6 +309,19 @@ div {
     max-height: 32px;
     overflow: hidden;
 }
+
+#main .two-columns section {
+    float: left;
+    width: 500px;
+}
+#main .two-columns aside {
+    border-left: 3px double #000000;
+    float: right;
+    padding-left: 3px;
+    width: 440px;
+    overflow: hidden;
+}
+
 footer {
     font-size: 8px;
 }

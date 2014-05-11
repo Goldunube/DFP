@@ -46,6 +46,18 @@ class FiliaWymaganiaPowloki
 
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        /**
+         * @var WymaganiaPowloki $wymaganiaPowloki
+         */
+        $wymaganiaPowloki = $this->wymaganiaPowloki;
+        return (string) $wymaganiaPowloki->getNazwaParametru();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

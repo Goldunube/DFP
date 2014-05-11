@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,9 +16,20 @@ class SystemMalarskiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('produkty',null,array(
-                    'expanded'  =>  'true',
-                    'multiple'  =>  'true'
+            ->add('produkty','collection',array(
+                    'type'          =>  'entity',
+                    'options'       =>  array(
+                        'class'         =>  'DFP\EtapIBundle\Entity\Produkt',
+                        'required'      =>  true,
+                        'query_builder' =>  function(EntityRepository $er)
+                        {
+                            return $er->createQueryBuilder('p')->orderBy('p.nazwaHandlowa','ASC');
+                        },
+                        'label'     =>  false
+                    ),
+                    'allow_add'     =>  true,
+                    'label'         =>  false,
+                    'by_reference'  =>  false
                 )
             )
         ;

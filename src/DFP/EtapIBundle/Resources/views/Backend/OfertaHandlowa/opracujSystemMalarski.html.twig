@@ -1,40 +1,79 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block javascript %}
+    {{ parent() }}
+{% endblock javascript %}
+
 {% block content -%}
-    <section>
-        <h1>Dobór Systemu Malarskiego</h1>
 
-        <table class="records_list">
-            <thead>
-                <tr>
-                    <th>Profil działalności</th>
-                    <th>System malarski</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for profil in oferta.filia.profileDzialalnosci %}
+    <div class="two-columns">
+        <section>
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+
+            {% for oferta_profil_system in form.ofertyProfileSystemy %}
+                <table>
+                    <thead>
                     <tr>
-                        <th>
-                            {{ profil.nazwaProfilu }}
-                        </th>
-                        <td>
-
-                        </td>
+                        <th>Profil działalności</th>
+                        <th>System Malarski</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ form_widget(oferta_profil_system.profilSystem.profilDzialalnosci) }}</td>
+                        <td>{{ form_widget(oferta_profil_system.profilSystem.systemMalarski, { 'attr' : { 'class' : 'test' } } ) }}</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>{{ form_label(oferta_profil_system.uwagi) }}</th>
+                        <td>{{ form_widget(oferta_profil_system.uwagi, {'attr' : { 'style':'width:98%;' } } ) }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            {% endfor %}
 
-    <aside>
-        {{ form_start(oferta_system_form) }}
-        {{ form_end(oferta_system_form) }}
-    </aside>
+            {{ form_end(form) }}
+        </section>
 
-    <div class="popup-windows">
-        {{ form_start(system_form) }}
-        {{ form_end(system_form) }}
+        <aside>
+            <h4>Dane podstawowe:</h4>
+            <dl class="table-display">
+                <dt>Klient:</dt>
+                <dd><a class="link" href="{{ path('url_pokaz_karte_klienta', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaSkrocona }}</a></dd>
+                <dt>Strona WWW:</dt>
+                <dd>
+                    {% if filia.klient.stronaWWW %}
+                        <a class="link" href="{{ filia.klient.stronaWWW }}" target="_blank">{{ filia.klient.stronaWWW }}</a>
+                    {% endif %}
+                </dd>
+                <dt>Oddział:</dt>
+                <dd><a class="link" href="{{ path('backend_filia_show', { 'id': filia.id }) }}" target="_blank">{{ filia.nazwaFilii }}</a></dd>
+                <dt>Profil:</dt>
+                <dd>{{ filia.profileDzialalnosci|join(" | ") }}</dd>
+                <dt>Poziom zużycia:</dt>
+                <dd>{{ filia.zuzycieMaterialow|striptags }}</dd>
+            </dl>
+
+            <h4>Informacje dodatkowe:</h4>
+            <dl class="table-display">
+                <dt>Rodzaj podłoża:</dt>
+                <dd>{{ filia.filieRodzajePowierzchni|join(' | ') }}</dd>
+                <dt>Parametry utwardzania powłoki:</dt>
+                <dd>{{ filia.filieProcesyUtwardzaniaPowloki|join(' | ') }}</dd>
+                <dt>Metoda przygotowania powierzchni:</dt>
+                <dd>{{ filia.filieProcesyPrzygotowaniaPowierzchni|join(' | ') }}</dd>
+                <dt>Wymagania powłoki lakierowej:</dt>
+                <dd>{{ filia.filieWymaganiaPowloki|join(' | ') }}</dd>
+                <dt>Metoda aplikacji farby:</dt>
+                <dd>{{ filia.filieProcesyAplikacji|join(' | ') }}</dd>
+                <dt>Parametry produktu obecnie stosowanego:</dt>
+                <dd>{{ filia.filieWymaganiaProduktu|join(' | ') }}</dd>
+            </dl>
+        </aside>
     </div>
+
 
     <ul class="record_actions">
         <li>
@@ -45,7 +84,8 @@
         </li>
     </ul>
 
-    {#    <div class="navigation">
-            {{ knp_pagination_render(entities) }}
-        </div>#}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/opracujSystemMalarski.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
 {% endblock %}

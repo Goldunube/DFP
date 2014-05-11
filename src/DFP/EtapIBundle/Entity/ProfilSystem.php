@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,18 +25,18 @@ class ProfilSystem
     /**
      * @var string
      *
-     * @ORM\Column(name="komentarz", type="string", length=255)
+     * @ORM\Column(name="komentarz", type="string", length=255, nullable=true)
      */
     private $komentarz;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProfilDzialalnosci", inversedBy="profileSystemy")
+     * @ORM\ManyToOne(targetEntity="ProfilDzialalnosci", inversedBy="profileSystemy", cascade={"persist"})
      * @ORM\JoinColumn(name="profil_id", referencedColumnName="id", nullable=false)
      */
     private $profilDzialalnosci;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SystemMalarski", inversedBy="profileSystemy")
+     * @ORM\ManyToOne(targetEntity="SystemMalarski", inversedBy="profileSystemy", cascade={"persist"})
      * @ORM\JoinColumn(name="system_id", referencedColumnName="id", nullable=false)
      */
     private $systemMalarski;
@@ -45,6 +46,14 @@ class ProfilSystem
      */
     protected $ofertyProfileSystemy;
 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ofertyProfileSystemy = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -88,7 +97,6 @@ class ProfilSystem
     public function setProfilDzialalnosci(ProfilDzialalnosci $profilDzialalnosci)
     {
         $this->profilDzialalnosci = $profilDzialalnosci;
-    
         return $this;
     }
 
@@ -111,7 +119,7 @@ class ProfilSystem
     public function setSystemMalarski(SystemMalarski $systemMalarski)
     {
         $this->systemMalarski = $systemMalarski;
-    
+
         return $this;
     }
 
@@ -123,5 +131,38 @@ class ProfilSystem
     public function getSystemMalarski()
     {
         return $this->systemMalarski;
+    }
+    
+    /**
+     * Add ofertyProfileSystemy
+     *
+     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
+     * @return ProfilSystem
+     */
+    public function addOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
+    {
+        $this->ofertyProfileSystemy[] = $ofertyProfileSystemy;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ofertyProfileSystemy
+     *
+     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
+     */
+    public function removeOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
+    {
+        $this->ofertyProfileSystemy->removeElement($ofertyProfileSystemy);
+    }
+
+    /**
+     * Get ofertyProfileSystemy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOfertyProfileSystemy()
+    {
+        return $this->ofertyProfileSystemy;
     }
 }

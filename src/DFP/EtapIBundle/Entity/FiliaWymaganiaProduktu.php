@@ -46,6 +46,18 @@ class FiliaWymaganiaProduktu
 
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        /**
+         * @var WymaganiaProduktu $wymaganiaProduktu
+         */
+        $wymaganiaProduktu = $this->wymaganiaProduktu;
+        return (string) $wymaganiaProduktu->getNazwaParametru();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

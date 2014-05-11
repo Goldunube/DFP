@@ -78,6 +78,15 @@ class OfertaHandlowa
      */
     protected $ofertyProfileSystemy;
 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ofertyProfileSystemy = new ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -247,5 +256,39 @@ class OfertaHandlowa
     public function getFilia()
     {
         return $this->filia;
+    }
+    
+    /**
+     * Add ofertyProfileSystemy
+     *
+     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
+     * @return OfertaHandlowa
+     */
+    public function addOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
+    {
+        $this->ofertyProfileSystemy[] = $ofertyProfileSystemy;
+        $ofertyProfileSystemy->setOfertaHandlowa($this);
+    
+        return $this;
+    }
+
+    /**
+     * Remove ofertyProfileSystemy
+     *
+     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
+     */
+    public function removeOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
+    {
+        $this->ofertyProfileSystemy->removeElement($ofertyProfileSystemy);
+    }
+
+    /**
+     * Get ofertyProfileSystemy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOfertyProfileSystemy()
+    {
+        return $this->ofertyProfileSystemy;
     }
 }

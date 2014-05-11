@@ -18,7 +18,7 @@ class ProduktType extends AbstractType
             ->add('nazwaHandlowa')
             ->add('uwagi')
             ->add('grupaPromowania')
-            ->add('systemyMalarskie')
+//            ->add('systemyMalarskie')
         ;
     }
     
