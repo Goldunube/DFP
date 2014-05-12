@@ -47,16 +47,22 @@ class FilieController extends Controller
 
         $kryteria = Array();
 
-        $form->handleRequest($request);
-        if($form->isValid())
-        {
-            $kryteria = $form->getData();
-        }
-
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery($kryteria);
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
+
+        $form->handleRequest($request);
+        if($form->isValid())
+        {
+            $kryteria = $form->getData();
+            $this->get('request')->query->set('strona',1);
+
+            $em = $this->getDoctrine()->getManager();
+            $paginator = $this->get('knp_paginator');
+            $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery($kryteria);
+            $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
+        }
 
         return array(
             'lista_filii'   =>  $pagination,
