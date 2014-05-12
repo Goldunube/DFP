@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\Klient;
+use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\ProcesAplikacji;
 use DFP\EtapIBundle\Entity\ProcesPrzygotowaniaPowierzchni;
 use DFP\EtapIBundle\Entity\ProcesUtwardzaniaPowloki;
@@ -522,6 +523,60 @@ class KlientController extends Controller
             'formularz'     =>  $editFiliaForm->createView(),
             'profile_dzialalnosci'  =>  $tablicaProfileDzialalnosci,
         );
+    }
+
+    /**
+     * @param $id
+     *
+     * @Route("/filia/{id}/ajax/zamowienie_oferty", name="frontend_filia_ajax_zamowienie_oferty")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
+     * @Method({"GET"})
+     */
+    public function zamowOferteHandlowaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $filia Filia
+         */
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        if(!$this->sprawdzCzyOtwartaOfertaHandlowa($filia))
+        {
+            $ofertaHandlowa = new OfertaHandlowa();
+            $ofertaHandlowa->setFilia($filia);
+            $ofertaHandlowa->setDataZlozeniaZamowienia(new \DateTime('now'));
+            $ofertaHandlowa->setZamawiajacy($this->getUser());
+
+            $em->persist($ofertaHandlowa);
+            $em->flush();
+
+            $response = array("code"=>100, "success"=>true, "info"=>"Zamówienie oferty zostało przyjęte.");
+
+        }else{
+
+            $response = array("code"=>200, "success"=>true, "info"=>"Nowe zamówienie nie zostało wysłane,\nponieważ poprzednie nie zostało jeszcze zamknięte.\nSkontaktuj się z koordynatorem DT.");
+
+        }
+
+        return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+
+    }
+
+    /**
+     * Funkcja sprawdzająca,czy istnieje jakaś oferta handlowa w trakcie przygotowania dla wskazanej filii
+     *
+     * @param Filia $filia
+     * @return bool
+     */
+    private function sprawdzCzyOtwartaOfertaHandlowa(Filia $filia)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ofertaHandlowa = $em->getRepository("DFPEtapIBundle:OfertaHandlowa")->findWTrakciePrzygotowania($filia->getId());
+
+        return !$ofertaHandlowa ? false : true;
     }
 
     /**

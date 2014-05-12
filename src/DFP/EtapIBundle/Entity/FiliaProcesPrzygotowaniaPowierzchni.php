@@ -47,6 +47,18 @@ class FiliaProcesPrzygotowaniaPowierzchni
 
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        /**
+         * @var ProcesPrzygotowaniaPowierzchni $procesPrzygotowaniaPowierzchni
+         */
+        $procesPrzygotowaniaPowierzchni = $this->procesPrzygotowaniaPowierzchni;
+        return (string) $procesPrzygotowaniaPowierzchni->getNazwaProcesu();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

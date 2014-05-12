@@ -217,6 +217,9 @@
                 Dodaj notatkę
             </a>
         </li>
+        <li style="float: right;">
+            <a id="zamow-oferte" href="{{ path('frontend_filia_ajax_zamowienie_oferty', {'id': filia.id}) }}" class="art-button">Zamów ofertę</a>
+        </li>
         {#<li>
             <a href="{{ path('frontend_filia_notatka_new', {'id': filia.id}) }}" class="art-button">
                 Lista pracowników
@@ -228,4 +231,13 @@
 {% block javascripts %}
     {{ parent() }}
     $('#main [title]').qtip({hide: { fixed: true, delay: 500 } });
+    $('#zamow-oferte').click(function(event){
+        event.preventDefault();
+        var href = $(this).attr('href');
+
+        $.get(href)
+        .done(function(respond) {
+            alert(respond.info);
+        });
+    })
 {% endblock javascripts %}

@@ -44,6 +44,17 @@ class FiliaRodzajPowierzchni
      */
     private $rodzajPowierzchni;
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        /**
+         * @var RodzajPowierzchni $rodzajPowierzchni
+         */
+        $rodzajPowierzchni = $this->rodzajPowierzchni;
+        return (string) $rodzajPowierzchni->getNazwa();
+    }
 
     /**
      * Get id

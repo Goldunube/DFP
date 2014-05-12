@@ -60,6 +60,18 @@ class FiliaProcesUtwardzaniaPowloki
 
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        /**
+         * @var ProcesUtwardzaniaPowloki $procesUtwardzaniaPowloki
+         */
+        $procesUtwardzaniaPowloki = $this->procesUtwardzaniaPowloki;
+        return (string) $procesUtwardzaniaPowloki->getNazwaProcesu();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

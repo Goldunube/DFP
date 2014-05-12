@@ -46,6 +46,18 @@ class FiliaProcesAplikacji
 
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        /**
+         * @var ProcesAplikacji $procesAplikacji
+         */
+        $procesAplikacji = $this->procesAplikacji;
+        return (string) $procesAplikacji->getNazwaProcesu();
+    }
+
+    /**
      * Get id
      *
      * @return integer 

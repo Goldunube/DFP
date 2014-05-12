@@ -1,0 +1,76 @@
+- { nazwa: "F-286/2", opis: "grunt epoksydowy szybkoschnący 2K do stali, stali galwanizowanej i aluminium"}
+- { nazwa: "F-294/2", opis: "grunt epoksydowy 2K szybkoschnący wypełniający"}
+- { nazwa: "F-296/2", opis: "grunt antykorozyjny 2K z fosforanem cynku"}
+- { nazwa: "F-281/2", opis: "grunt epoksydowy 2K z fosforanem cynku"}
+- { nazwa: "F-291/2", opis: "grunt epoksydowy z płatkami cynku na stal, ocynk i aluminium"}
+- { nazwa: "ALFAPOX 1685 AS", opis: "grunt HS epoksydowo-aluminiowy 2K"}
+- { nazwa: "F-350/2", opis: "grunt epoksydowy 2K o obniżonym VOC"}
+- { nazwa: "ALFAPOX 1675 CG", opis: "grunt epoksydowy 2K z fosforanem cynku wysokowypełniający do stali"}
+- { nazwa: "ALFAZINC 1674 EZ", opis: "grunt epoksydowy-poliamidowy wysokocynkowy 2K"}
+- { nazwa: "BESA-ZINC/1", opis: "grunt antykorozyjny epoksydowy wysokocynkowy 1K"}
+- { nazwa: "ALFAPOX 1690 AS", opis: "antykorozyjny grunt epoksydowy 2K o wysokiej zawartości części stałych"}
+- { nazwa: "F-375/2", opis: "grunt poliuretanowy 2K"}
+- { nazwa: "F-377/2", opis: "grunt akrylowy uniwersalny 2K"}
+- { nazwa: "BESA-WET", opis: "podkład akrylowy wypełniający 2K 'mokro na mokro'"}
+- { nazwa: "BESA-CAR", opis: "podkład akrylowy wysokowypełniający 2K"}
+- { nazwa: "PRO-4FC/HB", opis: "podkład akrylowy wysokowypełniający"}
+- { nazwa: "F-862", opis: "grunt alkidowy szybkoschnący"}
+- { nazwa: "F-423", opis: "grunt alkidowy szybkoschnący z fosforanem cynku"}
+- { nazwa: "F-29", opis: "grunt szybkoschnący w wysoką zawartością fosforanu cynku"}
+- { nazwa: "F-714 40", opis: "czarne wykończenie satynowe / 40 grunt SHOP-PRIMER 1K"}
+- { nazwa: "F-714", opis: "grunt winylowy spawalny SHOP-PRIMER 1K"}
+- { nazwa: "PRO GLOSSCOAT", opis: "podkład bezbarwny wypełniający"}
+- { nazwa: "PRO PRIMECOAT", opis: "podkład wypełniający do MDF"}
+- { nazwa: "F-463", opis: "gruntoemalia alkidowa matowa"}
+- { nazwa: "F-863", opis: "farba szybkoschnąca matowa"}
+- { nazwa: "ALFAGLID 1017", opis: "gruntoemalia syntetyczna 1K"}
+- { nazwa: "URKI RAPID/70", opis: "półmatowa farba alkidowa nawierzchniowa szybkoschnąca"}
+- { nazwa: "BESA-VAL", opis: "farba nawierzchniowa alkidowa w połysku 1K"}
+- { nazwa: "URKI-FLEX", opis: "lakier syntetyczny"}
+- { nazwa: "URKI-NOX/70", opis: "gruntoemalia alkidowa szybkoschnąca"}
+- { nazwa: "MARTELE S/A", opis: "farba młotkowa"}
+- { nazwa: "URKI-CLOR", opis: "farba chlorokauczukowa 1K"}
+- { nazwa: "PROTECT-AD/S/F", opis: "żywica alkidowa 1K"}
+- { nazwa: "BESA-PUR", opis: "farba poliuretanowa 2K nawierzchniowa w połysku"}
+- { nazwa: "URKI-NATO", opis: "farba 2K poliuretanowa w połysku"}
+- { nazwa: "URKI-NATO/SAT", opis: "farba 2K poliuretanowa matowa"}
+- { nazwa: "URKI-PUR/SAT", opis: "farba nawierzchniowa satynowa poliuretanowa 2K"}
+- { nazwa: "URKI-POL", opis: "lakier poliuretanowy w połysku 2K"}
+- { nazwa: "URKI-POL/SAT", opis: "lakier poliuretanowy satynowy 2K"}
+- { nazwa: "URKI-TEXT", opis: "farba strukturyzowana poliuretanowa 2K"}
+- { nazwa: "URKI-VOC", opis: "farba akrylowo-poliuretanowa 2K o obniżonym VOC"}
+- { nazwa: "ALFAPUR 3748", opis: "farba poliuretanowa 2K"}
+- { nazwa: "ALFAPUR 3790", opis: "2K farba poliuretanowa UHS"}
+- { nazwa: "ALFAPUR 3791", opis: "jednowarstwowa farba poliuretanowa satynowa 2K"}
+- { nazwa: "ALFAPUR 3795", opis: "gruntoemalia antykorozyjna 2K poliuretanowa UHS"}
+- { nazwa: "ALFAPUR 3798", opis: "2K gruntoemalia antykorozyjna poliuretanowa"}
+- { nazwa: "ALFAPUR 3796", opis: "antykorozyjna farba jednowarstwowoa poliuretanowa 2K"}
+- { nazwa: "F-380/2", opis: "gruntoemalia poliuretanowa"}
+- { nazwa: "URKI-NATO/CRYL Mat", opis: "emalia poliuretanowa"}
+- { nazwa: "URKI-NATO C", opis: "lakier poliuretanowo – akrylowy 2K"}
+- { nazwa: "URKI-MIC", opis: "farba poliuretanowa 2K z efektem kutego żelaza"}
+- { nazwa: "MARTELE PUR 2C", opis: "emalia poliuretanowa z efektem młotkowym"}
+- { nazwa: "BESA-GLASS", opis: "farba akrylowa nawierzchniowa"}
+- { nazwa: "BESA-NATO", opis: "gruntoemalia 2K akrylowo-poliuretanowa w połysku"}
+- { nazwa: "BESA-NATO/SAT", opis: "gruntoemalia poliuretanowo-akrylowa półmatowa 2K"}
+- { nazwa: "URKI-STAR/SAT", opis: "gładka, satynowa gruntoemalia winylowa 1K na aluminium, stal, ocynk i PVC"}
+- { nazwa: "URKI-STAR", opis: "gruntoemalia akrylowa 1K na aluminium, stal, ocynk i PVC"}
+- { nazwa: "URKI-LAC", opis: "farba syntetyczna nitro 1K"}
+- { nazwa: "F-38/L", opis: "farba bazowa"}
+- { nazwa: "F-282/2K", opis: "gruntoemalia epoksydowa 2K półmatowa"}
+- { nazwa: "URKI-POX", opis: "farba epoksydowa 2K nawierzchniowa w połysku"}
+- { nazwa: "F-3195/2", opis: "epoksydowa farba z dodatkiem smoły"}
+- { nazwa: "F-2105", opis: "grunt termoodporny do 700°C"}
+- { nazwa: "BESA-FER/A", opis: "aluminiowa farba termoodporna do 2500°C"}
+- { nazwa: "F-4101/N", opis: "czarna farba termoodporna do 4500C"}
+- { nazwa: "F-4101/A", opis: "aluminiowa farba termoodporna do 4500°C"}
+- { nazwa: "ANTYCALORICO", opis: "farba termoodporna do 4000°C"}
+- { nazwa: "F-4102/A", opis: "aluminiowa farba termoodporna do 6500°C"}
+- { nazwa: "ALFATHERM 3292", opis: "farba termoodporna do 250°C"}
+- { nazwa: "ALFATHERM 3283", opis: "farba termoodporna do 600°C"}
+- { nazwa: "ALFATHERM 3298", opis: "farba termoodporna do 800°C"}
+- { nazwa: "BESA-GLASS UHS", opis: "lakier bezbarwny akrylowy UHS"}
+- { nazwa: "BESA-GLASS Anti Scratch", opis: "lakier akrylowy odporny na zarysowania"}
+- { nazwa: "PROTECT", opis: "lakier bezbarwny w połysku"}
+- { nazwa: "PROTECT/SAT", opis: "lakier bezbarwny półmatowy"}
+- { nazwa: "PROTECT ANTI SCRATCH", opis: "lakier bezbarwny w połysku o zwiększonej odporności"}

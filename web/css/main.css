@@ -309,6 +309,37 @@ div {
     max-height: 32px;
     overflow: hidden;
 }
+#main .two-columns {
+    height: 770px;
+    overflow: hidden;
+}
+#main .two-columns section {
+    float: left;
+    width: 500px;
+}
+#main .two-columns aside {
+    border-left: 3px double #000000;
+    float: right;
+    padding-left: 3px;
+    width: 440px;
+    overflow: hidden;
+}
+#main div.produkty {
+    max-height: none;
+    height: auto;
+}
+div.produkty .parametr-container {
+    float: left;
+    width: 100%;
+}
+div.produkty .parametr-container > select {
+    float: left;
+    width: 160px;
+}
+div.produkty .parametr-container > a {
+    float: right;
+    top: 5px;
+}
 footer {
     font-size: 8px;
 }

@@ -1,0 +1,33 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista oczekujących na dobór Systemu Malarskiego</h1>
+
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">ID</th>
+            <th>Klient</th>
+            <th>Profil działalności</th>
+            <th title="Poziom zużycia materiałów lakierniczych.">Zużycie mat-lak</th>
+            <th>Zamawiający</th>
+            <th title="Data złożenia zamówienia">Data złożenia</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for oferta in oczekujace %}
+            <tr>
+                <th class="lp"><a href="{{ path('backend_opracowanie_systemu_malarskiego', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
+                <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
+                <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
+                <td>{{ oferta.zamawiajacy }}</td>
+                <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                <td>{{ attribute(statusy, oferta.status) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
