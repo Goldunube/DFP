@@ -17,7 +17,10 @@ class ProfilSystemType extends AbstractType
         $builder
 //            ->add('komentarz')
             ->add('profilDzialalnosci')
-            ->add('systemMalarski',new SystemMalarskiType())
+            ->add('systemMalarski',new SystemMalarskiType(),array(
+//                    'label' =>  false
+                )
+            )
         ;
     }
     

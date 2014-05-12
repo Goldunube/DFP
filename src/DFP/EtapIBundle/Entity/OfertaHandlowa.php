@@ -45,22 +45,20 @@ class OfertaHandlowa
     private $filia;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Uzytkownik", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Uzytkownik")
      * @ORM\JoinColumn(name="zamawiajacy", referencedColumnName="id", unique=false)
      */
     private $zamawiajacy;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="technik", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Uzytkownik")
+     * @ORM\JoinColumn(name="technik", referencedColumnName="id", unique=false, nullable=true)
      */
     private $technik;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="koordynatorDFP", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Uzytkownik")
+     * @ORM\JoinColumn(name="koordynator", referencedColumnName="id", unique=false, nullable=true)
      */
     private $koordynatorDFP;
 

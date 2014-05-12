@@ -407,13 +407,13 @@ dl.table-display {
 .table-display dd dl dt:nth-child(n+2) {
     margin-top: 10px;
 }
-.two-columns dl.table-display {
+div.two-columns dl.table-display {
     width: 440px;
 }
-.two-columns .table-display > dt {
+div.two-columns .table-display > dt {
     width: 150px;
     color: #4682B4;
 }
-.two-columns .table-display > dd {
+div.two-columns .table-display > dd {
     width: 270px;
 }

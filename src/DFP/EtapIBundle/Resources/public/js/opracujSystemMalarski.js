@@ -1,27 +1,26 @@
-$(document).ready(function()
-{
     var $collectionHolder;
 
     var $addLink = $('<a href="#" class="add-link art-button maly zielony">Dodaj</a>');
     var $newLinkLi = $('<span style="margin-top: 10px;"></span>').append($addLink);
 
-    var $this = $('.test');
-
-    $collectionHolder = $this.find('div div');
-
-    $collectionHolder.find('li').each(function() {
-        addFormDeleteLink($(this));
-    });
-
-    $collectionHolder.append($newLinkLi);
-
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+$(document).ready(function()
+{
+    $collectionHolder = $('div.produkty');
 
     $addLink.on('click',function(e) {
         e.preventDefault();
 
+        $collectionHolder = $(this).closest('div.produkty');
+
+        $newLinkLi = $(this).closest('span');
+
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
         addForm($collectionHolder, $newLinkLi);
+
     });
+
+    $collectionHolder.append($newLinkLi);
 
     function addForm($collectionHolder, $newLinkLi)
     {
@@ -33,7 +32,7 @@ $(document).ready(function()
 
         $collectionHolder.data('index', index + 1);
 
-        var $newFormLi = $('<li class="parametr-container"></li>').append(newForm);
+        var $newFormLi = $('<span class="parametr-container"></span>').append(newForm);
         $newLinkLi.before($newFormLi);
 
         addFormDeleteLink($newFormLi);

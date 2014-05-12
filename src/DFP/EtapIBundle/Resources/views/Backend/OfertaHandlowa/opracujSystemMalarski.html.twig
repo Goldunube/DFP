@@ -6,10 +6,11 @@
 
 {% block content -%}
 
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
     <div class="two-columns">
         <section>
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
 
             {% for oferta_profil_system in form.ofertyProfileSystemy %}
                 <table>
@@ -22,7 +23,13 @@
                     <tbody>
                     <tr>
                         <td>{{ form_widget(oferta_profil_system.profilSystem.profilDzialalnosci) }}</td>
-                        <td>{{ form_widget(oferta_profil_system.profilSystem.systemMalarski, { 'attr' : { 'class' : 'test' } } ) }}</td>
+                        {#<td>{{ form_widget(oferta_profil_system.profilSystem.systemMalarski, { 'attr' : { 'class' : 'test' } } ) }}</td>#}
+                        <td>
+                            <div class="produkty" data-prototype="{{ form_widget(oferta_profil_system.profilSystem.systemMalarski.produkty.vars.prototype)|e }}"></div>
+                            {% for system in oferta_profil_system.profilSystem.systemMalarski %}
+                                <div>{{ form_widget(oferta_profil_system.profilSystem.systemMalarski) }}</div>
+                            {% endfor %}
+                        </td>
                     </tr>
                     </tbody>
                     <tfoot>
@@ -34,7 +41,6 @@
                 </table>
             {% endfor %}
 
-            {{ form_end(form) }}
         </section>
 
         <aside>
@@ -82,7 +88,12 @@
         <li>
             <a href="#" class="art-button zielony">Otwórz zamówienie</a>
         </li>
+        <li>
+            {{ form_row(form.submit) }}
+        </li>
     </ul>
+
+    {{ form_end(form) }}
 
     {% javascripts '@DFPEtapIBundle/Resources/public/js/opracujSystemMalarski.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>

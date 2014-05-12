@@ -163,15 +163,22 @@ class OfertaHandlowaController extends Controller
                     'by_reference'  =>  false,
                 )
             )
-            ->add('submit','submit')
+            ->add('submit','submit',array(
+                    'label'         =>  'Zatwierdź dobór',
+                    'attr'          =>  array('class'=>'art-button zielony')
+                )
+            )
             ->getForm();
 
         $ofertaHandlowaForm->handleRequest($request);
 
         if($ofertaHandlowaForm->isValid())
         {
+            $ofertaHandlowa->setStatus(3);
             $em->persist($ofertaHandlowa);
             $em->flush();
+
+            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
         }
 
         return array(
