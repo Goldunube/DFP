@@ -1,0 +1,33 @@
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Lista Ofert Handlowych</h1>
+
+    <table class="records_list">
+            <thead>
+            <tr>
+                <th class="lp">Id</th>
+                <th>Klient</th>
+                <th>System malarski dobrał(a)</th>
+                <th>Ofertę cenową przygotował(a)</th>
+                <th title="Data złożenia zamówienia">Data złożenia</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for oferta in oferty_handlowe %}
+            <tr>
+                <th class="lp" >{{ oferta.id }}</th>
+                <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                <td>{{ oferta.technik ? oferta.technik : "-"  }}</td>
+                <td>{{ oferta.koordynatorDFP ? oferta.koordynatorDFP : "-" }}</td>
+                <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                <td>{{ attribute(statusy, oferta.status) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(oferty_handlowe) }}
+    </div>
+{% endblock %}

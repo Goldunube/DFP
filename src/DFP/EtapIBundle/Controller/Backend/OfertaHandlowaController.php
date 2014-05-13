@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * OfertaHandlowa controller.
@@ -175,17 +176,75 @@ class OfertaHandlowaController extends Controller
         if($ofertaHandlowaForm->isValid())
         {
             $ofertaHandlowa->setStatus(3);
+            $ofertaHandlowa->setTechnik($this->getUser());
             $em->persist($ofertaHandlowa);
             $em->flush();
 
             return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
         }
 
+        $previousUrl = $this->getRequest()->headers->get('referer');
+
         return array(
             'oferta'        =>  $ofertaHandlowa,
             'filia'         =>  $filia,
             'form'          =>  $ofertaHandlowaForm->createView(),
+            'powrot_url'    =>  $previousUrl,
         );
+    }
+
+    /**
+     * Wyświetla formularz do opracowania oferty cenowej na podstawie wcześniej dobranego systemu malarskiego
+     *
+     * @param $id
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @Route("/{id}/opracowanie_oferty_cenowej", name="backend_opracowanie_oferty_cenowej")
+     * @Template()
+     * @Method({"GET", "POST"})
+     * @return array
+     */
+    public function opracujOferteCenowaAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+        $filia = $ofertaHandlowa->getFilia();
+
+        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+
+        $previousUrl = $this->getRequest()->headers->get('referer');
+
+
+        $form = $this->createFormBuilder()
+            ->add('submit','submit', array(
+                    'label' =>  'Zamknij ofertę',
+                    'attr'  =>  array('class' => 'art-button zielony'),
+                )
+            )
+            ->getForm();
+
+        $form->handleRequest($request);
+        if($form->isValid())
+        {
+            $ofertaHandlowa->setStatus(4);
+            $ofertaHandlowa->setKoordynatorDFP($this->getUser());
+            $em->persist($ofertaHandlowa);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_oh'));
+        }
+
+        return array(
+            'form'              =>  $form->createView(),
+            'oferta'            =>  $ofertaHandlowa,
+            'filia'             =>  $filia,
+            'powrot_url'        =>  $previousUrl,
+            'dobrane_systemy'   =>  $dobraneSystemy,
+        );
+
     }
 
     private function createNewSystemForm(SystemMalarski $system)

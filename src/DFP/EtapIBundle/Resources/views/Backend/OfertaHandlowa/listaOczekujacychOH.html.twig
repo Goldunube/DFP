@@ -1,5 +1,12 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
 {% block content -%}
     <h1>Lista oczekujących na opracowanie Oferty Handlowej</h1>
 
@@ -18,8 +25,8 @@
         <tbody>
         {% for oferta in oczekujace %}
             <tr>
-                <th class="lp">{{ oferta.id }}</th>
-                <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                <th class="lp"><a href="{{ path('backend_opracowanie_oferty_cenowej', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
+                <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
                 <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
                 <td>{{ oferta.zamawiajacy }}</td>
                 <td>{{ oferta.technik }}</td>
@@ -33,3 +40,8 @@
             {{ knp_pagination_render(entities) }}
         </div>#}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('.records_list').obslugaTabel();
+{% endblock javascripts %}

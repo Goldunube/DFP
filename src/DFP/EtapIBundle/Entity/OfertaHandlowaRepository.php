@@ -44,11 +44,22 @@ class OfertaHandlowaRepository extends EntityRepository
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
             ->select('oh')
-            ->where('oh.status != 4')
+            ->where('oh.status IN (0,1,2,3)')
             ->andWhere('oh.filia = :id')
             ->setParameter('id',$filia)
             ->getQuery();
 
         return $query->getOneOrNullResult();
+    }
+
+    public function getListaMoichOfertHandlowych(Uzytkownik $uzytkownik)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh')
+            ->where('oh.zamawiajacy = :id')
+            ->setParameter('id',$uzytkownik)
+            ->getQuery();
+
+        return $query;
     }
 }
