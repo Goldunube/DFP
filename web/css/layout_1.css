@@ -47,10 +47,10 @@ span.required {
 #main table thead {
     background-color: #FF9000;
 }
-#main table tbody tr:nth-child(2n) {
+#main table tbody tr:nth-child(2n), #main table tfoot tr:nth-child(2n) {
     background-color: #F3F3F3;
 }
-#main table tbody tr:nth-child(2n+1) {
+#main table tbody tr:nth-child(2n+1), #main table tfoot tr:nth-child(2n+1) {
     background-color: #E0E0E0;
 }
 aside h4 {
@@ -118,6 +118,10 @@ tr.przeterminowane td, tr.przeterminowane th {
     margin: 3px 0;
     padding: 0;
 }
+td.profil-dzialalnosci select {
+    width: 235px;
+}
+
 /* KLAWISZE AKCJI */
 .record_actions {
     list-style: none outside none;

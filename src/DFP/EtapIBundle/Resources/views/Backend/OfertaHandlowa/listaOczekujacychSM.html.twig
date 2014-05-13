@@ -1,5 +1,12 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
 {% block content -%}
     <h1>Lista oczekujących na dobór Systemu Malarskiego</h1>
 
@@ -31,3 +38,8 @@
     </table>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('.records_list').obslugaTabel();
+{% endblock javascripts %}

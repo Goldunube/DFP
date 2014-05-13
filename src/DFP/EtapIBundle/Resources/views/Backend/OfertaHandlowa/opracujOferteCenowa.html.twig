@@ -6,40 +6,26 @@
 
 {% block content -%}
 
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
+{#    {{ form_start(form) }}
+    {{ form_errors(form) }}#}
 
     <div class="two-columns">
         <section>
-
-            {% for oferta_profil_system in form.ofertyProfileSystemy %}
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Profil działalności</th>
-                        <th>System Malarski</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="profil-dzialalnosci">{{ form_widget(oferta_profil_system.profilSystem.profilDzialalnosci) }}</td>
-                        <td>
-                            <div class="produkty" data-prototype="{{ form_widget(oferta_profil_system.profilSystem.systemMalarski.produkty.vars.prototype)|e }}"></div>
-                            {% for system in oferta_profil_system.profilSystem.systemMalarski %}
-                                <div>{{ form_widget(oferta_profil_system.profilSystem.systemMalarski) }}</div>
+            <dl>
+                {% for oferta_profil_system in dobrane_systemy %}
+                    <dt>{{ oferta_profil_system.profilSystem.profilDzialalnosci }}</dt>
+                    <dl>
+                        <ul>
+                            {% for produkt in oferta_profil_system.profilSystem.systemMalarski.produkty %}
+                                <li>{{ produkt.nazwaHandlowa }}</li>
                             {% endfor %}
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>{{ form_label(oferta_profil_system.uwagi, null, {'label_attr' : { 'style' : 'font-size: 13px;' } }) }}</th>
-                            <td>{{ form_widget(oferta_profil_system.uwagi, {'attr' : { 'style':'width:96%;' } } ) }}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            {% endfor %}
-
+                        </ul>
+                        <div>
+                            {{ oferta_profil_system.uwagi }}
+                        </div>
+                    </dl>
+                {% endfor %}
+            </dl>
         </section>
 
         <aside>
@@ -86,18 +72,14 @@
                 Powrót
             </a>
         </li>
-{#        <li>
-            <a href="#" class="art-button zielony">Otwórz zamówienie</a>
-        </li>#}
         <li>
-            {{ form_row(form.submit) }}
+            {{ form(form) }}
         </li>
+        {#        <li>
+                    <a href="#" class="art-button zielony">Otwórz zamówienie</a>
+                </li>#}
     </ul>
 
-    {{ form_end(form) }}
-
-    {% javascripts '@DFPEtapIBundle/Resources/public/js/opracujSystemMalarski.js' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {#{{ form_end(form) }}#}
 
 {% endblock %}
