@@ -177,6 +177,48 @@ class OfertaHandlowaController extends Controller
         {
             $ofertaHandlowa->setStatus(3);
             $ofertaHandlowa->setTechnik($this->getUser());
+
+
+            $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
+
+            /**
+             * @var OfertaHandlowaProfilSystem $dobrane
+             */
+            foreach ($ofertaHandlowa->getOfertyProfileSystemy() as $dobrane) {
+
+                /**
+                 * @var ProfilSystem $profilSystem
+                 */
+                $profilSystem = $dobrane->getProfilSystem();
+
+                /**
+                 * @var SystemMalarski $sm
+                 */
+                $sm = $profilSystem->getSystemMalarski();
+                $wprowadzany = $sm->getProdukty()->toArray();
+
+                $counter = 0;
+                /**
+                 * @var SystemMalarski $znalezionySystemMalarski
+                 */
+                foreach ($systemyMalarskieCollection as $znalezionySystemMalarski)
+                {
+
+                    $znaleziony = $znalezionySystemMalarski->getProdukty()->toArray();
+
+                    if(array_diff($wprowadzany, $znaleziony) || array_diff($znaleziony, $wprowadzany))
+                    {
+
+                    }else{
+                        $counter++;
+                        unset($sm);
+
+                        $profilSystem->setSystemMalarski($znalezionySystemMalarski);
+                    }
+
+                }
+            }
+
             $em->persist($ofertaHandlowa);
             $em->flush();
 
