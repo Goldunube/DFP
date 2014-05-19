@@ -253,7 +253,7 @@ class Filia
     public function setWojewodztwo($wojewodztwo)
     {
         $wojewodztwo = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '', $wojewodztwo);
-        $this->wojewodztwo = $wojewodztwo;
+        $this->wojewodztwo = lcfirst($wojewodztwo);
     
         return $this;
     }
