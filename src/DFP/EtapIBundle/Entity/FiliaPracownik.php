@@ -130,6 +130,7 @@ class FiliaPracownik
      */
     public function setImie($imie)
     {
+        $imie = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]/', '', $imie);
         $this->imie = ucfirst($imie);
     
         return $this;
@@ -153,6 +154,7 @@ class FiliaPracownik
      */
     public function setNazwisko($nazwisko)
     {
+        $nazwisko = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '', $nazwisko);
         $this->nazwisko = ucfirst($nazwisko);
     
         return $this;
@@ -176,6 +178,7 @@ class FiliaPracownik
      */
     public function setStanowisko($stanowisko)
     {
+        $stanowisko = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '', $stanowisko);
         $this->stanowisko = ucfirst($stanowisko);
     
         return $this;

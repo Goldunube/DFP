@@ -228,6 +228,7 @@ class Filia
      */
     public function setNazwaFilii($nazwaFilii)
     {
+        $nazwaFilii = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ,.;\- ]/', '', $nazwaFilii);
         $this->nazwaFilii = $nazwaFilii;
     
         return $this;
@@ -251,6 +252,7 @@ class Filia
      */
     public function setWojewodztwo($wojewodztwo)
     {
+        $wojewodztwo = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '', $wojewodztwo);
         $this->wojewodztwo = $wojewodztwo;
     
         return $this;
@@ -274,6 +276,7 @@ class Filia
      */
     public function setMiejscowosc($miejscowosc)
     {
+        $miejscowosc = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '', $miejscowosc);
         $this->miejscowosc = ucwords($miejscowosc);
     
         return $this;
