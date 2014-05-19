@@ -407,7 +407,7 @@ class KlientController extends Controller
         {
             $notatka->setStatus(true);
             $notatka->setDataSporzadzenia(new \DateTime('now'));
-            $notatka->setKoniecEdycji(new \DateTime('+30 minutes'));
+            $notatka->setKoniecEdycji(new \DateTime('+1 day'));
             $notatka->setFilia($filia);
             $notatka->setUzytkownik($this->getUser());
 
@@ -455,15 +455,51 @@ class KlientController extends Controller
         return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta', array('id'=>$filia->getId())));
     }
 
+    /**
+     * @param $id
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/filia/notatka/{id}/edytuj", name="frontend_filia_notatka_edytuj")
+     * @Template("DFPEtapIBundle:Frontend/Klient:nowaNotatkaFilii.html.twig")
+     * @Method({"GET", "PUT"})
+     */
     public function edytujNotatkeFiliiAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var FiliaNotatka $notatka
+         */
         $notatka = $em->getRepository('DFPEtapIBundle:FiliaNotatka')->find($id);
 
         if(!$notatka)
         {
             throw $this->createNotFoundException('Nie znaleziono wskazanej notatki.');
         }
+
+        $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
+                'action'    =>  $this->generateUrl('frontend_filia_notatka_edytuj', array('id' => $id) ),
+                'method'    =>  "PUT",
+            ));
+        $form->add('submit','submit',array('label' => 'Aktualizuj'));
+
+        $form->handleRequest($request);
+
+        if($form->isValid())
+        {
+            $notatka->setKoniecEdycji(new \DateTime('+1 day'));
+
+            $em->persist($notatka);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta',array('id'=>$notatka->getFilia()->getId())));
+        }
+
+        return array(
+            'form'      => $form->createView(),
+        );
     }
 
     /**

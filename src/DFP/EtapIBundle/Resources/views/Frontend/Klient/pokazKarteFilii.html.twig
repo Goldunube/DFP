@@ -176,7 +176,7 @@
                             {% if notatka.uzytkownik == app.user %}
                                 {% if date(notatka.koniecEdycji) > date('now') %}
                                     <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
-                                    <span {{ wyrozniona }}>{{ notatka.uzytkownik }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="#" class="art-button maly pomaranczowy">Edytuj</a></li> <li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a></li></ul>
+                                    <span {{ wyrozniona }}>{{ notatka.uzytkownik }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_edytuj', {'id': notatka.id } ) }}" class="art-button maly pomaranczowy">Edytuj</a></li> <li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a></li></ul>
                                 {% else %}
                                     <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
                                     <span {{ wyrozniona }}>{{ notatka.uzytkownik }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a> </li></ul>
