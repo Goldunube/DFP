@@ -53,10 +53,16 @@
                         <a class="link" href="{{ filia.klient.stronaWWW }}" target="_blank">{{ filia.klient.stronaWWW }}</a>
                     {% endif %}
                 </dd>
-                <dt>Profil:</dt>
+                <dt>Profil działalności:</dt>
                 <dd>{{ filia.profileDzialalnosci|join(" | ") }}</dd>
-                <dt>Poziom zużycia:</dt>
+                <dt>Stosowany system malarski:</dt>
+                <dd>{{ filia.matlakDotychczas|striptags }}</dd>
+                <dt>Wielkośc zużycia:</dt>
                 <dd>{{ filia.zuzycieMaterialow|striptags }}</dd>
+                <dt>Kolorystyka:</dt>
+                <dd>{{ filia.kolorystyka|striptags }}</dd>
+                <dt>Adnotacje:</dt>
+                <dd>{{ filia.adnotacja|striptags }}</dd>
             </dl>
 
             <h4>Informacje dodatkowe:</h4>
