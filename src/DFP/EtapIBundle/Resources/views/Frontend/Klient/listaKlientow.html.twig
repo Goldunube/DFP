@@ -39,12 +39,12 @@
             <thead>
             <tr>
                 <th class="lp">Lp</th>
-                <th {% if filie_uzytkownika.isSorted('k.nazwaSkrocona') %} class="klient-nazwa-skrocona sorted" {% endif %}>{{ knp_pagination_sortable(filie_uzytkownika, 'Klient', 'k.nazwaSkrocona') }}</th>
+                <th class="klient-nazwa-skrocona {% if filie_uzytkownika.isSorted('k.nazwaSkrocona') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Klient', 'k.nazwaSkrocona') }}</th>
                 <th class="filia-nazwa">Nazwa filii</th>
-                <th class="filia-miejscowosc">Miejscowość</th>
+                <th class="filia-miejscowosc {% if filie_uzytkownika.isSorted('f.miejscowosc') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Miejscowość', 'f.miejscowosc') }}</th>
                 <th class="kod-max">Kod MAX</th>
                 <th class="klient-profil-dzialalnosci">Profil</th>
-                <th class="filia-koniec-rezerwacji">Koniec rezerwacji</th>
+                <th class="filia-koniec-rezerwacji {% if filie_uzytkownika.isSorted('fu.koniecPrzypisania') %} sorted  {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Koniec rezerwacji','fu.koniecPrzypisania') }}</th>
             </tr>
             </thead>
             <tbody>
