@@ -180,24 +180,24 @@ class OfertaHandlowaController extends Controller
 
 
             $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
+            $profilSystemCollection = $em->getRepository('DFP\EtapIBundle\Entity\ProfilSystem')->findAll();
 
             /**
-             * @var OfertaHandlowaProfilSystem $dobrane
+             * @var OfertaHandlowaProfilSystem $ofertaProfilSystem
              */
-            foreach ($ofertaHandlowa->getOfertyProfileSystemy() as $dobrane) {
+            foreach ($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem) {
 
                 /**
                  * @var ProfilSystem $profilSystem
                  */
-                $profilSystem = $dobrane->getProfilSystem();
+                $profilSystem = $ofertaProfilSystem->getProfilSystem();
 
                 /**
-                 * @var SystemMalarski $sm
+                 * @var SystemMalarski $systemMalarski
                  */
-                $sm = $profilSystem->getSystemMalarski();
-                $wprowadzany = $sm->getProdukty()->toArray();
+                $systemMalarski = $profilSystem->getSystemMalarski();
+                $wprowadzany = $systemMalarski->getProdukty()->toArray();
 
-                $counter = 0;
                 /**
                  * @var SystemMalarski $znalezionySystemMalarski
                  */
@@ -210,12 +210,19 @@ class OfertaHandlowaController extends Controller
                     {
 
                     }else{
-                        $counter++;
-                        unset($sm);
-
                         $profilSystem->setSystemMalarski($znalezionySystemMalarski);
                     }
+                }
 
+                /**
+                 * @var ProfilSystem $znalezionyProfilSystem
+                 */
+                foreach($profilSystemCollection as $znalezionyProfilSystem)
+                {
+                    if($profilSystem->getProfilDzialalnosci() == $znalezionyProfilSystem->getProfilDzialalnosci() && $profilSystem->getSystemMalarski() == $znalezionyProfilSystem->getSystemMalarski())
+                    {
+                        $ofertaProfilSystem->setProfilSystem($znalezionyProfilSystem);
+                    }
                 }
             }
 
@@ -285,145 +292,6 @@ class OfertaHandlowaController extends Controller
             'filia'             =>  $filia,
             'powrot_url'        =>  $previousUrl,
             'dobrane_systemy'   =>  $dobraneSystemy,
-        );
-
-    }
-
-    private function createNewSystemForm(SystemMalarski $system)
-    {
-        $form = $this->createForm(new SystemMalarskiType(), $system, array(
-                'action'    =>  $this->generateUrl('backend_system_malarski_create'),
-                'method'    =>  'POST'
-            )
-        );
-
-        $form->add('submit', 'submit', array('label'=>'Utwórz'));
-
-        return $form;
-    }
-
-    /**
-     * Wyświetla formularz systemu malarskiego oraz dodaje system malarski do oferty handlowej
-     *
-     * @param $id
-     * @param Request $request
-     *
-     * @Route("/{id}/dziala", name="dziala")
-     * @Template()
-     * @Method({"GET", "POST"})
-     * @return array
-     */
-    public function dziala($id, Request $request) // DZIAŁA
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /**
-         * @var $ofertaHandlowa OfertaHandlowa
-         */
-        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id); // KONF_1
-        $profileDzialalnosci = $ofertaHandlowa->getFilia()->getProfileDzialalnosci();
-
-        $profilSystem = new ProfilSystem();
-        $profilSystem->setProfilDzialalnosci($profileDzialalnosci[1]);
-
-        $profilSystemForm = $this->createForm(new ProfilSystemType(), $profilSystem, array(
-            'method'    =>  'POST',
-            'action'    =>  $this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id) ),
-        )
-        );
-
-        $testForm = $this->createFormBuilder()
-            ->setMethod('POST')
-            ->setAction( $this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id) ) )
-            ->add('profilSystem','collection',array(
-                    'type'      =>  new ProfilSystemType($profilSystem),
-                    'allow_add' =>  true,
-                    'label'     =>  false
-                )
-            )
-            ->add('submit','submit')
-            ->getForm();
-
-        $profilSystemForm->add('submit','submit');
-
-        $ofertaProfilSystem = new OfertaHandlowaProfilSystem();
-
-        foreach($testForm->get('profilSystem') as $profilSystem)
-        {
-//            $profilSystem->
-        }
-
-        $testForm->handleRequest($request);
-        if($testForm->isValid())
-        {
-            foreach ($testForm->get('profilSystem') as $object) {
-                $profilSystem = $object->getData();
-                $em->persist($profilSystem);
-                $ofertaProfilSystem->setProfilSystem($profilSystem);
-
-            }
-            $ofertaProfilSystem->setUwagi('Test2');
-            $em->persist($ofertaProfilSystem);
-            $ofertaHandlowa->addOfertyProfileSystemy($ofertaProfilSystem);
-            $em->persist($ofertaHandlowa);
-
-            $em->flush();
-        }
-        /*$profilSystemForm->handleRequest($request);
-        if($profilSystemForm->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($profilSystem);
-            $ofertaProfilSystem->setProfilSystem($profilSystem);
-            $ofertaProfilSystem->setUwagi('Test');
-            $em->persist($ofertaProfilSystem);
-            $ofertaHandlowa->addOfertyProfileSystemy($ofertaProfilSystem);
-            $em->persist($ofertaHandlowa);
-            $em->flush();
-        }*/
-
-        return array(
-            'form_profil'           =>  $profilSystemForm->createView(),
-            'test'  =>  $testForm->createView(),
-        );
-    }
-
-    public function opracujSystemMalarskiDzialaAction($id, Request $request) // DZIAŁA
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /**
-         * @var $ofertaHandlowa OfertaHandlowa
-         */
-        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id); // KONF_1
-
-        $profilSystem = new ProfilSystem();
-        $profilSystemForm = $this->createForm(new ProfilSystemType(), $profilSystem, array(
-                'method'    =>  'POST',
-                'action'    =>  $this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id) ),
-            )
-        );
-
-        $profilSystemForm->add('submit','submit');
-
-        $ofertaProfilSystem = new OfertaHandlowaProfilSystem();
-
-
-        $profilSystemForm->handleRequest($request);
-        if($profilSystemForm->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($profilSystem);
-            $ofertaProfilSystem->setProfilSystem($profilSystem);
-            $ofertaProfilSystem->setUwagi('Test');
-            $em->persist($ofertaProfilSystem);
-            $ofertaHandlowa->addOfertyProfileSystemy($ofertaProfilSystem);
-            $em->persist($ofertaHandlowa);
-            $em->flush();
-        }
-
-        return array(
-            'form_profil'           =>  $profilSystemForm->createView(),
         );
     }
 }

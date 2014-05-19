@@ -1,5 +1,5 @@
 services:
-    systemMalarski.listener:
-        class: DFP\EtapIBundle\EventListener\newSystemMalarski
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
+#    systemMalarski.listener:
+#        class: DFP\EtapIBundle\EventListener\newSystemMalarski
+#        tags:
+#            - { name: doctrine.event_listener, event: prePersist }
