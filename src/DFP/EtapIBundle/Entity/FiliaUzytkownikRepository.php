@@ -30,15 +30,24 @@ class FiliaUzytkownikRepository extends EntityRepository
         }
     }
 
-    public function getZnajdzFilieUzytkownikaQuery($idu)
+    public function getZnajdzFilieUzytkownikaQuery($idu, $params = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
             ->select('fu')
             ->leftJoin('fu.filia','f')
             ->leftJoin('f.klient','k')
             ->where('fu.uzytkownik = :idu')
-            ->setParameter('idu',$idu)
-            ->getQuery();
+            ->setParameter('idu',$idu);
+
+        if($params && is_array($params))
+        {
+            foreach($params as $key => $value)
+            {
+                $query->andWhere("k.$key LIKE '%$value%'");
+            }
+        }
+
+        $query->getQuery();
 
         try{
             return $query;
