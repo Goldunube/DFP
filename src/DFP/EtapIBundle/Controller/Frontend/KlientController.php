@@ -94,7 +94,7 @@ class KlientController extends Controller
      * TODO: Zmienić
      * Tworzy nową podstawową kartę klienta.
      *
-     * @Route("/", name="url_utworz_karte_klienta_podstawowa")
+     * @Route("/utworz-karte-podstawowa", name="url_utworz_karte_klienta_podstawowa")
      * @Method("POST")
      */
     public function utworzKartePodstawowaAction(Request $request)
