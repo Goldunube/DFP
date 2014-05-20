@@ -45,7 +45,7 @@ class OfertaHandlowaController extends Controller
 
         $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->findBy(array(),array('dataZlozeniaZamowienia'=>'DESC'));
 
-        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),11);
+        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
 
         $nazwyStatusow = array(
             0   =>  "Oczekująca na technika",
@@ -76,7 +76,7 @@ class OfertaHandlowaController extends Controller
 
         $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaOczekujacychNaDoborSystemuMalarskiegoQuery();
 
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),11);
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
         $nazwyStatusow = array(
             0   =>  "Oczekująca na technika",
@@ -107,7 +107,7 @@ class OfertaHandlowaController extends Controller
 
         $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaOczekujacychNaOpracowanieOfertyHandlowejQuery();
 
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),11);
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
         $nazwyStatusow = array(
             0   =>  "Oczekująca na technika",
