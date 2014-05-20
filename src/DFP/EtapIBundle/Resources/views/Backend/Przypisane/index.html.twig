@@ -4,6 +4,10 @@
     <section>
         <h1>Przedłużenie przypisania</h1>
 
+        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
+            {{ knp_pagination_filter(lista_filii, {'k.nazwaSkrocona': 'Nazwa klienta', 'k.kodMax': 'Kod MAX', 'u.username': 'Użytkownik'}) }}
+        </div>
+
         <table class="records_list">
             <thead>
             <tr>

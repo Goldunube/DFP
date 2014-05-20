@@ -1,17 +1,23 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
 {% block content -%}
+
     <section>
         <h1>Lista klientów</h1>
+
+        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
+            {{ knp_pagination_filter(lista_klientow, {'k.nazwaSkrocona': 'Nazwa klienta', 'k.kodMax': 'Kod MAX', 'k.nip': 'NIP'}) }}
+        </div>
 
         <table class="records_list">
             <thead>
             <tr>
                 <th class="lp">Lp</th>
                 <th>{{ knp_pagination_sortable(lista_klientow,'Klient','k.nazwaSkrocona') }}</th>
-                <th>Kod MAX</th>
-                <th>NIP</th>
-                <th>Ilość filii</th>
+                <th>{{ knp_pagination_sortable(lista_klientow,'Kod MAX', 'k.kodMax') }}</th>
+                <th>{{ knp_pagination_sortable(lista_klientow,'NIP','k.nip') }}</th>
+                <th>{{ knp_pagination_sortable(lista_klientow, 'Ilość filii','f.id') }}</th>
+                {#<th>Ilość filii</th>#}
                 <th>{{ knp_pagination_sortable(lista_klientow,'Grupa klienta','gk.grupyKlientow.nazwaGrupy') }}</th>
                 <th></th>
             </tr>

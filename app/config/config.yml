@@ -128,3 +128,4 @@ knp_paginator:
     template:
         pagination: DFPEtapIBundle::sliding.html.twig       # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig   # sort link template
+        filtration: DFPEtapIBundle::filtration.html.twig   # filter link template
