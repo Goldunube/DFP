@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\ProcesUtwardzaniaPowlokiType;
 /**
  * ProcesUtwardzaniaPowloki controller.
  *
- * @Route("/procesutwardzaniapowloki")
+ * @Route("/slowniki/procesutwardzaniapowloki")
  */
 class ProcesUtwardzaniaPowlokiController extends Controller
 {

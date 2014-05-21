@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\ProcesPrzygotowaniaPowierzchniType;
 /**
  * ProcesPrzygotowaniaPowierzchni controller.
  *
- * @Route("/procesprzygotowaniapowierzchni")
+ * @Route("/slowniki/procesprzygotowaniapowierzchni")
  */
 class ProcesPrzygotowaniaPowierzchniController extends Controller
 {

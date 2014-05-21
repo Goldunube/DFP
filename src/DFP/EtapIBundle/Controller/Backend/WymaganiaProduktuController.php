@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\WymaganiaProduktuType;
 /**
  * WymaganiaProduktu controller.
  *
- * @Route("/wymaganiaproduktu")
+ * @Route("/slowniki/wymaganiaproduktu")
  */
 class WymaganiaProduktuController extends Controller
 {

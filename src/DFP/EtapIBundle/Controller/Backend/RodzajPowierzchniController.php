@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\RodzajPowierzchniType;
 /**
  * RodzajPowierzchni controller.
  *
- * @Route("/rodzajpowierzchni")
+ * @Route("/slowniki/rodzajpowierzchni")
  * @package DFP\EtapIBundle\Controller\Backend
  */
 class RodzajPowierzchniController extends Controller

@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\MaterialUzupelniajacyType;
 /**
  * MaterialUzupelniajacy controller.
  *
- * @Route("/materialuzupelniajacy")
+ * @Route("/slowniki/materialuzupelniajacy")
  */
 class MaterialUzupelniajacyController extends Controller
 {

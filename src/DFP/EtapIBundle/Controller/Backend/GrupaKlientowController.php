@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\GrupaKlientowType;
 /**
  * GrupaKlientow controller.
  *
- * @Route("/grupaklientow")
+ * @Route("/slowniki/grupaklientow")
  */
 class GrupaKlientowController extends Controller
 {

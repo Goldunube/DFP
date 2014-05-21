@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\WymaganiaPowlokiType;
 /**
  * WymaganiaPowloki controller.
  *
- * @Route("/wymaganiapowloki")
+ * @Route("/slowniki/wymaganiapowloki")
  */
 class WymaganiaPowlokiController extends Controller
 {

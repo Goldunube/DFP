@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\ProfilDzialalnosciType;
 /**
  * ProfilDzialalnosci controller.
  *
- * @Route("/profildzialalnosci")
+ * @Route("/slowniki/profildzialalnosci")
  */
 class ProfilDzialalnosciController extends Controller
 {

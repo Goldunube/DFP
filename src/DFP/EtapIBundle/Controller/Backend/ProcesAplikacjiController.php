@@ -13,7 +13,7 @@ use DFP\EtapIBundle\Form\ProcesAplikacjiType;
 /**
  * ProcesAplikacji controller.
  *
- * @Route("/procesaplikacji")
+ * @Route("/slowniki/procesaplikacji")
  */
 class ProcesAplikacjiController extends Controller
 {
