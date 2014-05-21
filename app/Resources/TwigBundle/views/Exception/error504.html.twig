@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock stylesheets %}
+
+{% block body %}
+    <div id="main">
+        <div class="error-container">
+            <h1>Czas odpowiedzi został przekroczony !!! Kod błędu: {{ status_code }}</h1>
+            <p>Prawdopodobnie serwer DNS uległ awarii przez co nie można znaleźć serwera Portalu DFP. Spróbuj ponownie za jakiś czas. W celu uzyskania bliższych informacji skontaktuj się z administracją.</p>
+            <p><a href="{{ path('strona_glowna') }}" role="button">Wróć na stronę główną</a> </p>
+        </div>
+    </div>
+    <footer>
+        <p>Copyright Adam Królikowski</p>
+    </footer>
+
+{% endblock body %}

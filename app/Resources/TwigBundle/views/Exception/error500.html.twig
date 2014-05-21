@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock stylesheets %}
+
+{% block body %}
+    <div id="main">
+        <div class="error-container">
+            <h1>Ups... wystąpił wewnętrzny błąd serwera !!! Kod błędu: {{ status_code }}</h1>
+            <p>Coś poszło nie tak. Skontaktuj się z administratorem strony w celu wyjaśnienia okoliczności wystąpienia błędu. Pomoże to wyelinować ten błąd w przyszłości.</p>
+            <p><a href="{{ path('strona_glowna') }}" role="button">Wróć na stronę główną</a> </p>
+        </div>
+    </div>
+    <footer>
+        <p>Copyright Adam Królikowski</p>
+    </footer>
+
+{% endblock body %}
