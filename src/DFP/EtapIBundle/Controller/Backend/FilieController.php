@@ -27,46 +27,25 @@ class FilieController extends Controller
      * @Route("/", name="backend_filie")
      * @Template()
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        $filia = new Filia();
-        $klient = $filia->getKlient();
-
-        $form = $this->createFormBuilder($klient)
-            ->add('nazwaSkrocona',null,array(
-                    'label'     =>  'Nazwa klienta:',
-                    'required'  => false,
-                )
-            )
-            ->add('submit','submit',array(
-                    'label'   =>  'Szukaj',
-                    'attr'    =>  array('class'=>'art-button maly')
-                )
-            )
-            ->getForm();
-
-        $kryteria = Array();
-
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery($kryteria);
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
-        $form->handleRequest($request);
-        if($form->isValid())
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
         {
-            $kryteria = $form->getData();
-            $this->get('request')->query->set('strona',1);
-
-            $em = $this->getDoctrine()->getManager();
-            $paginator = $this->get('knp_paginator');
-            $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery($kryteria);
-            $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
         }
 
+        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiSearchQuery($kryteria);
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
+
         return array(
-            'lista_filii'   =>  $pagination,
-            'szukaj_form'   =>  $form->createView()
+            'lista_filii'   =>  $pagination
         );
     }
 

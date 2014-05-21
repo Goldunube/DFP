@@ -27,15 +27,23 @@ class KlientRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function getListaKlientowQuery()
+    public function getListaKlientowQuery($kryteria = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Klient')->createQueryBuilder('k')
             ->select('k,f,fu,u,gk')
             ->leftJoin('k.filie','f')
             ->leftJoin('f.filieUzytkownicy','fu')
             ->leftJoin('fu.uzytkownik','u')
-            ->leftJoin('k.grupyKlientow','gk')
-            ->getQuery();
+            ->leftJoin('k.grupyKlientow','gk');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->where("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
 
         return $query;
     }

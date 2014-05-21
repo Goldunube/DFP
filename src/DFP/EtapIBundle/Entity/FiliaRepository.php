@@ -35,6 +35,28 @@ class FiliaRepository extends EntityRepository
         return $query;
     }
 
+    public function getListaFiliiSearchQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
+            ->select('f, k, fu, u, pd')
+            ->innerJoin('f.klient','k')
+            ->leftJoin('f.filieUzytkownicy','fu')
+            ->leftJoin('fu.uzytkownik','u')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->orderBy('k.nazwaSkrocona','ASC');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->where("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
+
+        return $query;
+    }
+
     public function findOneByZip($zip)
     {
         return $this->getEntityManager()

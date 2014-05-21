@@ -30,7 +30,17 @@ class PrzypisaneController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiQuery();
+
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiSearchQuery($kryteria);
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),17);
 
         $deleteForms = new ArrayCollection();

@@ -9,5 +9,6 @@
     <input type="text" value="{{ selectedValue }}" name="{{ filterValueName }}" />
 
     <button class="art-button pomaranczowy maly">Szukaj</button>
+    <a href="{{ path(app.request.attributes.get('_route')) }}" class="art-button czerwony maly">Wyczyść</a>
 
 </form>

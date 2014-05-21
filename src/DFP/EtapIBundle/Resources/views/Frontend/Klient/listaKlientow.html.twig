@@ -12,28 +12,14 @@
     {% endjavascripts %}
 {% endblock javascript %}
 
-{% form_theme szukaj_form _self %}
-
- {% block form_row %}
-     {% spaceless %}
-         <div style="float: left;">
-             {{ form_label(form) }}
-             {{ form_errors(form) }}
-             {{ form_widget(form) }}
-         </div>
-     {% endspaceless %}
- {% endblock form_row %}
-
 {% block content -%}
     <section>
         <h1>Lista klientów</h1>
 
         <div style="margin-bottom: 20px; height: auto; overflow: auto;">
-            {{ form_start(szukaj_form) }}
-            {{ form_row(szukaj_form.nazwaSkrocona) }}
-            {{ form_widget(szukaj_form.submit,{'attr': {'style':'left:10px;top:6px;'} } ) }}
-            {{ form_end(szukaj_form) }}
+            {{ knp_pagination_filter(filie_uzytkownika, {'k.nazwaSkrocona': 'Nazwa klienta', 'f.miejscowosc': 'Miejscowość', 'k.kodMax': 'Kod MAX', 'pd.nazwaProfilu':'Profil działalności'}) }}
         </div>
+
 
         <table class="lista-klientow">
             <thead>

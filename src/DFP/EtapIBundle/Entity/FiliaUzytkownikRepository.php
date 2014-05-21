@@ -55,4 +55,32 @@ class FiliaUzytkownikRepository extends EntityRepository
             return null;
         }
     }
+
+    public function getZnajdzFilieUzytkownikaSearchQuery(Uzytkownik $user, $kryteria = null)
+    {
+        $idu = $user->getId();
+
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+            ->select('k,f,fu,pd')
+            ->leftJoin('fu.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->where('fu.uzytkownik = :idu')
+            ->setParameter('idu',$idu);
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->andwhere("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
+
+        try{
+            return $query;
+        } catch(NoResultException $e) {
+            return null;
+        }
+    }
 }

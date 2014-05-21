@@ -42,51 +42,30 @@ class KlientController extends Controller
      * Lista wszystkich klientów.
      *
      * @Route("/", name="url_lista_klientow")
-     * @Method({"GET","POST"})
+     * @Method("GET")
      * @Template()
      *
      */
-    public function listaKlientowAction(Request $request)
+    public function listaKlientowAction()
     {
-        $filia = new Filia();
-        $klient = $filia->getKlient();
-
-        $form = $this->createFormBuilder($klient)
-            ->setAction($this->generateUrl('url_lista_klientow'))
-            ->add('nazwaSkrocona',null,array(
-                    'label'     =>  'Nazwa klienta:',
-                    'required'  => false,
-                )
-            )
-            ->add('submit','submit',array(
-                    'label'   =>  'Szukaj',
-                    'attr'    =>  array('class'=>'art-button maly')
-                )
-            )
-            ->getForm();
-
-        $kryteria = Array();
-
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
 
-        $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzFilieUzytkownikaQuery($this->getUser());
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzFilieUzytkownikaSearchQuery($this->getUser(), $kryteria);
 
         $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
 
-        $form->handleRequest($request);
-        if($form->isValid())
-        {
-            $kryteria = $form->getData();
-            $this->get('request')->query->set('strona',1);
-
-            $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzFilieUzytkownikaQuery($this->getUser(),$kryteria);
-            $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
-        }
-
         return array(
             'filie_uzytkownika'  => $pagination,
-            'szukaj_form'   =>  $form->createView(),
         );
     }
 

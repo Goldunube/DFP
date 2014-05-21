@@ -36,7 +36,16 @@ class KlientController extends Controller
 
         $paginator = $this->get('knp_paginator');
 
-        $query = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowQuery();
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $query = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowQuery($kryteria);
 
         $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
 
