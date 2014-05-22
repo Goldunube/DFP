@@ -139,7 +139,7 @@ class FilieController extends Controller
 
         $editForm = $this->createEditForm($filia);
         $deleteForm = $this->createDeleteForm($id);
-        $previousUrl = $this->getRequest()->headers->get('referer');
+        $previousUrl = $this->get('request')->headers->get('referer');
         $profileDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->findAll();
         $tablicaProfileDzialalnosci = new ArrayCollection();
 
@@ -292,7 +292,7 @@ class FilieController extends Controller
 
         $form->add('submit','submit',array('label' => 'Dodaj'));
 
-        $previousUrl = $this->getRequest()->headers->get('referer');
+        $previousUrl = $this->get('request')->headers->get('referer');
 
         return array(
             'form'      => $form->createView(),
@@ -364,18 +364,56 @@ class FilieController extends Controller
         $em->remove($notatka);
         $em->flush();
 
-/*        $autor = $notatka->getUzytkownik();
-        if($this->getUser() == $autor)
-        {
-            if($notatka->getKoniecEdycji() > new \DateTime('now') )
-            {
-                $em->remove($notatka);
-            }else{
-                $notatka->setStatus(false);
-            }
-            $em->flush();
-        }*/
-
         return $this->redirect($this->generateUrl('backend_filia_show', array('id'=>$filia->getId())));
+    }
+
+    /**
+     * @param $id
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/filia/notatka/{id}/edytuj", name="backend_filia_notatka_edytuj")
+     * @Template("DFPEtapIBundle:Backend/Filie:nowaNotatkaFilii.html.twig")
+     * @Method({"GET", "PUT"})
+     */
+    public function edytujNotatkeFiliiAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var FiliaNotatka $notatka
+         */
+        $notatka = $em->getRepository('DFPEtapIBundle:FiliaNotatka')->find($id);
+
+        if(!$notatka)
+        {
+            throw $this->createNotFoundException('Nie znaleziono wskazanej notatki.');
+        }
+
+        $form = $this->createForm(new FiliaNotatkaType(), $notatka, array(
+                'action'    =>  $this->generateUrl('backend_filia_notatka_edytuj', array('id' => $id) ),
+                'method'    =>  "PUT",
+            ));
+        $form->add('submit','submit',array('label' => 'Aktualizuj'));
+
+        $form->handleRequest($request);
+
+        if($form->isValid())
+        {
+            $notatka->setKoniecEdycji(new \DateTime('+1 day'));
+
+            $em->persist($notatka);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('backend_filia_show',array('id'=>$notatka->getFilia()->getId())));
+        }
+
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        return array(
+            'form'      => $form->createView(),
+            'powrot_url'    =>  $previousUrl,
+        );
     }
 }
