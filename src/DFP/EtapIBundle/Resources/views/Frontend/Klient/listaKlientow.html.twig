@@ -29,7 +29,7 @@
                 <th class="filia-nazwa">Nazwa filii</th>
                 <th class="filia-miejscowosc {% if filie_uzytkownika.isSorted('f.miejscowosc') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Miejscowość', 'f.miejscowosc') }}</th>
                 <th class="kod-max">Kod MAX</th>
-                <th class="klient-profil-dzialalnosci">Profil</th>
+                <th class="klient-profil-dzialalnosci">{{ knp_pagination_sortable(filie_uzytkownika, 'Profil działalności', 'pd.nazwaProfilu') }}</th>
                 <th class="filia-koniec-rezerwacji {% if filie_uzytkownika.isSorted('fu.koniecPrzypisania') %} sorted  {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Koniec rezerwacji','fu.koniecPrzypisania') }}</th>
             </tr>
             </thead>
