@@ -19,6 +19,7 @@
             <th>Zamawiający</th>
             <th title="Technik, który opracował system malarski">Technik</th>
             <th title="Data złożenia zamówienia">Data złożenia</th>
+            <th>Wielkość zużycia</th>
             <th>Status</th>
         </tr>
         </thead>
@@ -31,6 +32,7 @@
                 <td>{{ oferta.zamawiajacy }}</td>
                 <td>{{ oferta.technik }}</td>
                 <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
                 <td>{{ attribute(statusy, oferta.status) }}</td>
             </tr>
         {% endfor %}
