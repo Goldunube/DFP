@@ -6,12 +6,12 @@
     <table class="records_list">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Klient</th>
-                <th>Profil działalności</th>
-                <th>Zamawiający</th>
-                <th title="Data złożenia zamówienia">Data złożenia</th>
-                <th>Status</th>
+                <th class="lp">ID</th>
+                <th>{{ knp_pagination_sortable(oferty_handlowe,'Klient','k.nazwaSkrocona') }}</th>
+                <th>{{ knp_pagination_sortable(oferty_handlowe,'Profil działalności','pd.nazwaProfilu') }}</th>
+                <th>{{ knp_pagination_sortable(oferty_handlowe,'Zamawiający','uz.imie') }}</th>
+                <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oferty_handlowe,'Klient','oh.dataZlozeniaZamowienia') }}</th>
+                <th>{{ knp_pagination_sortable(oferty_handlowe,'Klient','oh.status') }}</th>
             </tr>
         </thead>
         <tbody>
