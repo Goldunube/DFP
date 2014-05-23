@@ -34,6 +34,7 @@ class OfertaHandlowaRepository extends EntityRepository
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
             ->innerJoin('oh.zamawiajacy','uz')
+            ->innerJoin('oh.technik','ut')
             ->where('oh.status IN (2,3)')
             ->getQuery();
 

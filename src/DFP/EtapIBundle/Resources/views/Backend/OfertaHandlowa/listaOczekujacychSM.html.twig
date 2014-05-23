@@ -14,11 +14,11 @@
         <thead>
         <tr>
             <th class="lp">ID</th>
-            <th>Klient</th>
-            <th>Profil działalności</th>
-            <th title="Poziom zużycia materiałów lakierniczych.">Wielkość zużycia</th>
-            <th>Zamawiający</th>
-            <th title="Data złożenia zamówienia">Data złożenia</th>
+            <th>{{ knp_pagination_sortable(oczekujace,'Klient','k.nazwaSkrocona') }}</th>
+            <th>{{ knp_pagination_sortable(oczekujace,'Profil działalności','pd.profileDzialalnosci.nazwaProfilu') }}</th>
+            <th>{{ knp_pagination_sortable(oczekujace,'Zamawiający','uz.imie') }}</th>
+            <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oczekujace,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
+            <th>{{ knp_pagination_sortable(oczekujace,'Wielkość zużycia','f.zuzycieMaterialow') }}</th>
             <th>Status</th>
         </tr>
         </thead>
@@ -28,9 +28,9 @@
                 <th class="lp"><a href="{{ path('backend_opracowanie_systemu_malarskiego', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
                 <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
                 <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
-                <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
                 <td>{{ oferta.zamawiajacy }}</td>
                 <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
                 <td>{{ attribute(statusy, oferta.status) }}</td>
             </tr>
         {% endfor %}
