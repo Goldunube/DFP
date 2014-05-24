@@ -97,14 +97,17 @@ class FilieController extends Controller
                 'required'      =>  true,
             )
         );
-        $form->add('filieUzytkownicy', 'collection', array(
-                'type'          =>  new FiliaUzytkownikType(),
-                'label'         =>  'Przypisani użytkownicy:',
-                'allow_add'     =>  true,
-                'allow_delete'  =>  true,
-                'by_reference'  =>  false,
-                'required'      =>  false,
-        ));
+        if( $this->get('security.context')->isGranted('ROLE_ADMIN') || $this->get('security.context')->isGranted('ROLE_DYR') || $this->get('security.context')->isGranted('ROLE_KP') || $this->get('security.context')->isGranted('ROLE_KDFP') )
+        {
+            $form->add('filieUzytkownicy', 'collection', array(
+                    'type'          =>  new FiliaUzytkownikType(),
+                    'label'         =>  'Przypisani użytkownicy:',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+                    'required'      =>  false,
+                ));
+        }
         $form->add('stronaWWW','url',array(
                 'label'     =>  'Adres strony WWW:',
                 'required'  =>  false,
@@ -185,16 +188,20 @@ class FilieController extends Controller
         }
 
         $aktualne = new ArrayCollection();
-        foreach ($filia->getFilieUzytkownicy() as $filiaUzytkownik)
+        if( $this->get('security.context')->isGranted('ROLE_ADMIN') || $this->get('security.context')->isGranted('ROLE_DYR') || $this->get('security.context')->isGranted('ROLE_KP') || $this->get('security.context')->isGranted('ROLE_KDFP') )
         {
-            $aktualne->add($filiaUzytkownik);
+
+            foreach ($filia->getFilieUzytkownicy() as $filiaUzytkownik)
+            {
+                $aktualne->add($filiaUzytkownik);
+            }
+            $filiaUzytkownik = new FiliaUzytkownik();
+            $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
+            $filiaUzytkownik->setAkcept(true);
+            $filiaUzytkownik->setPerm(false);
+            $filiaUzytkownik->setFilia($filia);
+            $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
         }
-        $filiaUzytkownik = new FiliaUzytkownik();
-        $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime('now'));
-        $filiaUzytkownik->setAkcept(true);
-        $filiaUzytkownik->setPerm(false);
-        $filiaUzytkownik->setFilia($filia);
-        $filia->getFilieUzytkownicy()->add($filiaUzytkownik);
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($filia);
@@ -202,11 +209,14 @@ class FilieController extends Controller
 
         if($editForm->isValid())
         {
-            foreach ($aktualne as $filiaUzytkownik)
+            if( $this->get('security.context')->isGranted('ROLE_ADMIN') || $this->get('security.context')->isGranted('ROLE_DYR') || $this->get('security.context')->isGranted('ROLE_KP') || $this->get('security.context')->isGranted('ROLE_KDFP') )
             {
-                if(false === $filia->getFilieUzytkownicy()->contains($filiaUzytkownik))
+                foreach ($aktualne as $filiaUzytkownik)
                 {
-                    $filia->removeFilieUzytkownicy($filiaUzytkownik);
+                    if(false === $filia->getFilieUzytkownicy()->contains($filiaUzytkownik))
+                    {
+                        $filia->removeFilieUzytkownicy($filiaUzytkownik);
+                    }
                 }
             }
 

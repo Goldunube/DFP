@@ -214,6 +214,7 @@
                 </tbody>
             </table>
 
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DYR') or is_granted('ROLE_KP') or is_granted('ROLE_KDFP') %}
             <table>
                 <caption>Użytkownicy przypisani do tej filii</caption>
                 <tbody>
@@ -229,6 +230,8 @@
                     </tr>
                 </tbody>
             </table>
+            {% endif %}
+
             {{ form_row(formularz._token) }}
             <ul class="record_actions">
                 <li>

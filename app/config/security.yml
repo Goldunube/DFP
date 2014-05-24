@@ -54,6 +54,7 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/zaplecze/slowniki/, roles: [ROLE_ADMIN, ROLE_DYR, ROLE_KP] }
+        - { path: ^/zaplecze/przypisane/, roles: [ROLE_ADMIN, ROLE_DYR, ROLE_KP, ROLE_KDFP] }
         - { path: ^/zaplecze/, roles: [ROLE_ADMIN, ROLE_DYR, ROLE_KP, ROLE_KDFP, ROLE_TECHNIK, ROLE_TECHNOLOG] }
 
 #        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
