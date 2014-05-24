@@ -25,10 +25,9 @@ class UzytkownikController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $paginator = $this->get('knp_paginator');
 
-        $query = $em->getRepository('DFPEtapIBundle:Uzytkownik')->findBy(array(),array('imie'=>'ASC'));
+        $query = $em->getRepository('DFPEtapIBundle:Uzytkownik')->getAllUsersQuery();
 
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),20);
 

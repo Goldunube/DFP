@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class UzytkownikRepository extends EntityRepository
 {
+    public function getAllUsersQuery()
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select('u,pu')
+            ->leftJoin('u.profilUzytkownika','pu')
+            ->orderBy('u.imie')
+            ->getQuery();
+
+        return $query;
+    }
 }

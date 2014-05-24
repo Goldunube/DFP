@@ -8,13 +8,13 @@
             <thead>
             <tr>
                 <th class="lp">Lp</th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Login</th>
-                <th>Stanowisko</th>
-                <th>e-mail</th>
-                <th>Ostatnie logowanie</th>
-                <th>Aktywny</th>
+                <th>{{ knp_pagination_sortable(entities,'Imie','u.imie') }}</th>
+                <th>{{ knp_pagination_sortable(entities,'Nazwisko','u.nazwisko') }}</th>
+                <th>{{ knp_pagination_sortable(entities,'Login','u.username') }}</th>
+                <th>{{ knp_pagination_sortable(entities,'Stanowisko','pu.stanowisko') }}</th>
+                <th>{{ knp_pagination_sortable(entities,'e-mail','u.email') }}</th>
+                <th>{{ knp_pagination_sortable(entities,'Ostatnie logowanie','u.lastLogin') }}</th>
+                <th>{{ knp_pagination_sortable(entities,'Aktywny','u.enabled') }}</th>
             </tr>
             </thead>
             <tbody>
