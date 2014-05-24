@@ -323,6 +323,7 @@ class Filia
      */
     public function setUlica($ulica)
     {
+        $ulica = preg_replace(array('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '/^ul[., ]+/i', '/^al[., ]+/i'), '', $ulica);
         $this->ulica = $ulica;
     
         return $this;
