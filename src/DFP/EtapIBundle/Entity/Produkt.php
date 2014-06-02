@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Produkt
  *
  * @ORM\Table(name="produkty")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DFP\EtapIBundle\Entity\ProduktRepository")
  */
 class Produkt
 {

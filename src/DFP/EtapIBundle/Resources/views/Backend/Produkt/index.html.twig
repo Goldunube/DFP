@@ -1,0 +1,48 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Lista produktów</h1>
+
+        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
+            {{ knp_pagination_filter(lista_produktow, { 'p.nazwaHandlowa': 'Nazwa' }) }}
+        </div>
+
+        <table class="records_list">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>{{ knp_pagination_sortable(lista_produktow,'Nazwa','p.nazwaHandlowa') }}</th>
+                    <th>{{ knp_pagination_sortable(lista_produktow,'Grupa promowania','p.grupaPromowania') }}</th>
+                    <th>Uwagi</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for produkt in lista_produktow %}
+                <tr>
+                    <td><a href="{{ path('backend_produkty_show', { 'id': produkt.id }) }}">{{ produkt.id }}</a></td>
+                    <td>{{ produkt.nazwaHandlowa }}</td>
+                    <td>{{ produkt.grupaPromowania }}</td>
+                    <td>{{ produkt.uwagi }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('backend_produkty_show', { 'id': produkt.id }) }}" class="art-button maly zielony">pokaż</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('backend_produkty_edit', { 'id': produkt.id }) }}" class="art-button maly pomaranczowy">edytuj</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(lista_produktow) }}
+        </div>
+
+    </section>
+
+{% endblock %}
