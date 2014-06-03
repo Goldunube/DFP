@@ -1,33 +1,42 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
 {% block content -%}
-    <h1>Lista ofert handlowych</h1>
+    <section>
+        <h1>Lista ofert handlowych</h1>
 
-    <table class="records_list">
+        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
+            {{ knp_pagination_filter(oferty_handlowe, {'k.nazwaSkrocona': 'Nazwa klienta', 'uz.nazwisko': 'Nazwisko osoby zamawiającej', 'ut.nazwisko':'Nazwisko technika', 'pd.nazwaProfilu':'Profil działalności','oh.status':'Status'}) }}
+        </div>
+
+        <table class="records_list">
             <thead>
             <tr>
                 <th class="lp">ID</th>
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Klient','k.nazwaSkrocona') }}</th>
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Profil działalności','pd.nazwaProfilu') }}</th>
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Zamawiający','uz.imie') }}</th>
-                <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oferty_handlowe,'Klient','oh.dataZlozeniaZamowienia') }}</th>
-                <th>{{ knp_pagination_sortable(oferty_handlowe,'Klient','oh.status') }}</th>
+                <th>{{ knp_pagination_sortable(oferty_handlowe,'Technik','ut.imie') }}</th>
+                <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oferty_handlowe,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
+                <th>{{ knp_pagination_sortable(oferty_handlowe,'Status','oh.status') }}</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for oferta in oferty_handlowe %}
-            <tr>
-                <th>{{ oferta.id }}</th>
-                <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
-                <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
-                <td>{{ oferta.zamawiajacy }}</td>
-                <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
-                <td>{{ attribute(statusy, oferta.status) }}</td>
-            </tr>
+                <tr>
+                    <th>{{ oferta.id }}</th>
+                    <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                    <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
+                    <td>{{ oferta.zamawiajacy }}</td>
+                    <td>{{ oferta.technik }}</td>
+                    <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
+                    <td>{{ attribute(statusy, oferta.status) }}</td>
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation">
-        {{ knp_pagination_render(oferty_handlowe) }}
-    </div>
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(oferty_handlowe) }}
+        </div>
+    </section>
+
 {% endblock %}

@@ -26,6 +26,28 @@ class OfertaHandlowaRepository extends EntityRepository
         return $query;
     }
 
+    public function getListaOczekujacychNaDoborSystemuMalarskiegoSearchQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh','f','uz','k','pd')
+            ->innerJoin('oh.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->innerJoin('oh.zamawiajacy','uz')
+            ->where('oh.status IN (0,1)');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->andwhere("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
+
+        return $query;
+    }
+
     public function getListaOczekujacychNaOpracowanieOfertyHandlowejQuery()
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
@@ -37,6 +59,29 @@ class OfertaHandlowaRepository extends EntityRepository
             ->innerJoin('oh.technik','ut')
             ->where('oh.status IN (2,3)')
             ->getQuery();
+
+        return $query;
+    }
+
+    public function getListaOczekujacychNaOpracowanieOfertyHandlowejSearchQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh','f','uz','k','pd')
+            ->innerJoin('oh.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->innerJoin('oh.zamawiajacy','uz')
+            ->innerJoin('oh.technik','ut')
+            ->where('oh.status IN (2,3)');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->andWhere("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
 
         return $query;
     }
@@ -60,6 +105,44 @@ class OfertaHandlowaRepository extends EntityRepository
             ->where('oh.zamawiajacy = :id')
             ->setParameter('id',$uzytkownik)
             ->getQuery();
+
+        return $query;
+    }
+
+    public function getListaWszystkichOfertHandlowychQuery()
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh','f','uz','k','pd')
+            ->innerJoin('oh.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->innerJoin('oh.zamawiajacy','uz')
+            ->innerJoin('oh.technik','ut')
+            ->orderBy('oh.dataZlozeniaZamowienia','DESC')
+            ->getQuery();
+
+        return $query;
+    }
+
+    public function getListaWszystkichOfertHandlowychSearchQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
+            ->select('oh','f','uz','k','pd')
+            ->innerJoin('oh.filia','f')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->innerJoin('oh.zamawiajacy','uz')
+            ->innerJoin('oh.technik','ut')
+            ->orderBy('oh.dataZlozeniaZamowienia','DESC');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->where("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
 
         return $query;
     }

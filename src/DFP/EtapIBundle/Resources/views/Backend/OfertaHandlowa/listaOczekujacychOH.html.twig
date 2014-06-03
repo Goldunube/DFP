@@ -8,39 +8,46 @@
 {% endblock javascript %}
 
 {% block content -%}
-    <h1>Lista oczekujących na opracowanie Oferty Handlowej</h1>
+    <section>
+        <h1>Lista oczekujących na opracowanie Oferty Handlowej</h1>
 
-    <table class="records_list">
-        <thead>
-        <tr>
-            <th class="lp">Id</th>
-            <th>{{ knp_pagination_sortable(oczekujace,'Klient','k.nazwaSkrocona') }}</th>
-            <th>{{ knp_pagination_sortable(oczekujace,'Profil działalności','pd.profileDzialalnosci.nazwaProfilu') }}</th>
-            <th>{{ knp_pagination_sortable(oczekujace,'Zamawiający','uz.imie') }}</th>
-            <th title="Technik, który opracował system malarski">{{ knp_pagination_sortable(oczekujace,'Technik','ut.imie') }}</th>
-            <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oczekujace,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
-            <th>{{ knp_pagination_sortable(oczekujace,'Wielkość zużycia','f.zuzycieMaterialow') }}</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for oferta in oczekujace %}
+        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
+            {{ knp_pagination_filter(oczekujace, {'k.nazwaSkrocona': 'Nazwa klienta', 'uz.nazwisko': 'Nazwisko osoby zamawiającej', 'ut.nazwisko':'Nazwisko technika', 'pd.nazwaProfilu':'Profil działalności','oh.status':'Status'}) }}
+        </div>
+
+        <table class="records_list">
+            <thead>
             <tr>
-                <th class="lp"><a href="{{ path('backend_opracowanie_oferty_cenowej', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
-                <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
-                <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
-                <td>{{ oferta.zamawiajacy }}</td>
-                <td>{{ oferta.technik }}</td>
-                <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
-                <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
-                <td>{{ attribute(statusy, oferta.status) }}</td>
+                <th class="lp">Id</th>
+                <th>{{ knp_pagination_sortable(oczekujace,'Klient','k.nazwaSkrocona') }}</th>
+                <th>{{ knp_pagination_sortable(oczekujace,'Profil działalności','pd.profileDzialalnosci.nazwaProfilu') }}</th>
+                <th>{{ knp_pagination_sortable(oczekujace,'Zamawiający','uz.imie') }}</th>
+                <th title="Technik, który opracował system malarski">{{ knp_pagination_sortable(oczekujace,'Technik','ut.imie') }}</th>
+                <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oczekujace,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
+                <th>{{ knp_pagination_sortable(oczekujace,'Wielkość zużycia','f.zuzycieMaterialow') }}</th>
+                <th>Status</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation">
-        {{ knp_pagination_render(oczekujace) }}
-    </div>
+            </thead>
+            <tbody>
+            {% for oferta in oczekujace %}
+                <tr>
+                    <th class="lp"><a href="{{ path('backend_opracowanie_oferty_cenowej', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
+                    <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                    <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
+                    <td>{{ oferta.zamawiajacy }}</td>
+                    <td>{{ oferta.technik }}</td>
+                    <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                    <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
+                    <td>{{ attribute(statusy, oferta.status) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(oczekujace) }}
+        </div>
+    </section>
+
 {% endblock %}
 
 {% block javascripts %}

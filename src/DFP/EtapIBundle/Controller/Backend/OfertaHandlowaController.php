@@ -40,10 +40,18 @@ class OfertaHandlowaController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $paginator = $this->get('knp_paginator');
 
-        $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->findBy(array(),array('dataZlozeniaZamowienia'=>'DESC'));
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaWszystkichOfertHandlowychSearchQuery($kryteria);
 
         $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
 
@@ -71,10 +79,18 @@ class OfertaHandlowaController extends Controller
     public function listaOczekujacychNaDoborSystemuMalarskiegoAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $paginator = $this->get('knp_paginator');
 
-        $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaOczekujacychNaDoborSystemuMalarskiegoQuery();
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaOczekujacychNaDoborSystemuMalarskiegoSearchQuery($kryteria);
 
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
@@ -102,10 +118,18 @@ class OfertaHandlowaController extends Controller
     public function listaOczekujacychNaOpracowanieOfertyHandlowejAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $paginator = $this->get('knp_paginator');
 
-        $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaOczekujacychNaOpracowanieOfertyHandlowejQuery();
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $query = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->getListaOczekujacychNaOpracowanieOfertyHandlowejSearchQuery($kryteria);
 
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
 
