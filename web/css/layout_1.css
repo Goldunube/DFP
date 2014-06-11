@@ -421,3 +421,12 @@ div.two-columns .table-display > dt {
 div.two-columns .table-display > dd {
     width: 270px;
 }
+fieldset.slownik {
+    width: 210px;
+    border-radius: 5px;
+    text-align: center;
+    float: left;
+}
+fieldset.slownik legend{
+    font-weight: bold;
+}

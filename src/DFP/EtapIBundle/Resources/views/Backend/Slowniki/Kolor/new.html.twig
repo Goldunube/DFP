@@ -1,0 +1,15 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <h1>Kolor - utwórz</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('backend_kolor') }}" class="art-button">
+            Powrót
+        </a>
+    </li>
+</ul>
+{% endblock %}

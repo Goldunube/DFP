@@ -1,0 +1,73 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content %}
+    <section>
+        <h1>Lista słowników</h1>
+
+        <fieldset class="slownik">
+            <legend>Grupy klientów</legend>
+            <a href="{{ path('grupaklientow') }}" class="art-button">Lista</a>
+            <a href="{{ path('grupaklientow_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Kolory</legend>
+            <a href="{{ path('backend_kolor') }}" class="art-button">Lista</a>
+            <a href="{{ path('backend_kolor_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Materiały uzupełniające</legend>
+            <a href="{{ path('url_materialuzupelniajacy') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_materialuzupelniajacy_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Metody aplikacji farby</legend>
+            <a href="{{ path('url_procesaplikacji') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_procesaplikacji_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Metody przygotowania powierzchni</legend>
+            <a href="{{ path('url_procesprzygotowaniapowierzchni') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_procesprzygotowaniapowierzchni_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Parametry produktu</legend>
+            <a href="{{ path('url_wymaganiaproduktu') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_wymaganiaproduktu_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Parametry utwardzania powłoki</legend>
+            <a href="{{ path('url_procesutwardzaniapowloki') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_procesutwardzaniapowloki_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Profile działalności</legend>
+            <a href="{{ path('url_profiledzialalnosci') }}" class="art-button">Lista</a>
+            <a href="{{ path('profildzialalnosci_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Rodzaje podłoża</legend>
+            <a href="{{ path('url_backend_rodzajpowierzchni') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_backend_rodzajpowierzchni_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Wymagania powłoki lakierowej</legend>
+            <a href="{{ path('url_wymaganiapowloki') }}" class="art-button">Lista</a>
+            <a href="{{ path('url_wymaganiapowloki_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+
+        <fieldset class="slownik">
+            <legend>Wzorniki kolorów</legend>
+            <a href="{{ path('backend_wzornikkolorow') }}" class="art-button">Lista</a>
+            <a href="{{ path('backend_wzornikkolorow_new') }}" class="art-button">Dodaj</a>
+        </fieldset>
+    </section>
+{% endblock content %}

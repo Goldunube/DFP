@@ -16,4 +16,13 @@ class DefaultController extends Controller
     {
         return array();
     }
+
+    /**
+     * @Route("/slowniki", name="zaplecze_slowniki")
+     * @Template("@DFPEtapI/Backend/Slowniki/index.html.twig")
+     */
+    public function listaSlownikowAction()
+    {
+        return array();
+    }
 }
