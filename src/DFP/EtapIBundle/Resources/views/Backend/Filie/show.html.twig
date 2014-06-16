@@ -66,6 +66,19 @@
                     <td>{{ filia.matlakDotychczas|raw }}</td>
                 </tr>
                 <tr>
+                    <th>Poziom zużycia</th>
+                    <td>
+                        {% if filia.filiePoziomyZapotrzebowaniaKolorow|length > 0 %}
+                            <dl class="table-display">
+                                {% for kolor in filia.filiePoziomyZapotrzebowaniaKolorow %}
+                                    <dt>{{ kolor.kolor.nazwa }}</dt>
+                                    <dd>{{ kolor.poziomZuzycia }} l/miesiąc</dd>
+                                {% endfor %}
+                            </dl>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
                     <th>Wielkość zużycia:</th>
                     <td>{{ filia.zuzycieMaterialow|raw }}</td>
                 </tr>

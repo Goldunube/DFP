@@ -2,6 +2,8 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use Doctrine\Common\Cache\ArrayCache;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -243,5 +245,26 @@ class KolorController extends Controller
             ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
         ;
+    }
+
+    /**
+     * Pobiera wszystkie kolory zapisane w bazie danych i zwrace je w postaci tablicy JSON
+     *
+     * @return JsonResponse
+     * @Route("/ajax/kolory", name="backend_ajax_kolory")
+     */
+    public function pobierzListeWszystkichKolorowAjaxAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $kolory = $em->getRepository('DFPEtapIBundle:Kolor')->findAll();
+
+        $data = array();
+        foreach($kolory as $kolor)
+        {
+            $data[] = Array('label'=>$kolor->getNazwa(),'category'=>$kolor->getWzornikKoloru()->getNazwa());
+        }
+
+        return new JsonResponse($data);
     }
 }

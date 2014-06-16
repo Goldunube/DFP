@@ -127,9 +127,19 @@
                         <th>{{ form_label(formularz.zuzycieMaterialow) }} <sup class="pomoc" title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
                         <td class="edycja">{{ form_widget(formularz.zuzycieMaterialow) }}</td>
                     </tr>
+                    <tr id="poziomy-zuzycia">
+                        <th>{{ form_label(formularz.filiePoziomyZapotrzebowaniaKolorow) }} <sup class="pomoc" title="podać w skali miesiąca jedną z danych: ilość w litrach lub kg, wartość zakupu farby, waga w tonach pomalowanej konstrukcji, ilość m2 pomalowanej powierzchni">?</sup></th>
+                        <td class="edycja filia-parametry-tech">
+                            <ul data-prototype="{{ form_widget(formularz.filiePoziomyZapotrzebowaniaKolorow.vars.prototype)|e }}">
+                                {% for kolor in formularz.filiePoziomyZapotrzebowaniaKolorow %}
+                                    <li class="parametr-container">{{ form_widget(kolor) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
                     <tr>
                         <th>{{ form_label(formularz.kolorystyka) }} <sup class="pomoc" title="podać numery kolorów stosowane przez klienta np. wg: RAL, NCS, Pantone lub inny standard//alternatywnie proszę określić czy jest to kolor: czerwony, niebieski, zielony, żółty">?</sup></th>
-                        <td class="edycja">{{ form_widget(formularz.kolorystyka) }}</td>
+                        <td class="edycja">{{ form_widget(formularz.kolorystyka,{'attr' : {'class': 'kolorystyka-autocomplete'}}) }}</td>
                     </tr>
                     <tr id="materialy-uzupelniajace">
                         <th>{{ form_label(formularz.filieMaterialyUzupelniajace) }} <sup class="pomoc" title="podać tylko związane z tworzeniem powłoki lakierowej np. mat. ścierne, szpachle, odtłuszczacze, nitro, przemywacze itp.">?</sup></th>
@@ -264,6 +274,7 @@
     {#  Obgługa formularzy  #}
     $('#filie-pracownicy').obslugaFormularzy();
     $('#filie-uzytkownicy').obslugaFormularzy();
+    $('#poziomy-zuzycia').obslugaFormularzy();
     $('#materialy-uzupelniajace').obslugaFormularzy();
     $('#rodzaje-powierzchni').obslugaFormularzy();
     $('#procesy-przygotowania-powierzchni').obslugaFormularzy();
@@ -359,6 +370,51 @@
             .dialog("open");
     });
 
+    {# jQUery Autocomplete #}
+
+    function split( val ) {
+    return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+    return split( term ).pop();
+    }
+
+    $.widget( "custom.catcomplete", $.ui.autocomplete, {
+        _renderMenu: function( ul, items ) {
+            var that = this,
+                currentCategory = "";
+            $.each( items, function( index, item ) {
+                if ( item.category != currentCategory ) {
+                    ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                    currentCategory = item.category;
+                }
+                that._renderItemData( ul, item );
+            });
+        }
+    });
+
+    $('.kolorystyka-autocomplete')
+    .catcomplete({
+        source: function(req,res) {
+            $.getJSON('{{ path('backend_ajax_kolory') }}', {
+                term: extractLast(req.term)
+            }, res);
+        },
+        focus: function() {
+            return false;
+        },
+        select: function( event, ui ) {
+            var terms = split( this.value );
+            terms.pop();
+            terms.push( ui.item.value );
+            terms.push( "" );
+            this.value = terms.join( ", " );
+            return false;
+        },
+        minLength: 0
+    })
+
+    {#   Confirm-Dialog  #}
     $('#dialog-delete-confirm').dialog({
         autoOpen: false,
         resizable: false,

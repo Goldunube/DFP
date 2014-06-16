@@ -430,3 +430,12 @@ fieldset.slownik {
 fieldset.slownik legend{
     font-weight: bold;
 }
+.ui-autocomplete {
+    text-align: left;
+}
+.ui-autocomplete-category {
+    color: #B3B3B3;
+}
+.ui-menu-item a {
+    padding: 2px 1em !important;
+}

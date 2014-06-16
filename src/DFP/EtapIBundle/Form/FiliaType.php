@@ -66,6 +66,15 @@ class FiliaType extends AbstractType
                     'required'      =>  false
                 )
             )
+            ->add('filiePoziomyZapotrzebowaniaKolorow','collection',array(
+                    'type'          =>  new FiliaPoziomZapotrzebowaniaKolorowType(),
+                    'label'         =>  'Poziom zużycia:',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+                    'required'      =>  false,
+                )
+            )
             ->add('kolorystyka',null,array(
                     'label'         =>  'Kolorystyka:',
                     'required'      =>  false

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,30 @@ class Kolor
      * @ORM\JoinColumn(name="wzornik_koloru_id", referencedColumnName="id", nullable=false)
      */
     protected $wzornikKoloru;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaPoziomZapotrzebowaniaKolorow", mappedBy="kolor", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $filiePoziomyZapotrzebowaniaKolorow;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->filiePoziomyZapotrzebowaniaKolorow = new ArrayCollection();
+    }
+
+    /**
+     * to String
+     */
+    public function __toString()
+    {
+        return (string) $this->getNazwa();
+    }
 
     /**
      * Get id
@@ -89,5 +114,40 @@ class Kolor
     public function getWzornikKoloru()
     {
         return $this->wzornikKoloru;
+    }
+
+    /**
+     * Add filiePoziomyZapotrzebowaniaKolorow
+     *
+     * @param FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow
+     * @return Kolor
+     */
+    public function addFiliePoziomyZapotrzebowaniaKolorow(
+        FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow)
+    {
+        $this->filiePoziomyZapotrzebowaniaKolorow[] = $filiePoziomyZapotrzebowaniaKolorow;
+
+        return $this;
+    }
+
+    /**
+     * Remove filiePoziomyZapotrzebowaniaKolorow
+     *
+     * @param FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow
+     */
+    public function removeFiliePoziomyZapotrzebowaniaKolorow(
+        FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow)
+    {
+        $this->filiePoziomyZapotrzebowaniaKolorow->removeElement($filiePoziomyZapotrzebowaniaKolorow);
+    }
+
+    /**
+     * Get filiePoziomyZapotrzebowaniaKolorow
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFiliePoziomyZapotrzebowaniaKolorow()
+    {
+        return $this->filiePoziomyZapotrzebowaniaKolorow;
     }
 }

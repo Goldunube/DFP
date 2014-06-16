@@ -79,9 +79,16 @@ class Filia
     private $zuzycieMaterialow;
 
     /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="FiliaPoziomZapotrzebowaniaKolorow", mappedBy="filia", cascade={"persist"}, orphanRemoval=true)
+     */
+    protected $filiePoziomyZapotrzebowaniaKolorow;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="stosowana_kolorystyka", type="text", nullable=true)
+     * @ORM\Column(name="stosowana_kolorystyka", type="string", nullable=true)
      */
     private $kolorystyka;
 
@@ -204,6 +211,7 @@ class Filia
         $this->zobowiazania = new ArrayCollection();
         $this->filieNotatki = new ArrayCollection();
         $this->filieOfertyHandlowe = new ArrayCollection();
+        $this->filiePoziomyZapotrzebowaniaKolorow = new ArrayCollection();
     }
 
     public function __toString()
@@ -970,4 +978,39 @@ class Filia
         $this->filieOfertyHandlowe = $filieOfertyHandlowe;
     }
 
+    /**
+     * Add filiePoziomyZapotrzebowaniaKolorow
+     *
+     * @param FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow
+     * @return Filia
+     */
+    public function addFiliePoziomyZapotrzebowaniaKolorow(
+        FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow)
+    {
+        $this->filiePoziomyZapotrzebowaniaKolorow[] = $filiePoziomyZapotrzebowaniaKolorow;
+        $filiePoziomyZapotrzebowaniaKolorow->setFilia($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove filiePoziomyZapotrzebowaniaKolorow
+     *
+     * @param FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow
+     */
+    public function removeFiliePoziomyZapotrzebowaniaKolorow(
+        FiliaPoziomZapotrzebowaniaKolorow $filiePoziomyZapotrzebowaniaKolorow)
+    {
+        $this->filiePoziomyZapotrzebowaniaKolorow->removeElement($filiePoziomyZapotrzebowaniaKolorow);
+    }
+
+    /**
+     * Get filiePoziomyZapotrzebowaniaKolorow
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFiliePoziomyZapotrzebowaniaKolorow()
+    {
+        return $this->filiePoziomyZapotrzebowaniaKolorow;
+    }
 }
