@@ -1013,4 +1013,15 @@ class Filia
     {
         return $this->filiePoziomyZapotrzebowaniaKolorow;
     }
+
+    public function getPoziomZapotrzebowaniaKolorowSuma()
+    {
+        $suma = 0;
+        foreach($this->filiePoziomyZapotrzebowaniaKolorow as $kolor)
+        {
+            $suma += $kolor->getPoziomZuzycia();
+        }
+
+        return $suma;
+    }
 }
