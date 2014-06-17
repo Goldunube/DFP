@@ -29,10 +29,11 @@ class OfertaHandlowaRepository extends EntityRepository
     public function getListaOczekujacychNaDoborSystemuMalarskiegoSearchQuery($kryteria = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
-            ->select('oh','f','uz','k','pd')
+            ->select('oh','f','uz','k','pd','fpzk')
             ->innerJoin('oh.filia','f')
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
+            ->leftJoin('f.filiePoziomyZapotrzebowaniaKolorow','fpzk')
             ->innerJoin('oh.zamawiajacy','uz')
             ->where('oh.status IN (0,1)');
 
@@ -66,10 +67,11 @@ class OfertaHandlowaRepository extends EntityRepository
     public function getListaOczekujacychNaOpracowanieOfertyHandlowejSearchQuery($kryteria = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
-            ->select('oh','f','uz','k','pd')
+            ->select('oh','f','uz','k','pd','fpzk')
             ->innerJoin('oh.filia','f')
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
+            ->leftJoin('f.filiePoziomyZapotrzebowaniaKolorow','fpzk')
             ->innerJoin('oh.zamawiajacy','uz')
             ->innerJoin('oh.technik','ut')
             ->where('oh.status IN (2,3)');
@@ -127,10 +129,11 @@ class OfertaHandlowaRepository extends EntityRepository
     public function getListaWszystkichOfertHandlowychSearchQuery($kryteria = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:OfertaHandlowa')->createQueryBuilder('oh')
-            ->select('oh','f','uz','k','pd')
+            ->select('oh','f','uz','k','pd','fpzk')
             ->innerJoin('oh.filia','f')
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
+            ->leftJoin('f.filiePoziomyZapotrzebowaniaKolorow','fpzk')
             ->innerJoin('oh.zamawiajacy','uz')
             ->innerJoin('oh.technik','ut')
             ->orderBy('oh.dataZlozeniaZamowienia','DESC');

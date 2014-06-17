@@ -24,7 +24,7 @@
                 <th>{{ knp_pagination_sortable(oczekujace,'Zamawiający','uz.imie') }}</th>
                 <th title="Technik, który opracował system malarski">{{ knp_pagination_sortable(oczekujace,'Technik','ut.imie') }}</th>
                 <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oczekujace,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
-                <th>{{ knp_pagination_sortable(oczekujace,'Wielkość zużycia','f.zuzycieMaterialow') }}</th>
+                <th>{{ knp_pagination_sortable(oczekujace,'Wielkość zużycia','fpzk.poziomZuzycia') }}</th>
                 <th>Status</th>
             </tr>
             </thead>
@@ -37,7 +37,7 @@
                     <td>{{ oferta.zamawiajacy }}</td>
                     <td>{{ oferta.technik }}</td>
                     <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
-                    <td>{{ oferta.filia.zuzycieMaterialow|striptags }}</td>
+                    <td>{{ oferta.filia.PoziomZapotrzebowaniaKolorowSuma }}</td>
                     <td>{{ attribute(statusy, oferta.status) }}</td>
                 </tr>
             {% endfor %}
