@@ -20,6 +20,8 @@ framework:
     trusted_proxies: ~
     session:
         cookie_lifetime:    86400
+        gc_divisor:         10
+        gc_probability:     100
         gc_maxlifetime:     3600
     fragments:       ~
     http_method_override: true
