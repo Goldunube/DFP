@@ -51,11 +51,14 @@ security:
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/zaplecze/slowniki/, roles: [ROLE_ADMIN, ROLE_DYR, ROLE_KP] }
         - { path: ^/zaplecze/przypisane/, roles: [ROLE_ADMIN, ROLE_DYR, ROLE_KP, ROLE_KDFP] }
         - { path: ^/zaplecze/, roles: [ROLE_ADMIN, ROLE_DYR, ROLE_KP, ROLE_KDFP, ROLE_TECHNIK, ROLE_TECHNOLOG] }
+        - { path: ^/klient/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/ofertyhandlowe/, role: IS_AUTHENTICATED_FULLY }
 
 #        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+#        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+#        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
