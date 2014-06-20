@@ -200,6 +200,13 @@
         </section>
     </section>
 
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="flash-messages flash-{{ type }}">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <ul class="record_actions">
         <li>
@@ -228,16 +235,42 @@
     </ul>
 {% endblock %}
 
+{% block modal_windows %}
+    <div>
+        <p>Przekaż Technikowi / Koordynatorowi istotne informacje dotyczące zamawianej <strong>oferty handlowej</strong></p>
+        <form id="zamow-oferte-form" action="{{ path('frontend_filia_zamowienie_oferty', {'id': filia.id}) }}" method="post">
+            <textarea name="info" style="width: 90%; height: 125px;"></textarea>
+        </form>
+    </div>
+{% endblock modal_windows %}
+
 {% block javascripts %}
     {{ parent() }}
     $('#main [title]').qtip({hide: { fixed: true, delay: 500 } });
-    $('#zamow-oferte').click(function(event){
-        event.preventDefault();
-        var href = $(this).attr('href');
-
-        $.get(href)
-        .done(function(respond) {
-            alert(respond.info);
-        });
+    $('#modal-windows').dialog({
+        title: "Zamówienie oferty Handlowej",
+        autoOpen: false,
+        height: 300,
+        width: 350,
+        modal: true,
+        draggable: true,
+        resizable: true,
+        buttons: {
+            "Wyślij": function()
+            {
+                $('#zamow-oferte-form').submit();
+                $(this).dialog("close");
+            },
+            Anuluj: function()
+            {
+                $(this).dialog("close");
+            }
+        },
     })
+    $('#zamow-oferte')
+    .click(function(event) {
+        event.preventDefault();
+        $('#modal-windows').dialog("open");
+    })
+    $('.flash-messages').delay(5000).fadeOut(500);
 {% endblock javascripts %}

@@ -345,6 +345,29 @@ footer {
 footer p {
     float: right;
 }
+#modal-windows {
+    display: none;
+}
+.flash-messages {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 5px;
+    display: block;
+    left: 50%;
+    margin-left: -250px;
+    padding: 5px;
+    position: fixed;
+    top: 50%;
+    width: 500px;
+    z-index: 100;
+    font-size: 16px;
+}
+.flash-warning {
+    color: orangered;
+}
+.flash-success {
+    color: darkgreen;
+}
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }

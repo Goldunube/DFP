@@ -70,6 +70,18 @@ class OfertaHandlowa
     private $status = 0;
 
     /**
+     * @var string
+     * @ORM\Column(name="info_zamawiajacy", type="text", nullable=true)
+     */
+    private $infoZamawiajacego;
+
+    /**
+     * @var string
+     * @ORM\Column(name="info_anulowana", type="text", nullable=true)
+     */
+    private $infoAnulacja;
+
+    /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="OfertaHandlowaProfilSystem", mappedBy="ofertaHandlowa", cascade={"persist"}, orphanRemoval=true)
@@ -288,5 +300,51 @@ class OfertaHandlowa
     public function getOfertyProfileSystemy()
     {
         return $this->ofertyProfileSystemy;
+    }
+
+    /**
+     * Set infoZamawiajacego
+     *
+     * @param string $infoZamawiajacego
+     * @return OfertaHandlowa
+     */
+    public function setInfoZamawiajacego($infoZamawiajacego)
+    {
+        $this->infoZamawiajacego = $infoZamawiajacego;
+
+        return $this;
+    }
+
+    /**
+     * Get infoZamawiajacego
+     *
+     * @return string 
+     */
+    public function getInfoZamawiajacego()
+    {
+        return $this->infoZamawiajacego;
+    }
+
+    /**
+     * Set infoAnulacja
+     *
+     * @param string $infoAnulacja
+     * @return OfertaHandlowa
+     */
+    public function setInfoAnulacja($infoAnulacja)
+    {
+        $this->infoAnulacja = $infoAnulacja;
+
+        return $this;
+    }
+
+    /**
+     * Get infoAnulacja
+     *
+     * @return string 
+     */
+    public function getInfoAnulacja()
+    {
+        return $this->infoAnulacja;
     }
 }

@@ -578,7 +578,7 @@ class KlientController extends Controller
      *
      * @Method({"GET"})
      */
-    public function zamowOferteHandlowaAction($id)
+    public function zamowOferteHandlowaAjaxAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -606,6 +606,53 @@ class KlientController extends Controller
         }
 
         return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
+
+    }
+
+    /**
+     * @param $id
+     *
+     * @Route("/filia/{id}/ajax/zamowienie_oferty", name="frontend_filia_zamowienie_oferty")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
+     * @Method({"POST"})
+     */
+    public function zamowOferteHandlowaAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $filia Filia
+         */
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        if(!$this->sprawdzCzyOtwartaOfertaHandlowa($filia))
+        {
+            $ofertaHandlowa = new OfertaHandlowa();
+            $ofertaHandlowa->setFilia($filia);
+            $ofertaHandlowa->setDataZlozeniaZamowienia(new \DateTime('now'));
+            $ofertaHandlowa->setZamawiajacy($this->getUser());
+            $ofertaHandlowa->setInfoZamawiajacego($request->request->get('info'));
+
+            $em->persist($ofertaHandlowa);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                "Zamówienie oferty zostało przyjęte."
+            );
+
+        }else{
+
+            $this->get('session')->getFlashBag()->add(
+                'warning',
+                "Nowe zamówienie nie zostało wysłane, ponieważ poprzednie nie zostało jeszcze zamknięte.Skontaktuj się z koordynatorem DT."
+            );
+
+        }
+
+        return $this->redirect($this->generateUrl('frontend_pokaz_filie_klienta', array('id'=>$filia->getId())).'#zamow-oferte');
 
     }
 
