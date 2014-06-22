@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Kolor
  *
- * @ORM\Table(name="kolor")
+ * @ORM\Table(name="kolory")
  * @ORM\Entity
  */
 class Kolor

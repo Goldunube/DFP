@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * WzornikKolorow
  *
- * @ORM\Table()
+ * @ORM\Table(name="wzorniki_kolorow")
  * @ORM\Entity
  */
 class WzornikKolorow
