@@ -53,10 +53,19 @@ span.required {
 #main table tbody tr:nth-child(2n+1), #main table tfoot tr:nth-child(2n+1) {
     background-color: #E0E0E0;
 }
-aside h4 {
+.two-columns {
+    margin: 15px auto;
+}
+.two-columns h4 {
     color: #A0522D;
     font-size: 13px;
     margin: 2px 0;
+}
+#info-zamawiajacego {
+    background-color: #ffefd5;
+    border: 1px solid;
+    height: 130px;
+    padding: 5px;
 }
 .klient-profil-dzialalnosci div {
     font-size: 9px;
@@ -126,6 +135,8 @@ td.profil-dzialalnosci select {
 .record_actions {
     list-style: none outside none;
     padding: 0;
+    overflow: auto;
+    height: auto;
 }
 /*.record_actions form {
     float: right;
@@ -181,6 +192,7 @@ a.art-button, a.art-button:link, a:link.art-button:link, body a.art-button:link,
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+    z-index: 1;
 }
 .art-button img {
     margin: 0;
@@ -438,4 +450,11 @@ fieldset.slownik legend{
 }
 .ui-menu-item a {
     padding: 2px 1em !important;
+}
+/*      TOGGLE SIDEBAR`y        */
+.left-toggle-sidebar {
+    left: -512px;
+    position: fixed;
+    top: 20%;
+    z-index: 99999;
 }

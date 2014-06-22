@@ -1,0 +1,25 @@
+    <thead>
+        <tr>
+            <th class="profil-dzialalnosci" colspan="2">Profil działalności</th>
+            <th class="system-malarski">System Malarski </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="profil-dzialalnosci" colspan="2">{{ form_widget(oferta_profil_system.profilSystem.profilDzialalnosci) }}</td>
+            <td class="produkty" data-prototype="{{ form_widget(oferta_profil_system.profilSystem.systemMalarski.produkty.vars.prototype)|e }}">
+                {% for produkt in oferta_profil_system.profilSystem.systemMalarski.produkty %}
+                    <span class="parametr-container">
+                        {{ form_widget(produkt) }}
+                        <a class="delete-link art-button maly czerwony" href="#">Usuń</a>
+                    </span>
+                {% endfor %}
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>{{ form_label(oferta_profil_system.uwagi, null, {'label_attr' : { 'style' : 'font-size: 13px;' } }) }}</th>
+            <td colspan="2">{{ form_widget(oferta_profil_system.uwagi, {'attr' : { 'style':'width:96%;' } } ) }}</td>
+        </tr>
+    </tfoot>

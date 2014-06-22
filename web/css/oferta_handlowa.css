@@ -1,0 +1,106 @@
+.toggle-sidebar-context {
+    background-color: gainsboro;
+    border-style: solid;
+    border-width: 1px;
+    float: left;
+    height: 500px;
+    overflow-y: scroll;
+    padding: 5px;
+    width: 500px;
+    resize: both;
+}
+.sidebar-listek span {
+    display: block;
+    font-size: 21px;
+    position: relative;
+    top: 15px;
+    transform: rotate(90deg);
+    transform-origin: 13px 50% 0;
+    white-space: nowrap;
+}
+.sidebar-listek {
+    background-color: gainsboro;
+    border-radius: 0 5px 5px 0;
+    border-style: solid solid solid none;
+    border-width: 1px;
+    display: block;
+    float: left;
+    height: 120px;
+    left: -1px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    width: 25px;
+    z-index: 2;
+}
+.notatka {
+    border: 1px solid;
+    border-radius: 5px;
+    margin: 5px auto;
+}
+.notatka .naglowek {
+    background-color: silver;
+    border-bottom: 1px solid;
+}
+.notatka .tresc {
+    padding: 5px;
+}
+.kategorie-notatek {
+    border-right: 1px solid;
+    display: inline-block;
+    width: 130px;
+}
+.autor {
+    float: right;
+}
+.naglowek span {
+    padding: 0px 5px;
+}
+
+.kategoria-1 {
+    background-color: #ff282f;
+    color: #000000;
+}
+
+.kategoria-2 {
+    background-color: #00aa00;
+    color: #000000;
+}
+
+.kategoria-3 {
+    background-color: #f78008;
+    color: #000000;
+}
+
+.kategoria-4 {
+    background-color: #87ceeb;
+    color: #000000;
+}
+.karta-klient tbody {
+    text-align: left;
+}
+.karta-klient th {
+    padding: 0 5px;
+    width: 200px;
+}
+.produkty span:last-child {
+    float: right;
+    margin: 10px 0;
+}
+.produkty .parametr-container a {
+    width: 28px;
+}
+#oferty-profile-systemy-container table {
+    margin: 10px 0;
+}
+.profil-dzialalnosci {
+    width: 270px;
+}
+tfoot td, tfoot th {
+    background-color: #FFEFD5;
+}
+.parametr-container {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+}
