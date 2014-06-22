@@ -1,0 +1,40 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>Lista Systemów Malarskich</h1>
+
+        <table class="records_list">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Komentarz</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for system in systemy_malarskie %}
+                <tr>
+                    <td><a href="{{ path('backend_system_malarski_show', { 'id': system.id }) }}">{{ system.id }}</a></td>
+                    <td>{{ system.komentarz }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('backend_system_malarski_show', { 'id': system.id }) }}" class="art-button maly zielony">pokaż</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('backend_system_malarski_edit', { 'id': system.id }) }}" class="art-button maly pomaranczowy">edytuj</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(systemy_malarskie) }}
+        </div>
+
+    </section>
+{% endblock %}

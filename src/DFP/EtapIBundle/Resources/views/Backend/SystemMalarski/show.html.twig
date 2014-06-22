@@ -1,0 +1,43 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% form_theme delete_form _self %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button czerwony">{{ label|trans({}, translation_domain) }}</button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
+{% block content -%}
+    <h1>System Malarski</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Komentarz</th>
+                <td>{{ entity.komentarz }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('backend_system_malarski') }}" class="art-button">
+            Powrót do listy
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('backend_system_malarski_edit', { 'id': entity.id }) }}" class="art-button">
+            Edytuj
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

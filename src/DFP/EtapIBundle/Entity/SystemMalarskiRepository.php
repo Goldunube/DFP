@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class SystemMalarskiRepository extends EntityRepository
 {
+    public function getListaSystemowMalarskichSearchQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:SystemMalarski')->createQueryBuilder('sm')
+            ->select('sm');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->where("$pole LIKE '%$wartosc%'");
+        }
+
+        $query->getQuery();
+
+        return $query;
+    }
 }
