@@ -97,13 +97,17 @@ class SystemMalarski
     /**
      * Add produkty
      *
-     * @param Produkt $produkty
+     * @param Produkt $produkt
      * @return SystemMalarski
      */
-    public function addProdukty(Produkt $produkty)
+    public function addProdukty(Produkt $produkt)
     {
-        $this->produkty[] = $produkty;
-    
+        if(false === $this->produkty->contains($produkt))
+        {
+            $this->produkty->add($produkt);
+//            $this->produkty[] = $produkt;
+        }
+
         return $this;
     }
 

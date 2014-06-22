@@ -28,6 +28,7 @@ class SystemMalarskiType extends AbstractType
                         'label'     =>  false
                     ),
                     'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
                     'label'         =>  false,
                     'by_reference'  =>  false
                 )
