@@ -55,6 +55,16 @@ class OfertaHandlowaController extends Controller
 
         $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
 
+        $deleteForms = new ArrayCollection();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        foreach($pagination as $ofertaHandlowa)
+        {
+            $deleteForms[$ofertaHandlowa->getId()] = $this->createDeleteForm($ofertaHandlowa->getId())->createView();
+        }
+
         $nazwyStatusow = array(
             0   =>  "Oczekująca na technika",
             1   =>  "Opracowywanie systemu malarskiego",
@@ -66,7 +76,51 @@ class OfertaHandlowaController extends Controller
         return array(
             'oferty_handlowe'   =>  $pagination,
             'statusy'           =>  $nazwyStatusow,
+            'delete_forms'      =>  $deleteForms,
         );
+    }
+
+    /**
+     * Deletes a OfertaHandlowa entity.
+     *
+     * @Route("/{id}", name="backend_oferty_handlowe_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+
+            if (!$ofertaHandlowa) {
+                throw $this->createNotFoundException('Brak możliwości usunięcia oferty handlowej.');
+            }
+
+            $em->remove($ofertaHandlowa);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('backend_oferty_handlowe_wszystkie'));
+    }
+
+    /**
+     * Creates a form to delete a OfertaHandlowa entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('backend_oferty_handlowe_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Usuń'))
+            ->getForm()
+            ;
     }
 
     /**

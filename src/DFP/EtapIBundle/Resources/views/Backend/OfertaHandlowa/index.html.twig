@@ -18,6 +18,7 @@
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Technik','ut.imie') }}</th>
                 <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oferty_handlowe,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Status','oh.status') }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -30,6 +31,11 @@
                     <td>{{ oferta.technik }}</td>
                     <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
                     <td>{{ attribute(statusy, oferta.status) }}</td>
+                    <td>
+                        {{ form_start(delete_forms[oferta.id]) }}
+                            {{ form_widget(delete_forms[oferta.id].submit, {'attr': {'class':'art-button maly czerwony confirm-delete','style':'float:right;'} }) }}
+                        {{ form_end(delete_forms[oferta.id]) }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -40,3 +46,40 @@
     </section>
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {#   Confirm-Dialog  #}
+    $('.confirm-delete').click(function(e){
+        e.preventDefault();
+        $('#dialog-delete-confirm')
+            .data('submit-form', $(this).closest('form'))
+            .dialog("open");
+    });
+
+    $('#dialog-delete-confirm').dialog({
+        autoOpen: false,
+        resizable: false,
+        height: 180,
+        modal: true,
+        buttons: {
+            "Usuń": function() {
+                $( this ).dialog( "close" );
+                $(this).data('submit-form').submit();
+            },
+            Anuluj: function(event) {
+                $( this ).dialog( "close" );
+            }
+        },
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        hide: {
+            effect: "blind",
+            duration: 500
+        },
+        closeOnEscape: true
+    })
+{% endblock javascripts %}
