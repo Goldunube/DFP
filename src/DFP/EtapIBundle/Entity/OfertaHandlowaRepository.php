@@ -134,8 +134,8 @@ class OfertaHandlowaRepository extends EntityRepository
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
             ->leftJoin('f.filiePoziomyZapotrzebowaniaKolorow','fpzk')
+            ->leftJoin('oh.technik','ut')
             ->innerJoin('oh.zamawiajacy','uz')
-            ->innerJoin('oh.technik','ut')
             ->orderBy('oh.dataZlozeniaZamowienia','DESC');
 
         if($kryteria)
