@@ -8,6 +8,8 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Profile Działalności</th>
+                    <th>Produkty</th>
                     <th>Komentarz</th>
                     <th></th>
                 </tr>
@@ -16,6 +18,16 @@
             {% for system in systemy_malarskie %}
                 <tr>
                     <td><a href="{{ path('backend_system_malarski_show', { 'id': system.id }) }}">{{ system.id }}</a></td>
+                    <td>
+                        {% for profil_system in system.profileSystemy %}
+                            {{ profil_system.profilDzialalnosci }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for profil_system in system.profileSystemy %}
+                            {{ profil_system.systemMalarski.produkty|join(" | ") }}
+                        {% endfor %}
+                    </td>
                     <td>{{ system.komentarz }}</td>
                     <td>
                         <ul>
