@@ -247,24 +247,36 @@ class OfertaHandlowaController extends Controller
                 }
             }
 
-            $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
-                ->add('ofertyProfileSystemy','collection',array(
-                        'type'          =>  new OfertaHandlowaProfilSystemType(),
-                        'allow_add'     =>  true,
-                        'by_reference'  =>  false,
+            if($this->getUser() == $ofertaHandlowa->getTechnik())
+            {
+                $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
+                    ->add('ofertyProfileSystemy','collection',array(
+                            'type'          =>  new OfertaHandlowaProfilSystemType(),
+                            'allow_add'     =>  true,
+                            'by_reference'  =>  false,
+                        )
                     )
-                )
-                ->add('zapisz','submit',array(
+                    ->add('zapisz','submit',array(
                         'label'         =>  'Zapisz',
                         'attr'          =>  array('class'=>'art-button zielony')
+                        )
                     )
-                )
-                ->add('submit','submit',array(
-                        'label'         =>  'Zatwierdź dobór',
-                        'attr'          =>  array('class'=>'art-button zielony')
+                    ->add('submit','submit',array(
+                            'label'         =>  'Zatwierdź dobór',
+                            'attr'          =>  array('class'=>'art-button zielony')
+                        )
+                    )->getForm();
+            }else{
+                $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
+                    ->add('ofertyProfileSystemy','collection',array(
+                            'type'          =>  new OfertaHandlowaProfilSystemType(),
+                            'allow_add'     =>  true,
+                            'by_reference'  =>  false,
+                        )
                     )
-                )
-                ->getForm();
+                    ->getForm();
+            }
+
         }else{
             $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
                 ->add('otworz','submit',array(
@@ -274,6 +286,7 @@ class OfertaHandlowaController extends Controller
                 )
                 ->getForm();
         }
+        $test = 'test';
 
         $ofertaHandlowaForm->handleRequest($request);
 
@@ -284,6 +297,7 @@ class OfertaHandlowaController extends Controller
             {
                 $ofertaHandlowa->setStatus(1);
                 $ofertaHandlowa->setTechnik($this->getUser());
+                $test = 'test';
             }else{
 
                 if($ofertaHandlowaForm->has('submit') && $ofertaHandlowaForm->get('submit')->isClicked())

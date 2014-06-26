@@ -28,7 +28,7 @@
                     <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
                     <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
                     <td>{{ oferta.zamawiajacy }}</td>
-                    <td>{{ oferta.technik }}</td>
+                    <td>{{ oferta.technik is empty ? "-" : oferta.technik }}</td>
                     <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
                     <td>{{ attribute(statusy, oferta.status) }}</td>
                     <td>

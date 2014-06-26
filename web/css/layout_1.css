@@ -11,6 +11,10 @@ table .lp {
 table .lp:after {
     content: '.';
 }
+td.wyrozniony {
+    background-color: #f0e68c;
+    color: black;
+}
 label {
     font-size: 20px;
     margin-right: 10px;

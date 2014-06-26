@@ -148,7 +148,8 @@
             </li>
         {% endif %}
         <li>
-            {% if form.submit is defined %} {{ form_row(form.submit) }} {% else %} {{ form_row(form.otworz) }} {% endif %}
+            {% if form.submit is defined %} {{ form_row(form.submit) }} {% endif %}
+            {% if form.otworz is defined %} {{ form_row(form.otworz) }} {% endif %}
         </li>
     </ul>
 
