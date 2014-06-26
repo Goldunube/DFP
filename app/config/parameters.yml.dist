@@ -13,3 +13,8 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    cookie_lifetime:    ~
+    gc_divisor:         ~
+    gc_probability:     ~
+    gc_maxlifetime:     ~

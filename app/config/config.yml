@@ -19,10 +19,10 @@ framework:
     default_locale:  "%locale%"
     trusted_proxies: ~
     session:
-        cookie_lifetime:    86400
-        gc_divisor:         10
-        gc_probability:     100
-        gc_maxlifetime:     3600
+        cookie_lifetime:    "%cookie_lifetime%"
+        gc_divisor:         "%gc_divisor%"
+        gc_probability:     "%gc_probability%"
+        gc_maxlifetime:     "%gc_maxlifetime%"
     fragments:       ~
     http_method_override: true
 
