@@ -20,13 +20,15 @@
                     <td><a href="{{ path('backend_system_malarski_show', { 'id': system.id }) }}">{{ system.id }}</a></td>
                     <td>
                         {% for profil_system in system.profileSystemy %}
-                            {{ profil_system.profilDzialalnosci }}
+                            {{ profil_system.profilDzialalnosci }} {{ loop.last ? '' : " | "}}
                         {% endfor %}
                     </td>
                     <td>
-                        {% for profil_system in system.profileSystemy %}
-                            {{ profil_system.systemMalarski.produkty|join(" | ") }}
-                        {% endfor %}
+                        <ul>
+                            {% for produkt in system.produkty %}
+                                <li>{{ produkt.nazwaHandlowa }}</li>
+                            {% endfor %}
+                        </ul>
                     </td>
                     <td>{{ system.komentarz }}</td>
                     <td>

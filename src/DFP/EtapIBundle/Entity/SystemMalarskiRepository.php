@@ -15,7 +15,10 @@ class SystemMalarskiRepository extends EntityRepository
     public function getListaSystemowMalarskichSearchQuery($kryteria = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:SystemMalarski')->createQueryBuilder('sm')
-            ->select('sm');
+            ->select('sm,ps,p,pd')
+            ->leftJoin('sm.profileSystemy','ps')
+            ->leftJoin('ps.profilDzialalnosci','pd')
+            ->leftJoin('sm.produkty','p');
 
         if($kryteria)
         {
