@@ -45,6 +45,12 @@ class SystemMalarski
      */
     private $profileSystemy;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="zatwierdzony", type="boolean", nullable=false)
+     */
+    private $zatwierdzony = false;
 
     /**
      * Constructor
@@ -87,7 +93,7 @@ class SystemMalarski
     /**
      * Get komentarz
      *
-     * @return string 
+     * @return string
      */
     public function getKomentarz()
     {
@@ -105,7 +111,6 @@ class SystemMalarski
         if(false === $this->produkty->contains($produkt))
         {
             $this->produkty->add($produkt);
-//            $this->produkty[] = $produkt;
         }
 
         return $this;
@@ -162,5 +167,21 @@ class SystemMalarski
     public function getProfileSystemy()
     {
         return $this->profileSystemy;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getZatwierdzony()
+    {
+        return $this->zatwierdzony;
+    }
+
+    /**
+     * @param boolean $zatwierdzony
+     */
+    public function setZatwierdzony($zatwierdzony)
+    {
+        $this->zatwierdzony = $zatwierdzony;
     }
 }

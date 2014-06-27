@@ -88,6 +88,12 @@ class OfertaHandlowa
      */
     protected $ofertyProfileSystemy;
 
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="tymczasowe_profile_systemy", type="array", nullable=true)
+     */
+    private $tymczasoweProfileSystemy;
 
     /**
      * Constructor
@@ -346,5 +352,28 @@ class OfertaHandlowa
     public function getInfoAnulacja()
     {
         return $this->infoAnulacja;
+    }
+
+    /**
+     * Set tymczasoweProfileSystemy
+     *
+     * @param array $tymczasoweProfileSystemy
+     * @return SystemMalarski
+     */
+    public function setTymczasoweProfileSystemy($tymczasoweProfileSystemy)
+    {
+        $this->tymczasoweProfileSystemy = $tymczasoweProfileSystemy;
+
+        return $this;
+    }
+
+    /**
+     * Get tymczasoweProfileSystemy
+     *
+     * @return array
+     */
+    public function getTymczasoweProfileSystemy()
+    {
+        return $this->tymczasoweProfileSystemy;
     }
 }

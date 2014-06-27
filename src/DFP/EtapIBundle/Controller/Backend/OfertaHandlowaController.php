@@ -202,6 +202,161 @@ class OfertaHandlowaController extends Controller
     }
 
     /**
+     * Wyświetla zamówienie oferty handlowej
+     *
+     * @param $id
+     *
+     * @return array
+     * @Route("/{id}/pokaz_oferte_handlowa", name="backend_pokaz_oferte_handlowa")
+     * @Template()
+     * @Method("GET")
+     */
+//    public function pokazOczekujacaNaOpracowanieSystemuMalarskiegoAction($id)
+    public function pokazOferteHandlowaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+        $filia = $ofertaHandlowa->getFilia();
+
+        $otworzDoborSystemuForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_otworz_opracowanie_systemu_malarskiego', array('id'=>$id)))
+            ->setMethod('PUT')
+            ->add('submit','submit',array(
+                    'label' =>  'Otwórz zamówienie',
+                    'attr'  =>  array('class'=>'art-button zielony')
+                )
+            )
+            ->getForm();
+
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        return array(
+            'oferta'                    =>  $ofertaHandlowa,
+            'filia'                     =>  $filia,
+            'otworzDoborSystemuForm'    =>  $otworzDoborSystemuForm->createView(),
+            'powrot_url'                =>  $previousUrl,
+        );
+    }
+
+    /**
+     * Otwiera / przypisuje opracowywanie systemu malarskiego do technika
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param $id
+     * @internal param $id
+     *
+     * @return array
+     * @Route("/{id}/otworz_opracowanie_systemu_malarskiego", name="backend_otworz_opracowanie_systemu_malarskiego")
+     * @Method("PUT")
+     */
+    public function otworzOpracowanieSystemuMalarskiegoAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+
+        $otworzDoborSystemuForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_otworz_opracowanie_systemu_malarskiego', array('id'=>$id)))
+            ->setMethod('PUT')
+            ->add('submit','submit',array(
+                    'label' =>  'Otwórz zamówienie',
+                    'attr'  =>  array('class'=>'art-button zielony')
+                )
+            )
+            ->getForm();
+
+        $otworzDoborSystemuForm->handleRequest($request);
+
+        if($otworzDoborSystemuForm->isValid())
+        {
+            //TODO Dodać sprawdzenie, czy osobą otwierającą dobór systemu jest technik
+
+            $ofertaHandlowa->setStatus(1);
+            $ofertaHandlowa->setTechnik($this->getUser());
+
+            $em->persist($ofertaHandlowa);
+            $em->flush();
+        }
+
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        return $this->redirect($this->generateUrl($previousUrl));
+    }
+
+    /**
+     * Zapisuje tymczasowo opracowywanie systemu malarskiego do technika
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param $id
+     * @internal param $id
+     *
+     * @return array
+     * @Route("/{id}/zapisz_opracowanie_systemu_malarskiego", name="backend_tymczasowo_zapisz_opracowanie_systemu_malarskiego")
+     * @Method("PUT")
+     */
+    public function zapiszTymczasowoOpracowanieSystemuMalarskiego(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+
+        $tymczasowoZapiszForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_tymczasowo_zapisz_opracowanie_systemu_malarskiego', array('id'=>$id)))
+            ->setMethod('PUT')
+            ->add('submit','submit',array(
+                    'label' =>  'Zapisz',
+                    'attr'  =>  array('class'=>'art-button zielony')
+                )
+            )
+            ->getForm();
+
+        $tymczasowoZapiszForm->handleRequest($request);
+
+        if($tymczasowoZapiszForm->isValid())
+        {
+            //TODO Dodać sprawdzenie, czy osobą otwierającą dobór systemu jest technik
+
+            $ofertyProfileSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+            $ofertaHandlowa->setTymczasoweProfileSystemy($ofertyProfileSystemy);
+            foreach($ofertyProfileSystemy as $ofertaProfilSystem)
+            {
+                $ofertaHandlowa->removeOfertyProfileSystemy($ofertaProfilSystem);
+            }
+
+            $em->persist($ofertaHandlowa);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('backend_opracowanie_systemu_malarskiego',array('id'=>$id)));
+    }
+
+    /**
+     * @param $id
+     */
+    public function anulujOferteHandlowa($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+    }
+
+    /**
+     * @param $id
+     */
+    public function zamknijOpracowanieSystemuMalarskiego($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+    }
+
+    /**
      * Wyświetla formularz systemu malarskiego oraz dodaje system malarski do oferty handlowej
      *
      * @param $id
@@ -230,8 +385,26 @@ class OfertaHandlowaController extends Controller
             4 => 'Notatki z wizyt'
         );
 
+        $tymczasowoZapiszForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_tymczasowo_zapisz_opracowanie_systemu_malarskiego', array('id'=>$id)))
+            ->setMethod('PUT')
+            ->add('submit','submit',array(
+                    'label' =>  'Zapisz',
+                    'attr'  =>  array('class'=>'art-button zielony')
+                )
+            )
+            ->getForm();
+
         if($ofertaHandlowa->getStatus() == 1)
         {
+            $zapisaneTymczasowo = $ofertaHandlowa->getTymczasoweProfileSystemy();
+
+            $test = $zapisaneTymczasowo;
+            foreach ($zapisaneTymczasowo as $tempOfertaProfilSystem) {
+                $ofertaHandlowa->addOfertyProfileSystemy($tempOfertaProfilSystem);
+            }
+
+
             if($ofertaHandlowa->getOfertyProfileSystemy()->isEmpty())
             {
                 foreach($profileDzialalnosci as $profilDzialalnosci)
@@ -286,7 +459,7 @@ class OfertaHandlowaController extends Controller
                 )
                 ->getForm();
         }
-        $test = 'test';
+//        $test = 'test';
 
         $ofertaHandlowaForm->handleRequest($request);
 
@@ -310,6 +483,7 @@ class OfertaHandlowaController extends Controller
 
                 //SPRAWDŹ CZY DODAWANY SYSTEM ZNAJDUJE SIĘ JUŻ W BAZIE DANYCH POPRZEZ WYSZUKANIE PRODUKTÓW
 
+//                $test = Array();
                 /**
                 * @var OfertaHandlowaProfilSystem $ofertaProfilSystem
                 */
@@ -317,7 +491,7 @@ class OfertaHandlowaController extends Controller
                 {
 //                    $test2 = $ofertaProfilSystem->getProfilSystem()->getSystemMalarski();
 
-                    $test[] = $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId();
+//                    $test[] = $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId();
 
                     echo '<hr> ID OPS: '.$ofertaProfilSystem->getId().'<br>';
                     echo 'ID System: '.$ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId().'<br>';
@@ -405,12 +579,13 @@ class OfertaHandlowaController extends Controller
         $previousUrl = $this->get('request')->headers->get('referer');
 
         return array(
-            'oferta'            =>  $ofertaHandlowa,
-            'filia'             =>  $filia,
-            'form'              =>  $ofertaHandlowaForm->createView(),
-            'powrot_url'        =>  $previousUrl,
-            'notatka_kategorie' =>  $kategorieNotatek,
-            'test'              =>  $test,
+            'oferta'                    =>  $ofertaHandlowa,
+            'filia'                     =>  $filia,
+            'form'                      =>  $ofertaHandlowaForm->createView(),
+            'powrot_url'                =>  $previousUrl,
+            'notatka_kategorie'         =>  $kategorieNotatek,
+            'tymczasowoZapiszForm'      =>  $tymczasowoZapiszForm->createView(),
+            'test'                      =>  $test,
         );
     }
 

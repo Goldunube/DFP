@@ -136,25 +136,25 @@
         </section>
     {% endif %}
 
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest':false}) }}
+
     <ul class="record_actions">
         <li>
             <a href="{{ powrot_url }}" class="art-button">
                 Powrót
             </a>
         </li>
-        {% if form.zapisz is defined %}
+        {% if oferta.technik == app.security.getToken().getUser() %}
             <li>
-                {{ form_row(form.zapisz) }}
+                {{ form(tymczasowoZapiszForm) }}
             </li>
         {% endif %}
         <li>
-            {% if form.submit is defined %} {{ form_row(form.submit) }} {% endif %}
-            {% if form.otworz is defined %} {{ form_row(form.otworz) }} {% endif %}
+            {#{% if form.submit is defined %} {{ form_row(form.submit) }} {% endif %}#}
+            {#{% if form.otworz is defined %} {{ form_row(form.otworz) }} {% endif %}#}
         </li>
     </ul>
-
-    {{ form_row(form._token) }}
-    {{ form_end(form, {'render_rest':false}) }}
 
     {% javascripts '@DFPEtapIBundle/Resources/public/js/opracujSystemMalarski.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>

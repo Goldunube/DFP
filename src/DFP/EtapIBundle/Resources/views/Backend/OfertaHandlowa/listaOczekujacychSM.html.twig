@@ -31,20 +31,29 @@
             <tbody>
             {% for oferta in oczekujace %}
                 {% set zuzycie = 0 %}
-                <tr>
-                    <th class="lp"><a href="{{ path('backend_opracowanie_systemu_malarskiego', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
-                    <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
-                    <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
-                    <td>{{ oferta.zamawiajacy }}</td>
-                    {% if oferta.technik is empty %}
+                {% if oferta.status == 0 %}
+                    <tr>
+                        <th class="lp"><a href="{{ path('backend_pokaz_oferte_handlowa', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
+                        <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                        <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
+                        <td>{{ oferta.zamawiajacy }}</td>
                         <td>-</td>
-                    {% else %}
+                        <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                        <td>{{ oferta.filia.PoziomZapotrzebowaniaKolorowSuma }}</td>
+                        <td>{{ attribute(statusy, oferta.status) }}</td>
+                    </tr>
+                {% elseif oferta.status == 1 %}
+                    <tr>
+                        <th class="lp"><a href="{{ path('backend_opracowanie_systemu_malarskiego', {'id':oferta.id}) }}">{{ oferta.id }}</a></th>
+                        <td title="{{ oferta.filia.klient.nazwaPelna }}">{{ oferta.filia.klient.nazwaSkrocona }}</td>
+                        <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
+                        <td>{{ oferta.zamawiajacy }}</td>
                         <td class="wyrozniony"> {{ oferta.technik }}</td>
-                    {% endif %}
-                    <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
-                    <td>{{ oferta.filia.PoziomZapotrzebowaniaKolorowSuma }}</td>
-                    <td {{ oferta.technik is empty ? '' : "class='wyrozniony'" }}>{{ attribute(statusy, oferta.status) }}</td>
-                </tr>
+                        <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d H:i:s") }}</td>
+                        <td>{{ oferta.filia.PoziomZapotrzebowaniaKolorowSuma }}</td>
+                        <td class='wyrozniony'>{{ attribute(statusy, oferta.status) }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>
