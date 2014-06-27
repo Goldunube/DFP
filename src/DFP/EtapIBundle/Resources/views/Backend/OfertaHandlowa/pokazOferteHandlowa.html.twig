@@ -128,7 +128,8 @@
                 Powrót
             </a>
         </li>
-        {% if (is_granted('ROLE_TECHNIK') and oferta.status == 0) %}
+        {#{% if (is_granted('ROLE_TECHNIK') and oferta.status == 0) %}#}
+        {% if (oferta.status == 0) %}
             <li>
                 {{ form(otworzDoborSystemuForm) }}
             </li>
