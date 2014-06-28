@@ -142,14 +142,13 @@
                 Powrót
             </a>
         </li>
-        {% if form.zapisz is defined %}
-            <li>
-                {{ form_row(form.zapisz) }}
-            </li>
-        {% endif %}
-        <li>
-            {% if form.submit is defined %} {{ form_row(form.submit) }} {% else %} {{ form_row(form.otworz) }} {% endif %}
-        </li>
+
+        {% if form.zapisz is defined %} <li> {{ form_row(form.zapisz) }} </li> {% endif %}
+
+        {% if form.zamknij is defined %} <li> {{ form_row(form.zamknij) }} </li> {% else %} <li> {{ form_row(form.otworz) }} </li> {% endif %}
+
+        {% if form.anuluj is defined %} <li> {{ form_row(form.anuluj) }} </li> {% endif %}
+
     </ul>
 
     {{ form_row(form._token) }}
