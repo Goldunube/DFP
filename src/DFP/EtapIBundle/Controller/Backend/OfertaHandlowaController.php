@@ -70,7 +70,8 @@ class OfertaHandlowaController extends Controller
             1   =>  "Opracowywanie systemu malarskiego",
             2   =>  "Oczekująca na koordynatora",
             3   =>  "Tworzenie oferty handlowej",
-            4   =>  "Zrealizowana"
+            4   =>  "Zrealizowana",
+            5   =>  "Anulowana"
         );
 
         return array(
@@ -153,7 +154,8 @@ class OfertaHandlowaController extends Controller
             1   =>  "Opracowywanie systemu malarskiego",
             2   =>  "Oczekująca na koordynatora",
             3   =>  "Opracowywanie oferty handlowej",
-            4   =>  "Zrealizowana"
+            4   =>  "Zrealizowana",
+            5   =>  "Anulowana"
         );
 
         return array(
@@ -192,7 +194,8 @@ class OfertaHandlowaController extends Controller
             1   =>  "Opracowywanie systemu malarskiego",
             2   =>  "Oczekująca na koordynatora",
             3   =>  "Opracowywanie oferty handlowej",
-            4   =>  "Zrealizowana"
+            4   =>  "Zrealizowana",
+            5   =>  "Anulowana"
         );
 
         return array(
@@ -314,6 +317,8 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
 
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
+            ->setMethod('POST')
             ->add('ofertyProfileSystemy','collection',array(
                     'type'          =>  new OfertaHandlowaProfilSystemType(),
                     'allow_add'     =>  true,
@@ -410,16 +415,10 @@ class OfertaHandlowaController extends Controller
          * @var $ofertaHandlowa OfertaHandlowa
          */
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-        $filia = $ofertaHandlowa->getFilia();
-
-        $kategorieNotatek = array(
-            1 => 'Wymagania klienta',
-            2 => 'Informacje handlowe',
-            3 => 'Harmonogram działań',
-            4 => 'Notatki z wizyt'
-        );
 
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
+            ->setMethod('POST')
             ->add('ofertyProfileSystemy','collection',array(
                     'type'          =>  new OfertaHandlowaProfilSystemType(),
                     'allow_add'     =>  true,
@@ -447,13 +446,6 @@ class OfertaHandlowaController extends Controller
 
         if($ofertaHandlowaForm->isValid())
         {
-            if($ofertaHandlowaForm->has('zapisz') && $ofertaHandlowaForm->get('zapisz')->isClicked())
-            {
-                $this->zapiszOpracowanieSystemuMalarskiegoAction($request,$id);
-
-                return $this->redirect($this->generateUrl('backend_opracowanie_systemu_malarskiego',array('id'=>$id)));
-            }
-
             $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
 
             //SPRAWDŹ CZY DODAWANY SYSTEM ZNAJDUJE SIĘ JUŻ W BAZIE DANYCH POPRZEZ WYSZUKANIE PRODUKTÓW
@@ -463,15 +455,7 @@ class OfertaHandlowaController extends Controller
              */
             foreach($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem)
             {
-                echo '<hr> ID OPS: '.$ofertaProfilSystem->getId().'<br>';
-                echo 'ID System: '.$ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId().'<br>';
-                echo 'Produkty :';
-                foreach($ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty() as $produkt)
-                {
-                    echo $produkt->getId().'; ';
-                }
-                echo '<br>';
-
+                $sprSystem = array();
                 /**
                  * @var $system SystemMalarski
                  */
@@ -479,19 +463,36 @@ class OfertaHandlowaController extends Controller
                 {
                     if($system->getProdukty()->getValues() === $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty()->getValues())
                     {
-                        echo 'ID Systemu zawierającego produkty:'.$system->getId().'<br>';
-                        $ofertaProfilSystem->getProfilSystem()->setSystemMalarski($system);
-
-                    }else{
-                        echo 'nieprawda <br>';
+                        $sprSystem[] = $system;
                     }
                 }
 
-                echo 'NOWY ID System: '.$ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId().'<br>';
+                // SPRAWDZENIE CZY W BAZIE DANYCH ZNAJDUJE SIĘ ENCJA PROFIL_SYSTEM O PODANYM PROFILU DZIAŁALNOŚCI I SYSTEMIE MALARSKIM
+                if(!empty($sprSystem))
+                {
+                    $query = $em->createQuery(
+                        'SELECT ps
+                        FROM DFPEtapIBundle:ProfilSystem ps
+                        WHERE ps.profilDzialalnosci = :profil AND ps.systemMalarski = :system'
+                    )
+                    ->setParameters(array('profil'=>$ofertaProfilSystem->getProfilSystem()->getProfilDzialalnosci(), 'system'=>$sprSystem[0]))
+                    ->setMaxResults(1);
+
+                    $profilSystemCheck = $query->getOneOrNullResult();
+                    if($profilSystemCheck)
+                    {
+                        $profilSystem =  $em->getRepository('DFPEtapIBundle:ProfilSystem')->find($profilSystemCheck->getId());
+                        $ofertaProfilSystem->setProfilSystem($profilSystem);
+                    }else{
+                        $ofertaProfilSystem->getProfilSystem()->setSystemMalarski($sprSystem[0]);
+                    }
+                }
+
                 $em->persist($ofertaProfilSystem);
 
             }
 
+            $ofertaHandlowa->setStatus(2);
             $em->persist($ofertaHandlowa);
             $em->flush();
 
@@ -504,241 +505,28 @@ class OfertaHandlowaController extends Controller
     /**
      * Anuluje zamówienie Oferty Handlowej
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function anulujOferteHandlowa($id)
+    private function anulujOferteHandlowa(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-    }
-
-    /**
-     * Wyświetla formularz systemu malarskiego oraz dodaje system malarski do oferty handlowej
-     *
-     * @param $id
-     * @param Request $request
-     *
-     * @return array
-     */
-    public function opracujSystemMalarskiTestAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
+        $em->clear();
 
         /**
          * @var $ofertaHandlowa OfertaHandlowa
          */
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-        $filia = $ofertaHandlowa->getFilia();
-        $profileDzialalnosci = $filia->getProfileDzialalnosci();
 
-        $kategorieNotatek = array(
-            1 => 'Wymagania klienta',
-            2 => 'Informacje handlowe',
-            3 => 'Harmonogram działań',
-            4 => 'Notatki z wizyt'
-        );
+        $ofertaHandlowa->setStatus(5);
+        $ofertaHandlowa->setInfoAnulacja($request->request->get('anulujInfo'));
 
-        $tymczasowoZapiszForm = $this->createFormBuilder($ofertaHandlowa)
-            ->setAction($this->generateUrl('backend_tymczasowo_zapisz_opracowanie_systemu_malarskiego', array('id'=>$id)))
-            ->setMethod('PUT')
-            ->add('submit','submit',array(
-                    'label' =>  'Zapisz',
-                    'attr'  =>  array('class'=>'art-button zielony')
-                )
-            )
-            ->getForm();
+        $em->persist($ofertaHandlowa);
+        $em->flush();
 
-        if($ofertaHandlowa->getStatus() == 1)
-        {
-            $zapisaneTymczasowo = $ofertaHandlowa->getTymczasoweProfileSystemy();
-
-
-
-            if($ofertaHandlowa->getOfertyProfileSystemy()->isEmpty())
-            {
-                foreach($profileDzialalnosci as $profilDzialalnosci)
-                {
-                    $systemMalarski = new SystemMalarski();
-                    $profilSystem = new ProfilSystem();
-                    $profilSystem->setProfilDzialalnosci($profilDzialalnosci);
-                    $profilSystem->setSystemMalarski($systemMalarski);
-
-                    $ofertaProfilSystem = new OfertaHandlowaProfilSystem();
-                    $ofertaProfilSystem->setProfilSystem($profilSystem);
-                    $ofertaHandlowa->addOfertyProfileSystemy($ofertaProfilSystem);
-                }
-            }
-
-
-
-            if($this->getUser() == $ofertaHandlowa->getTechnik())
-            {
-                $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
-                    ->add('ofertyProfileSystemy','collection',array(
-                            'type'          =>  new OfertaHandlowaProfilSystemType(),
-                            'allow_add'     =>  true,
-                            'by_reference'  =>  false,
-                        )
-                    )
-                    ->add('zapisz','submit',array(
-                        'label'         =>  'Zapisz',
-                        'attr'          =>  array('class'=>'art-button zielony')
-                        )
-                    )
-                    ->add('submit','submit',array(
-                            'label'         =>  'Zatwierdź dobór',
-                            'attr'          =>  array('class'=>'art-button zielony')
-                        )
-                    )->getForm();
-            }else{
-                $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
-                    ->add('ofertyProfileSystemy','collection',array(
-                            'type'          =>  new OfertaHandlowaProfilSystemType(),
-                            'allow_add'     =>  true,
-                            'by_reference'  =>  false,
-                        )
-                    )
-                    ->getForm();
-            }
-
-        }else{
-            $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
-                ->add('otworz','submit',array(
-                        'label'         =>  'Otwórz zamówienie',
-                        'attr'          =>  array('class'=>'art-button zielony')
-                    )
-                )
-                ->getForm();
-        }
-        $test = 'test';
-
-        $ofertaHandlowaForm->handleRequest($request);
-
-        if($ofertaHandlowaForm->isValid())
-        {
-
-            if($ofertaHandlowaForm->has('otworz') && $ofertaHandlowaForm->get('otworz')->isClicked())
-            {
-                $ofertaHandlowa->setStatus(1);
-                $ofertaHandlowa->setTechnik($this->getUser());
-                $test = 'test';
-            }else{
-
-                if($ofertaHandlowaForm->has('submit') && $ofertaHandlowaForm->get('submit')->isClicked())
-                {
-                    //$ofertaHandlowa->setStatus(3);
-                    //$ofertaHandlowa->setTechnik($this->getUser());
-                }
-
-                $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
-
-                //SPRAWDŹ CZY DODAWANY SYSTEM ZNAJDUJE SIĘ JUŻ W BAZIE DANYCH POPRZEZ WYSZUKANIE PRODUKTÓW
-
-//                $test = Array();
-                /**
-                * @var OfertaHandlowaProfilSystem $ofertaProfilSystem
-                */
-                foreach($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem)
-                {
-//                    $test2 = $ofertaProfilSystem->getProfilSystem()->getSystemMalarski();
-
-//                    $test[] = $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId();
-
-                    echo '<hr> ID OPS: '.$ofertaProfilSystem->getId().'<br>';
-                    echo 'ID System: '.$ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId().'<br>';
-                    echo 'Produkty :';
-                    foreach($ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty() as $produkt)
-                    {
-                        echo $produkt->getId().'; ';
-                    }
-                    echo '<br>';
-
-                    /**
-                     * @var $system SystemMalarski
-                     */
-                    foreach($systemyMalarskieCollection as $system)
-                    {
-                        if($system->getProdukty()->getValues() === $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty()->getValues())
-                        {
-                            echo 'ID Systemu zawierającego produkty:'.$system->getId().'<br>';
-                            $ofertaProfilSystem->getProfilSystem()->setSystemMalarski($system);
-
-                        }else{
-                            echo 'nieprawda <br>';
-                        }
-                    }
-
-                    echo 'NOWY ID System: '.$ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getId().'<br>';
-                    $em->persist($ofertaProfilSystem);
-
-                }
-
-//                $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
-//                $profilSystemCollection = $em->getRepository('DFP\EtapIBundle\Entity\ProfilSystem')->findAll();
-
-//                /**
-//                 * @var OfertaHandlowaProfilSystem $ofertaProfilSystem
-//                 */
-//                foreach ($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem) {
-//
-//                    /**
-//                     * @var ProfilSystem $profilSystem
-//                     */
-//                    $profilSystem = $ofertaProfilSystem->getProfilSystem();
-//
-//                    /**
-//                     * @var SystemMalarski $systemMalarski
-//                     */
-//                    $systemMalarski = $profilSystem->getSystemMalarski();
-//                    $wprowadzany = $systemMalarski->getProdukty()->toArray();
-//
-//                    /**
-//                     * @var SystemMalarski $znalezionySystemMalarski
-//                     */
-//                    foreach ($systemyMalarskieCollection as $znalezionySystemMalarski)
-//                    {
-//
-//                        $znaleziony = $znalezionySystemMalarski->getProdukty()->toArray();
-//
-//                        if(array_diff($wprowadzany, $znaleziony) || array_diff($znaleziony, $wprowadzany))
-//                        {
-//
-//                        }else{
-//                            $profilSystem->setSystemMalarski($znalezionySystemMalarski);
-//                        }
-//                    }
-//
-//                    /**
-//                     * @var ProfilSystem $znalezionyProfilSystem
-//                     */
-//                    foreach($profilSystemCollection as $znalezionyProfilSystem)
-//                    {
-//                        if($profilSystem->getProfilDzialalnosci() == $znalezionyProfilSystem->getProfilDzialalnosci() && $profilSystem->getSystemMalarski() == $znalezionyProfilSystem->getSystemMalarski())
-//                        {
-//                            $ofertaProfilSystem->setProfilSystem($znalezionyProfilSystem);
-//                        }
-//                    }
-//                }
-            }
-
-            $em->persist($ofertaHandlowa);
-            $em->flush();
-//
-//            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
-        }
-
-        $previousUrl = $this->get('request')->headers->get('referer');
-
-        return array(
-            'oferta'                    =>  $ofertaHandlowa,
-            'filia'                     =>  $filia,
-            'form'                      =>  $ofertaHandlowaForm->createView(),
-            'powrot_url'                =>  $previousUrl,
-            'notatka_kategorie'         =>  $kategorieNotatek,
-            'tymczasowoZapiszForm'      =>  $tymczasowoZapiszForm->createView(),
-            'test'                      =>  $test,
-        );
+        return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
     }
-
 
     /**
      * Wyświetla formularz systemu malarskiego oraz dodaje system malarski do oferty handlowej
@@ -768,6 +556,11 @@ class OfertaHandlowaController extends Controller
             3 => 'Harmonogram działań',
             4 => 'Notatki z wizyt'
         );
+
+        if($ofertaHandlowa->getTechnik() != $this->getUser())
+        {
+            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
+        }
 
         if($ofertaHandlowa->getStatus() == 1)
         {
@@ -818,6 +611,8 @@ class OfertaHandlowaController extends Controller
         }
 
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
+            ->setMethod('POST')
             ->add('ofertyProfileSystemy','collection',array(
                     'type'          =>  new OfertaHandlowaProfilSystemType(),
                     'allow_add'     =>  true,
@@ -836,7 +631,14 @@ class OfertaHandlowaController extends Controller
             )
             ->add('anuluj','submit',array(
                     'label'         =>  'Anuluj zamówienie',
-                    'attr'          =>  array('class'=>'art-button czerwony')
+                    'attr'          =>  array('class'=>'art-button czerwony','style'=>'display:none;')
+                )
+            )
+            ->add('anulujInfo','textarea',array(
+                    'mapped'        =>  false,
+                    'required'      =>  false,
+                    'label'         =>  false,
+                    'attr'          =>  array('style'=>'width: 90%; height:100px;')
                 )
             )
             ->getForm();
@@ -856,6 +658,9 @@ class OfertaHandlowaController extends Controller
             {
                 $this->zamknijOpracowanieSystemuMalarskiego($request,$id);
 
+                return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
+            }elseif($ofertaHandlowaForm->has('anuluj') && $ofertaHandlowaForm->get('anuluj')->isClicked()){
+                $this->anulujOferteHandlowa($request, $id);
                 return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
             }
         }

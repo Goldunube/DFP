@@ -115,4 +115,36 @@ $(document).ready(function()
         var pozycja = sidebar.css("left");
         sidebar.animate({left: parseInt(pozycja,10) == -512 ? "-1px" : "-512px"}, 1500, "easeInOutQuart" );
     })
+
+    //    Confirm-Dialog
+    $('#btn-anuluj').click(function(e){
+        e.preventDefault();
+        $('#dialog-delete-confirm')
+            .dialog("open");
+    });
+
+    $('#dialog-delete-confirm').dialog({
+        autoOpen: false,
+        resizable: false,
+        height: 300,
+        width: 500,
+        modal: true,
+        buttons: {
+            "Tak, anuluj zamówienie": function() {
+                $('#form_anuluj').click();
+            },
+            "Nie, rezygnuje": function(event) {
+                $( this ).dialog( "close" );
+            }
+        },
+        show: {
+            effect: "blind",
+            duration: 500
+        },
+        hide: {
+            effect: "blind",
+            duration: 500
+        },
+        closeOnEscape: true
+    })
 });

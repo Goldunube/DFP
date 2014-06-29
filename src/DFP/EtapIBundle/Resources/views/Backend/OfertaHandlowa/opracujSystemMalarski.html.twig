@@ -147,9 +147,15 @@
 
         {% if form.zamknij is defined %} <li> {{ form_row(form.zamknij) }} </li> {% else %} <li> {{ form_row(form.otworz) }} </li> {% endif %}
 
-        {% if form.anuluj is defined %} <li> {{ form_row(form.anuluj) }} </li> {% endif %}
+        {% if form.anuluj is defined %} <li> <button id="btn-anuluj" class="art-button czerwony">Anuluj zamówienie</button> {{ form_row(form.anuluj) }} </li> {% endif %}
 
     </ul>
+
+
+    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Wprowadź poniżej powód odrzucenia zamówienia Oferty Handlowej. Anulowana Oferta Handlowa zaostaje przeniesiona do archiwum wraz z podanym komentarzem.</p>
+        {{ form_row(form.anulujInfo) }}
+    </div>
 
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest':false}) }}
@@ -157,7 +163,5 @@
     {% javascripts '@DFPEtapIBundle/Resources/public/js/opracujSystemMalarski.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-    {#{{ dump(test) }}#}
 
 {% endblock %}

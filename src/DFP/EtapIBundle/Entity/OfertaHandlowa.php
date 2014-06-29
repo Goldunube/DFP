@@ -96,6 +96,13 @@ class OfertaHandlowa
     private $tymczasoweProfileSystemy;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="powod_anulacji", type="text", nullable=true)
+     */
+    private $powodAnulacji;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -375,5 +382,21 @@ class OfertaHandlowa
     public function getTymczasoweProfileSystemy()
     {
         return $this->tymczasoweProfileSystemy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPowodAnulacji()
+    {
+        return $this->powodAnulacji;
+    }
+
+    /**
+     * @param string $powodAnulacji
+     */
+    public function setPowodAnulacji($powodAnulacji)
+    {
+        $this->powodAnulacji = $powodAnulacji;
     }
 }
