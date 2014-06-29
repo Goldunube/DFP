@@ -520,7 +520,7 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
 
         $ofertaHandlowa->setStatus(5);
-        $ofertaHandlowa->setInfoAnulacja($request->request->get('anulujInfo'));
+        $ofertaHandlowa->setInfoAnulacja($this->get('request')->request->get('anulujInfo'));
 
         $em->persist($ofertaHandlowa);
         $em->flush();
@@ -701,6 +701,12 @@ class OfertaHandlowaController extends Controller
 
         $previousUrl = $this->get('request')->headers->get('referer');
 
+        $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
 
         $form = $this->createFormBuilder()
             ->add('submit','submit', array(
@@ -722,11 +728,12 @@ class OfertaHandlowaController extends Controller
         }
 
         return array(
-            'form'              =>  $form->createView(),
-            'oferta'            =>  $ofertaHandlowa,
-            'filia'             =>  $filia,
-            'powrot_url'        =>  $previousUrl,
-            'dobrane_systemy'   =>  $dobraneSystemy,
+            'form'                      =>  $form->createView(),
+            'oferta'                    =>  $ofertaHandlowa,
+            'filia'                     =>  $filia,
+            'powrot_url'                =>  $previousUrl,
+            'dobrane_systemy'           =>  $dobraneSystemy,
+            'notatka_kategorie'         =>  $kategorieNotatek,
         );
     }
 }

@@ -65,7 +65,7 @@ span.required {
     font-size: 13px;
     margin: 2px 0;
 }
-#info-zamawiajacego {
+div.info-zamawiajacego {
     background-color: #ffefd5;
     border: 1px solid;
     height: 130px;

@@ -60,27 +60,69 @@
                 </tr>
                 <tr>
                     <th>Rodzaj podłoża:</th>
-                    <td>{{ filia.filieRodzajePowierzchni|join(' | ') }}</td>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaRodzajPowierzchni in filia.filieRodzajePowierzchni %}
+                                <dt>{{ filiaRodzajPowierzchni.rodzajPowierzchni.nazwa }}</dt>
+                                <dd>{{ filiaRodzajPowierzchni.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
                 </tr>
                 <tr>
                     <th>Parametry utwardzania powłoki:</th>
-                    <td>{{ filia.filieProcesyUtwardzaniaPowloki|join(' | ') }}</td>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesUtwardzania in filia.filieProcesyUtwardzaniaPowloki %}
+                                <dt>{{ filiaProcesUtwardzania.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
+                                <dd>Min: {{ filiaProcesUtwardzania.tempMin }}°C; Max: {{ filiaProcesUtwardzania.tempMax }}°C; Czas: {{ filiaProcesUtwardzania.czasSchniecia }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
                 </tr>
                 <tr>
                     <th>Metody przygotowania powierzchni:</th>
-                    <td>{{ filia.filieProcesyPrzygotowaniaPowierzchni|join(' | ') }}</td>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesPrzygotowaniaPowierzchni in filia.filieProcesyPrzygotowaniaPowierzchni %}
+                                <dt>{{ filiaProcesPrzygotowaniaPowierzchni.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
+                                <dd>{{ filiaProcesPrzygotowaniaPowierzchni.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
                 </tr>
                 <tr>
                     <th>Wymagania powłoki lakierowej:</th>
-                    <td>{{ filia.filieWymaganiaPowloki|join(' | ') }}</td>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaWymaganiePowloki in filia.filieWymaganiaPowloki %}
+                                <dt>{{ filiaWymaganiePowloki.wymaganiaPowloki.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiePowloki.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
                 </tr>
                 <tr>
                     <th>Metody aplikacji farby:</th>
-                    <td>{{ filia.filieProcesyAplikacji|join(' | ') }}</td>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesAplikacji in filia.filieProcesyAplikacji %}
+                                <dt>{{ filiaProcesAplikacji.procesAplikacji.nazwaProcesu }}</dt>
+                                <dd>{{ filiaProcesAplikacji.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
                 </tr>
                 <tr>
                     <th>Parametry produktu obecnie stosowanego:</th>
-                    <td>{{ filia.filieWymaganiaProduktu|join(' | ') }}</td>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
+                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
                 </tr>
                 <tr>
                     <th>Adnotacje:</th>
@@ -92,8 +134,12 @@
 
         <aside>
             <h4>Informacje dotyczące zamówienia</h4>
-            <div id="info-zamawiajacego">
+            <div class="info-zamawiajacego">
                 {{ oferta.infoZamawiajacego }}
+            </div>
+            <h4>Adnotacje w karcie klienta</h4>
+            <div class="info-zamawiajacego">
+                {{ filia.adnotacja|striptags }}
             </div>
         </aside>
     </div>
@@ -128,8 +174,7 @@
                 Powrót
             </a>
         </li>
-        {#{% if (is_granted('ROLE_TECHNIK') and oferta.status == 0) %}#}
-        {% if (oferta.status == 0) %}
+        {% if (is_granted('ROLE_TECHNIK') and oferta.status == 0) %}
             <li>
                 {{ form(otworzDoborSystemuForm) }}
             </li>

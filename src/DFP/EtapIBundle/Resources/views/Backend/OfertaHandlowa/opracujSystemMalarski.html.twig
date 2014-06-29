@@ -42,62 +42,108 @@
             <h4>Informacje o kliencie</h4>
             <table class="karta-klient">
                 <tbody>
-                    <tr>
-                        <th>Profil działalności:</th>
-                        <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
-                    </tr>
-                    <tr>
-                        <th>Stosowany system malarski:</th>
-                        <td>{{ filia.matlakDotychczas|striptags }}</td>
-                    </tr>
-                    <tr>
-                        <th>Wielkość zużycia:</th>
-                        <td>
-                            {% for kolor in filia.filiePoziomyZapotrzebowaniaKolorow %}
-                                <p>{{ kolor.kolor.nazwa }} --> {{ kolor.poziomZuzycia }}L</p>
+                <tr>
+                    <th>Profil działalności:</th>
+                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                </tr>
+                <tr>
+                    <th>Stosowany system malarski:</th>
+                    <td>{{ filia.matlakDotychczas|striptags }}</td>
+                </tr>
+                <tr>
+                    <th>Wielkość zużycia:</th>
+                    <td>
+                        {% for kolor in filia.filiePoziomyZapotrzebowaniaKolorow %}
+                            <p>{{ kolor.kolor.nazwa }} --> {{ kolor.poziomZuzycia }}L</p>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Kolorystyka:</th>
+                    <td>{{ filia.kolorystyka }}</td>
+                </tr>
+                <tr>
+                    <th>Rodzaj podłoża:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaRodzajPowierzchni in filia.filieRodzajePowierzchni %}
+                                <dt>{{ filiaRodzajPowierzchni.rodzajPowierzchni.nazwa }}</dt>
+                                <dd>{{ filiaRodzajPowierzchni.info }}</dd>
                             {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Kolorystyka:</th>
-                        <td>{{ filia.kolorystyka }}</td>
-                    </tr>
-                    <tr>
-                        <th>Rodzaj podłoża:</th>
-                        <td>{{ filia.filieRodzajePowierzchni|join(' | ') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Parametry utwardzania powłoki:</th>
-                        <td>{{ filia.filieProcesyUtwardzaniaPowloki|join(' | ') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Metody przygotowania powierzchni:</th>
-                        <td>{{ filia.filieProcesyPrzygotowaniaPowierzchni|join(' | ') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Wymagania powłoki lakierowej:</th>
-                        <td>{{ filia.filieWymaganiaPowloki|join(' | ') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Metody aplikacji farby:</th>
-                        <td>{{ filia.filieProcesyAplikacji|join(' | ') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Parametry produktu obecnie stosowanego:</th>
-                        <td>{{ filia.filieWymaganiaProduktu|join(' | ') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Adnotacje:</th>
-                        <td></td>
-                    </tr>
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Parametry utwardzania powłoki:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesUtwardzania in filia.filieProcesyUtwardzaniaPowloki %}
+                                <dt>{{ filiaProcesUtwardzania.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
+                                <dd>Min: {{ filiaProcesUtwardzania.tempMin }}°C; Max: {{ filiaProcesUtwardzania.tempMax }}°C; Czas: {{ filiaProcesUtwardzania.czasSchniecia }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Metody przygotowania powierzchni:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesPrzygotowaniaPowierzchni in filia.filieProcesyPrzygotowaniaPowierzchni %}
+                                <dt>{{ filiaProcesPrzygotowaniaPowierzchni.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
+                                <dd>{{ filiaProcesPrzygotowaniaPowierzchni.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Wymagania powłoki lakierowej:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaWymaganiePowloki in filia.filieWymaganiaPowloki %}
+                                <dt>{{ filiaWymaganiePowloki.wymaganiaPowloki.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiePowloki.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Metody aplikacji farby:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesAplikacji in filia.filieProcesyAplikacji %}
+                                <dt>{{ filiaProcesAplikacji.procesAplikacji.nazwaProcesu }}</dt>
+                                <dd>{{ filiaProcesAplikacji.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Parametry produktu obecnie stosowanego:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
+                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Adnotacje:</th>
+                    <td></td>
+                </tr>
                 </tbody>
             </table>
         </section>
 
         <aside>
             <h4>Informacje dotyczące zamówienia</h4>
-            <div id="info-zamawiajacego">
+            <div class="info-zamawiajacego">
                 {{ oferta.infoZamawiajacego }}
+            </div>
+            <h4>Adnotacje w karcie klienta</h4>
+            <div class="info-zamawiajacego">
+                {{ filia.adnotacja|striptags }}
             </div>
         </aside>
     </div>
