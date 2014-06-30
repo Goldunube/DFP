@@ -125,7 +125,7 @@ class Klient
      */
     public function setNazwaPelna($nazwaPelna)
     {
-        $this->nazwaPelna = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ,.;\- ]/', '', $nazwaPelna);
+        $this->nazwaPelna = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ,.;\-& ]/', '', $nazwaPelna);
 
         return $this;
     }
@@ -148,7 +148,7 @@ class Klient
      */
     public function setNazwaSkrocona($nazwaSkrocona)
     {
-        $nazwaSkrocona = preg_replace('/[^\p{L}0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ,.;\- ]/', '', $nazwaSkrocona);
+        $nazwaSkrocona = preg_replace('/[^\p{L}0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ,.;\-& ]/', '', $nazwaSkrocona);
         $this->nazwaSkrocona = mb_strtoupper($nazwaSkrocona, 'utf8');
         return $this;
     }
