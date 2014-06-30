@@ -409,7 +409,7 @@ class OfertaHandlowaController extends Controller
     private function zamknijOpracowanieSystemuMalarskiego(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->clear();
+//        $em->clear();
 
         /**
          * @var $ofertaHandlowa OfertaHandlowa
@@ -488,7 +488,7 @@ class OfertaHandlowaController extends Controller
                     }
                 }
 
-                $em->persist($ofertaProfilSystem);
+//                $em->persist($ofertaProfilSystem);
 
             }
 
