@@ -30,11 +30,25 @@ class Kolor
     private $nazwa;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="opis_koloru", type="text", nullable=true)
+     */
+    private $opisKoloru;
+
+    /**
      * @ORM\ManyToOne(targetEntity="WzornikKolorow", inversedBy="kolory")
      *
      * @ORM\JoinColumn(name="wzornik_koloru_id", referencedColumnName="id", nullable=false)
      */
-    protected $wzornikKoloru;
+    private $wzornikKoloru;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="grupa_cenowa", type="integer", nullable=false)
+     */
+    private $grupaCenowa;
 
     /**
      * @var integer
@@ -149,5 +163,37 @@ class Kolor
     public function getFiliePoziomyZapotrzebowaniaKolorow()
     {
         return $this->filiePoziomyZapotrzebowaniaKolorow;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpisKoloru()
+    {
+        return $this->opisKoloru;
+    }
+
+    /**
+     * @param string $opisKoloru
+     */
+    public function setOpisKoloru($opisKoloru)
+    {
+        $this->opisKoloru = $opisKoloru;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGrupaCenowa()
+    {
+        return $this->grupaCenowa;
+    }
+
+    /**
+     * @param int $grupaCenowa
+     */
+    public function setGrupaCenowa($grupaCenowa)
+    {
+        $this->grupaCenowa = $grupaCenowa;
     }
 }
