@@ -173,7 +173,7 @@
 
     <section>
         <h3>Dobrane systemy malarskie</h3>
-        <dl class="table-display">
+        <dl id="dobrane-systemy" class="table-display">
             {% for ofertaProfilSystem in dobrane_systemy %}
                 <dt>{{ ofertaProfilSystem.profilSystem.profilDzialalnosci }}</dt>
                 <dd>
@@ -183,6 +183,7 @@
                         {% endfor %}
                     </ol>
                 </dd>
+                <dd class="uwagi"><strong>Uwagi: </strong>{{ ofertaProfilSystem.uwagi }}</dd>
             {% endfor %}
         </dl>
     </section>

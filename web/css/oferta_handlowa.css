@@ -104,3 +104,13 @@ tfoot td, tfoot th {
     text-align: left;
     width: 100%;
 }
+#dobrane-systemy {
+    width: 950px;
+}
+#dobrane-systemy dt,#dobrane-systemy dd {
+    width: 300px;
+}
+#dobrane-systemy .uwagi {
+    width: 320px;
+    color: #AA4440;
+}
