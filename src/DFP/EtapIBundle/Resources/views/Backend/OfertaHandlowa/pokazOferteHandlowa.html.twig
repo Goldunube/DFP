@@ -168,6 +168,26 @@
         </a>
     </aside>
 
+    <section>
+        {% if(dobrane_systemy) %}
+            <h3>Dobrane systemy malarskie</h3>
+            <dl id="dobrane-systemy" class="table-display">
+                {% for ofertaProfilSystem in dobrane_systemy %}
+                    <dt>{{ ofertaProfilSystem.profilSystem.profilDzialalnosci }}</dt>
+                    <dd>
+                        <ol>
+                            {% for produkt in ofertaProfilSystem.profilSystem.systemMalarski.produkty %}
+                                <li>{{ produkt.nazwaHandlowa }}</li>
+                            {% endfor %}
+                        </ol>
+                    </dd>
+                    <dd class="uwagi"><strong>Uwagi: </strong>{{ ofertaProfilSystem.uwagi }}</dd>
+                {% endfor %}
+            </dl>
+        {% endif %}
+
+    </section>
+
     <ul class="record_actions">
         <li>
             <a href="{{ powrot_url }}" class="art-button">

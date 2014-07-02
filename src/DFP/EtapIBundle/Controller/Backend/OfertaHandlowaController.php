@@ -224,6 +224,36 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
 
+        if(!is_null($ofertaHandlowa->getTymczasoweProfileSystemy()))
+        {
+            $ofertaHandlowa->getOfertyProfileSystemy()->clear();
+
+            $tymczasoweProfileSystemy = $ofertaHandlowa->getTymczasoweProfileSystemy();
+            foreach($tymczasoweProfileSystemy as $tempProfilSystem)
+            {
+                $newOfertaProfilSystem = new OfertaHandlowaProfilSystem();
+                $newSystemMalarski = new SystemMalarski();
+                $newProfilSystem = new ProfilSystem();
+
+                foreach($tempProfilSystem['system'] as $produktId)
+                {
+                    $tempProdukt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produktId);
+                    $newSystemMalarski->addProdukty($tempProdukt);
+                }
+
+                $tempProfilDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($tempProfilSystem['profil']);
+                $newProfilSystem->setSystemMalarski($newSystemMalarski);
+                $newProfilSystem->setProfilDzialalnosci($tempProfilDzialalnosci);
+                $newOfertaProfilSystem->setProfilSystem($newProfilSystem);
+                $newOfertaProfilSystem->setUwagi($tempProfilSystem['uwagi']);
+                $ofertaHandlowa->addOfertyProfileSystemy($newOfertaProfilSystem);
+
+                $em->persist($ofertaHandlowa);
+            }
+        }
+
+        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+
         $otworzDoborSystemuForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_otworz_opracowanie_systemu_malarskiego', array('id'=>$id)))
             ->setMethod('PUT')
@@ -249,6 +279,7 @@ class OfertaHandlowaController extends Controller
             'otworzDoborSystemuForm'    =>  $otworzDoborSystemuForm->createView(),
             'powrot_url'                =>  $previousUrl,
             'notatka_kategorie'         =>  $kategorieNotatek,
+            'dobrane_systemy'           =>  $dobraneSystemy,
         );
     }
 
@@ -559,7 +590,7 @@ class OfertaHandlowaController extends Controller
 
         if($ofertaHandlowa->getTechnik() != $this->getUser())
         {
-            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
+            return $this->redirect($this->generateUrl('backend_pokaz_oferte_handlowa',array('id'=>$id)));
         }
 
         if($ofertaHandlowa->getStatus() == 1)
