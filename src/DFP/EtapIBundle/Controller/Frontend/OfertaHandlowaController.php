@@ -38,7 +38,8 @@ class OfertaHandlowaController extends Controller
             2   =>  "Oczekująca na koordynatora",
 //            3   =>  "Tworzenie oferty handlowej",
             3   =>  "Generowanie oferty cenowej",
-            4   =>  "Zrealizowana"
+            4   =>  "Zrealizowana",
+            5   =>  'Anulowana'
         );
 
         return array(
