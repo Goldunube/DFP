@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Kolor
  *
  * @ORM\Table(name="kolory")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DFP\EtapIBundle\Entity\KolorRepository")
  */
 class Kolor
 {

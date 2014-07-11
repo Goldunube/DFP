@@ -257,7 +257,9 @@ class KolorController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $kolory = $em->getRepository('DFPEtapIBundle:Kolor')->findAll();
+        $term = $this->get('request')->query->get('term');
+
+        $kolory = $em->getRepository('DFPEtapIBundle:Kolor')->getListaKolorow($term);
 
         $data = array();
         foreach($kolory as $kolor)
