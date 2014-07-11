@@ -24,7 +24,7 @@
             <tbody>
             {% for oferta in oferty_handlowe %}
                 <tr>
-                    <th>{{ oferta.id }}</th>
+                    <th class="lp"> <a href="{{ path('backend_pokaz_zrealizowana_oferte_handlowa', {'id':oferta.id}) }}">{{ oferta.id }}</a> </th>
                     <td>{{ oferta.filia.klient.nazwaSkrocona }}</td>
                     <td>{{ oferta.filia.profileDzialalnosci|join(" | ") }}</td>
                     <td>{{ oferta.zamawiajacy }}</td>
@@ -32,6 +32,7 @@
                     <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
                     <td>{{ attribute(statusy, oferta.status) }}</td>
                     <td>
+                        <a href="{{ path('backend_pokaz_zrealizowana_oferte_handlowa', {'id':oferta.id}) }}" class="art-button maly pomaranczowy" style="float: left;">Pokaż</a>
                         {{ form_start(delete_forms[oferta.id]) }}
                             {{ form_widget(delete_forms[oferta.id].submit, {'attr': {'class':'art-button maly czerwony confirm-delete','style':'float:right;'} }) }}
                         {{ form_end(delete_forms[oferta.id]) }}

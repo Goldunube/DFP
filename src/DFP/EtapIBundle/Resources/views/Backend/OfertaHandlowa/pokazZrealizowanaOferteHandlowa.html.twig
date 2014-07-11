@@ -1,0 +1,207 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/oferta_handlowa.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+{% endblock javascript %}
+
+{% block content -%}
+    <section>
+        <h1>Oferta Handlowa</h1>
+        <table class="karta-klient">
+            <tbody>
+                <tr>
+                    <th>Klient:</th>
+                    <td><a class="link" href="{{ path('backend_filia_show', { 'id': filia.id }) }}" target="_blank">{{ filia.klient.nazwaPelna }}</a></td>
+                </tr>
+                <tr>
+                    <th>Strona WWW:</th>
+                    <td>
+                        {% if filia.klient.stronaWWW %}
+                            <a class="link" href="{{ filia.klient.stronaWWW }}" target="_blank">{{ filia.klient.stronaWWW }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Osoba zamawiająca ofertę:</th>
+                    <td><a class="link" href="mailto:{{ oferta.zamawiajacy.email }}">{{ oferta.zamawiajacy }}</a></td>
+                </tr>
+                <tr>
+                    <th>Status oferty:</th>
+                    <td><strong>{{ nazwy_statusow[oferta.status] }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <div class="two-columns">
+        <section>
+            <h4>Informacje o kliencie</h4>
+            <table class="karta-klient">
+                <tbody>
+                <tr>
+                    <th>Profil działalności:</th>
+                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                </tr>
+                <tr>
+                    <th>Stosowany system malarski:</th>
+                    <td>{{ filia.matlakDotychczas|striptags }}</td>
+                </tr>
+                <tr>
+                    <th>Wielkość zużycia:</th>
+                    <td>
+                        {% for kolor in filia.filiePoziomyZapotrzebowaniaKolorow %}
+                            <p>{{ kolor.kolor.nazwa }} --> {{ kolor.poziomZuzycia }}L</p>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Kolorystyka:</th>
+                    <td>{{ filia.kolorystyka }}</td>
+                </tr>
+                <tr>
+                    <th>Rodzaj podłoża:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaRodzajPowierzchni in filia.filieRodzajePowierzchni %}
+                                <dt>{{ filiaRodzajPowierzchni.rodzajPowierzchni.nazwa }}</dt>
+                                <dd>{{ filiaRodzajPowierzchni.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Parametry utwardzania powłoki:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesUtwardzania in filia.filieProcesyUtwardzaniaPowloki %}
+                                <dt>{{ filiaProcesUtwardzania.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
+                                <dd>Min: {{ filiaProcesUtwardzania.tempMin }}°C; Max: {{ filiaProcesUtwardzania.tempMax }}°C; Czas: {{ filiaProcesUtwardzania.czasSchniecia }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Metody przygotowania powierzchni:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesPrzygotowaniaPowierzchni in filia.filieProcesyPrzygotowaniaPowierzchni %}
+                                <dt>{{ filiaProcesPrzygotowaniaPowierzchni.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
+                                <dd>{{ filiaProcesPrzygotowaniaPowierzchni.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Wymagania powłoki lakierowej:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaWymaganiePowloki in filia.filieWymaganiaPowloki %}
+                                <dt>{{ filiaWymaganiePowloki.wymaganiaPowloki.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiePowloki.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Metody aplikacji farby:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaProcesAplikacji in filia.filieProcesyAplikacji %}
+                                <dt>{{ filiaProcesAplikacji.procesAplikacji.nazwaProcesu }}</dt>
+                                <dd>{{ filiaProcesAplikacji.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Parametry produktu obecnie stosowanego:</th>
+                    <td>
+                        <dl class="table-display">
+                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
+                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
+                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Adnotacje:</th>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <aside>
+            <h4>Informacje dotyczące zamówienia</h4>
+            <div class="info-zamawiajacego">
+                {{ oferta.infoZamawiajacego }}
+            </div>
+            <h4>Adnotacje w karcie klienta</h4>
+            <div class="info-zamawiajacego">
+                {{ filia.adnotacja|striptags }}
+            </div>
+        </aside>
+    </div>
+
+    <aside class="left-toggle-sidebar">
+        <div class="toggle-sidebar-context">
+            {% for notatka in filia.filieNotatki %}
+                <div class="notatka">
+                    <div class="naglowek">
+                        <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
+                        <span class="autor">{{ notatka.uzytkownik }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
+                    </div>
+
+                    <div class="tresc">
+                        {% if notatka.status == 0 %}
+                            <s>{{ notatka.tresc|raw }}</s>
+                        {% else %}
+                            {{ notatka.tresc|raw }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <a class="sidebar-listek" href="javascript:void(0);">
+            <span>Notatki</span>
+        </a>
+    </aside>
+
+    <section>
+        {% if(dobrane_systemy) %}
+            <h3>Dobrane systemy malarskie</h3>
+            <dl id="dobrane-systemy" class="table-display">
+                {% for ofertaProfilSystem in dobrane_systemy %}
+                    <dt>{{ ofertaProfilSystem.profilSystem.profilDzialalnosci }}</dt>
+                    <dd>
+                        <ol>
+                            {% for produkt in ofertaProfilSystem.profilSystem.systemMalarski.produkty %}
+                                <li>{{ produkt.nazwaHandlowa }}</li>
+                            {% endfor %}
+                        </ol>
+                    </dd>
+                    <dd class="uwagi"><strong>Uwagi: </strong>{{ ofertaProfilSystem.uwagi }}</dd>
+                {% endfor %}
+            </dl>
+        {% endif %}
+
+    </section>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ powrot_url }}" class="art-button">
+                Powrót
+            </a>
+        </li>
+    </ul>
+
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/opracujSystemMalarski.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

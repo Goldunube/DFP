@@ -271,7 +271,7 @@ class OfertaHandlowaController extends Controller
             4 => 'Notatki z wizyt'
         );
 
-        $previousUrl = $this->get('request')->headers->get('referer');
+                $previousUrl = $this->get('request')->headers->get('referer');
 
         return array(
             'oferta'                    =>  $ofertaHandlowa,
@@ -280,6 +280,56 @@ class OfertaHandlowaController extends Controller
             'powrot_url'                =>  $previousUrl,
             'notatka_kategorie'         =>  $kategorieNotatek,
             'dobrane_systemy'           =>  $dobraneSystemy,
+        );
+    }
+
+    /**
+     * Wyświetla zamówienie oferty handlowej z listy wszystkich Ofert Handlowych
+     *
+     * @param $id
+     *
+     * @return array
+     * @Route("/{id}/pokaz_zrealizowana_oferte_handlowa", name="backend_pokaz_zrealizowana_oferte_handlowa")
+     * @Template()
+     * @Method("GET")
+     */
+    public function pokazZrealizowanaOferteHandlowaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+        $filia = $ofertaHandlowa->getFilia();
+
+        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+
+                $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
+
+        $nazwyStatusow = array(
+            0   =>  "Oczekująca na technika",
+            1   =>  "Opracowywanie systemu malarskiego",
+            2   =>  "Oczekująca na koordynatora",
+            3   =>  "Opracowywanie oferty handlowej",
+            4   =>  "Zrealizowana",
+            5   =>  "Anulowana"
+        );
+
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        return array(
+            'oferta'                    =>  $ofertaHandlowa,
+            'filia'                     =>  $filia,
+            'powrot_url'                =>  $previousUrl,
+            'notatka_kategorie'         =>  $kategorieNotatek,
+            'dobrane_systemy'           =>  $dobraneSystemy,
+            'nazwy_statusow'            =>  $nazwyStatusow,
         );
     }
 
