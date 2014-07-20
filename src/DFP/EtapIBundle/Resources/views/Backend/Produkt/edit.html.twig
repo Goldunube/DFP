@@ -1,27 +1,45 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% form_theme delete_form _self %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
 
-{% block button_widget %}
-    {% spaceless %}
-        {% if label is empty %}
-            {% set label = name|humanize %}
-        {% endif %}
-        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button czerwony">{{ label|trans({}, translation_domain) }}</button>
-    {% endspaceless %}
-{% endblock button_widget %}
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% form_theme edit_form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
+{% form_theme delete_form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
 
 {% block content -%}
-    <h1>Edycja produktu</h1>
+    <section>
+        <h1>Edytuj produkt</h1>
+        {{ form_start(edit_form) }}
+        {{ form_row(edit_form.nazwaHandlowa) }}
+        {{ form_row(edit_form.grupaProduktow) }}
+        {{ form_row(edit_form.grupaPromowania) }}
 
-    {{ form(edit_form) }}
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('backend_produkty') }}" class="art-button">
-                Powrót do listy
+        {{ form_widget(edit_form.submit) }}
+        {{ form_end(edit_form) }}
+        <hr>
+        {{ form_start(delete_form) }}
+            <a href="{{ path('backend_produkty') }}" class="btn btn-warning">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                Powrót
             </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+            {{ form_widget(delete_form.submit) }}
+        {{ form_end(delete_form) }}
+    </section>
+
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('.selectpicker').selectpicker();
+{% endblock javascripts %}

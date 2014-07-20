@@ -178,7 +178,11 @@ class ProduktController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Aktualizuj'));
+        $form->add('submit', 'submit', array(
+                'label' => 'Aktualizuj',
+                'attr'  =>  array('class'=>'btn-zapisz')
+            )
+        );
 
         return $form;
     }
@@ -253,7 +257,11 @@ class ProduktController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('backend_produkty_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Usuń'))
+            ->add('submit', 'submit', array(
+                    'label' => 'Usuń',
+                    'attr'  =>  array('class'=>'btn-usun')
+                )
+            )
             ->getForm()
         ;
     }

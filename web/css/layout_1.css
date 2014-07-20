@@ -1,6 +1,3 @@
-a, a:visited {
-    color: #696969;
-}
 a.link {
     color: #FF4500;
     text-decoration: underline;
@@ -15,7 +12,7 @@ td.wyrozniony {
     background-color: #f0e68c;
     color: black;
 }
-label {
+label:not(.control-label) {
     font-size: 20px;
     margin-right: 10px;
 }

@@ -16,7 +16,8 @@ class ProduktType extends AbstractType
     {
         $builder
             ->add('nazwaHandlowa')
-            ->add('uwagi')
+//            ->add('uwagi')
+            ->add('grupaProduktow')
             ->add('grupaPromowania')
 //            ->add('systemyMalarskie')
         ;

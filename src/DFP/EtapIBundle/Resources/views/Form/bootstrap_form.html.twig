@@ -75,7 +75,7 @@
         {% if required and empty_value is none and not empty_value_in_choices and not multiple %}
             {% set required = false %}
         {% endif %}
-        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim }) %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control selectpicker')|trim }) %}
         <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
             {% if empty_value is not none %}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
@@ -233,14 +233,28 @@
             {% set label = name|humanize %}
         {% endif %}
         {% set attr = attr|merge({'class': (attr.class|default('') ~ ' btn')|trim }) %}
-        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+        {% if 'btn-usun' in attr.class %} {% set attr = attr|merge({'class': (attr.class|default('') ~ ' btn-danger')|trim }) %} {% endif %}
+        {% if 'btn-zapisz' in attr.class %} {% set attr = attr|merge({'class': (attr.class|default('') ~ ' btn-primary')|trim }) %} {% endif %}
+        {% if 'btn-powrot' in attr.class %} {% set attr = attr|merge({'class': (attr.class|default('') ~ ' btn-warning')|trim }) %} {% endif %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+            {% if 'btn-usun' in attr.class %}
+                <span class="glyphicon glyphicon-floppy-remove"></span>
+            {% endif %}
+            {% if 'btn-zapisz' in attr.class %}
+                <span class="glyphicon glyphicon-floppy-saved"></span>
+            {% endif %}
+            {% if 'btn-powrot' in attr.class %}
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            {% endif %}
+            {{ label|trans({}, translation_domain) }}
+        </button>
     {% endspaceless %}
 {% endblock button_widget %}
 
 {% block submit_widget %}
     {% spaceless %}
         {% set type = type|default('submit') %}
-        {% set attr = attr|merge({'class': (attr.class|default('btn-success'))|trim }) %}
+        {#{% set attr = attr|merge({'class': (attr.class|default('btn-success'))|trim }) %}#}
         {{ block('button_widget') }}
     {% endspaceless %}
 {% endblock submit_widget %}

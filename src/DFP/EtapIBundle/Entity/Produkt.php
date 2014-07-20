@@ -51,6 +51,12 @@ class Produkt
      */
     private $systemyMalarskie;
 
+    /**
+     * @var integer
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\GrupaProduktow", inversedBy="produkty")
+     */
+    private $grupaProduktow;
+
 
     /**
      * Constructor
@@ -178,5 +184,28 @@ class Produkt
     public function getSystemyMalarskie()
     {
         return $this->systemyMalarskie;
+    }
+
+    /**
+     * Set grupaProduktow
+     *
+     * @param GrupaProduktow $grupaProduktow
+     * @return Produkt
+     */
+    public function setGrupaProduktow(GrupaProduktow $grupaProduktow = null)
+    {
+        $this->grupaProduktow = $grupaProduktow;
+
+        return $this;
+    }
+
+    /**
+     * Get grupaProduktow
+     *
+     * @return GrupaProduktow
+     */
+    public function getGrupaProduktow()
+    {
+        return $this->grupaProduktow;
     }
 }
