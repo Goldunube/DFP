@@ -29,9 +29,9 @@
         <hr>
         <div class="panel panel-info">
             <div class="panel-heading">
-                Cechy techniczne
+                <a href="#panel-cechy-techniczne" data-toggle="collapse" data-parent="#panel-cechy-techniczne">Cechy techniczne</a>
             </div>
-            <div class="panel-body">
+            <div id="panel-cechy-techniczne" class="panel-body collapse in">
                 <div class="form-group">
                     {{ form_label(edit_form.cechyTechniczneProduktu.wlasciwosciMechaniczne) }}
                     <div class="col-lg-5">
@@ -103,9 +103,9 @@
         <hr>
         <div class="panel panel-info">
             <div class="panel-heading">
-                Dane techniczne
+                <a href="#panel-dane-techniczne" data-toggle="collapse" data-parent="#panel-dane-techniczne">Dane techniczne</a>
             </div>
-            <div class="panel-body">
+            <div id="panel-dane-techniczne" class="panel-body collapse in">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Gęstość w 20&#176;C</label>
                     <div class="col-lg-2">
@@ -246,12 +246,108 @@
             </div>
         </div>
         <hr>
-        <div class="panel panel-info panel-collapse">
+        <div class="panel panel-info">
             <div class="panel-heading">
-Test
+                <a href="#panel-przygotowanie-do-aplikacji" data-toggle="collapse" data-parent="#panel-przygotowanie-do-aplikacji">Przygotowanie do aplikacji</a>
             </div>
-            <div class="panel-body">
-
+            <div id="panel-przygotowanie-do-aplikacji" class="panel-body collapse in">
+                {{ form_row(edit_form.przygotowanieDoAplikacji.przyspieszacz) }}
+                <div class="form-group">
+                    {{ form_label(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
+                    </div>
+                </div>
+                {{ form_row(edit_form.przygotowanieDoAplikacji.pastaMatujaca) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.dodatki) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.strukturyzator) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.tix) }}
+                <div class="form-group">
+                    {{ form_label(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
+                            <span class="input-group-addon">[min]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Lepkość do aplikacji (Stomer)</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscStomerMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscStomerMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Lepkość do aplikacji (Ford)</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscFordMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscFordMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Zalecana grubość</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Sucho
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSucho) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Mokro
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokro) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Nominalna grubość</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Sucho
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiSucho) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Mokro
+                            </span>
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiMokro) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(edit_form.przygotowanieDoAplikacji) }}
             </div>
         </div>
         {{ form_widget(edit_form.submit) }}

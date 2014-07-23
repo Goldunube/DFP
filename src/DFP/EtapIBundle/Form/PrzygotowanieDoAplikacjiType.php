@@ -15,13 +15,22 @@ class PrzygotowanieDoAplikacjiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('przyspieszacz')
-            ->add('antygrafiti')
-            ->add('pastaMatujaca')
-            ->add('dodatki')
+            ->add('przyspieszacz',null,array('label'=>'Przyspieszacz'))
+            ->add('antygrafiti','choice',array(
+                    'required'      =>  true,
+                    'choices'       =>  array(
+                        0   =>  'Nie',
+                        1   =>  'Tak',
+                        2   =>  'Tak, zamiast rozcieńczalnika',
+                    ),
+                    'label'         =>  'Dodatek antygrafiti',
+                )
+            )
+            ->add('pastaMatujaca',null,array('label'=>'Pasta matująca'))
+            ->add('dodatki',null,array('label'=>'Inne dodatki'))
             ->add('strukturyzator')
-            ->add('tix')
-            ->add('zywotnoscMieszaniny')
+            ->add('tix',null,array('label'=>'TIX'))
+            ->add('zywotnoscMieszaniny',null,array('label'=>'Czas życia mieszaniny'))
             ->add('lepkoscStomerMIN')
             ->add('lepkoscStomerMAX')
             ->add('lepkoscFordMIN')

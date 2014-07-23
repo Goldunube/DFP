@@ -35,16 +35,16 @@ class PrzygotowanieDoAplikacji
     /**
      * @var string
      *
-     * @ORM\Column(name="przyspieszacz", type="string", length=255)
+     * @ORM\Column(name="przyspieszacz", type="string", length=255, nullable=true)
      */
     private $przyspieszacz;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="antygrafiti", type="boolean")
+     * @ORM\Column(name="antygrafiti", type="integer")
      */
-    private $antygrafiti = false;
+    private $antygrafiti = 0;
 
     /**
      * @var string
