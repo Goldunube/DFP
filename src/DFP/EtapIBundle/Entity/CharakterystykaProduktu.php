@@ -24,49 +24,49 @@ class CharakterystykaProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="wydajnoscTeoretyczna", type="string", length=255)
+     * @ORM\Column(name="wydajnoscTeoretyczna", type="decimal",nullable=true)
      */
     private $wydajnoscTeoretyczna;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zuzycieTeoretyczne", type="string", length=255)
+     * @ORM\Column(name="zuzycieTeoretyczne", type="decimal", nullable=true)
      */
     private $zuzycieTeoretyczne;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="wydajnoscPraktyczna", type="string", length=255)
+     * @ORM\Column(name="wydajnoscPraktyczna", type="decimal", nullable=true)
      */
     private $wydajnoscPraktyczna;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zuzyciePraktyczne", type="string", length=255)
+     * @ORM\Column(name="zuzyciePraktyczne", type="decimal", nullable=true)
      */
     private $zuzyciePraktyczne;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="polyskPodKatem", type="integer")
+     * @ORM\Column(name="polyskPodKatem", type="integer", nullable=true)
      */
     private $polyskPodKatem;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="czasDoPrzelakierowania", type="integer")
+     * @ORM\Column(name="czasDoPrzelakierowania", type="integer", nullable=true)
      */
     private $czasDoPrzelakierowania;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="uwagi", type="text")
+     * @ORM\Column(name="uwagi", type="text", nullable=true)
      */
     private $uwagi;
 

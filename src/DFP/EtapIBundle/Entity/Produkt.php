@@ -61,7 +61,7 @@ class Produkt
 
     /**
      * @var integer
-     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\GrupaProduktow", inversedBy="produkty")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\GrupaProduktow", inversedBy="produkty", cascade={"persist"})
      */
     private $grupaProduktow;
 
@@ -72,6 +72,14 @@ class Produkt
      * @ORM\Column(name="numer_edycji", type="integer", nullable=true)
      */
     private $numerEdycji;
+
+    /**
+     * Numer edycji karty technicznej BESA
+     *
+     * @var string
+     * @ORM\Column(name="numer_edycji_besa", type="string", length=255, nullable=true)
+     */
+    private $numerEdycjiBESA;
 
     /**
      * Kod farbryczny produktu nadawany przez producenta
@@ -100,7 +108,7 @@ class Produkt
     /**
      * Grupa cech technicznych produktu
      *
-     * @ORM\OneToOne(targetEntity="CechyTechniczneProduktu")
+     * @ORM\OneToOne(targetEntity="CechyTechniczneProduktu", cascade={"persist"})
      */
     private $cechyTechniczneProduktu;
 
@@ -114,7 +122,7 @@ class Produkt
     /**
      * Grupa danych technicznych produktu
      *
-     * @ORM\OneToOne(targetEntity="DaneTechniczneProduktu")
+     * @ORM\OneToOne(targetEntity="DaneTechniczneProduktu", cascade={"persist"})
      */
     private $daneTechniczne;
 
@@ -134,17 +142,17 @@ class Produkt
     private $metodyAplikacji;
 
     /**
-     * @ORM\OneToOne(targetEntity="PrzygotowanieDoAplikacji")
+     * @ORM\OneToOne(targetEntity="PrzygotowanieDoAplikacji", cascade={"persist"})
      */
     private $przygotowanieDoAplikacji;
 
     /**
-     * @ORM\OneToOne(targetEntity="SuszenieProdukt")
+     * @ORM\OneToOne(targetEntity="SuszenieProdukt", cascade={"persist"})
      */
     private $suszenie;
 
     /**
-     * @ORM\OneToOne(targetEntity="CharakterystykaProduktu")
+     * @ORM\OneToOne(targetEntity="CharakterystykaProduktu", cascade={"persist"})
      */
     private $charakterystykaProduktu;
 
@@ -817,5 +825,21 @@ class Produkt
     public function getProduktyRozcienczalniki()
     {
         return $this->produktyRozcienczalniki;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumerEdycjiBESA()
+    {
+        return $this->numerEdycjiBESA;
+    }
+
+    /**
+     * @param string $numerEdycjiBESA
+     */
+    public function setNumerEdycjiBESA($numerEdycjiBESA)
+    {
+        $this->numerEdycjiBESA = $numerEdycjiBESA;
     }
 }

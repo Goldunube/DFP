@@ -73,9 +73,9 @@ class DaneTechniczneProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="lepkosc_farbyczna_stomer_max", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_fabryczna_stomer_max", type="decimal", nullable=true)
      */
-    private $lepkoscFarbycznaStomerMAX;
+    private $lepkoscFabrycznaStomerMAX;
 
     /**
      * @var string
@@ -320,26 +320,26 @@ class DaneTechniczneProduktu
     }
 
     /**
-     * Set lepkoscFarbycznaStomerMAX
+     * Set lepkoscFabrycznaStomerMAX
      *
-     * @param string $lepkoscFarbycznaStomerMAX
+     * @param string $lepkoscFabrbycznaStomerMAX
      * @return DaneTechniczneProduktu
      */
-    public function setLepkoscFarbycznaStomerMAX($lepkoscFarbycznaStomerMAX)
+    public function setLepkoscFabrycznaStomerMAX($lepkoscFabrbycznaStomerMAX)
     {
-        $this->lepkoscFarbycznaStomerMAX = $lepkoscFarbycznaStomerMAX;
+        $this->lepkoscFabrycznaStomerMAX = $lepkoscFabrbycznaStomerMAX;
 
         return $this;
     }
 
     /**
-     * Get lepkoscFarbycznaStomerMAX
+     * Get lepkoscFabrycznaStomerMAX
      *
      * @return string 
      */
-    public function getLepkoscFarbycznaStomerMAX()
+    public function getLepkoscFabrycznaStomerMAX()
     {
-        return $this->lepkoscFarbycznaStomerMAX;
+        return $this->lepkoscFabrycznaStomerMAX;
     }
 
     /**

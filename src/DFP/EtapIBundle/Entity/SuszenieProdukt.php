@@ -92,16 +92,16 @@ class SuszenieProdukt
     private $doceloweCzasKabina;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="infrared", type="integer", nullable=true)
+     * @ORM\Column(name="infrared", type="decimal", nullable=true)
      */
     private $infrared;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="ultraviolet", type="integer", nullable=true)
+     * @ORM\Column(name="ultraviolet", type="decimal", nullable=true)
      */
     private $ultraviolet;
 

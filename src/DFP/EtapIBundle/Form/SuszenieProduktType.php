@@ -17,16 +17,74 @@ class SuszenieProduktType extends AbstractType
         $builder
             ->add('pylosuchoscTemperaturaOtoczenie')
             ->add('pylosuchoscCzasOtoczenie')
+            ->add('pylosuchoscCzasOtoczenieJednostka','choice',array(
+                    'label'     =>  false,
+                    'choices'   =>  array(
+                        0   =>  'Sekund',
+                        1   =>  'Minut',
+                        2   =>  'Godzin'
+                    ),
+                    'mapped'    =>  false
+                )
+            )
             ->add('dotykTemperaturaOtoczenie')
             ->add('dotykCzasOtoczenie')
+            ->add('dotykCzasOtoczenieJednostka','choice',array(
+                    'label'     =>  false,
+                    'choices'   =>  array(
+                        0   =>  'Sekund',
+                        1   =>  'Minut',
+                        2   =>  'Godzin'
+                    ),
+                    'mapped'    =>  false
+                )
+            )
             ->add('utwardzenieTemperaturaOtoczenie')
             ->add('utwardzenieCzasOtoczenie')
+            ->add('utwardzenieCzasOtoczenieJednostka','choice',array(
+                    'label'     =>  false,
+                    'choices'   =>  array(
+                        0   =>  'Sekund',
+                        1   =>  'Minut',
+                        2   =>  'Godzin'
+                    ),
+                    'mapped'    =>  false
+                )
+            )
             ->add('wstepneTemperaturaKabina')
             ->add('wstepneCzasKabina')
+            ->add('wstepneCzasKabinaJednostka','choice',array(
+                    'label'     =>  false,
+                    'choices'   =>  array(
+                        0   =>  'Sekund',
+                        1   =>  'Minut',
+                        2   =>  'Godzin'
+                    ),
+                    'mapped'    =>  false
+                )
+            )
             ->add('doceloweTemperaturaKabina')
             ->add('doceloweCzasKabina')
-            ->add('infrared')
-            ->add('ultraviolet')
+            ->add('doceloweCzasKabinaJednostka','choice',array(
+                    'label'     =>  false,
+                    'choices'   =>  array(
+                        0   =>  'Sekund',
+                        1   =>  'Minut',
+                        2   =>  'Godzin'
+                    ),
+                    'mapped'    =>  false
+                )
+            )
+            ->add('infrared','integer',array(
+                    'label'     =>  'Suszenie IR (Podczerwień)',
+                    'required'  =>  false
+                )
+            )
+            ->add('ultraviolet','integer',array(
+                    'label'     =>  'Suszenie UV (Ultrafiolet)',
+                    'required'  =>  false
+                )
+            )
         ;
     }
     

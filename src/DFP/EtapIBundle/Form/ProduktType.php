@@ -18,25 +18,46 @@ class ProduktType extends AbstractType
             ->add('nazwaHandlowa')
             ->add('nazwaTechniczna')
             ->add('kodFabrycznyProduktu')
+            ->add('numerEdycjiBESA',null,array('label'=>'Numer edycji (BESA)'))
             ->add('grupaProduktow',null,array('label'=>'Grupa produktów'))
             ->add('grupaPromowania')
             ->add('cechyTechniczneProduktu', new CechyTechniczneProduktuType())
             ->add('zgodnoscNorm')
             ->add('daneTechniczne', new DaneTechniczneProduktuType())
-            ->add('rodzajePowierzchni')
-            ->add('przygotowaniePowierzchni')
-            ->add('metodyAplikacji')
+            ->add('rodzajePowierzchni',null,array('required'=>false))
+            ->add('przygotowaniePowierzchni',null,array('required'=>false))
+            ->add('metodyAplikacji',null,array('required'=>false))
             ->add('przygotowanieDoAplikacji', new PrzygotowanieDoAplikacjiType())
             ->add('suszenie', new SuszenieProduktType())
             ->add('charakterystykaProduktu', new CharakterystykaProduktuType())
-            ->add('produktyUtwardzacze')
-            ->add('produktyRozcienczalniki')
+            ->add('produktyUtwardzacze',null,array(
+                    'required'  =>  false,
+                    'label'     =>  'Utwardzacze'
+                )
+            )
+            ->add('produktyRozcienczalniki',null,array(
+                    'required'  =>  false,
+                    'label'     =>  'Rozcieńczalniki'
+                )
+            )
             ->add('czasMagazynowania')
+            ->add('czasMagazynowaniaJednostka','choice',array(
+                    'choices'               =>  array(
+                        0 => 'miesiące', 1 => 'lata'
+                    ),
+                    'required'              =>  true,
+                    'mapped'                =>  false,
+                    'label'                 =>  false,
+                )
+            )
             ->add('certyfikaty')
             ->add('badania')
             ->add('opisPodstawowy')
             ->add('opisPelny')
-            ->add('uwagi')
+            ->add('uwagi',null,array(
+                    'label' =>  'Uwagi ogólne'
+                )
+            )
 //            ->add('systemyMalarskie')
         ;
     }

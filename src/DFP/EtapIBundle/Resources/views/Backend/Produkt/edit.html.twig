@@ -24,8 +24,21 @@
         {{ form_row(edit_form.nazwaHandlowa) }}
         {{ form_row(edit_form.nazwaTechniczna) }}
         {{ form_row(edit_form.kodFabrycznyProduktu) }}
+        {{ form_row(edit_form.numerEdycjiBESA) }}
         {{ form_row(edit_form.grupaProduktow) }}
         {{ form_row(edit_form.grupaPromowania) }}
+        <div class="form-group">
+            {{ form_label(edit_form.czasMagazynowania) }}
+            <div class="col-lg-5">
+                {{ form_widget(edit_form.czasMagazynowania) }}
+            </div>
+            <div class="col-lg-4">
+                {{ form_widget(edit_form.czasMagazynowaniaJednostka) }}
+            </div>
+        </div>
+        {{ form_row(edit_form.czasMagazynowania) }}
+        {{ form_row(edit_form.opisPodstawowy) }}
+        {{ form_row(edit_form.opisPelny) }}
         <hr>
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -145,25 +158,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Stopień rozdrobnienia ziarna</label>
-                    <div class="col-lg-2">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                Min
-                            </span>
-                            {{ form_widget(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN) }}
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                Max
-                            </span>
-                            {{ form_widget(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-3 control-label">Lepkość fabryczna (Stomer)</label>
                     <div class="col-lg-2">
                         <div class="input-group">
@@ -198,6 +192,31 @@
                                 Max
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaFordMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Stopień rozdrobnienia ziarna</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN) }}
+                            <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}
+                            <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -311,45 +330,266 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Zalecana grubość</label>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Sucho
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSucho) }}
+                            <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Mokro
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokro) }}
+                            <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Nominalna grubość</label>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Sucho
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiSucho) }}
+                            <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Mokro
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiMokro) }}
+                            <spam class="input-group-addon">
+                                [&#181;m]
+                            </spam>
                         </div>
                     </div>
                 </div>
                 {{ form_row(edit_form.przygotowanieDoAplikacji) }}
             </div>
         </div>
+        <hr>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a href="#panel-suszenie"data-toggle="collapse" data-parent="#panel-suszenie">Suszenie</a>
+            </div>
+            <div id="panel-suszenie" class="panel-body collapse in">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <a href="#panel-suszenie-otoczenie"data-toggle="collapse" data-parent="#panel-suszenie-otoczenie">Poza kabiną (otoczenie)</a>
+                    </div>
+                    <div id="panel-suszenie-otoczenie" class="panel-body collapse in">
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">Pyłosuchość</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Temperatura</span>
+                                    {{ form_widget(edit_form.suszenie.pylosuchoscTemperaturaOtoczenie) }}
+                                    <span class="input-group-addon">&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Czas</span>
+                                    {{ form_widget(edit_form.suszenie.pylosuchoscCzasOtoczenie) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                {{ form_widget(edit_form.suszenie.pylosuchoscCzasOtoczenieJednostka) }}
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">Odporność na dotyk</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Temperatura</span>
+                                    {{ form_widget(edit_form.suszenie.dotykTemperaturaOtoczenie) }}
+                                    <span class="input-group-addon">&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Czas</span>
+                                    {{ form_widget(edit_form.suszenie.dotykCzasOtoczenie) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                {{ form_widget(edit_form.suszenie.dotykCzasOtoczenieJednostka) }}
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">Pełne utwardzenie</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Temperatura</span>
+                                    {{ form_widget(edit_form.suszenie.utwardzenieTemperaturaOtoczenie) }}
+                                    <span class="input-group-addon">&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Czas</span>
+                                    {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenie) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <a href="#panel-suszenie-kabina"data-toggle="collapse" data-parent="#panel-suszenie-kabina">W kabinie lakierniczej</a>
+                    </div>
+                    <div id="panel-suszenie-kabina" class="panel-body collapse in">
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">Wstępne</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Temperatura</span>
+                                    {{ form_widget(edit_form.suszenie.wstepneTemperaturaKabina) }}
+                                    <span class="input-group-addon">&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Czas</span>
+                                    {{ form_widget(edit_form.suszenie.wstepneCzasKabina) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                {{ form_widget(edit_form.suszenie.wstepneCzasKabinaJednostka) }}
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label">Docelowe</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Temperatura</span>
+                                    {{ form_widget(edit_form.suszenie.doceloweTemperaturaKabina) }}
+                                    <span class="input-group-addon">&deg;C</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Czas</span>
+                                    {{ form_widget(edit_form.suszenie.doceloweCzasKabina) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                {{ form_widget(edit_form.suszenie.doceloweCzasKabinaJednostka) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    {{ form_label(edit_form.suszenie.infrared) }}
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Czas</span>
+                            {{ form_widget(edit_form.suszenie.infrared) }}
+                            <span class="input-group-addon">[min]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    {{ form_label(edit_form.suszenie.ultraviolet) }}
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Czas</span>
+                            {{ form_widget(edit_form.suszenie.ultraviolet) }}
+                            <span class="input-group-addon">[min]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a href="#panel-charakterystyka-produktu"data-toggle="collapse" data-parent="#panel-charakterystyka-produktu">Charakterystyka produktu</a>
+            </div>
+            <div id="panel-charakterystyka-produktu" class="panel-body collapse in">
+                <div class="form-group ">
+                    <label class="col-sm-3 control-label">Wydajność ( dla 10[&micro;m] )</label>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Teoretyczna</span>
+                            {{ form_widget(edit_form.charakterystykaProduktu.wydajnoscTeoretyczna) }}
+                            <span class="input-group-addon">[m&sup2;/L]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Praktyczna</span>
+                            {{ form_widget(edit_form.charakterystykaProduktu.wydajnoscPraktyczna) }}
+                            <span class="input-group-addon">[m&sup2;/L]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-sm-3 control-label">Zużycie ( dla 10[&micro;m] )</label>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Teoretyczna</span>
+                            {{ form_widget(edit_form.charakterystykaProduktu.zuzycieTeoretyczne) }}
+                            <span class="input-group-addon">[L/m&sup2;]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Praktyczna</span>
+                            {{ form_widget(edit_form.charakterystykaProduktu.zuzyciePraktyczne) }}
+                            <span class="input-group-addon">[L/m&sup2;]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
+                    </div>
+                </div>
+                <div class="form-group ">
+                    {{ form_label(edit_form.charakterystykaProduktu.polyskPodKatem) }}
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.charakterystykaProduktu.polyskPodKatem) }}
+                            <span class="input-group-addon">&deg;C</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    {{ form_label(edit_form.charakterystykaProduktu.czasDoPrzelakierowania) }}
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.charakterystykaProduktu.czasDoPrzelakierowania) }}
+                            <span class="input-group-addon">min.</span>
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(edit_form.charakterystykaProduktu.uwagi) }}
+            </div>
+        </div>
+        {{ form_row(edit_form.rodzajePowierzchni) }}
+        {{ form_row(edit_form.metodyAplikacji) }}
+        {{ form_row(edit_form.przygotowaniePowierzchni) }}
+        {{ form_row(edit_form.produktyUtwardzacze) }}
+        {{ form_row(edit_form.produktyRozcienczalniki) }}
+        {{ form_row(edit_form.uwagi) }}
         {{ form_widget(edit_form.submit) }}
         {{ form_end(edit_form) }}
         <hr>
