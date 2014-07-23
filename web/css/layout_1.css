@@ -20,6 +20,9 @@ label.required:after {
     content: " *";
     color: #FF0000;
 }
+.radio label, .checkbox label {
+    font-size: 14px;
+}
 span.required {
     color: #FF0000;
     font-weight: normal;

@@ -30,6 +30,14 @@ class Produkt
     private $nazwaHandlowa;
 
     /**
+     * Nazwa techniczna produktu
+     *
+     * @var string
+     * @ORM\Column(name="nazwa_techniczna", type="string", length=255, nullable=true)
+     */
+    private $nazwaTechniczna;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="uwagi", type="text", nullable=true)
@@ -41,7 +49,7 @@ class Produkt
      *
      * @var integer
      *
-     * @ORM\Column(name="grupa_promowania")
+     * @ORM\Column(name="grupa_promowania", type="integer")
      */
     private $grupaPromowania = 0;
 
@@ -57,6 +65,116 @@ class Produkt
      */
     private $grupaProduktow;
 
+    /**
+     * Numer edycji karty technicznej
+     *
+     * @var integer
+     * @ORM\Column(name="numer_edycji", type="integer", nullable=true)
+     */
+    private $numerEdycji;
+
+    /**
+     * Kod farbryczny produktu nadawany przez producenta
+     *
+     * @var string
+     * @ORM\Column(name="kod_fabryczny", type="string", nullable=true)
+     */
+    private $kodFabrycznyProduktu;
+
+    /**
+     * Podstawowy opis zastosowania produktu
+     *
+     * @var string
+     * @ORM\Column(name="opis_podstawowy", type="text", nullable=true)
+     */
+    private $opisPodstawowy;
+
+    /**
+     * Pełny opis zastosowania produktu
+     *
+     * @var string
+     * @ORM\Column(name="opis_pelny", type="text", nullable=true)
+     */
+    private $opisPelny;
+
+    /**
+     * Grupa cech technicznych produktu
+     *
+     * @ORM\OneToOne(targetEntity="CechyTechniczneProduktu")
+     */
+    private $cechyTechniczneProduktu;
+
+    /**
+     * Zgodność produktu z normami
+     *
+     * @ORM\Column(name="zgodnosc_norm", type="array", nullable=true)
+     */
+    private $zgodnoscNorm;
+
+    /**
+     * Grupa danych technicznych produktu
+     *
+     * @ORM\OneToOne(targetEntity="DaneTechniczneProduktu")
+     */
+    private $daneTechniczne;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="RodzajPowierzchni")
+     */
+    private $rodzajePowierzchni;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="ProcesPrzygotowaniaPowierzchni")
+     */
+    private $przygotowaniePowierzchni;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="ProcesAplikacji")
+     */
+    private $metodyAplikacji;
+
+    /**
+     * @ORM\OneToOne(targetEntity="PrzygotowanieDoAplikacji")
+     */
+    private $przygotowanieDoAplikacji;
+
+    /**
+     * @ORM\OneToOne(targetEntity="SuszenieProdukt")
+     */
+    private $suszenie;
+
+    /**
+     * @ORM\OneToOne(targetEntity="CharakterystykaProduktu")
+     */
+    private $charakterystykaProduktu;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="magazynowanie", type="integer", nullable=true)
+     */
+    private $czasMagazynowania;
+
+    /**
+     * @var array
+     * @ORM\Column(name="certyfikaty", type="array", nullable=true)
+     */
+    private $certyfikaty;
+
+    /**
+     * @var array
+     * @ORM\Column(name="badania", type="array", nullable=true)
+     */
+    private $badania;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProduktUtwardzacz", mappedBy="utwardzacz")
+     */
+    private $produktyUtwardzacze;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProduktRozcienczalnik", mappedBy="rozcienczalnik")
+     */
+    private $produktyRozcienczalniki;
 
     /**
      * Constructor
@@ -64,6 +182,11 @@ class Produkt
     public function __construct()
     {
         $this->systemyMalarskie = new ArrayCollection();
+        $this->rodzajePowierzchni = new ArrayCollection();
+        $this->przygotowaniePowierzchni = new ArrayCollection();
+        $this->metodyAplikacji = new ArrayCollection();
+        $this->produktyUtwardzacze = new ArrayCollection();
+        $this->produktyRozcienczalniki = new ArrayCollection();
     }
 
     /**
@@ -207,5 +330,492 @@ class Produkt
     public function getGrupaProduktow()
     {
         return $this->grupaProduktow;
+    }
+
+    /**
+     * Set nazwaTechniczna
+     *
+     * @param string $nazwaTechniczna
+     * @return Produkt
+     */
+    public function setNazwaTechniczna($nazwaTechniczna)
+    {
+        $this->nazwaTechniczna = $nazwaTechniczna;
+
+        return $this;
+    }
+
+    /**
+     * Get nazwaTechniczna
+     *
+     * @return string 
+     */
+    public function getNazwaTechniczna()
+    {
+        return $this->nazwaTechniczna;
+    }
+
+    /**
+     * Set numerEdycji
+     *
+     * @param integer $numerEdycji
+     * @return Produkt
+     */
+    public function setNumerEdycji($numerEdycji)
+    {
+        $this->numerEdycji = $numerEdycji;
+
+        return $this;
+    }
+
+    /**
+     * Get numerEdycji
+     *
+     * @return integer 
+     */
+    public function getNumerEdycji()
+    {
+        return $this->numerEdycji;
+    }
+
+    /**
+     * Set kodFabrycznyProduktu
+     *
+     * @param integer $kodFabrycznyProduktu
+     * @return Produkt
+     */
+    public function setKodFabrycznyProduktu($kodFabrycznyProduktu)
+    {
+        $this->kodFabrycznyProduktu = $kodFabrycznyProduktu;
+
+        return $this;
+    }
+
+    /**
+     * Get kodFabrycznyProduktu
+     *
+     * @return integer 
+     */
+    public function getKodFabrycznyProduktu()
+    {
+        return $this->kodFabrycznyProduktu;
+    }
+
+    /**
+     * Set opisPodstawowy
+     *
+     * @param string $opisPodstawowy
+     * @return Produkt
+     */
+    public function setOpisPodstawowy($opisPodstawowy)
+    {
+        $this->opisPodstawowy = $opisPodstawowy;
+
+        return $this;
+    }
+
+    /**
+     * Get opisPodstawowy
+     *
+     * @return string 
+     */
+    public function getOpisPodstawowy()
+    {
+        return $this->opisPodstawowy;
+    }
+
+    /**
+     * Set opisPelny
+     *
+     * @param string $opisPelny
+     * @return Produkt
+     */
+    public function setOpisPelny($opisPelny)
+    {
+        $this->opisPelny = $opisPelny;
+
+        return $this;
+    }
+
+    /**
+     * Get opisPelny
+     *
+     * @return string 
+     */
+    public function getOpisPelny()
+    {
+        return $this->opisPelny;
+    }
+
+    /**
+     * Set zgodnoscNorm
+     *
+     * @param array $zgodnoscNorm
+     * @return Produkt
+     */
+    public function setZgodnoscNorm($zgodnoscNorm)
+    {
+        $this->zgodnoscNorm = $zgodnoscNorm;
+
+        return $this;
+    }
+
+    /**
+     * Get zgodnoscNorm
+     *
+     * @return array 
+     */
+    public function getZgodnoscNorm()
+    {
+        return $this->zgodnoscNorm;
+    }
+
+    /**
+     * Set czasMagazynowania
+     *
+     * @param integer $czasMagazynowania
+     * @return Produkt
+     */
+    public function setCzasMagazynowania($czasMagazynowania)
+    {
+        $this->czasMagazynowania = $czasMagazynowania;
+
+        return $this;
+    }
+
+    /**
+     * Get czasMagazynowania
+     *
+     * @return integer 
+     */
+    public function getCzasMagazynowania()
+    {
+        return $this->czasMagazynowania;
+    }
+
+    /**
+     * Set certyfikaty
+     *
+     * @param array $certyfikaty
+     * @return Produkt
+     */
+    public function setCertyfikaty($certyfikaty)
+    {
+        $this->certyfikaty = $certyfikaty;
+
+        return $this;
+    }
+
+    /**
+     * Get certyfikaty
+     *
+     * @return array 
+     */
+    public function getCertyfikaty()
+    {
+        return $this->certyfikaty;
+    }
+
+    /**
+     * Set badania
+     *
+     * @param array $badania
+     * @return Produkt
+     */
+    public function setBadania($badania)
+    {
+        $this->badania = $badania;
+
+        return $this;
+    }
+
+    /**
+     * Get badania
+     *
+     * @return array 
+     */
+    public function getBadania()
+    {
+        return $this->badania;
+    }
+
+    /**
+     * Set cechyTechniczneProduktu
+     *
+     * @param CechyTechniczneProduktu $cechyTechniczneProduktu
+     * @return Produkt
+     */
+    public function setCechyTechniczneProduktu(CechyTechniczneProduktu $cechyTechniczneProduktu = null)
+    {
+        $this->cechyTechniczneProduktu = $cechyTechniczneProduktu;
+
+        return $this;
+    }
+
+    /**
+     * Get cechyTechniczneProduktu
+     *
+     * @return CechyTechniczneProduktu
+     */
+    public function getCechyTechniczneProduktu()
+    {
+        return $this->cechyTechniczneProduktu;
+    }
+
+    /**
+     * Set daneTechniczne
+     *
+     * @param DaneTechniczneProduktu $daneTechniczne
+     * @return Produkt
+     */
+    public function setDaneTechniczne(DaneTechniczneProduktu $daneTechniczne = null)
+    {
+        $this->daneTechniczne = $daneTechniczne;
+
+        return $this;
+    }
+
+    /**
+     * Get daneTechniczne
+     *
+     * @return DaneTechniczneProduktu
+     */
+    public function getDaneTechniczne()
+    {
+        return $this->daneTechniczne;
+    }
+
+    /**
+     * Add rodzajePowierzchni
+     *
+     * @param RodzajPowierzchni $rodzajePowierzchni
+     * @return Produkt
+     */
+    public function addRodzajePowierzchni(RodzajPowierzchni $rodzajePowierzchni)
+    {
+        $this->rodzajePowierzchni[] = $rodzajePowierzchni;
+
+        return $this;
+    }
+
+    /**
+     * Remove rodzajePowierzchni
+     *
+     * @param RodzajPowierzchni $rodzajePowierzchni
+     */
+    public function removeRodzajePowierzchni(RodzajPowierzchni $rodzajePowierzchni)
+    {
+        $this->rodzajePowierzchni->removeElement($rodzajePowierzchni);
+    }
+
+    /**
+     * Get rodzajePowierzchni
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRodzajePowierzchni()
+    {
+        return $this->rodzajePowierzchni;
+    }
+
+    /**
+     * Add przygotowaniePowierzchni
+     *
+     * @param ProcesPrzygotowaniaPowierzchni $przygotowaniePowierzchni
+     * @return Produkt
+     */
+    public function addPrzygotowaniePowierzchni(ProcesPrzygotowaniaPowierzchni $przygotowaniePowierzchni)
+    {
+        $this->przygotowaniePowierzchni[] = $przygotowaniePowierzchni;
+
+        return $this;
+    }
+
+    /**
+     * Remove przygotowaniePowierzchni
+     *
+     * @param ProcesPrzygotowaniaPowierzchni $przygotowaniePowierzchni
+     */
+    public function removePrzygotowaniePowierzchni(ProcesPrzygotowaniaPowierzchni $przygotowaniePowierzchni)
+    {
+        $this->przygotowaniePowierzchni->removeElement($przygotowaniePowierzchni);
+    }
+
+    /**
+     * Get przygotowaniePowierzchni
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPrzygotowaniePowierzchni()
+    {
+        return $this->przygotowaniePowierzchni;
+    }
+
+    /**
+     * Add metodyAplikacji
+     *
+     * @param ProcesAplikacji $metodyAplikacji
+     * @return Produkt
+     */
+    public function addMetodyAplikacji(ProcesAplikacji $metodyAplikacji)
+    {
+        $this->metodyAplikacji[] = $metodyAplikacji;
+
+        return $this;
+    }
+
+    /**
+     * Remove metodyAplikacji
+     *
+     * @param ProcesAplikacji $metodyAplikacji
+     */
+    public function removeMetodyAplikacji(ProcesAplikacji $metodyAplikacji)
+    {
+        $this->metodyAplikacji->removeElement($metodyAplikacji);
+    }
+
+    /**
+     * Get metodyAplikacji
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMetodyAplikacji()
+    {
+        return $this->metodyAplikacji;
+    }
+
+    /**
+     * Set przygotowanieDoAplikacji
+     *
+     * @param PrzygotowanieDoAplikacji $przygotowanieDoAplikacji
+     * @return Produkt
+     */
+    public function setPrzygotowanieDoAplikacji(PrzygotowanieDoAplikacji $przygotowanieDoAplikacji = null)
+    {
+        $this->przygotowanieDoAplikacji = $przygotowanieDoAplikacji;
+
+        return $this;
+    }
+
+    /**
+     * Get przygotowanieDoAplikacji
+     *
+     * @return PrzygotowanieDoAplikacji
+     */
+    public function getPrzygotowanieDoAplikacji()
+    {
+        return $this->przygotowanieDoAplikacji;
+    }
+
+    /**
+     * Set suszenie
+     *
+     * @param SuszenieProdukt $suszenie
+     * @return Produkt
+     */
+    public function setSuszenie(SuszenieProdukt $suszenie = null)
+    {
+        $this->suszenie = $suszenie;
+
+        return $this;
+    }
+
+    /**
+     * Get suszenie
+     *
+     * @return SuszenieProdukt
+     */
+    public function getSuszenie()
+    {
+        return $this->suszenie;
+    }
+
+    /**
+     * Set charakterystykaProduktu
+     *
+     * @param CharakterystykaProduktu $charakterystykaProduktu
+     * @return Produkt
+     */
+    public function setCharakterystykaProduktu(CharakterystykaProduktu $charakterystykaProduktu = null)
+    {
+        $this->charakterystykaProduktu = $charakterystykaProduktu;
+
+        return $this;
+    }
+
+    /**
+     * Get charakterystykaProduktu
+     *
+     * @return CharakterystykaProduktu
+     */
+    public function getCharakterystykaProduktu()
+    {
+        return $this->charakterystykaProduktu;
+    }
+
+    /**
+     * Add produktyUtwardzacze
+     *
+     * @param ProduktUtwardzacz $produktyUtwardzacze
+     * @return Produkt
+     */
+    public function addProduktyUtwardzacze(ProduktUtwardzacz $produktyUtwardzacze)
+    {
+        $this->produktyUtwardzacze[] = $produktyUtwardzacze;
+
+        return $this;
+    }
+
+    /**
+     * Remove produktyUtwardzacze
+     *
+     * @param ProduktUtwardzacz $produktyUtwardzacze
+     */
+    public function removeProduktyUtwardzacze(ProduktUtwardzacz $produktyUtwardzacze)
+    {
+        $this->produktyUtwardzacze->removeElement($produktyUtwardzacze);
+    }
+
+    /**
+     * Get produktyUtwardzacze
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProduktyUtwardzacze()
+    {
+        return $this->produktyUtwardzacze;
+    }
+
+    /**
+     * Add produktyRozcienczalniki
+     *
+     * @param ProduktRozcienczalnik $produktyRozcienczalniki
+     * @return Produkt
+     */
+    public function addProduktyRozcienczalniki(ProduktRozcienczalnik $produktyRozcienczalniki)
+    {
+        $this->produktyRozcienczalniki[] = $produktyRozcienczalniki;
+
+        return $this;
+    }
+
+    /**
+     * Remove produktyRozcienczalniki
+     *
+     * @param ProduktRozcienczalnik $produktyRozcienczalniki
+     */
+    public function removeProduktyRozcienczalniki(ProduktRozcienczalnik $produktyRozcienczalniki)
+    {
+        $this->produktyRozcienczalniki->removeElement($produktyRozcienczalniki);
+    }
+
+    /**
+     * Get produktyRozcienczalniki
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProduktyRozcienczalniki()
+    {
+        return $this->produktyRozcienczalniki;
     }
 }

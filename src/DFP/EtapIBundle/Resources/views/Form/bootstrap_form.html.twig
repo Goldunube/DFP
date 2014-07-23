@@ -63,7 +63,7 @@
         {% for child in form %}
             <div class="checkbox">
                 <label>
-                    {{ form_label(child) }} {{ child.vars.label }}
+                    {{ form_widget(child) }} {{ child.vars.label }}
                 </label>
             </div>
         {% endfor %}

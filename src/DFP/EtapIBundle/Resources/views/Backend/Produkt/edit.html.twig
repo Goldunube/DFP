@@ -18,13 +18,242 @@
 {% form_theme delete_form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
 
 {% block content -%}
-    <section>
+    <section class="container-fluid">
         <h1>Edytuj produkt</h1>
         {{ form_start(edit_form) }}
         {{ form_row(edit_form.nazwaHandlowa) }}
+        {{ form_row(edit_form.nazwaTechniczna) }}
+        {{ form_row(edit_form.kodFabrycznyProduktu) }}
         {{ form_row(edit_form.grupaProduktow) }}
         {{ form_row(edit_form.grupaPromowania) }}
+        <hr>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Cechy techniczne
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.wlasciwosciMechaniczne) }}
+                    <div class="col-lg-5">
+                        {{ form_widget(edit_form.cechyTechniczneProduktu.wlasciwosciMechaniczne) }}
+                    </div>
+                    <div class="col-lg-4">
+                        {{ form_widget(edit_form.cechyTechniczneProduktu.wlasciwosciMechaniczneJednostka) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.testErichsen) }}
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.cechyTechniczneProduktu.testErichsen) }}
+                            <span class="input-group-addon">[mm]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.udarnosc) }}
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.cechyTechniczneProduktu.udarnosc) }}
+                            <span class="input-group-addon">[cm D]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.probaMandrela) }}
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.cechyTechniczneProduktu.probaMandrela) }}
+                            <span class="input-group-addon">[mm &#216;]</span>
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(edit_form.cechyTechniczneProduktu.plastycznosc) }}
+                {{ form_row(edit_form.cechyTechniczneProduktu.odpornoscScieranie) }}
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.odpornoscMedia) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(edit_form.cechyTechniczneProduktu.odpornoscMedia) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.odpornoscMglaSolna) }}
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.cechyTechniczneProduktu.odpornoscMglaSolna) }}
+                            <span class="input-group-addon">[h]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(edit_form.cechyTechniczneProduktu.odpornoscParaWodna) }}
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            {{ form_widget(edit_form.cechyTechniczneProduktu.odpornoscParaWodna) }}
+                            <span class="input-group-addon">[h]</span>
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(edit_form.cechyTechniczneProduktu.przyczepnosc) }}
+                {{ form_row(edit_form.cechyTechniczneProduktu.odpornoscOgien) }}
+                {{ form_row(edit_form.cechyTechniczneProduktu.odpornoscKorozja) }}
+                {{ form_row(edit_form.cechyTechniczneProduktu.odpornoscUV) }}
+            </div>
+        </div>
+        <hr>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Dane techniczne
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Gęstość w 20&#176;C</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.gestoscMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.gestoscMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Gęstość mieszaniny</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.gestoscMieszaninyMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.gestoscMieszaninyMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Stopień rozdrobnienia ziarna</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Lepkość fabryczna (Stomer)</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaStomerMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaStomerMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Lepkość fabryczna (Ford)</label>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaFordMIN) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaFordMAX) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Zawartość części stałych</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Objętościowo
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.objZawartoscCzesciStalych) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Wagowo
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.wagZawartoscCzesciStalych) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Zawartość części stałych (mieszaniny)</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Objętościowo
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.objZawartoscCzesciStalychMieszaniny) }}
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Wagowo
+                            </span>
+                            {{ form_widget(edit_form.daneTechniczne.wagZawartoscCzesciStalychMieszaniny) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_row(edit_form.daneTechniczne.lzo) }}
+                {{ form_row(edit_form.daneTechniczne.lzoRFU) }}
+                {{ form_row(edit_form.daneTechniczne.rodzajProduktu) }}
+                {{ form_row(edit_form.daneTechniczne.kolor) }}
+            </div>
+        </div>
+        <hr>
+        <div class="panel panel-info panel-collapse">
+            <div class="panel-heading">
+Test
+            </div>
+            <div class="panel-body">
 
+            </div>
+        </div>
         {{ form_widget(edit_form.submit) }}
         {{ form_end(edit_form) }}
         <hr>
