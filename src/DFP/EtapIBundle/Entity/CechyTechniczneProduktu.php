@@ -64,9 +64,9 @@ class CechyTechniczneProduktu
     private $odpornoscScieranie;
 
     /**
-     * @var integer
+     * @var array
      *
-     * @ORM\Column(name="odpornosc_media", type="integer", nullable=true)
+     * @ORM\Column(name="odpornosc_media", type="array", nullable=true)
      */
     private $odpornoscMedia;
 
@@ -126,11 +126,18 @@ class CechyTechniczneProduktu
      * Set wlasciwosciMechaniczne
      *
      * @param string $wlasciwosciMechaniczne
+     * @param int $jednostka
      * @return CechyTechniczneProduktu
      */
-    public function setWlasciwosciMechaniczne($wlasciwosciMechaniczne)
+    public function setWlasciwosciMechaniczne($wlasciwosciMechaniczne, $jednostka = 0)
     {
-        $this->wlasciwosciMechaniczne = $wlasciwosciMechaniczne;
+        if($jednostka == 1)
+        {
+            $wlasciwosciMechaniczne = $wlasciwosciMechaniczne * 24;
+            $this->wlasciwosciMechaniczne = round($wlasciwosciMechaniczne);
+        }else{
+            $this->wlasciwosciMechaniczne = round($wlasciwosciMechaniczne);
+        }
 
         return $this;
     }

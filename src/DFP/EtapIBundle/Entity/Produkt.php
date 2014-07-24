@@ -157,6 +157,8 @@ class Produkt
     private $charakterystykaProduktu;
 
     /**
+     * Czas magazynowania wyrażony w miesiacach
+     *
      * @var integer
      * @ORM\Column(name="magazynowanie", type="integer", nullable=true)
      */
@@ -482,11 +484,18 @@ class Produkt
      * Set czasMagazynowania
      *
      * @param integer $czasMagazynowania
+     * @param $jednostka
      * @return Produkt
      */
-    public function setCzasMagazynowania($czasMagazynowania)
+    public function setCzasMagazynowania($czasMagazynowania, $jednostka = 0)
     {
-        $this->czasMagazynowania = $czasMagazynowania;
+        if($jednostka == 1)
+        {
+            $czasMagazynowania = $czasMagazynowania * 12;
+            $this->czasMagazynowania = round($czasMagazynowania);
+        }else{
+            $this->czasMagazynowania = round($czasMagazynowania);
+        }
 
         return $this;
     }

@@ -143,11 +143,20 @@ class SuszenieProdukt
      * Set pylosuchoscCzasOtoczenie
      *
      * @param integer $pylosuchoscCzasOtoczenie
+     * @param $jednostka
      * @return SuszenieProdukt
      */
-    public function setPylosuchoscCzasOtoczenie($pylosuchoscCzasOtoczenie)
+    public function setPylosuchoscCzasOtoczenie($pylosuchoscCzasOtoczenie, $jednostka = 0)
     {
-        $this->pylosuchoscCzasOtoczenie = $pylosuchoscCzasOtoczenie;
+        if($jednostka == 2)
+        {
+            $pylosuchoscCzasOtoczenie = $pylosuchoscCzasOtoczenie * 60 * 60;
+        }elseif($jednostka == 1)
+        {
+            $pylosuchoscCzasOtoczenie = $pylosuchoscCzasOtoczenie * 60;
+        }
+
+        $this->pylosuchoscCzasOtoczenie = round($pylosuchoscCzasOtoczenie);
 
         return $this;
     }
@@ -189,11 +198,20 @@ class SuszenieProdukt
      * Set dotykCzasOtoczenie
      *
      * @param integer $dotykCzasOtoczenie
+     * @param $jednostka
      * @return SuszenieProdukt
      */
-    public function setDotykCzasOtoczenie($dotykCzasOtoczenie)
+    public function setDotykCzasOtoczenie($dotykCzasOtoczenie, $jednostka = 0)
     {
-        $this->dotykCzasOtoczenie = $dotykCzasOtoczenie;
+        if($jednostka == 2)
+        {
+            $dotykCzasOtoczenie = $dotykCzasOtoczenie * 60 * 60;
+        }elseif($jednostka == 1)
+        {
+            $dotykCzasOtoczenie = $dotykCzasOtoczenie * 60;
+        }
+
+        $this->dotykCzasOtoczenie = round($dotykCzasOtoczenie);
 
         return $this;
     }
@@ -235,11 +253,20 @@ class SuszenieProdukt
      * Set utwardzenieCzasOtoczenie
      *
      * @param integer $utwardzenieCzasOtoczenie
+     * @param $jednostka
      * @return SuszenieProdukt
      */
-    public function setUtwardzenieCzasOtoczenie($utwardzenieCzasOtoczenie)
+    public function setUtwardzenieCzasOtoczenie($utwardzenieCzasOtoczenie, $jednostka = 0)
     {
-        $this->utwardzenieCzasOtoczenie = $utwardzenieCzasOtoczenie;
+        if($jednostka == 2)
+        {
+            $utwardzenieCzasOtoczenie = $utwardzenieCzasOtoczenie * 60 * 60;
+        }elseif($jednostka == 1)
+        {
+            $utwardzenieCzasOtoczenie = $utwardzenieCzasOtoczenie * 60;
+        }
+
+        $this->utwardzenieCzasOtoczenie = round($utwardzenieCzasOtoczenie);
 
         return $this;
     }
@@ -281,11 +308,20 @@ class SuszenieProdukt
      * Set wstepneCzasKabina
      *
      * @param integer $wstepneCzasKabina
+     * @param int $jednostka
      * @return SuszenieProdukt
      */
-    public function setWstepneCzasKabina($wstepneCzasKabina)
+    public function setWstepneCzasKabina($wstepneCzasKabina, $jednostka = 0)
     {
-        $this->wstepneCzasKabina = $wstepneCzasKabina;
+        if($jednostka == 2)
+        {
+            $wstepneCzasKabina = $wstepneCzasKabina * 60 * 60;
+        }elseif($jednostka == 1)
+        {
+            $wstepneCzasKabina = $wstepneCzasKabina * 60;
+        }
+
+        $this->wstepneCzasKabina = round($wstepneCzasKabina);
 
         return $this;
     }
@@ -327,11 +363,20 @@ class SuszenieProdukt
      * Set doceloweCzasKabina
      *
      * @param integer $doceloweCzasKabina
+     * @param int $jednostka
      * @return SuszenieProdukt
      */
-    public function setDoceloweCzasKabina($doceloweCzasKabina)
+    public function setDoceloweCzasKabina($doceloweCzasKabina, $jednostka = 0)
     {
-        $this->doceloweCzasKabina = $doceloweCzasKabina;
+        if($jednostka == 2)
+        {
+            $doceloweCzasKabina = $doceloweCzasKabina * 60 * 60;
+        }elseif($jednostka == 1)
+        {
+            $doceloweCzasKabina = $doceloweCzasKabina * 60;
+        }
+
+        $this->doceloweCzasKabina = round($doceloweCzasKabina);
 
         return $this;
     }

@@ -53,7 +53,7 @@ class ProduktController extends Controller
      *
      * @Route("/", name="backend_produkty_create")
      * @Method("POST")
-     * @Template("DFPEtapIBundle:Produkt:new.html.twig")
+     * @Template("DFPEtapIBundle:Backend/Produkt:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -191,12 +191,15 @@ class ProduktController extends Controller
      *
      * @Route("/{id}", name="backend_produkty_update")
      * @Method("PUT")
-     * @Template("DFPEtapIBundle:Produkt:edit.html.twig")
+     * @Template("DFPEtapIBundle:Backend/Produkt:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var $entity Produkt
+         */
         $entity = $em->getRepository('DFPEtapIBundle:Produkt')->find($id);
 
         if (!$entity) {
@@ -208,6 +211,46 @@ class ProduktController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            /**
+             * Sprowadzenie wartości czasu magaazynowania do ilości miesięcy
+             */
+            $jednostkaCzasuMagazynowania = $editForm['czasMagazynowaniaJednostka']->getData();
+            $czasMagazynowania = $editForm['czasMagazynowania']->getData();
+            $entity->setCzasMagazynowania($czasMagazynowania, $jednostkaCzasuMagazynowania);
+
+            /**
+             * Sprowadzenie wałaściwości mechanicznych do ilości godzin
+             */
+            $cechyTechniczneForm = $editForm['cechyTechniczneProduktu'];
+            $wlasciwosciMechaniczne = $cechyTechniczneForm['wlasciwosciMechaniczne']->getData();
+            $wlasciwosciMechaniczneJednostka = $cechyTechniczneForm['wlasciwosciMechaniczneJednostka']->getData();
+            $entity->getCechyTechniczneProduktu()->setWlasciwosciMechaniczne($wlasciwosciMechaniczne, $wlasciwosciMechaniczneJednostka);
+
+            /**
+             * Sprowadzenie wprowadzonych wartości czasu do ilości sekund
+             */
+            $suszenieForm = $editForm['suszenie'];
+            $pylosuchosc = $suszenieForm['pylosuchoscCzasOtoczenie']->getData();
+            $pylosuchoscJednostka = $suszenieForm['pylosuchoscCzasOtoczenieJednostka']->getData();
+            $entity->getSuszenie()->setPylosuchoscCzasOtoczenie($pylosuchosc, $pylosuchoscJednostka);
+
+            $dotyk = $suszenieForm['dotykCzasOtoczenie']->getData();
+            $dotykJednostka = $suszenieForm['dotykCzasOtoczenieJednostka']->getData();
+            $entity->getSuszenie()->setDotykCzasOtoczenie($dotyk, $dotykJednostka);
+
+            $pelneUtwardzenie = $suszenieForm['utwardzenieCzasOtoczenie']->getData();
+            $pelneUtwardzenieJednostka = $suszenieForm['utwardzenieCzasOtoczenieJednostka']->getData();
+            $entity->getSuszenie()->setUtwardzenieCzasOtoczenie($pelneUtwardzenie, $pelneUtwardzenieJednostka);
+
+            $wstepneKabina = $suszenieForm['wstepneCzasKabina']->getData();
+            $wstepneKabinaJednostka = $suszenieForm['wstepneCzasKabinaJednostka']->getData();
+            $entity->getSuszenie()->setWstepneCzasKabina($wstepneKabina, $wstepneKabinaJednostka);
+
+            $doceloweKabina = $suszenieForm['doceloweCzasKabina']->getData();
+            $doceloweKabinaJednostka = $suszenieForm['doceloweCzasKabinaJednostka']->getData();
+            $entity->getSuszenie()->setDoceloweCzasKabina($doceloweKabina, $doceloweKabinaJednostka);
+
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('backend_produkty_edit', array('id' => $id)));
