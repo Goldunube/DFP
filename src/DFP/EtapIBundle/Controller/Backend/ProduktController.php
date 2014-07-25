@@ -210,50 +210,59 @@ class ProduktController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            /**
-             * Sprowadzenie wartości czasu magaazynowania do ilości miesięcy
-             */
-            $jednostkaCzasuMagazynowania = $editForm['czasMagazynowaniaJednostka']->getData();
-            $czasMagazynowania = $editForm['czasMagazynowania']->getData();
-            $entity->setCzasMagazynowania($czasMagazynowania, $jednostkaCzasuMagazynowania);
+        $session = $this->get('session');
 
-            /**
-             * Sprowadzenie wałaściwości mechanicznych do ilości godzin
-             */
-            $cechyTechniczneForm = $editForm['cechyTechniczneProduktu'];
-            $wlasciwosciMechaniczne = $cechyTechniczneForm['wlasciwosciMechaniczne']->getData();
-            $wlasciwosciMechaniczneJednostka = $cechyTechniczneForm['wlasciwosciMechaniczneJednostka']->getData();
-            $entity->getCechyTechniczneProduktu()->setWlasciwosciMechaniczne($wlasciwosciMechaniczne, $wlasciwosciMechaniczneJednostka);
+        if($request->isMethod('PUT'))
+        {
+            if ($editForm->isValid()) {
+                /**
+                 * Sprowadzenie wartości czasu magaazynowania do ilości miesięcy
+                 */
+                $jednostkaCzasuMagazynowania = $editForm['czasMagazynowaniaJednostka']->getData();
+                $czasMagazynowania = $editForm['czasMagazynowania']->getData();
+                $entity->setCzasMagazynowania($czasMagazynowania, $jednostkaCzasuMagazynowania);
 
-            /**
-             * Sprowadzenie wprowadzonych wartości czasu do ilości sekund
-             */
-            $suszenieForm = $editForm['suszenie'];
-            $pylosuchosc = $suszenieForm['pylosuchoscCzasOtoczenie']->getData();
-            $pylosuchoscJednostka = $suszenieForm['pylosuchoscCzasOtoczenieJednostka']->getData();
-            $entity->getSuszenie()->setPylosuchoscCzasOtoczenie($pylosuchosc, $pylosuchoscJednostka);
+                /**
+                 * Sprowadzenie wałaściwości mechanicznych do ilości godzin
+                 */
+                $cechyTechniczneForm = $editForm['cechyTechniczneProduktu'];
+                $wlasciwosciMechaniczne = $cechyTechniczneForm['wlasciwosciMechaniczne']->getData();
+                $wlasciwosciMechaniczneJednostka = $cechyTechniczneForm['wlasciwosciMechaniczneJednostka']->getData();
+                $entity->getCechyTechniczneProduktu()->setWlasciwosciMechaniczne($wlasciwosciMechaniczne, $wlasciwosciMechaniczneJednostka);
 
-            $dotyk = $suszenieForm['dotykCzasOtoczenie']->getData();
-            $dotykJednostka = $suszenieForm['dotykCzasOtoczenieJednostka']->getData();
-            $entity->getSuszenie()->setDotykCzasOtoczenie($dotyk, $dotykJednostka);
+                /**
+                 * Sprowadzenie wprowadzonych wartości czasu do ilości sekund
+                 */
+                $suszenieForm = $editForm['suszenie'];
+                $pylosuchosc = $suszenieForm['pylosuchoscCzasOtoczenie']->getData();
+                $pylosuchoscJednostka = $suszenieForm['pylosuchoscCzasOtoczenieJednostka']->getData();
+                $entity->getSuszenie()->setPylosuchoscCzasOtoczenie($pylosuchosc, $pylosuchoscJednostka);
 
-            $pelneUtwardzenie = $suszenieForm['utwardzenieCzasOtoczenie']->getData();
-            $pelneUtwardzenieJednostka = $suszenieForm['utwardzenieCzasOtoczenieJednostka']->getData();
-            $entity->getSuszenie()->setUtwardzenieCzasOtoczenie($pelneUtwardzenie, $pelneUtwardzenieJednostka);
+                $dotyk = $suszenieForm['dotykCzasOtoczenie']->getData();
+                $dotykJednostka = $suszenieForm['dotykCzasOtoczenieJednostka']->getData();
+                $entity->getSuszenie()->setDotykCzasOtoczenie($dotyk, $dotykJednostka);
 
-            $wstepneKabina = $suszenieForm['wstepneCzasKabina']->getData();
-            $wstepneKabinaJednostka = $suszenieForm['wstepneCzasKabinaJednostka']->getData();
-            $entity->getSuszenie()->setWstepneCzasKabina($wstepneKabina, $wstepneKabinaJednostka);
+                $pelneUtwardzenie = $suszenieForm['utwardzenieCzasOtoczenie']->getData();
+                $pelneUtwardzenieJednostka = $suszenieForm['utwardzenieCzasOtoczenieJednostka']->getData();
+                $entity->getSuszenie()->setUtwardzenieCzasOtoczenie($pelneUtwardzenie, $pelneUtwardzenieJednostka);
 
-            $doceloweKabina = $suszenieForm['doceloweCzasKabina']->getData();
-            $doceloweKabinaJednostka = $suszenieForm['doceloweCzasKabinaJednostka']->getData();
-            $entity->getSuszenie()->setDoceloweCzasKabina($doceloweKabina, $doceloweKabinaJednostka);
+                $wstepneKabina = $suszenieForm['wstepneCzasKabina']->getData();
+                $wstepneKabinaJednostka = $suszenieForm['wstepneCzasKabinaJednostka']->getData();
+                $entity->getSuszenie()->setWstepneCzasKabina($wstepneKabina, $wstepneKabinaJednostka);
 
-            $em->persist($entity);
-            $em->flush();
+                $doceloweKabina = $suszenieForm['doceloweCzasKabina']->getData();
+                $doceloweKabinaJednostka = $suszenieForm['doceloweCzasKabinaJednostka']->getData();
+                $entity->getSuszenie()->setDoceloweCzasKabina($doceloweKabina, $doceloweKabinaJednostka);
 
-            return $this->redirect($this->generateUrl('backend_produkty_edit', array('id' => $id)));
+                $em->persist($entity);
+                $em->flush();
+
+                $session->getFlashBag()->add('success','Informacje o produkcie zostały zaktualizowane poprawnie.');
+
+                return $this->redirect($this->generateUrl('backend_produkty_edit', array('id' => $id)));
+            }else{
+                $session->getFlashBag()->add('danger','Uwaga! Formularz zawiera błędy. Wszelkie wprowadzone dane nie zostaną zapmietane dopóki nie poprawisz błędu i ponownie nie klikniesz AKTUALIZUJ.');
+            }
         }
 
         return array(

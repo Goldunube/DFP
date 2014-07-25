@@ -3,6 +3,7 @@
 namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CharakterystykaProduktu
@@ -25,6 +26,7 @@ class CharakterystykaProduktu
      * @var string
      *
      * @ORM\Column(name="wydajnoscTeoretyczna", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $wydajnoscTeoretyczna;
 
@@ -32,6 +34,7 @@ class CharakterystykaProduktu
      * @var string
      *
      * @ORM\Column(name="zuzycieTeoretyczne", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $zuzycieTeoretyczne;
 
@@ -39,6 +42,7 @@ class CharakterystykaProduktu
      * @var string
      *
      * @ORM\Column(name="wydajnoscPraktyczna", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $wydajnoscPraktyczna;
 
@@ -46,6 +50,7 @@ class CharakterystykaProduktu
      * @var string
      *
      * @ORM\Column(name="zuzyciePraktyczne", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $zuzyciePraktyczne;
 

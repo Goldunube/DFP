@@ -4,6 +4,8 @@ namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * PrzygotowanieDoAplikacji
@@ -83,6 +85,11 @@ class PrzygotowanieDoAplikacji
     /**
      * @var string
      * @ORM\Column(name="lepkosc_stomer_min", type="decimal", precision=7, scale=2, nullable=true)
+     *
+     * @Assert\Type(
+     *      type = "numeric",
+     *      message = "Wprowadzona przez Ciebie wartość '{{ value }}' nie jest liczbą zmiennoprzecinkową."
+     * )
      */
     private $lepkoscStomerMIN;
 
@@ -585,5 +592,51 @@ class PrzygotowanieDoAplikacji
     public function getProduktyRozcienczalniki()
     {
         return $this->produktyRozcienczalniki;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isLepkoscStomerValidate(ExecutionContextInterface $context)
+    {
+        if($this->lepkoscStomerMIN > $this->lepkoscStomerMAX)
+        {
+            $context->addViolationAt(
+                'lepkoscStomerMIN',
+                'Lepkość minimalna nie może być większa od maksymalnej!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'lepkoscStomerMAX',
+                'Lepkość maksymalna nie może być mniejsza od minimalnej!',
+                array(),
+                null
+            );
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isLepkoscFordValidate(ExecutionContextInterface $context)
+    {
+        if($this->lepkoscFordMIN > $this->lepkoscFordMAX)
+        {
+            $context->addViolationAt(
+                'lepkoscFordMIN',
+                'Lepkość minimalna nie może być większa od maksymalnej!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'lepkoscFordMAX',
+                'Lepkość maksymalna nie może być mniejsza od minimalnej!',
+                array(),
+                null
+            );
+        }
     }
 }

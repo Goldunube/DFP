@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Produkt
@@ -109,6 +110,7 @@ class Produkt
      * Grupa cech technicznych produktu
      *
      * @ORM\OneToOne(targetEntity="CechyTechniczneProduktu", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $cechyTechniczneProduktu;
 
@@ -123,6 +125,7 @@ class Produkt
      * Grupa danych technicznych produktu
      *
      * @ORM\OneToOne(targetEntity="DaneTechniczneProduktu", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $daneTechniczne;
 
@@ -143,16 +146,19 @@ class Produkt
 
     /**
      * @ORM\OneToOne(targetEntity="PrzygotowanieDoAplikacji", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $przygotowanieDoAplikacji;
 
     /**
      * @ORM\OneToOne(targetEntity="SuszenieProdukt", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $suszenie;
 
     /**
      * @ORM\OneToOne(targetEntity="CharakterystykaProduktu", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $charakterystykaProduktu;
 

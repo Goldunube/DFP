@@ -3,6 +3,7 @@
 namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CechyTechniczneProduktu
@@ -32,6 +33,7 @@ class CechyTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="test_erichsen", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="W tym polu można wprowadzać wartości w postaci licz całkowitych oraz ułamków dziesiętnych.")
      */
     private $testErichsen;
 
@@ -39,6 +41,7 @@ class CechyTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="udarnosc", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="W tym polu można wprowadzać wartości w postaci licz całkowitych oraz ułamków dziesiętnych.")
      */
     private $udarnosc;
 
@@ -46,6 +49,7 @@ class CechyTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="proba_mandrela", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="W tym polu można wprowadzać wartości w postaci licz całkowitych oraz ułamków dziesiętnych.")
      */
     private $probaMandrela;
 

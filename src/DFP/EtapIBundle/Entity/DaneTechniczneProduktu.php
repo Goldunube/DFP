@@ -3,6 +3,8 @@
 namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
  * DaneTechniczneProduktu
@@ -25,6 +27,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="gestosc_min", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $gestoscMIN;
 
@@ -32,6 +35,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="gestosc_max", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $gestoscMAX;
 
@@ -39,6 +43,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="gestosc_mieszaniny_min", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $gestoscMieszaninyMIN;
 
@@ -46,6 +51,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="gestosc_mieszaniny_max", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $gestoscMieszaninyMAX;
 
@@ -53,6 +59,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="stopien_rozdrobnienia_ziarna_min", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $stopienRozdrobnieniaZiarnaMIN;
 
@@ -60,6 +67,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="stopien_rozdrobnienia_ziarna_max", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $stopienRozdrobnieniaZiarnaMAX;
 
@@ -67,6 +75,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="lepkosc_fabryczna_stomer_min", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $lepkoscFabrycznaStomerMIN;
 
@@ -74,6 +83,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="lepkosc_fabryczna_stomer_max", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $lepkoscFabrycznaStomerMAX;
 
@@ -81,6 +91,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="lepkosc_fabryczna_ford_min", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $lepkoscFabrycznaFordMIN;
 
@@ -88,6 +99,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="lepkosc_fabryczna_ford_max", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $lepkoscFabrycznaFordMAX;
 
@@ -109,6 +121,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="wag_cz_stalych", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $wagZawartoscCzesciStalych;
 
@@ -116,6 +129,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="wag_cz_stalych_miesz", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $wagZawartoscCzesciStalychMieszaniny;
 
@@ -123,6 +137,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="lzo", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $lzo;
 
@@ -130,6 +145,7 @@ class DaneTechniczneProduktu
      * @var string
      *
      * @ORM\Column(name="lzo_rfu", type="decimal", precision=7, scale=2, nullable=true)
+     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
      */
     private $lzoRFU;
 
@@ -570,5 +586,120 @@ class DaneTechniczneProduktu
     public function getKolor()
     {
         return $this->kolor;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isGestoscValidate(ExecutionContextInterface $context)
+    {
+        if($this->gestoscMIN > $this->gestoscMAX)
+        {
+            $context->addViolationAt(
+                'gestoscMIN',
+                'Gestość minimalna nie może być większa od maksymalnej!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'gestoscMAX',
+                'Gestość maksymalna nie może być mniejsza od minimalnej!',
+                array(),
+                null
+            );
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isGestoscMieszaninyValidate(ExecutionContextInterface $context)
+    {
+        if($this->gestoscMieszaninyMIN > $this->gestoscMieszaninyMAX)
+        {
+            $context->addViolationAt(
+                'gestoscMieszaninyMIN',
+                'Gestość minimalna nie może być większa od maksymalnej!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'gestoscMieszaninyMAX',
+                'Gestość maksymalna nie może być mniejsza od minimalnej!',
+                array(),
+                null
+            );
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isLepkoscStomerValidate(ExecutionContextInterface $context)
+    {
+        if($this->lepkoscFabrycznaStomerMIN > $this->lepkoscFabrycznaStomerMAX)
+        {
+            $context->addViolationAt(
+                'lepkoscFabrycznaStomerMIN',
+                'Lepkość minimalna nie może być większa od maksymalnej!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'lepkoscFabrycznaStomerMAX',
+                'Lepkość maksymalna nie może być mniejsza od minimalnej!',
+                array(),
+                null
+            );
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isLepkoscFordValidate(ExecutionContextInterface $context)
+    {
+        if($this->lepkoscFabrycznaFordMIN > $this->lepkoscFabrycznaFordMAX)
+        {
+            $context->addViolationAt(
+                'lepkoscFabrycznaFordMIN',
+                'Lepkość minimalna nie może być większa od maksymalnej!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'lepkoscFabrycznaFordMAX',
+                'Lepkość maksymalna nie może być mniejsza od minimalnej!',
+                array(),
+                null
+            );
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isStopienRozdrobnieniaZiarnaValidate(ExecutionContextInterface $context)
+    {
+        if($this->stopienRozdrobnieniaZiarnaMIN > $this->stopienRozdrobnieniaZiarnaMAX)
+        {
+            $context->addViolationAt(
+                'stopienRozdrobnieniaZiarnaMIN',
+                'Minimalny stopień rozdrobnienia ziarna nie może być większy od maksymalnego!',
+                array(),
+                null
+            );
+
+            $context->addViolationAt(
+                'stopienRozdrobnieniaZiarnaMAX',
+                'Maksymalny stopień rozdrobnienia ziarna nie może być mniejszy od minimalnego!',
+                array(),
+                null
+            );
+        }
     }
 }

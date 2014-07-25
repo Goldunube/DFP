@@ -29,8 +29,8 @@ class DaneTechniczneProduktuType extends AbstractType
             ->add('objZawartoscCzesciStalychMieszaniny',null,array('required'=>false))
             ->add('wagZawartoscCzesciStalych',null,array('required'=>false))
             ->add('wagZawartoscCzesciStalychMieszaniny',null,array('required'=>false))
-            ->add('lzo','integer',array('required'=>false,'label'=>'LZO (VOC)'))
-            ->add('lzoRFU','integer',array('required'=>false,'label'=>'LZO RFU (VOC RFU)'))
+            ->add('lzo',null,array('required'=>false,'label'=>'LZO (VOC)'))
+            ->add('lzoRFU',null,array('required'=>false,'label'=>'LZO RFU (VOC RFU)'))
             ->add('rodzajProduktu')
             ->add('kolor')
         ;

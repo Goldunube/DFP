@@ -19,6 +19,14 @@
 
 {% block content -%}
     <section class="container-fluid">
+        {#<div class="container-fluid alert">#}
+            {% for type,messages in app.session.flashbag.all() %}
+                {% for msg in messages %}
+                    <div class="alert alert-{{ type }}">{{ msg }}</div>
+                {% endfor %}
+            {% endfor %}
+        {#</div>#}
+
         <h1>Edytuj produkt</h1>
         {{ form_start(edit_form) }}
         {{ form_row(edit_form.nazwaHandlowa) }}
@@ -54,31 +62,34 @@
                         {{ form_widget(edit_form.cechyTechniczneProduktu.wlasciwosciMechaniczneJednostka) }}
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group {{ edit_form.cechyTechniczneProduktu.testErichsen.vars.errors|length ? 'has-error': '' }}">
                     {{ form_label(edit_form.cechyTechniczneProduktu.testErichsen) }}
                     <div class="col-lg-9">
                         <div class="input-group">
                             {{ form_widget(edit_form.cechyTechniczneProduktu.testErichsen) }}
                             <span class="input-group-addon">[mm]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.cechyTechniczneProduktu.testErichsen) }}</small>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group {{ edit_form.cechyTechniczneProduktu.udarnosc.vars.errors|length ? 'has-error': '' }}">
                     {{ form_label(edit_form.cechyTechniczneProduktu.udarnosc) }}
                     <div class="col-lg-9">
                         <div class="input-group">
                             {{ form_widget(edit_form.cechyTechniczneProduktu.udarnosc) }}
                             <span class="input-group-addon">[cm D]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.cechyTechniczneProduktu.udarnosc) }}</small>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group {{ edit_form.cechyTechniczneProduktu.probaMandrela.vars.errors|length ? 'has-error': '' }}">
                     {{ form_label(edit_form.cechyTechniczneProduktu.probaMandrela) }}
                     <div class="col-lg-9">
                         <div class="input-group">
                             {{ form_widget(edit_form.cechyTechniczneProduktu.probaMandrela) }}
                             <span class="input-group-addon">[mm &#216;]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.cechyTechniczneProduktu.probaMandrela) }}</small>
                     </div>
                 </div>
                 {{ form_row(edit_form.cechyTechniczneProduktu.plastycznosc) }}
@@ -121,83 +132,95 @@
             <div id="panel-dane-techniczne" class="panel-body collapse in">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Gęstość w 20&#176;C</label>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 {{ edit_form.daneTechniczne.gestoscMIN.vars.errors|length ? 'has-error': '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.gestoscMIN) }}
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.gestoscMIN) }}</small>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 {{ edit_form.daneTechniczne.gestoscMAX.vars.errors|length ? 'has-error': '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.gestoscMAX) }}
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.gestoscMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Gęstość mieszaniny</label>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 {{ edit_form.daneTechniczne.gestoscMieszaninyMIN.vars.errors|length ? 'has-error': '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.gestoscMieszaninyMIN) }}
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.gestoscMieszaninyMIN) }}</small>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 {{ edit_form.daneTechniczne.gestoscMieszaninyMAX.vars.errors|length ? 'has-error': '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.gestoscMieszaninyMAX) }}
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.gestoscMieszaninyMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Lepkość fabryczna (Stomer)</label>
-                    <div class="col-lg-2">
+                    <label class="col-sm-3 control-label">Lepkość fabryczna <small class="text-muted">(Stomer)</small></label>
+                    <div class="col-lg-3 {{ edit_form.daneTechniczne.lepkoscFabrycznaStomerMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaStomerMIN) }}
+                            <span class="input-group-addon">[KU]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.lepkoscFabrycznaStomerMIN) }}</small>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3 {{ edit_form.daneTechniczne.lepkoscFabrycznaStomerMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaStomerMAX) }}
+                            <span class="input-group-addon">[KU]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.lepkoscFabrycznaStomerMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Lepkość fabryczna (Ford)</label>
-                    <div class="col-lg-2">
+                    <label class="col-sm-3 control-label">Lepkość fabryczna <small class="text-muted">(Ford nr 4)</small></label>
+                    <div class="col-lg-3 {{ edit_form.daneTechniczne.lepkoscFabrycznaFordMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaFordMIN) }}
+                            <span class="input-group-addon">[sek.]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.lepkoscFabrycznaFordMIN) }}</small>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3 {{ edit_form.daneTechniczne.lepkoscFabrycznaFordMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.lepkoscFabrycznaFordMAX) }}
+                            <span class="input-group-addon">[sek.]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.lepkoscFabrycznaFordMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Stopień rozdrobnienia ziarna</label>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 {{ edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
@@ -207,8 +230,9 @@
                                 [&#181;m]
                             </span>
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN) }}</small>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 {{ edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
@@ -218,6 +242,7 @@
                                 [&#181;m]
                             </span>
                         </div>
+                        <small>{{ form_errors(edit_form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -236,11 +261,12 @@
                                 Wagowo
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.wagZawartoscCzesciStalych) }}
+                            <small>{{ form_errors(edit_form.daneTechniczne.wagZawartoscCzesciStalych) }}</small>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Zawartość części stałych (mieszaniny)</label>
+                    <label class="col-sm-3 control-label">Zawartość części stałych <small class="text-muted">(mieszaniny)</small></label>
                     <div class="col-lg-3">
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -255,6 +281,7 @@
                                 Wagowo
                             </span>
                             {{ form_widget(edit_form.daneTechniczne.wagZawartoscCzesciStalychMieszaniny) }}
+                            <small>{{ form_errors(edit_form.daneTechniczne.wagZawartoscCzesciStalychMieszaniny) }}</small>
                         </div>
                     </div>
                 </div>
@@ -281,51 +308,60 @@
                 {{ form_row(edit_form.przygotowanieDoAplikacji.dodatki) }}
                 {{ form_row(edit_form.przygotowanieDoAplikacji.strukturyzator) }}
                 {{ form_row(edit_form.przygotowanieDoAplikacji.tix) }}
-                <div class="form-group">
+                <div class="form-group {{ edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny.vars.errors|length > 0 ? 'has-error' : '' }}">
                     {{ form_label(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
                     <div class="col-lg-9">
                         <div class="input-group">
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
                             <span class="input-group-addon">[min]</span>
                         </div>
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Lepkość do aplikacji (Stomer)</label>
-                    <div class="col-lg-2">
+                    <label class="col-sm-3 control-label">Lepkość do aplikacji <small class="text-muted">(Stomer)</small></label>
+                    <div class="col-lg-3 {{ edit_form.przygotowanieDoAplikacji.lepkoscStomerMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscStomerMIN) }}
+                            <span class="input-group-addon">[KU]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.przygotowanieDoAplikacji.lepkoscStomerMIN) }}</small>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3 {{ edit_form.przygotowanieDoAplikacji.lepkoscStomerMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscStomerMAX) }}
+                            <span class="input-group-addon">[KU]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.przygotowanieDoAplikacji.lepkoscStomerMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Lepkość do aplikacji (Ford)</label>
-                    <div class="col-lg-2">
+                    <label class="col-sm-3 control-label">Lepkość do aplikacji <small class="text-muted">(Ford nr 4)</small></label>
+                    <div class="col-lg-3 {{ edit_form.przygotowanieDoAplikacji.lepkoscFordMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Min
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscFordMIN) }}
+                            <span class="input-group-addon">[sek.]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.przygotowanieDoAplikacji.lepkoscFordMIN) }}</small>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3 {{ edit_form.przygotowanieDoAplikacji.lepkoscFordMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
                         <div class="input-group">
                             <span class="input-group-addon">
                                 Max
                             </span>
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.lepkoscFordMAX) }}
+                            <span class="input-group-addon">[sek.]</span>
                         </div>
+                        <small>{{ form_errors(edit_form.przygotowanieDoAplikacji.lepkoscFordMAX) }}</small>
                     </div>
                 </div>
                 <div class="form-group">
@@ -340,6 +376,7 @@
                                 [&#181;m]
                             </span>
                         </div>
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSucho) }}
                     </div>
                     <div class="col-lg-4">
                         <div class="input-group">
@@ -351,6 +388,7 @@
                                 [&#181;m]
                             </span>
                         </div>
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokro) }}
                     </div>
                 </div>
                 <div class="form-group">
@@ -365,6 +403,7 @@
                                 [&#181;m]
                             </span>
                         </div>
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiSucho) }}
                     </div>
                     <div class="col-lg-4">
                         <div class="input-group">
@@ -376,9 +415,10 @@
                                 [&#181;m]
                             </spam>
                         </div>
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiMokro) }}
                     </div>
                 </div>
-                {{ form_row(edit_form.przygotowanieDoAplikacji) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.punktRosy) }}
             </div>
         </div>
         <hr>
@@ -524,13 +564,14 @@
             </div>
             <div id="panel-charakterystyka-produktu" class="panel-body collapse in">
                 <div class="form-group ">
-                    <label class="col-sm-3 control-label">Wydajność ( dla 10[&micro;m] )</label>
+                    <label class="col-sm-3 control-label">Wydajność <small class="text-muted">( dla 10[&micro;m] )</small></label>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">Teoretyczna</span>
                             {{ form_widget(edit_form.charakterystykaProduktu.wydajnoscTeoretyczna) }}
                             <span class="input-group-addon">[m&sup2;/L]</span>
                         </div>
+                        {{ form_errors(edit_form.charakterystykaProduktu.wydajnoscTeoretyczna) }}
                     </div>
                     <div class="col-lg-4">
                         <div class="input-group">
@@ -538,19 +579,21 @@
                             {{ form_widget(edit_form.charakterystykaProduktu.wydajnoscPraktyczna) }}
                             <span class="input-group-addon">[m&sup2;/L]</span>
                         </div>
+                        {{ form_errors(edit_form.charakterystykaProduktu.wydajnoscPraktyczna) }}
                     </div>
                     <div class="col-lg-2">
                         {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
                     </div>
                 </div>
                 <div class="form-group ">
-                    <label class="col-sm-3 control-label">Zużycie ( dla 10[&micro;m] )</label>
+                    <label class="col-sm-3 control-label">Zużycie <small class="text-muted">( dla 10[&micro;m] )</small></label>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">Teoretyczna</span>
                             {{ form_widget(edit_form.charakterystykaProduktu.zuzycieTeoretyczne) }}
                             <span class="input-group-addon">[L/m&sup2;]</span>
                         </div>
+                        {{ form_errors(edit_form.charakterystykaProduktu.zuzycieTeoretyczne) }}
                     </div>
                     <div class="col-lg-4">
                         <div class="input-group">
@@ -558,6 +601,7 @@
                             {{ form_widget(edit_form.charakterystykaProduktu.zuzyciePraktyczne) }}
                             <span class="input-group-addon">[L/m&sup2;]</span>
                         </div>
+                        {{ form_errors(edit_form.charakterystykaProduktu.zuzyciePraktyczne) }}
                     </div>
                     <div class="col-lg-2">
                         {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
