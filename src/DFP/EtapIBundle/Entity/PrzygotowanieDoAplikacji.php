@@ -82,49 +82,49 @@ class PrzygotowanieDoAplikacji
 
     /**
      * @var string
-     * @ORM\Column(name="lepkosc_stomer_min", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_stomer_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscStomerMIN;
 
     /**
      * @var string
-     * @ORM\Column(name="lepkosc_stomer_max", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_stomer_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscStomerMAX;
 
     /**
      * @var string
-     * @ORM\Column(name="lepkosc_ford_min", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_ford_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscFordMIN;
 
     /**
      * @var string
-     * @ORM\Column(name="lepkosc_form_max", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_form_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscFordMAX;
 
     /**
      * @var string
-     * @ORM\Column(name="zal_grubosc_pow_sucho", type="decimal", nullable=true)
+     * @ORM\Column(name="zal_grubosc_pow_sucho", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $zalecanaGruboscPowlokiSucho;
 
     /**
      * @var string
-     * @ORM\Column(name="zal_grubosc_pow_mokro", type="decimal", nullable=true)
+     * @ORM\Column(name="zal_grubosc_pow_mokro", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $zalecanaGruboscPowlokiMokro;
 
     /**
      * @var string
-     * @ORM\Column(name="nom_grubosc_pow_sucho", type="decimal", nullable=true)
+     * @ORM\Column(name="nom_grubosc_pow_sucho", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $nominalnaGruboscPowlokiSucho;
 
     /**
      * @var string
-     * @ORM\Column(name="nom_grubosc_pow_mokro", type="decimal", nullable=true)
+     * @ORM\Column(name="nom_grubosc_pow_mokro", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $nominalnaGruboscPowlokiMokro;
 

@@ -31,21 +31,21 @@ class CechyTechniczneProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="test_erichsen", type="decimal", nullable=true)
+     * @ORM\Column(name="test_erichsen", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $testErichsen;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="udarnosc", type="decimal", nullable=true)
+     * @ORM\Column(name="udarnosc", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $udarnosc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="proba_mandrela", type="decimal", nullable=true)
+     * @ORM\Column(name="proba_mandrela", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $probaMandrela;
 

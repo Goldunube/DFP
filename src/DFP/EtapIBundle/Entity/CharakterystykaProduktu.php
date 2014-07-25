@@ -24,28 +24,28 @@ class CharakterystykaProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="wydajnoscTeoretyczna", type="decimal",nullable=true)
+     * @ORM\Column(name="wydajnoscTeoretyczna", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $wydajnoscTeoretyczna;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zuzycieTeoretyczne", type="decimal", nullable=true)
+     * @ORM\Column(name="zuzycieTeoretyczne", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $zuzycieTeoretyczne;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="wydajnoscPraktyczna", type="decimal", nullable=true)
+     * @ORM\Column(name="wydajnoscPraktyczna", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $wydajnoscPraktyczna;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zuzyciePraktyczne", type="decimal", nullable=true)
+     * @ORM\Column(name="zuzyciePraktyczne", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $zuzyciePraktyczne;
 

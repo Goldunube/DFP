@@ -24,70 +24,70 @@ class DaneTechniczneProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="gestosc_min", type="decimal", nullable=true)
+     * @ORM\Column(name="gestosc_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $gestoscMIN;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gestosc_max", type="decimal", nullable=true)
+     * @ORM\Column(name="gestosc_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $gestoscMAX;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gestosc_mieszaniny_min", type="decimal", nullable=true)
+     * @ORM\Column(name="gestosc_mieszaniny_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $gestoscMieszaninyMIN;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gestosc_mieszaniny_max", type="decimal", nullable=true)
+     * @ORM\Column(name="gestosc_mieszaniny_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $gestoscMieszaninyMAX;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="stopien_rozdrobnienia_ziarna_min", type="decimal", nullable=true)
+     * @ORM\Column(name="stopien_rozdrobnienia_ziarna_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $stopienRozdrobnieniaZiarnaMIN;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="stopien_rozdrobnienia_ziarna_max", type="decimal", nullable=true)
+     * @ORM\Column(name="stopien_rozdrobnienia_ziarna_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $stopienRozdrobnieniaZiarnaMAX;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lepkosc_fabryczna_stomer_min", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_fabryczna_stomer_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscFabrycznaStomerMIN;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lepkosc_fabryczna_stomer_max", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_fabryczna_stomer_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscFabrycznaStomerMAX;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lepkosc_fabryczna_ford_min", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_fabryczna_ford_min", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscFabrycznaFordMIN;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lepkosc_fabryczna_ford_max", type="decimal", nullable=true)
+     * @ORM\Column(name="lepkosc_fabryczna_ford_max", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lepkoscFabrycznaFordMAX;
 
@@ -108,28 +108,28 @@ class DaneTechniczneProduktu
     /**
      * @var string
      *
-     * @ORM\Column(name="wag_cz_stalych", type="decimal", nullable=true)
+     * @ORM\Column(name="wag_cz_stalych", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $wagZawartoscCzesciStalych;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="wag_cz_stalych_miesz", type="decimal", nullable=true)
+     * @ORM\Column(name="wag_cz_stalych_miesz", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $wagZawartoscCzesciStalychMieszaniny;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lzo", type="decimal", nullable=true)
+     * @ORM\Column(name="lzo", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lzo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lzo_rfu", type="decimal", nullable=true)
+     * @ORM\Column(name="lzo_rfu", type="decimal", precision=7, scale=2, nullable=true)
      */
     private $lzoRFU;
 

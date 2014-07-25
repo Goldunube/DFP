@@ -15,22 +15,22 @@ class CharakterystykaProduktuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('wydajnoscTeoretyczna','integer',array(
+            ->add('wydajnoscTeoretyczna',null,array(
                     'label'     =>  'Wydajność teoretyczna',
                     'required'  =>  false
                 )
             )
-            ->add('zuzycieTeoretyczne','integer',array(
+            ->add('zuzycieTeoretyczne',null,array(
                     'label'     =>  'Zużycie teoretyczne',
                     'required'  =>  false
                 )
             )
-            ->add('wydajnoscPraktyczna','integer',array(
+            ->add('wydajnoscPraktyczna',null,array(
                     'label'     =>  'Wydajność praktyczna',
                     'required'  =>  false
                 )
             )
-            ->add('zuzyciePraktyczne','integer',array(
+            ->add('zuzyciePraktyczne',null,array(
                     'label'     =>  'Zużycie praktyczne',
                     'required'  =>  false
                 )
