@@ -1,0 +1,78 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% macro pole(tytul, wartosc, link = null) %}
+    <div class="form-group">
+        <label class="col-md-3 control-label">{{ tytul }}:</label>
+        {% if link and wartosc %}
+            <div class="col-md-9"> <p class="form-control-static"><a href="{{ link }}">{{ wartosc|raw|default("-") }}</a></p> </div>
+        {% else %}
+            <div class="col-md-9"> <p class="form-control-static">{{ wartosc|raw|default("-") }}</p> </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% import _self as wiersz %}
+
+{% block content %}
+    {#{{ dump(uzytkownik) }}#}
+    <div class="container-fluid profil">
+        <div class="row">
+            <div class="col-md-12 form-horizontal">
+                <h2>Profil użytkownika {{ uzytkownik.locked ? '<span class="label label-warning">Nieaktywny</span>' : '<span class="label label-success">Aktywny</span>' }}</h2>
+                {{ wiersz.pole("Imię",uzytkownik.imie) }}
+                {{ wiersz.pole("Nazwisko",uzytkownik.nazwisko) }}
+                {{ wiersz.pole("Stanowisko",uzytkownik.profilUzytkownika.stanowisko) }}
+            </div>
+        </div>
+        <div class="well well-sm"><strong>Kontakt</strong></div>
+        <div class="row">
+            <div class="col-md-12 form-horizontal">
+                {{ wiersz.pole("E-mail", uzytkownik.email, "mailto:"~uzytkownik.email) }}
+                {{ wiersz.pole("Korporacja", uzytkownik.profilUzytkownika.korporacja, "tel:"~uzytkownik.profilUzytkownika.korporacja) }}
+                {{ wiersz.pole("Tel. komórkowy", uzytkownik.profilUzytkownika.komorka, "tel:"~uzytkownik.profilUzytkownika.komorka) }}
+                {{ wiersz.pole("Tel. stacjonarny", uzytkownik.profilUzytkownika.telefonStacjonarny, "tel:"~uzytkownik.profilUzytkownika.telefonStacjonarny) }}
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Skype:</label>
+                    {% if uzytkownik.profilUzytkownika.skype %}
+                        <div class="col-md-9"> <p class="form-control-static"><a href="skype:{{ uzytkownik.profilUzytkownika.skype }}"><img src="http://mystatus.skype.com/smallclassic/{{ uzytkownik.profilUzytkownika.skype }}" }></a></p> </div>
+                    {% else %}
+                        <div class="col-md-9"> <p class="form-control-static">-</p> </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="well well-sm"><strong>Informacje osobiste</strong></div>
+        <div class="row">
+            <div class="col-md-12 form-horizontal">
+                {{ wiersz.pole("Płeć", uzytkownik.profilUzytkownika.plec) }}
+                {{ wiersz.pole("Kod pocztowy", uzytkownik.profilUzytkownika.kodPocztowy) }}
+                {{ wiersz.pole("Miejscowosc", uzytkownik.profilUzytkownika.miejscowosc) }}
+                {{ wiersz.pole("Ulica", uzytkownik.profilUzytkownika.ulica) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bottom-navigation">
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ back_link }}" class="btn btn-warning">Powrót</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

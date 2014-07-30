@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -64,6 +65,14 @@ class Uzytkownik extends BaseUser
      */
     protected $notatkiOsobiste;
 
+    /**
+     * @Gedmo\Slug(
+     *      fields={"imie","nazwisko"},
+     *      style="camel"
+     * )
+     * @ORM\Column(length=128, unique=false)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -256,5 +265,13 @@ class Uzytkownik extends BaseUser
     public function getNotatkiOsobiste()
     {
         return $this->notatkiOsobiste;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

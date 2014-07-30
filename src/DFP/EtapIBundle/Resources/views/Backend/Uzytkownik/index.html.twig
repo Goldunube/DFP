@@ -15,19 +15,30 @@
                 <th>{{ knp_pagination_sortable(entities,'e-mail','u.email') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'Ostatnie logowanie','u.lastLogin') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'Aktywny','u.enabled') }}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td class="lp"><a href="#">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
+                    <td class="lp"><a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
                     <td>{{ entity.Imie }}</td>
                     <td>{{ entity.Nazwisko }}</td>
                     <td>{{ entity.username }}</td>
                     <td>{{ entity.profilUzytkownika.stanowisko }}</td>
-                    <td>{{ entity.email }}</td>
+                    <td><a href="mailto:{{ entity.email }}">{{ entity.email }}</a></td>
                     <td>{{ entity.lastLogin is empty ? "-" : entity.lastLogin|date('Y-m-d H:i:s') }}</td>
-                    <td>{{  entity.enabled == 1 ? "Tak" : "Nie" }}</td>
+                    <td>{{ entity.locked != 1 ? "Tak" : "Nie" }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}" class="art-button maly zielony">pokaż</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('backend_uzytkownik_edit', { 'slug' : entity.slug } ) }}" class="art-button maly pomaranczowy">edytuj</a>
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

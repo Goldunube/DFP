@@ -1,0 +1,54 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <fieldset>
+            <legend>{% trans %}Nowy użytkownik{% endtrans %}</legend>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.imie) }}
+                    {{ form_row(form.nazwisko) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.plainPassword) }}
+                    <fieldset>
+                        <legend>Informacje dodatkowe</legend>
+                        {{ form_row(form.profilUzytkownika.stanowisko) }}
+                        {{ form_row(form.profilUzytkownika.korporacja, { 'attr' : { 'data-mask' : '999?9' } }) }}
+                        {{ form_row(form.profilUzytkownika.komorka, { 'attr' : { 'data-mask' : '999-999-999' } } ) }}
+                        {{ form_row(form.profilUzytkownika.telefonStacjonarny, { 'attr' : { 'data-mask' : '99 999-99-99' } }) }}
+                        {{ form_row(form.profilUzytkownika.skype) }}
+                    </fieldset>
+                    <fieldset>
+                        <legend>Informacje osobiste</legend>
+                        {{ form_row(form.profilUzytkownika.plec) }}
+                        {{ form_row(form.profilUzytkownika.kodPocztowy, { 'attr' : { 'data-mask' : '99-999' } }) }}
+                        {{ form_row(form.profilUzytkownika.miejscowosc) }}
+                        {{ form_row(form.profilUzytkownika.ulica) }}
+                        {{ form_row(form.profilUzytkownika.zainteresowania) }}
+                    </fieldset>
+                    <a href="{{ back_link }}" class="btn btn-warning">{% trans %}Powrót{% endtrans %}</a>
+                    {{ form_widget(form.submit, { 'attr': {'class':'btn-success'} } ) }}
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+    {{ form_end(form) }}
+{% endblock content %}

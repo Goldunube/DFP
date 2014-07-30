@@ -63,6 +63,35 @@ class ProfilUzytkownika
      */
     private $ulica;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="korporacja", type="string", length=4, nullable=true)
+     */
+    private $korporacja;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefonStacjonarny", type="string", length=9, nullable=true)
+     */
+    private $telefonStacjonarny;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="komorka", type="string", length=9, nullable=true)
+     */
+    private $komorka;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="skype", type="string", length=255, nullable=true)
+     */
+    private $skype;
+
 
     /**
      * Get id
@@ -210,5 +239,72 @@ class ProfilUzytkownika
     public function getUlica()
     {
         return $this->ulica;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKorporacja()
+    {
+        return $this->korporacja;
+    }
+
+    /**
+     * @param string $korporacja
+     */
+    public function setKorporacja($korporacja)
+    {
+        $korporacja = str_replace(array(' ','-','_'),'',$korporacja);
+        $this->korporacja = $korporacja;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTelefonStacjonarny()
+    {
+        return $this->telefonStacjonarny;
+    }
+
+    /**
+     * @param string $telefonStacjonarny
+     */
+    public function setTelefonStacjonarny($telefonStacjonarny)
+    {
+        $telefonStacjonarny = str_replace(array(' ', '-'),'',$telefonStacjonarny);
+        $this->telefonStacjonarny = $telefonStacjonarny;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKomorka()
+    {
+        return $this->komorka;
+    }
+
+    /**
+     * @param string $komorka
+     */
+    public function setKomorka($komorka)
+    {
+        $komorka = str_replace('-','',$komorka);
+        $this->komorka = $komorka;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSkype()
+    {
+        return $this->skype;
+    }
+
+    /**
+     * @param string $skype
+     */
+    public function setSkype($skype)
+    {
+        $this->skype = $skype;
     }
 }
