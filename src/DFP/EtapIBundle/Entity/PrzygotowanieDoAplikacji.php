@@ -113,33 +113,33 @@ class PrzygotowanieDoAplikacji
 
     /**
      * @var string
-     * @ORM\Column(name="zal_grubosc_pow_sucho", type="decimal", precision=7, scale=2, nullable=true)
+     * @ORM\Column(name="zal_grubosc_pow_sucho_min", type="decimal", precision=7, scale=2, nullable=true)
      */
-    private $zalecanaGruboscPowlokiSucho;
+    private $zalecanaGruboscPowlokiSuchoMin;
 
     /**
      * @var string
-     * @ORM\Column(name="zal_grubosc_pow_mokro", type="decimal", precision=7, scale=2, nullable=true)
+     * @ORM\Column(name="zal_grubosc_pow_sucho_max", type="decimal", precision=7, scale=2, nullable=true)
      */
-    private $zalecanaGruboscPowlokiMokro;
+    private $zalecanaGruboscPowlokiSuchoMax;
 
     /**
      * @var string
-     * @ORM\Column(name="nom_grubosc_pow_sucho", type="decimal", precision=7, scale=2, nullable=true)
+     * @ORM\Column(name="zal_grubosc_pow_mokro_min", type="decimal", precision=7, scale=2, nullable=true)
      */
-    private $nominalnaGruboscPowlokiSucho;
+    private $zalecanaGruboscPowlokiMokroMin;
 
     /**
      * @var string
-     * @ORM\Column(name="nom_grubosc_pow_mokro", type="decimal", precision=7, scale=2, nullable=true)
+     * @ORM\Column(name="nom_grubosc_pow_mokro_max", type="decimal", precision=7, scale=2, nullable=true)
      */
-    private $nominalnaGruboscPowlokiMokro;
+    private $zalecanaGruboscPowlokiMokroMax;
 
     /**
-     * @var string
-     * @ORM\Column(name="punkt_rosy", type="string", nullable=true)
+     * @var boolean
+     * @ORM\Column(name="punkt_rosy", type="boolean", nullable=false)
      */
-    private $punktRosy;
+    private $punktRosy = false;
 
 
     /**
@@ -414,95 +414,95 @@ class PrzygotowanieDoAplikacji
     }
 
     /**
-     * Set zalecanaGruboscPowlokiSucho
+     * Set zalecanaGruboscPowlokiSuchoMin
      *
-     * @param string $zalecanaGruboscPowlokiSucho
+     * @param string $zalecanaGruboscPowlokiSuchoMin
      * @return PrzygotowanieDoAplikacji
      */
-    public function setZalecanaGruboscPowlokiSucho($zalecanaGruboscPowlokiSucho)
+    public function setZalecanaGruboscPowlokiSuchoMin($zalecanaGruboscPowlokiSuchoMin)
     {
-        $this->zalecanaGruboscPowlokiSucho = $zalecanaGruboscPowlokiSucho;
+        $this->zalecanaGruboscPowlokiSuchoMin = $zalecanaGruboscPowlokiSuchoMin;
 
         return $this;
     }
 
     /**
-     * Get zalecanaGruboscPowlokiSucho
+     * Get zalecanaGruboscPowlokiSuchoMin
      *
      * @return string 
      */
-    public function getZalecanaGruboscPowlokiSucho()
+    public function getZalecanaGruboscPowlokiSuchoMin()
     {
-        return $this->zalecanaGruboscPowlokiSucho;
+        return $this->zalecanaGruboscPowlokiSuchoMin;
     }
 
     /**
-     * Set zalecanaGruboscPowlokiMokro
+     * Set zalecanaGruboscPowlokiSuchoMax
      *
-     * @param string $zalecanaGruboscPowlokiMokro
+     * @param string $zalecanaGruboscPowlokiSuchoMax
      * @return PrzygotowanieDoAplikacji
      */
-    public function setZalecanaGruboscPowlokiMokro($zalecanaGruboscPowlokiMokro)
+    public function setZalecanaGruboscPowlokiSuchoMax($zalecanaGruboscPowlokiSuchoMax)
     {
-        $this->zalecanaGruboscPowlokiMokro = $zalecanaGruboscPowlokiMokro;
+        $this->zalecanaGruboscPowlokiSuchoMax = $zalecanaGruboscPowlokiSuchoMax;
 
         return $this;
     }
 
     /**
-     * Get zalecanaGruboscPowlokiMokro
+     * Get zalecanaGruboscPowlokiSuchoMax
      *
-     * @return string 
+     * @return string
      */
-    public function getZalecanaGruboscPowlokiMokro()
+    public function getZalecanaGruboscPowlokiSuchoMax()
     {
-        return $this->zalecanaGruboscPowlokiMokro;
+        return $this->zalecanaGruboscPowlokiSuchoMax;
     }
 
     /**
-     * Set nominalnaGruboscPowlokiSucho
+     * Set zalecanaGruboscPowlokiMokroMin
      *
-     * @param string $nominalnaGruboscPowlokiSucho
+     * @param string $zalecanaGruboscPowlokiMokroMin
      * @return PrzygotowanieDoAplikacji
      */
-    public function setNominalnaGruboscPowlokiSucho($nominalnaGruboscPowlokiSucho)
+    public function setZalecanaGruboscPowlokiMokroMin($zalecanaGruboscPowlokiMokroMin)
     {
-        $this->nominalnaGruboscPowlokiSucho = $nominalnaGruboscPowlokiSucho;
+        $this->zalecanaGruboscPowlokiMokroMin = $zalecanaGruboscPowlokiMokroMin;
 
         return $this;
     }
 
     /**
-     * Get nominalnaGruboscPowlokiSucho
+     * Get zalecanaGruboscPowlokiMokroMin
      *
      * @return string 
      */
-    public function getNominalnaGruboscPowlokiSucho()
+    public function getZalecanaGruboscPowlokiMokroMin()
     {
-        return $this->nominalnaGruboscPowlokiSucho;
+        return $this->zalecanaGruboscPowlokiMokroMin;
     }
 
     /**
-     * Set nominalnaGruboscPowlokiMokro
+     * Set zalecanaGruboscPowlokiMokroMax
      *
-     * @param string $nominalnaGruboscPowlokiMokro
+     * @param string $zalecanaGruboscPowlokiMokroMax
      * @return PrzygotowanieDoAplikacji
      */
-    public function setNominalnaGruboscPowlokiMokro($nominalnaGruboscPowlokiMokro)
+    public function setZalecanaGruboscPowlokiMokroMax($zalecanaGruboscPowlokiMokroMax)
     {
-        $this->nominalnaGruboscPowlokiMokro = $nominalnaGruboscPowlokiMokro;
+        $this->zalecanaGruboscPowlokiMokroMax = $zalecanaGruboscPowlokiMokroMax;
 
         return $this;
     }
 
     /**
-     * Get nominalnaGruboscPowlokiMokro
+     * Get zalecanaGruboscPowlokiMokroMax
      *
-     * @return string 
+     * @return string
      */
-    public function getNominalnaGruboscPowlokiMokro()
+    public function getZalecanaGruboscPowlokiMokroMax()
     {
-        return $this->nominalnaGruboscPowlokiMokro;
+        return $this->zalecanaGruboscPowlokiMokroMax;
     }
 
     /**

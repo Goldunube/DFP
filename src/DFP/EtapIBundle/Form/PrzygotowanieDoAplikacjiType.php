@@ -30,16 +30,22 @@ class PrzygotowanieDoAplikacjiType extends AbstractType
             ->add('dodatki',null,array('label'=>'Inne dodatki'))
             ->add('strukturyzator')
             ->add('tix',null,array('label'=>'TIX'))
-            ->add('zywotnoscMieszaniny',null,array('label'=>'Czas życia mieszaniny'))
+            ->add('zywotnoscMieszaniny',null,array('label'=>'Maksymalny czas życia mieszaniny'))
             ->add('lepkoscStomerMIN',null,array('required'=>false))
             ->add('lepkoscStomerMAX',null,array('required'=>false))
             ->add('lepkoscFordMIN',null,array('required'=>false))
             ->add('lepkoscFordMAX',null,array('required'=>false))
-            ->add('zalecanaGruboscPowlokiSucho',null,array('required'=>false))
-            ->add('zalecanaGruboscPowlokiMokro',null,array('required'=>false))
-            ->add('nominalnaGruboscPowlokiSucho',null,array('required'=>false))
-            ->add('nominalnaGruboscPowlokiMokro',null,array('required'=>false))
-            ->add('punktRosy')
+            ->add('zalecanaGruboscPowlokiSuchoMin',null,array('required'=>false))
+            ->add('zalecanaGruboscPowlokiSuchoMax',null,array('required'=>false))
+            ->add('zalecanaGruboscPowlokiMokroMin',null,array('required'=>false))
+            ->add('zalecanaGruboscPowlokiMokroMax',null,array('required'=>false))
+            ->add('punktRosy','choice',array(
+                    'choices'   =>  array(
+                        0   =>  'Nie',
+                        1   =>  'Tak'
+                    ),
+                )
+            )
         ;
     }
     

@@ -53,7 +53,10 @@ class ProduktType extends AbstractType
             ->add('certyfikaty')
             ->add('badania')
             ->add('opisPodstawowy')
-            ->add('opisPelny')
+            ->add('opisPelny',null,array(
+                    'label' =>  'Opis pełny'
+                )
+            )
             ->add('uwagi',null,array(
                     'label' =>  'Uwagi ogólne'
                 )

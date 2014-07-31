@@ -15,32 +15,16 @@ class CharakterystykaProduktuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('wydajnoscTeoretyczna',null,array(
-                    'label'     =>  'Wydajność teoretyczna',
-                    'required'  =>  false
-                )
-            )
-            ->add('zuzycieTeoretyczne',null,array(
-                    'label'     =>  'Zużycie teoretyczne',
-                    'required'  =>  false
-                )
-            )
-            ->add('wydajnoscPraktyczna',null,array(
-                    'label'     =>  'Wydajność praktyczna',
-                    'required'  =>  false
-                )
-            )
-            ->add('zuzyciePraktyczne',null,array(
-                    'label'     =>  'Zużycie praktyczne',
-                    'required'  =>  false
-                )
-            )
             ->add('polyskPodKatem',null,array(
                     'label' => 'Połysk pod kątem'
                 )
             )
-            ->add('czasDoPrzelakierowania',null,array(
-                    'label' =>  'Czas do przelakierowania'
+            ->add('czasDoPrzelakierowaniaMin',null,array(
+                    'label' =>  'Minimalny czas do przelakierowania'
+                )
+            )
+            ->add('czasDoPrzelakierowaniaMax',null,array(
+                    'label' =>  'Maksymalny czas do przelakierowania'
                 )
             )
             ->add('uwagi')

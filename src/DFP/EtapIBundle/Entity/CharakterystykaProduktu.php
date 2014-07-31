@@ -23,50 +23,25 @@ class CharakterystykaProduktu
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="wydajnoscTeoretyczna", type="decimal", precision=7, scale=2, nullable=true)
-     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
-     */
-    private $wydajnoscTeoretyczna;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="zuzycieTeoretyczne", type="decimal", precision=7, scale=2, nullable=true)
-     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
-     */
-    private $zuzycieTeoretyczne;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="wydajnoscPraktyczna", type="decimal", precision=7, scale=2, nullable=true)
-     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
-     */
-    private $wydajnoscPraktyczna;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="zuzyciePraktyczne", type="decimal", precision=7, scale=2, nullable=true)
-     * @Assert\Type(type="numeric", message="Wprowadź liczbę całkowitą lub dziesiętną.")
-     */
-    private $zuzyciePraktyczne;
-
-    /**
      * @var integer
      *
-     * @ORM\Column(name="polyskPodKatem", type="integer", nullable=true)
+     * @ORM\Column(name="polysk_pod_katem", type="integer", nullable=true)
      */
     private $polyskPodKatem;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="czasDoPrzelakierowania", type="integer", nullable=true)
+     * @ORM\Column(name="czas_do_przelakierowania_min", type="integer", nullable=true)
      */
-    private $czasDoPrzelakierowania;
+    private $czasDoPrzelakierowaniaMin;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="czas_do_przelakierowania_max", type="integer", nullable=true)
+     */
+    private $czasDoPrzelakierowaniaMax;
 
     /**
      * @var string
@@ -84,98 +59,6 @@ class CharakterystykaProduktu
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set wydajnoscTeoretyczna
-     *
-     * @param string $wydajnoscTeoretyczna
-     * @return CharakterystykaProduktu
-     */
-    public function setWydajnoscTeoretyczna($wydajnoscTeoretyczna)
-    {
-        $this->wydajnoscTeoretyczna = $wydajnoscTeoretyczna;
-
-        return $this;
-    }
-
-    /**
-     * Get wydajnoscTeoretyczna
-     *
-     * @return string 
-     */
-    public function getWydajnoscTeoretyczna()
-    {
-        return $this->wydajnoscTeoretyczna;
-    }
-
-    /**
-     * Set zuzycieTeoretyczne
-     *
-     * @param string $zuzycieTeoretyczne
-     * @return CharakterystykaProduktu
-     */
-    public function setZuzycieTeoretyczne($zuzycieTeoretyczne)
-    {
-        $this->zuzycieTeoretyczne = $zuzycieTeoretyczne;
-
-        return $this;
-    }
-
-    /**
-     * Get zuzycieTeoretyczne
-     *
-     * @return string 
-     */
-    public function getZuzycieTeoretyczne()
-    {
-        return $this->zuzycieTeoretyczne;
-    }
-
-    /**
-     * Set wydajnoscPraktyczna
-     *
-     * @param string $wydajnoscPraktyczna
-     * @return CharakterystykaProduktu
-     */
-    public function setWydajnoscPraktyczna($wydajnoscPraktyczna)
-    {
-        $this->wydajnoscPraktyczna = $wydajnoscPraktyczna;
-
-        return $this;
-    }
-
-    /**
-     * Get wydajnoscPraktyczna
-     *
-     * @return string 
-     */
-    public function getWydajnoscPraktyczna()
-    {
-        return $this->wydajnoscPraktyczna;
-    }
-
-    /**
-     * Set zuzyciePraktyczne
-     *
-     * @param string $zuzyciePraktyczne
-     * @return CharakterystykaProduktu
-     */
-    public function setZuzyciePraktyczne($zuzyciePraktyczne)
-    {
-        $this->zuzyciePraktyczne = $zuzyciePraktyczne;
-
-        return $this;
-    }
-
-    /**
-     * Get zuzyciePraktyczne
-     *
-     * @return string 
-     */
-    public function getZuzyciePraktyczne()
-    {
-        return $this->zuzyciePraktyczne;
     }
 
     /**
@@ -202,26 +85,49 @@ class CharakterystykaProduktu
     }
 
     /**
-     * Set czasDoPrzelakierowania
+     * Set czasDoPrzelakierowaniaMin
      *
-     * @param integer $czasDoPrzelakierowania
+     * @param integer $czasDoPrzelakierowaniaMin
      * @return CharakterystykaProduktu
      */
-    public function setCzasDoPrzelakierowania($czasDoPrzelakierowania)
+    public function setCzasDoPrzelakierowaniaMin($czasDoPrzelakierowaniaMin)
     {
-        $this->czasDoPrzelakierowania = $czasDoPrzelakierowania;
+        $this->czasDoPrzelakierowaniaMin = $czasDoPrzelakierowaniaMin;
 
         return $this;
     }
 
     /**
-     * Get czasDoPrzelakierowania
+     * Get czasDoPrzelakierowaniaMin
      *
-     * @return integer 
+     * @return integer
      */
-    public function getCzasDoPrzelakierowania()
+    public function getCzasDoPrzelakierowaniaMin()
     {
-        return $this->czasDoPrzelakierowania;
+        return $this->czasDoPrzelakierowaniaMin;
+    }
+
+    /**
+     * Set czasDoPrzelakierowaniaMax
+     *
+     * @param integer $czasDoPrzelakierowaniaMax
+     * @return CharakterystykaProduktu
+     */
+    public function setCzasDoPrzelakierowaniaMax($czasDoPrzelakierowaniaMax)
+    {
+        $this->czasDoPrzelakierowaniaMax = $czasDoPrzelakierowaniaMax;
+
+        return $this;
+    }
+
+    /**
+     * Get czasDoPrzelakierowaniaMax
+     *
+     * @return integer
+     */
+    public function getCzasDoPrzelakierowaniaMax()
+    {
+        return $this->czasDoPrzelakierowaniaMax;
     }
 
     /**

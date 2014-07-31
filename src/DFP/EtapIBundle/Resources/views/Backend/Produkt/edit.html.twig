@@ -313,7 +313,7 @@
                     <div class="col-lg-9">
                         <div class="input-group">
                             {{ form_widget(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
-                            <span class="input-group-addon">[min]</span>
+                            <span class="input-group-addon">[h]</span>
                         </div>
                         {{ form_errors(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
                     </div>
@@ -365,57 +365,57 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Zalecana grubość</label>
+                    <label class="col-sm-3 control-label">Zalecana grubość <small class="text-muted">(sucho)</small></label>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                Sucho
+                                Od
                             </span>
-                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSucho) }}
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMin) }}
                             <span class="input-group-addon">
                                 [&#181;m]
                             </span>
                         </div>
-                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSucho) }}
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMin) }}
                     </div>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                Mokro
+                                Do
                             </span>
-                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokro) }}
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMax) }}
                             <span class="input-group-addon">
                                 [&#181;m]
                             </span>
                         </div>
-                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokro) }}
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMax) }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Nominalna grubość</label>
+                    <label class="col-sm-3 control-label">Zalecana grubość <small class="text-muted">(mokro)</small></label>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                Sucho
+                                Od
                             </span>
-                            {{ form_widget(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiSucho) }}
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMin) }}
                             <span class="input-group-addon">
                                 [&#181;m]
                             </span>
                         </div>
-                        {{ form_errors(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiSucho) }}
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMin) }}
                     </div>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                Mokro
+                                Do
                             </span>
-                            {{ form_widget(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiMokro) }}
-                            <spam class="input-group-addon">
+                            {{ form_widget(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMax) }}
+                            <span class="input-group-addon">
                                 [&#181;m]
-                            </spam>
+                            </span>
                         </div>
-                        {{ form_errors(edit_form.przygotowanieDoAplikacji.nominalnaGruboscPowlokiMokro) }}
+                        {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMax) }}
                     </div>
                 </div>
                 {{ form_row(edit_form.przygotowanieDoAplikacji.punktRosy) }}
@@ -564,65 +564,39 @@
             </div>
             <div id="panel-charakterystyka-produktu" class="panel-body collapse in">
                 <div class="form-group ">
-                    <label class="col-sm-3 control-label">Wydajność <small class="text-muted">( dla 10[&micro;m] )</small></label>
-                    <div class="col-lg-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">Teoretyczna</span>
-                            {{ form_widget(edit_form.charakterystykaProduktu.wydajnoscTeoretyczna) }}
-                            <span class="input-group-addon">[m&sup2;/L]</span>
-                        </div>
-                        {{ form_errors(edit_form.charakterystykaProduktu.wydajnoscTeoretyczna) }}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">Praktyczna</span>
-                            {{ form_widget(edit_form.charakterystykaProduktu.wydajnoscPraktyczna) }}
-                            <span class="input-group-addon">[m&sup2;/L]</span>
-                        </div>
-                        {{ form_errors(edit_form.charakterystykaProduktu.wydajnoscPraktyczna) }}
-                    </div>
-                    <div class="col-lg-2">
-                        {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
-                    </div>
-                </div>
-                <div class="form-group ">
-                    <label class="col-sm-3 control-label">Zużycie <small class="text-muted">( dla 10[&micro;m] )</small></label>
-                    <div class="col-lg-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">Teoretyczna</span>
-                            {{ form_widget(edit_form.charakterystykaProduktu.zuzycieTeoretyczne) }}
-                            <span class="input-group-addon">[L/m&sup2;]</span>
-                        </div>
-                        {{ form_errors(edit_form.charakterystykaProduktu.zuzycieTeoretyczne) }}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="input-group">
-                            <span class="input-group-addon">Praktyczna</span>
-                            {{ form_widget(edit_form.charakterystykaProduktu.zuzyciePraktyczne) }}
-                            <span class="input-group-addon">[L/m&sup2;]</span>
-                        </div>
-                        {{ form_errors(edit_form.charakterystykaProduktu.zuzyciePraktyczne) }}
-                    </div>
-                    <div class="col-lg-2">
-                        {{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
-                    </div>
-                </div>
-                <div class="form-group ">
                     {{ form_label(edit_form.charakterystykaProduktu.polyskPodKatem) }}
                     <div class="col-lg-4">
                         <div class="input-group">
                             {{ form_widget(edit_form.charakterystykaProduktu.polyskPodKatem) }}
-                            <span class="input-group-addon">&deg;C</span>
+                            <span class="input-group-addon">&deg;</span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group ">
-                    {{ form_label(edit_form.charakterystykaProduktu.czasDoPrzelakierowania) }}
+                    <label class="col-sm-3 control-label">Czas do przelakierowania</label>
                     <div class="col-lg-4">
                         <div class="input-group">
-                            {{ form_widget(edit_form.charakterystykaProduktu.czasDoPrzelakierowania) }}
-                            <span class="input-group-addon">min.</span>
+                            <span class="input-group-addon">
+                                Od
+                            </span>
+                            {{ form_widget(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMin) }}
+                            <span class="input-group-addon">
+                                [h]
+                            </span>
                         </div>
+                        {{ form_errors(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMin) }}
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                Do
+                            </span>
+                            {{ form_widget(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMax) }}
+                            <span class="input-group-addon">
+                                [h]
+                            </span>
+                        </div>
+                        {{ form_errors(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMax) }}
                     </div>
                 </div>
                 {{ form_row(edit_form.charakterystykaProduktu.uwagi) }}
