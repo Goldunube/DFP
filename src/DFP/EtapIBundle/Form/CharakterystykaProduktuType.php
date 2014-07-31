@@ -15,7 +15,11 @@ class CharakterystykaProduktuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('polyskPodKatem',null,array(
+            ->add('polyskPodKatemMin',null,array(
+                    'label' => 'Połysk pod kątem'
+                )
+            )
+            ->add('polyskPodKatemMax',null,array(
                     'label' => 'Połysk pod kątem'
                 )
             )

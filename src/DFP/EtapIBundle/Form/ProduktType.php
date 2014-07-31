@@ -41,6 +41,10 @@ class ProduktType extends AbstractType
                 )
             )
             ->add('czasMagazynowania')
+            ->add('magazynowanieOpis',null,array(
+                    'label'     =>  'Sposób magazynowania'
+                )
+            )
             ->add('czasMagazynowaniaJednostka','choice',array(
                     'choices'               =>  array(
                         0 => 'miesiące', 1 => 'lata'

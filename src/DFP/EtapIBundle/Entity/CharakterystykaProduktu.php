@@ -25,9 +25,16 @@ class CharakterystykaProduktu
     /**
      * @var integer
      *
-     * @ORM\Column(name="polysk_pod_katem", type="integer", nullable=true)
+     * @ORM\Column(name="polysk_pod_katem_min", type="integer", nullable=true)
      */
-    private $polyskPodKatem;
+    private $polyskPodKatemMin;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="polysk_pod_katem_max", type="integer", nullable=true)
+     */
+    private $polyskPodKatemMax;
 
     /**
      * @var integer
@@ -62,26 +69,49 @@ class CharakterystykaProduktu
     }
 
     /**
-     * Set polyskPodKatem
+     * Set polyskPodKatemMin
      *
-     * @param integer $polyskPodKatem
+     * @param integer $polyskPodKatemMin
      * @return CharakterystykaProduktu
      */
-    public function setPolyskPodKatem($polyskPodKatem)
+    public function setPolyskPodKatemMin($polyskPodKatemMin)
     {
-        $this->polyskPodKatem = $polyskPodKatem;
+        $this->polyskPodKatemMin = $polyskPodKatemMin;
 
         return $this;
     }
 
     /**
-     * Get polyskPodKatem
+     * Get polyskPodKatemMin
      *
      * @return integer 
      */
-    public function getPolyskPodKatem()
+    public function getPolyskPodKatemMin()
     {
-        return $this->polyskPodKatem;
+        return $this->polyskPodKatemMin;
+    }
+
+    /**
+     * Set polyskPodKatemMax
+     *
+     * @param integer $polyskPodKatemMax
+     * @return CharakterystykaProduktu
+     */
+    public function setPolyskPodKatemMax($polyskPodKatemMax)
+    {
+        $this->polyskPodKatemMax = $polyskPodKatemMax;
+
+        return $this;
+    }
+
+    /**
+     * Get polyskPodKatemMax
+     *
+     * @return integer
+     */
+    public function getPolyskPodKatemMax()
+    {
+        return $this->polyskPodKatemMax;
     }
 
     /**

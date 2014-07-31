@@ -171,6 +171,14 @@ class Produkt
     private $czasMagazynowania;
 
     /**
+     * Opis sposobu magazynowania produktu
+     *
+     * @var string
+     * @ORM\Column(name="magazynowanie_opis", type="text", nullable=true)
+     */
+    private $magazynowanieOpis;
+
+    /**
      * @var array
      * @ORM\Column(name="certyfikaty", type="array", nullable=true)
      */
@@ -856,5 +864,21 @@ class Produkt
     public function setNumerEdycjiBESA($numerEdycjiBESA)
     {
         $this->numerEdycjiBESA = $numerEdycjiBESA;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMagazynowanieOpis()
+    {
+        return $this->magazynowanieOpis;
+    }
+
+    /**
+     * @param string $magazynowanieOpis
+     */
+    public function setMagazynowanieOpis($magazynowanieOpis)
+    {
+        $this->magazynowanieOpis = $magazynowanieOpis;
     }
 }
