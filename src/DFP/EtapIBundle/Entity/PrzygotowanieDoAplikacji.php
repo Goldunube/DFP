@@ -25,12 +25,12 @@ class PrzygotowanieDoAplikacji
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProduktUtwardzacz", mappedBy="produkt")
+     * @ORM\OneToMany(targetEntity="ProduktUtwardzacz", mappedBy="produkt", cascade={"persist"}, orphanRemoval=true)
      */
     private $produktyUtwardzacze;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProduktRozcienczalnik", mappedBy="przygotowanie")
+     * @ORM\OneToMany(targetEntity="ProduktRozcienczalnik", mappedBy="przygotowanie", cascade={"persist", "remove"})
      */
     private $produktyRozcienczalniki;
 
@@ -537,6 +537,7 @@ class PrzygotowanieDoAplikacji
     public function addProduktyUtwardzacze(ProduktUtwardzacz $produktyUtwardzacze)
     {
         $this->produktyUtwardzacze[] = $produktyUtwardzacze;
+        $produktyUtwardzacze->setProdukt($this);
 
         return $this;
     }

@@ -15,6 +15,15 @@ class PrzygotowanieDoAplikacjiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('produktyUtwardzacze','collection',array(
+                    'type'          =>  new ProduktUtwardzaczType(),
+                    'label'         =>  'Utwardzacze',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+                    'required'      =>  false,
+                )
+            )
             ->add('przyspieszacz',null,array('label'=>'Przyspieszacz'))
             ->add('antygrafiti','choice',array(
                     'required'      =>  true,

@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use DFP\EtapIBundle\Entity\ProduktUtwardzacz;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -148,6 +149,9 @@ class ProduktController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var $entity Produkt
+         */
         $entity = $em->getRepository('DFPEtapIBundle:Produkt')->find($id);
 
         if (!$entity) {

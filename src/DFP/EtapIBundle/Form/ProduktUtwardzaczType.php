@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -17,8 +18,18 @@ class ProduktUtwardzaczType extends AbstractType
         $builder
             ->add('proporcjaMieszaniaObjetosciowo')
             ->add('proporcjaMieszaniaWagowo')
-            ->add('produkt')
-            ->add('utwardzacz')
+            ->add('utwardzacz','entity',array(
+                    'class'             =>  'DFP\EtapIBundle\Entity\Produkt',
+                    'query_builder'     =>  function(EntityRepository $er)
+                    {
+                        return $er->createQueryBuilder('p')
+                            ->select('p,gp')
+                            ->leftJoin('p.grupaProduktow','gp')
+                            ->where('gp.nazwa = :nazwa')
+                            ->setParameter('nazwa','Utwardzacz');
+                    }
+                )
+            )
         ;
     }
     

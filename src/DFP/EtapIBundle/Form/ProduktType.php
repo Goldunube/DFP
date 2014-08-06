@@ -30,16 +30,20 @@ class ProduktType extends AbstractType
             ->add('przygotowanieDoAplikacji', new PrzygotowanieDoAplikacjiType())
             ->add('suszenie', new SuszenieProduktType())
             ->add('charakterystykaProduktu', new CharakterystykaProduktuType())
-            ->add('produktyUtwardzacze',null,array(
-                    'required'  =>  false,
-                    'label'     =>  'Utwardzacze'
+/*            ->add('produktyUtwardzacze','collection',array(
+                    'type'          =>  new ProduktUtwardzaczType(),
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+                    'required'      =>  false,
+                    'label'         =>  'Utwardzacze'
                 )
             )
             ->add('produktyRozcienczalniki',null,array(
                     'required'  =>  false,
                     'label'     =>  'Rozcieńczalniki'
                 )
-            )
+            )*/
             ->add('czasMagazynowania')
             ->add('magazynowanieOpis',null,array(
                     'label'     =>  'Sposób magazynowania'

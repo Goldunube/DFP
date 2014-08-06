@@ -12,6 +12,7 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dfpetapi/js/dfp_obsluga_formularzy.js') }}"></script>
 {% endblock javascript %}
 
 {% form_theme edit_form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
@@ -297,6 +298,36 @@
                 <a href="#panel-przygotowanie-do-aplikacji" data-toggle="collapse" data-parent="#panel-przygotowanie-do-aplikacji">Przygotowanie do aplikacji</a>
             </div>
             <div id="panel-przygotowanie-do-aplikacji" class="panel-body collapse in">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Stosowane utwardzacze</label>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-sm-3 text-center"><small>Nazwa utwardzacza</small></div>
+                            <div class="col-sm-3 text-center"><small>Proporcje wagowo</small></div>
+                            <div class="col-sm-3 text-center"><small>Proporcje objętościowo</small></div>
+                            <div class="col-sm-3 text-center"></div>
+                        </div>
+                        <div id="utwardzacze-collection" data-prototype="{% filter escape %}{% include '@DFPEtapI/Form/bootstrap_collection_field_1.html.twig' with { 'utwardzacz': edit_form.przygotowanieDoAplikacji.produktyUtwardzacze.vars.prototype } %}{% endfilter %}">
+                            {% if edit_form.przygotowanieDoAplikacji.produktyUtwardzacze|length > 0 %}
+                                {% for utwardzacz in edit_form.przygotowanieDoAplikacji.produktyUtwardzacze %}
+                                    <div class="row">
+                                        <div class="col-sm-3">{{ form_widget(utwardzacz.utwardzacz) }}</div>
+                                        <div class="col-sm-3">{{ form_widget(utwardzacz.proporcjaMieszaniaObjetosciowo) }}</div>
+                                        <div class="col-sm-3">{{ form_widget(utwardzacz.proporcjaMieszaniaWagowo) }}</div>
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                {% endfor %}
+{#                            {% else %}
+                                <div class="row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3 text-center"><button class="btn btn-success collection-btn-add">Dodaj</button> </div>
+                                </div>#}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
                 {{ form_row(edit_form.przygotowanieDoAplikacji.przyspieszacz) }}
                 <div class="form-group">
                     {{ form_label(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
@@ -623,8 +654,6 @@
         {{ form_row(edit_form.rodzajePowierzchni) }}
         {{ form_row(edit_form.metodyAplikacji) }}
         {{ form_row(edit_form.przygotowaniePowierzchni) }}
-        {{ form_row(edit_form.produktyUtwardzacze) }}
-        {{ form_row(edit_form.produktyRozcienczalniki) }}
         {{ form_row(edit_form.uwagi) }}
         {{ form_widget(edit_form.submit) }}
         {{ form_end(edit_form) }}
@@ -642,5 +671,6 @@
 
 {% block javascripts %}
     {{ parent() }}
+    $('#utwardzacze-collection').collectionManager();
     $('.selectpicker').selectpicker();
 {% endblock javascripts %}

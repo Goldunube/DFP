@@ -152,4 +152,67 @@
         }
 
     }
+
+    $.fn.collectionManager = function()
+    {
+        var $collectionHolder;
+
+        var $addBtn = $('<button class="btn btn-success">Dodaj</button>');
+        var $newRow = $('<div class="row"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div></div>');
+        $newRow.children().last().append($addBtn);
+
+        var $this = $(this);
+//        var $addBtn = $this.find('button.btn-success');
+//        var $newRow = $this.children()[0];
+
+        $collectionHolder = $this;
+
+        $collectionHolder.find('div.row').each(function() {
+            addFormDeleteBtn($(this));
+        });
+
+        $collectionHolder.append($newRow);
+
+        $collectionHolder.data('index', $collectionHolder.children().length);
+
+        $addBtn.on('click',function(e) {
+            e.preventDefault();
+
+            addForm($collectionHolder, $newRow);
+            $('.selectpicker').selectpicker();
+        });
+
+        function addForm($collectionHolder, $addBtn)
+        {
+            var prototype = $collectionHolder.data('prototype');
+
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype.replace(/__name__/g, index);
+
+            $collectionHolder.data('index', index + 1);
+
+            var $newForm = $collectionHolder.append(newForm);
+//            $newForm.children().children().last().append($addBtn);
+            addFormDeleteBtn($newForm.find('div.row').last());
+            $newForm.after($addBtn);
+
+
+        }
+
+        function addFormDeleteBtn($Form)
+        {
+            var $delBtn = $('<button class="btn btn-danger">Usuń</button>');
+
+            $Form.children().last().append($delBtn);
+
+            $delBtn.on('click', function(e)
+            {
+                e.preventDefault();
+
+                $Form.remove();
+            })
+        }
+    };
+
 })(jQuery);

@@ -1,4 +1,4 @@
-<?php
+<?PHP
 
 namespace DFP\EtapIBundle\Entity;
 
@@ -22,16 +22,16 @@ class ProduktUtwardzacz
     private $id;
 
     /**
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name="proporcja_mieszania_objetosciowo", type="array", nullable=true)
+     * @ORM\Column(name="proporcja_mieszania_objetosciowo", type="string", length=7, nullable=true)
      */
     private $proporcjaMieszaniaObjetosciowo;
 
     /**
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name="proporcja_mieszani_wWagowo", type="array", nullable=true)
+     * @ORM\Column(name="proporcja_mieszani_wagowo", type="string", length=7, nullable=true)
      */
     private $proporcjaMieszaniaWagowo;
 
@@ -45,6 +45,15 @@ class ProduktUtwardzacz
      */
     private $utwardzacz;
 
+
+    /**
+     * To String function
+     */
+    public function __toString()
+    {
+        $utwardzacz = $this->getUtwardzacz();
+        return (string) $utwardzacz->getNazwaHandlowa();
+    }
 
     /**
      * Get id

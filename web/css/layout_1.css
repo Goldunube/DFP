@@ -12,10 +12,10 @@ td.wyrozniony {
     background-color: #f0e68c;
     color: black;
 }
-label:not(.control-label) {
+/*label:not(.control-label) {
     font-size: 20px;
     margin-right: 10px;
-}
+}*/
 label.required:after {
     content: " *";
     color: #FF0000;
