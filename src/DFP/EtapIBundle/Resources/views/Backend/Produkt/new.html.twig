@@ -1,26 +1,687 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% form_theme form _self %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
 
-{% block button_widget %}
-    {% spaceless %}
-        {% if label is empty %}
-            {% set label = name|humanize %}
-        {% endif %}
-        <button type="{{ type|default('button') }}" {{ block('button_attributes') }} class="art-button zielony">{{ label|trans({}, translation_domain) }}</button>
-    {% endspaceless %}
-{% endblock button_widget %}
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dfpetapi/js/dfp_obsluga_formularzy.js') }}"></script>
+{% endblock javascript %}
+
+{% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
 
 {% block content -%}
+    <section class="container-fluid">
+    {#<div class="container-fluid alert">#}
+    {% for type,messages in app.session.flashbag.all() %}
+        {% for msg in messages %}
+            <div class="alert alert-{{ type }}">{{ msg }}</div>
+        {% endfor %}
+    {% endfor %}
+    {#</div>#}
+
     <h1>Dodaj nowy produkt</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.nazwaHandlowa) }}
+    {{ form_row(form.nazwaTechniczna) }}
+    {{ form_row(form.kodFabrycznyProduktu) }}
+    {{ form_row(form.numerEdycjiBESA) }}
+    {{ form_row(form.grupaProduktow) }}
+    {{ form_row(form.grupaPromowania) }}
+    <div class="form-group">
+        {{ form_label(form.czasMagazynowania) }}
+        <div class="col-lg-5">
+            {{ form_widget(form.czasMagazynowania) }}
+        </div>
+        <div class="col-lg-4">
+            {{ form_widget(form.czasMagazynowaniaJednostka) }}
+        </div>
+    </div>
+    {{ form_row(form.magazynowanieOpis) }}
+    {{ form_row(form.opisPodstawowy) }}
+    {{ form_row(form.opisPelny) }}
+    <hr>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a href="#panel-cechy-techniczne" data-toggle="collapse" data-parent="#panel-cechy-techniczne">Cechy techniczne</a>
+        </div>
+        <div id="panel-cechy-techniczne" class="panel-body collapse in">
+            <div class="form-group">
+                {{ form_label(form.cechyTechniczneProduktu.wlasciwosciMechaniczne) }}
+                <div class="col-lg-5">
+                    {{ form_widget(form.cechyTechniczneProduktu.wlasciwosciMechaniczne) }}
+                </div>
+                <div class="col-lg-4">
+                    {{ form_widget(form.cechyTechniczneProduktu.wlasciwosciMechaniczneJednostka) }}
+                </div>
+            </div>
+            <div class="form-group {{ form.cechyTechniczneProduktu.testErichsen.vars.errors|length ? 'has-error': '' }}">
+                {{ form_label(form.cechyTechniczneProduktu.testErichsen) }}
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        {{ form_widget(form.cechyTechniczneProduktu.testErichsen) }}
+                        <span class="input-group-addon">[mm]</span>
+                    </div>
+                    <small>{{ form_errors(form.cechyTechniczneProduktu.testErichsen) }}</small>
+                </div>
+            </div>
+            <div class="form-group {{ form.cechyTechniczneProduktu.udarnosc.vars.errors|length ? 'has-error': '' }}">
+                {{ form_label(form.cechyTechniczneProduktu.udarnosc) }}
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        {{ form_widget(form.cechyTechniczneProduktu.udarnosc) }}
+                        <span class="input-group-addon">[cm D]</span>
+                    </div>
+                    <small>{{ form_errors(form.cechyTechniczneProduktu.udarnosc) }}</small>
+                </div>
+            </div>
+            <div class="form-group {{ form.cechyTechniczneProduktu.probaMandrela.vars.errors|length ? 'has-error': '' }}">
+                {{ form_label(form.cechyTechniczneProduktu.probaMandrela) }}
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        {{ form_widget(form.cechyTechniczneProduktu.probaMandrela) }}
+                        <span class="input-group-addon">[mm &#216;]</span>
+                    </div>
+                    <small>{{ form_errors(form.cechyTechniczneProduktu.probaMandrela) }}</small>
+                </div>
+            </div>
+            {{ form_row(form.cechyTechniczneProduktu.plastycznosc) }}
+            {{ form_row(form.cechyTechniczneProduktu.odpornoscScieranie) }}
+            <div class="form-group">
+                {{ form_label(form.cechyTechniczneProduktu.odpornoscMedia) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.cechyTechniczneProduktu.odpornoscMedia) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.cechyTechniczneProduktu.odpornoscMglaSolna) }}
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        {{ form_widget(form.cechyTechniczneProduktu.odpornoscMglaSolna) }}
+                        <span class="input-group-addon">[h]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.cechyTechniczneProduktu.odpornoscParaWodna) }}
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        {{ form_widget(form.cechyTechniczneProduktu.odpornoscParaWodna) }}
+                        <span class="input-group-addon">[h]</span>
+                    </div>
+                </div>
+            </div>
+            {{ form_row(form.cechyTechniczneProduktu.przyczepnosc) }}
+            {{ form_row(form.cechyTechniczneProduktu.odpornoscOgien) }}
+            {{ form_row(form.cechyTechniczneProduktu.odpornoscKorozja) }}
+            {{ form_row(form.cechyTechniczneProduktu.odpornoscUV) }}
+        </div>
+    </div>
+    <hr>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a href="#panel-dane-techniczne" data-toggle="collapse" data-parent="#panel-dane-techniczne">Dane techniczne</a>
+        </div>
+        <div id="panel-dane-techniczne" class="panel-body collapse in">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Gęstość w 20&#176;C</label>
+                <div class="col-lg-2 {{ form.daneTechniczne.gestoscMIN.vars.errors|length ? 'has-error': '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.daneTechniczne.gestoscMIN) }}
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.gestoscMIN) }}</small>
+                </div>
+                <div class="col-lg-2 {{ form.daneTechniczne.gestoscMAX.vars.errors|length ? 'has-error': '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.daneTechniczne.gestoscMAX) }}
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.gestoscMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Gęstość mieszaniny</label>
+                <div class="col-lg-2 {{ form.daneTechniczne.gestoscMieszaninyMIN.vars.errors|length ? 'has-error': '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.daneTechniczne.gestoscMieszaninyMIN) }}
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.gestoscMieszaninyMIN) }}</small>
+                </div>
+                <div class="col-lg-2 {{ form.daneTechniczne.gestoscMieszaninyMAX.vars.errors|length ? 'has-error': '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.daneTechniczne.gestoscMieszaninyMAX) }}
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.gestoscMieszaninyMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Lepkość fabryczna <small class="text-muted">(Stomer)</small></label>
+                <div class="col-lg-3 {{ form.daneTechniczne.lepkoscFabrycznaStomerMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.daneTechniczne.lepkoscFabrycznaStomerMIN) }}
+                        <span class="input-group-addon">[KU]</span>
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.lepkoscFabrycznaStomerMIN) }}</small>
+                </div>
+                <div class="col-lg-3 {{ form.daneTechniczne.lepkoscFabrycznaStomerMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.daneTechniczne.lepkoscFabrycznaStomerMAX) }}
+                        <span class="input-group-addon">[KU]</span>
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.lepkoscFabrycznaStomerMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Lepkość fabryczna <small class="text-muted">(Ford nr 4)</small></label>
+                <div class="col-lg-3 {{ form.daneTechniczne.lepkoscFabrycznaFordMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.daneTechniczne.lepkoscFabrycznaFordMIN) }}
+                        <span class="input-group-addon">[sek.]</span>
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.lepkoscFabrycznaFordMIN) }}</small>
+                </div>
+                <div class="col-lg-3 {{ form.daneTechniczne.lepkoscFabrycznaFordMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.daneTechniczne.lepkoscFabrycznaFordMAX) }}
+                        <span class="input-group-addon">[sek.]</span>
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.lepkoscFabrycznaFordMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Stopień rozdrobnienia ziarna</label>
+                <div class="col-lg-3 {{ form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN) }}
+                        <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.stopienRozdrobnieniaZiarnaMIN) }}</small>
+                </div>
+                <div class="col-lg-3 {{ form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}
+                        <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                    </div>
+                    <small>{{ form_errors(form.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Zawartość części stałych</label>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Objętościowo
+                            </span>
+                        {{ form_widget(form.daneTechniczne.objZawartoscCzesciStalych) }}
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Wagowo
+                            </span>
+                        {{ form_widget(form.daneTechniczne.wagZawartoscCzesciStalych) }}
+                        <small>{{ form_errors(form.daneTechniczne.wagZawartoscCzesciStalych) }}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Zawartość części stałych <small class="text-muted">(mieszaniny)</small></label>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Objętościowo
+                            </span>
+                        {{ form_widget(form.daneTechniczne.objZawartoscCzesciStalychMieszaniny) }}
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Wagowo
+                            </span>
+                        {{ form_widget(form.daneTechniczne.wagZawartoscCzesciStalychMieszaniny) }}
+                        <small>{{ form_errors(form.daneTechniczne.wagZawartoscCzesciStalychMieszaniny) }}</small>
+                    </div>
+                </div>
+            </div>
+            {{ form_row(form.daneTechniczne.lzo) }}
+            {{ form_row(form.daneTechniczne.lzoRFU) }}
+            {{ form_row(form.daneTechniczne.rodzajProduktu) }}
+            {{ form_row(form.daneTechniczne.kolor) }}
+        </div>
+    </div>
+    <hr>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a href="#panel-przygotowanie-do-aplikacji" data-toggle="collapse" data-parent="#panel-przygotowanie-do-aplikacji">Przygotowanie do aplikacji</a>
+        </div>
+        <div id="panel-przygotowanie-do-aplikacji" class="panel-body collapse in">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Stosowane utwardzacze</label>
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-sm-3 text-center"><small>Nazwa utwardzacza</small></div>
+                        <div class="col-sm-3 text-center"><small>Proporcje wagowo</small></div>
+                        <div class="col-sm-3 text-center"><small>Proporcje objętościowo</small></div>
+                        <div class="col-sm-3 text-center"></div>
+                    </div>
+                    <div id="utwardzacze-collection" data-prototype="{% filter escape %}{% include '@DFPEtapI/Form/bootstrap_collection_field_1.html.twig' with { 'utwardzacz': form.przygotowanieDoAplikacji.produktyUtwardzacze.vars.prototype } %}{% endfilter %}">
+                        {% if form.przygotowanieDoAplikacji.produktyUtwardzacze|length > 0 %}
+                            {% for utwardzacz in form.przygotowanieDoAplikacji.produktyUtwardzacze %}
+                                <div class="row">
+                                    <div class="col-sm-3">{{ form_widget(utwardzacz.utwardzacz) }}</div>
+                                    <div class="col-sm-3">{{ form_widget(utwardzacz.proporcjaMieszaniaObjetosciowo) }}</div>
+                                    <div class="col-sm-3">{{ form_widget(utwardzacz.proporcjaMieszaniaWagowo) }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Stosowane rozcieńczalniki</label>
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-sm-5 text-center"><small>Nazwa rozcieńczalnika</small></div>
+                        <div class="col-sm-4 text-center"><small>Proporcje mieszania</small></div>
+                        <div class="col-sm-3 text-center"></div>
+                    </div>
+                    <div id="rozcienczalniki-collection" data-prototype="{% filter escape %}{% include '@DFPEtapI/Form/bootstrap_collection_field_2.html.twig' with { 'rozcienczalnik': form.przygotowanieDoAplikacji.produktyRozcienczalniki.vars.prototype } %}{% endfilter %}">
+                        {% if form.przygotowanieDoAplikacji.produktyRozcienczalniki|length > 0 %}
+                            {% for rozcienczalnik in form.przygotowanieDoAplikacji.produktyRozcienczalniki %}
+                                <div class="row">
+                                    <div class="col-sm-5">{{ form_widget(rozcienczalnik.rozcienczalnik) }}</div>
+                                    <div class="col-sm-4">{{ form_widget(rozcienczalnik.proporcjaMieszania) }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {{ form_row(form.przygotowanieDoAplikacji.przyspieszacz) }}
+            <div class="form-group">
+                {{ form_label(form.przygotowanieDoAplikacji.antygrafiti) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.przygotowanieDoAplikacji.antygrafiti) }}
+                </div>
+            </div>
+            {{ form_row(form.przygotowanieDoAplikacji.pastaMatujaca) }}
+            {{ form_row(form.przygotowanieDoAplikacji.dodatki) }}
+            {{ form_row(form.przygotowanieDoAplikacji.strukturyzator) }}
+            {{ form_row(form.przygotowanieDoAplikacji.tix) }}
+            <div class="form-group {{ form.przygotowanieDoAplikacji.zywotnoscMieszaniny.vars.errors|length > 0 ? 'has-error' : '' }}">
+                {{ form_label(form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
+                <div class="col-lg-9">
+                    <div class="input-group">
+                        {{ form_widget(form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
+                        <span class="input-group-addon">[h]</span>
+                    </div>
+                    {{ form_errors(form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Lepkość do aplikacji <small class="text-muted">(Stomer)</small></label>
+                <div class="col-lg-3 {{ form.przygotowanieDoAplikacji.lepkoscStomerMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.lepkoscStomerMIN) }}
+                        <span class="input-group-addon">[KU]</span>
+                    </div>
+                    <small>{{ form_errors(form.przygotowanieDoAplikacji.lepkoscStomerMIN) }}</small>
+                </div>
+                <div class="col-lg-3 {{ form.przygotowanieDoAplikacji.lepkoscStomerMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.lepkoscStomerMAX) }}
+                        <span class="input-group-addon">[KU]</span>
+                    </div>
+                    <small>{{ form_errors(form.przygotowanieDoAplikacji.lepkoscStomerMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Lepkość do aplikacji <small class="text-muted">(Ford nr 4)</small></label>
+                <div class="col-lg-3 {{ form.przygotowanieDoAplikacji.lepkoscFordMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Min
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.lepkoscFordMIN) }}
+                        <span class="input-group-addon">[sek.]</span>
+                    </div>
+                    <small>{{ form_errors(form.przygotowanieDoAplikacji.lepkoscFordMIN) }}</small>
+                </div>
+                <div class="col-lg-3 {{ form.przygotowanieDoAplikacji.lepkoscFordMAX.vars.errors|length > 0 ? 'has-error' : '' }}">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Max
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.lepkoscFordMAX) }}
+                        <span class="input-group-addon">[sek.]</span>
+                    </div>
+                    <small>{{ form_errors(form.przygotowanieDoAplikacji.lepkoscFordMAX) }}</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Zalecana grubość <small class="text-muted">(sucho)</small></label>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Od
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMin) }}
+                        <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                    </div>
+                    {{ form_errors(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMin) }}
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Do
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMax) }}
+                        <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                    </div>
+                    {{ form_errors(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMax) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Zalecana grubość <small class="text-muted">(mokro)</small></label>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Od
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMin) }}
+                        <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                    </div>
+                    {{ form_errors(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMin) }}
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Do
+                            </span>
+                        {{ form_widget(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMax) }}
+                        <span class="input-group-addon">
+                                [&#181;m]
+                            </span>
+                    </div>
+                    {{ form_errors(form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMax) }}
+                </div>
+            </div>
+            {{ form_row(form.przygotowanieDoAplikacji.punktRosy) }}
+        </div>
+    </div>
+    <hr>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a href="#panel-suszenie"data-toggle="collapse" data-parent="#panel-suszenie">Suszenie</a>
+        </div>
+        <div id="panel-suszenie" class="panel-body collapse in">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <a href="#panel-suszenie-otoczenie"data-toggle="collapse" data-parent="#panel-suszenie-otoczenie">Poza kabiną (otoczenie)</a>
+                </div>
+                <div id="panel-suszenie-otoczenie" class="panel-body collapse in">
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">Pyłosuchość</label>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Temperatura</span>
+                                {{ form_widget(form.suszenie.pylosuchoscTemperaturaOtoczenie) }}
+                                <span class="input-group-addon">&deg;C</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Czas</span>
+                                {{ form_widget(form.suszenie.pylosuchoscCzasOtoczenie) }}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_widget(form.suszenie.pylosuchoscCzasOtoczenieJednostka) }}
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">Odporność na dotyk</label>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Temperatura</span>
+                                {{ form_widget(form.suszenie.dotykTemperaturaOtoczenie) }}
+                                <span class="input-group-addon">&deg;C</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Czas</span>
+                                {{ form_widget(form.suszenie.dotykCzasOtoczenie) }}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_widget(form.suszenie.dotykCzasOtoczenieJednostka) }}
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">Pełne utwardzenie</label>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Temperatura</span>
+                                {{ form_widget(form.suszenie.utwardzenieTemperaturaOtoczenie) }}
+                                <span class="input-group-addon">&deg;C</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Czas</span>
+                                {{ form_widget(form.suszenie.utwardzenieCzasOtoczenie) }}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_widget(form.suszenie.utwardzenieCzasOtoczenieJednostka) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <a href="#panel-suszenie-kabina"data-toggle="collapse" data-parent="#panel-suszenie-kabina">W kabinie lakierniczej</a>
+                </div>
+                <div id="panel-suszenie-kabina" class="panel-body collapse in">
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">Wstępne</label>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Temperatura</span>
+                                {{ form_widget(form.suszenie.wstepneTemperaturaKabina) }}
+                                <span class="input-group-addon">&deg;C</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Czas</span>
+                                {{ form_widget(form.suszenie.wstepneCzasKabina) }}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_widget(form.suszenie.wstepneCzasKabinaJednostka) }}
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">Docelowe</label>
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Temperatura</span>
+                                {{ form_widget(form.suszenie.doceloweTemperaturaKabina) }}
+                                <span class="input-group-addon">&deg;C</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Czas</span>
+                                {{ form_widget(form.suszenie.doceloweCzasKabina) }}
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ form_widget(form.suszenie.doceloweCzasKabinaJednostka) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group ">
+                {{ form_label(form.suszenie.infrared) }}
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Czas</span>
+                        {{ form_widget(form.suszenie.infrared) }}
+                        <span class="input-group-addon">[min]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group ">
+                {{ form_label(form.suszenie.ultraviolet) }}
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-addon">Czas</span>
+                        {{ form_widget(form.suszenie.ultraviolet) }}
+                        <span class="input-group-addon">[min]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <a href="#panel-charakterystyka-produktu"data-toggle="collapse" data-parent="#panel-charakterystyka-produktu">Charakterystyka produktu</a>
+        </div>
+        <div id="panel-charakterystyka-produktu" class="panel-body collapse in">
+            <div class="form-group ">
+                <label class="col-sm-3 control-label">Połysk pod kątem</label>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Od
+                            </span>
+                        {{ form_widget(form.charakterystykaProduktu.polyskPodKatemMin) }}
+                        <span class="input-group-addon">
+                                &deg;
+                            </span>
+                    </div>
+                    {{ form_errors(form.charakterystykaProduktu.polyskPodKatemMin) }}
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Do
+                            </span>
+                        {{ form_widget(form.charakterystykaProduktu.polyskPodKatemMax) }}
+                        <span class="input-group-addon">
+                                &deg;
+                            </span>
+                    </div>
+                    {{ form_errors(form.charakterystykaProduktu.polyskPodKatemMax) }}
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="col-sm-3 control-label">Czas do przelakierowania</label>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Od
+                            </span>
+                        {{ form_widget(form.charakterystykaProduktu.czasDoPrzelakierowaniaMin) }}
+                        <span class="input-group-addon">
+                                [h]
+                            </span>
+                    </div>
+                    {{ form_errors(form.charakterystykaProduktu.czasDoPrzelakierowaniaMin) }}
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                            <span class="input-group-addon">
+                                Do
+                            </span>
+                        {{ form_widget(form.charakterystykaProduktu.czasDoPrzelakierowaniaMax) }}
+                        <span class="input-group-addon">
+                                [h]
+                            </span>
+                    </div>
+                    {{ form_errors(form.charakterystykaProduktu.czasDoPrzelakierowaniaMax) }}
+                </div>
+            </div>
+            {{ form_row(form.charakterystykaProduktu.uwagi) }}
+        </div>
+    </div>
+    {{ form_row(form.rodzajePowierzchni) }}
+    {{ form_row(form.metodyAplikacji) }}
+    {{ form_row(form.przygotowaniePowierzchni) }}
+    {{ form_row(form.uwagi) }}
+    <hr>
+    <a href="{{ path('backend_produkty') }}" class="btn btn-warning">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        Powrót
+    </a>
+    {{ form_widget(form.submit, { 'attr' : { 'class' : 'btn-zapisz' }, 'label' : 'Zapisz' } ) }}
+    {{ form_end(form) }}
+    </section>
 
-    {{ form(form) }}
-
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('backend_produkty') }}" class="art-button">
-                Powrót do listy
-            </a>
-        </li>
-    </ul>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('#utwardzacze-collection').collectionManager('<div class="row"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div></div>');
+    $('#rozcienczalniki-collection').collectionManager('<div class="row"><div class="col-sm-5"></div><div class="col-sm-4"></div><div class="col-sm-3"></div></div>');
+    $('.selectpicker').selectpicker();
+{% endblock javascripts %}
