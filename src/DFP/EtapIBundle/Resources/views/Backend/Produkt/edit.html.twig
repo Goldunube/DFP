@@ -317,13 +317,27 @@
                                         <div class="col-sm-3"></div>
                                     </div>
                                 {% endfor %}
-{#                            {% else %}
-                                <div class="row">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-3 text-center"><button class="btn btn-success collection-btn-add">Dodaj</button> </div>
-                                </div>#}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Stosowane rozcieńczalniki</label>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-sm-5 text-center"><small>Nazwa rozcieńczalnika</small></div>
+                            <div class="col-sm-4 text-center"><small>Proporcje mieszania</small></div>
+                            <div class="col-sm-3 text-center"></div>
+                        </div>
+                        <div id="rozcienczalniki-collection" data-prototype="{% filter escape %}{% include '@DFPEtapI/Form/bootstrap_collection_field_2.html.twig' with { 'rozcienczalnik': edit_form.przygotowanieDoAplikacji.produktyRozcienczalniki.vars.prototype } %}{% endfilter %}">
+                            {% if edit_form.przygotowanieDoAplikacji.produktyRozcienczalniki|length > 0 %}
+                                {% for rozcienczalnik in edit_form.przygotowanieDoAplikacji.produktyRozcienczalniki %}
+                                    <div class="row">
+                                        <div class="col-sm-5">{{ form_widget(rozcienczalnik.rozcienczalnik) }}</div>
+                                        <div class="col-sm-4">{{ form_widget(rozcienczalnik.proporcjaMieszania) }}</div>
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                {% endfor %}
                             {% endif %}
                         </div>
                     </div>
@@ -671,6 +685,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    $('#utwardzacze-collection').collectionManager();
+    $('#utwardzacze-collection').collectionManager('<div class="row"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div></div>');
+    $('#rozcienczalniki-collection').collectionManager('<div class="row"><div class="col-sm-5"></div><div class="col-sm-4"></div><div class="col-sm-3"></div></div>');
     $('.selectpicker').selectpicker();
 {% endblock javascripts %}

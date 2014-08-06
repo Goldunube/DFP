@@ -24,6 +24,15 @@ class PrzygotowanieDoAplikacjiType extends AbstractType
                     'required'      =>  false,
                 )
             )
+            ->add('produktyRozcienczalniki','collection',array(
+                    'type'          =>  new ProduktRozcienczalnikType(),
+                    'label'         =>  'Rozcieńczalniki',
+                    'allow_add'     =>  true,
+                    'allow_delete'  =>  true,
+                    'by_reference'  =>  false,
+                    'required'      =>  false,
+                )
+            )
             ->add('przyspieszacz',null,array('label'=>'Przyspieszacz'))
             ->add('antygrafiti','choice',array(
                     'required'      =>  true,

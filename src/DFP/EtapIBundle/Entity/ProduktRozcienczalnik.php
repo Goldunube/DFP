@@ -22,9 +22,9 @@ class ProduktRozcienczalnik
     private $id;
 
     /**
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name="proporcja_mieszania", type="array")
+     * @ORM\Column(name="proporcja_mieszania", type="string", length=7, nullable=true)
      */
     private $proporcjaMieszania;
 

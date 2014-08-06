@@ -153,12 +153,12 @@
 
     }
 
-    $.fn.collectionManager = function()
+    $.fn.collectionManager = function(template)
     {
         var $collectionHolder;
 
         var $addBtn = $('<button class="btn btn-success">Dodaj</button>');
-        var $newRow = $('<div class="row"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div></div>');
+        var $newRow = $(template);
         $newRow.children().last().append($addBtn);
 
         var $this = $(this);

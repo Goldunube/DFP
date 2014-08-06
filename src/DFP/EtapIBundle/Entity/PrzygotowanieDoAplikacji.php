@@ -30,7 +30,7 @@ class PrzygotowanieDoAplikacji
     private $produktyUtwardzacze;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProduktRozcienczalnik", mappedBy="przygotowanie", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ProduktRozcienczalnik", mappedBy="przygotowanie", cascade={"persist"}, orphanRemoval=true)
      */
     private $produktyRozcienczalniki;
 
@@ -571,6 +571,21 @@ class PrzygotowanieDoAplikacji
     public function addProduktyRozcienczalniki(ProduktRozcienczalnik $produktyRozcienczalniki)
     {
         $this->produktyRozcienczalniki[] = $produktyRozcienczalniki;
+        $produktyRozcienczalniki->setPrzygotowanie($this);
+
+        return $this;
+    }
+
+    /**
+     * Add addProduktyRozcienczalnikus
+     *
+     * @param ProduktRozcienczalnik $produktyRozcienczalniki
+     * @return PrzygotowanieDoAplikacji
+     */
+    public function addProduktyRozcienczalnikus(ProduktRozcienczalnik $produktyRozcienczalniki)
+    {
+        $this->produktyRozcienczalniki[] = $produktyRozcienczalniki;
+        $produktyRozcienczalniki->setPrzygotowanie($this);
 
         return $this;
     }
@@ -581,6 +596,16 @@ class PrzygotowanieDoAplikacji
      * @param ProduktRozcienczalnik $produktyRozcienczalniki
      */
     public function removeProduktyRozcienczalniki(ProduktRozcienczalnik $produktyRozcienczalniki)
+    {
+        $this->produktyRozcienczalniki->removeElement($produktyRozcienczalniki);
+    }
+
+    /**
+     * Remove removeProduktyRozcienczalnikus
+     *
+     * @param ProduktRozcienczalnik $produktyRozcienczalniki
+     */
+    public function removeProduktyRozcienczalnikus(ProduktRozcienczalnik $produktyRozcienczalniki)
     {
         $this->produktyRozcienczalniki->removeElement($produktyRozcienczalniki);
     }
