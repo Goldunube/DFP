@@ -16,6 +16,7 @@ class KolorType extends AbstractType
     {
         $builder
             ->add('nazwa')
+            ->add('grupaCenowa')
             ->add('wzornikKoloru')
         ;
     }
