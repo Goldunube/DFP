@@ -64,7 +64,10 @@ class UzytkownikController extends Controller
 //            $nazwiskoNormalize = preg_replace('/[^0-9a-z\-]+/', '', $nazwiskoNormalize);
             $nazwiskoNormalize = preg_replace('/[\-]+/', '-', $nazwiskoNormalize);
             $nazwiskoNormalize = trim($nazwiskoNormalize, '-');
-            $username = strtolower( substr($uzytkownik->getImie(),0,1) );
+            $imieNormalize = $this->ClearPolishSigns($uzytkownik->getImie());
+            $imieNormalize = mb_strtolower($imieNormalize,'UTF-8');
+            $imieNormalize = str_replace(' ', '_', $imieNormalize);
+            $username = strtolower( substr($imieNormalize,0,1) );
             $username .= $nazwiskoNormalize;
             $uzytkownik->setUsername($username);
             $uzytkownik->setEnabled(true);
