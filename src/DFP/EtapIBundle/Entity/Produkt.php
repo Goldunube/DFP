@@ -148,6 +148,13 @@ class Produkt
     private $przygotowaniePowierzchni;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="przygotowanie_powierzchni_uwagi", type="text", nullable=true)
+     */
+    private $przygotowaniePowierzchniUwagi;
+
+    /**
      * @ORM\ManyToMany(targetEntity="ProcesAplikacji")
      */
     private $metodyAplikacji;
@@ -207,6 +214,12 @@ class Produkt
      * @ORM\OneToMany(targetEntity="ProduktRozcienczalnik", mappedBy="rozcienczalnik")
      */
     private $produktyRozcienczalniki;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="producent", type="integer", nullable=true)
+     */
+    private $producent = 0;
 
     /**
      * Constructor
@@ -904,5 +917,37 @@ class Produkt
     public function setNumerEdycjiCSV($numerEdycjiCSV)
     {
         $this->numerEdycjiCSV = $numerEdycjiCSV;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrzygotowaniePowierzchniUwagi()
+    {
+        return $this->przygotowaniePowierzchniUwagi;
+    }
+
+    /**
+     * @param string $przygotowaniePowierzchniUwagi
+     */
+    public function setPrzygotowaniePowierzchniUwagi($przygotowaniePowierzchniUwagi)
+    {
+        $this->przygotowaniePowierzchniUwagi = $przygotowaniePowierzchniUwagi;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProducent()
+    {
+        return $this->producent;
+    }
+
+    /**
+     * @param int $producent
+     */
+    public function setProducent($producent)
+    {
+        $this->producent = $producent;
     }
 }

@@ -31,7 +31,10 @@ class CharakterystykaProduktuType extends AbstractType
                     'label' =>  'Maksymalny czas do przelakierowania'
                 )
             )
-            ->add('uwagi')
+            ->add('uwagi',null,array(
+                    'label' =>  'Dane uzupełniające'
+                )
+            )
         ;
     }
     

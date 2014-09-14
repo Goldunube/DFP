@@ -141,6 +141,13 @@ class PrzygotowanieDoAplikacji
      */
     private $punktRosy = false;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="uwagi", type="text", nullable=true)
+     */
+    private $uwagi;
+
 
     /**
      * Get id
@@ -664,5 +671,21 @@ class PrzygotowanieDoAplikacji
                 null
             );
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getUwagi()
+    {
+        return $this->uwagi;
+    }
+
+    /**
+     * @param string $uwagi
+     */
+    public function setUwagi($uwagi)
+    {
+        $this->uwagi = $uwagi;
     }
 }

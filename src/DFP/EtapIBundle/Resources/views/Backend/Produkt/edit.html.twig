@@ -30,6 +30,7 @@
 
         <h1>Edytuj produkt</h1>
         {{ form_start(edit_form) }}
+        {{ form_row(edit_form.producent) }}
         {{ form_row(edit_form.nazwaHandlowa) }}
         {{ form_row(edit_form.nazwaTechniczna) }}
         {{ form_row(edit_form.kodFabrycznyProduktu) }}
@@ -296,7 +297,19 @@
         <hr>
         <div class="panel panel-info">
             <div class="panel-heading">
-                <a href="#panel-przygotowanie-do-aplikacji" data-toggle="collapse" data-parent="#panel-przygotowanie-do-aplikacji">Przygotowanie do aplikacji</a>
+                <a href="#panel-przygotowanie-powierzchni" data-toggle="collapse" data-parent="#panel-przygotowanie-powierzchni">Przygotowanie powierzchni</a>
+            </div>
+            <div id="panel-przygotowanie-powierzchni" class="panel-body collapse in">
+                {{ form_row(edit_form.rodzajePowierzchni) }}
+                {{ form_row(edit_form.przygotowaniePowierzchni) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.punktRosy) }}
+                {{ form_row(edit_form.przygotowaniePowierzchniUwagi) }}
+            </div>
+        </div>
+        <hr>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <a href="#panel-przygotowanie-do-aplikacji" data-toggle="collapse" data-parent="#panel-przygotowanie-do-aplikacji">Przygotowanie produktu, aplikacja</a>
             </div>
             <div id="panel-przygotowanie-do-aplikacji" class="panel-body collapse in">
                 <div class="form-group">
@@ -343,17 +356,6 @@
                         </div>
                     </div>
                 </div>
-                {{ form_row(edit_form.przygotowanieDoAplikacji.przyspieszacz) }}
-                <div class="form-group">
-                    {{ form_label(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
-                    <div class="col-sm-9">
-                        {{ form_widget(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
-                    </div>
-                </div>
-                {{ form_row(edit_form.przygotowanieDoAplikacji.pastaMatujaca) }}
-                {{ form_row(edit_form.przygotowanieDoAplikacji.dodatki) }}
-                {{ form_row(edit_form.przygotowanieDoAplikacji.strukturyzator) }}
-                {{ form_row(edit_form.przygotowanieDoAplikacji.tix) }}
                 <div class="form-group {{ edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny.vars.errors|length > 0 ? 'has-error' : '' }}">
                     {{ form_label(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
                     <div class="col-lg-9">
@@ -364,6 +366,7 @@
                         {{ form_errors(edit_form.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
                     </div>
                 </div>
+                {{ form_row(edit_form.metodyAplikacji) }}
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Lepkość do aplikacji <small class="text-muted">(Stomer)</small></label>
                     <div class="col-lg-3 {{ edit_form.przygotowanieDoAplikacji.lepkoscStomerMIN.vars.errors|length > 0 ? 'has-error' : '' }}">
@@ -464,7 +467,18 @@
                         {{ form_errors(edit_form.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMax) }}
                     </div>
                 </div>
-                {{ form_row(edit_form.przygotowanieDoAplikacji.punktRosy) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.przyspieszacz) }}
+                <div class="form-group">
+                    {{ form_label(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(edit_form.przygotowanieDoAplikacji.antygrafiti) }}
+                    </div>
+                </div>
+                {{ form_row(edit_form.przygotowanieDoAplikacji.pastaMatujaca) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.strukturyzator) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.tix) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.dodatki) }}
+                {{ form_row(edit_form.przygotowanieDoAplikacji.uwagi) }}
             </div>
         </div>
         <hr>
@@ -610,7 +624,7 @@
             </div>
             <div id="panel-charakterystyka-produktu" class="panel-body collapse in">
                 <div class="form-group ">
-                    <label class="col-sm-3 control-label">Połysk pod kątem</label>
+                    <label class="col-sm-3 control-label">Połysk pod kątem 60&deg;</label>
                     <div class="col-lg-4">
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -618,7 +632,7 @@
                             </span>
                             {{ form_widget(edit_form.charakterystykaProduktu.polyskPodKatemMin) }}
                             <span class="input-group-addon">
-                                &deg;
+                                &percnt;
                             </span>
                         </div>
                         {{ form_errors(edit_form.charakterystykaProduktu.polyskPodKatemMin) }}
@@ -630,7 +644,7 @@
                             </span>
                             {{ form_widget(edit_form.charakterystykaProduktu.polyskPodKatemMax) }}
                             <span class="input-group-addon">
-                                &deg;
+                                &percnt;
                             </span>
                         </div>
                         {{ form_errors(edit_form.charakterystykaProduktu.polyskPodKatemMax) }}
@@ -666,9 +680,6 @@
                 {{ form_row(edit_form.charakterystykaProduktu.uwagi) }}
             </div>
         </div>
-        {{ form_row(edit_form.rodzajePowierzchni) }}
-        {{ form_row(edit_form.metodyAplikacji) }}
-        {{ form_row(edit_form.przygotowaniePowierzchni) }}
         {{ form_row(edit_form.uwagi) }}
         {{ form_widget(edit_form.submit) }}
         {{ form_end(edit_form) }}

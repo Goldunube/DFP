@@ -64,6 +64,10 @@ class PrzygotowanieDoAplikacjiType extends AbstractType
                     ),
                 )
             )
+            ->add('uwagi',null,array(
+                    'label' =>  'Dane uzupełniające'
+                )
+            )
         ;
     }
     
