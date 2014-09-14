@@ -19,6 +19,7 @@ class ProduktType extends AbstractType
             ->add('nazwaTechniczna')
             ->add('kodFabrycznyProduktu')
             ->add('numerEdycjiBESA',null,array('label'=>'Numer edycji (BESA)'))
+            ->add('numerEdycjiCSV',null,array('label'=>'Numer edycji (CSV)'))
             ->add('grupaProduktow',null,array('label'=>'Grupa produktów'))
             ->add('grupaPromowania')
             ->add('cechyTechniczneProduktu', new CechyTechniczneProduktuType())

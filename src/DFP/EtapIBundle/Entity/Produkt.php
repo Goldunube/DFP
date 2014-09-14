@@ -83,6 +83,14 @@ class Produkt
     private $numerEdycjiBESA;
 
     /**
+     * Numer edycji karty technicznej CSV
+     *
+     * @var string
+     * @ORM\Column(name="numer_edycji_csv", type="string", length=255, nullable=true)
+     */
+    private $numerEdycjiCSV;
+
+    /**
      * Kod farbryczny produktu nadawany przez producenta
      *
      * @var string
@@ -880,5 +888,21 @@ class Produkt
     public function setMagazynowanieOpis($magazynowanieOpis)
     {
         $this->magazynowanieOpis = $magazynowanieOpis;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumerEdycjiCSV()
+    {
+        return $this->numerEdycjiCSV;
+    }
+
+    /**
+     * @param string $numerEdycjiCSV
+     */
+    public function setNumerEdycjiCSV($numerEdycjiCSV)
+    {
+        $this->numerEdycjiCSV = $numerEdycjiCSV;
     }
 }
