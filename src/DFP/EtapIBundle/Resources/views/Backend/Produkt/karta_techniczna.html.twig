@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Portal DFP</title>
+</head>
+<body>
+    <style>
+        table {
+            overflow:hidden;
+            border:1px solid #d3d3d3;
+            background:#fefefe;
+            width:100%;
+            margin:5% auto 0;
+            -moz-border-radius:5px; /* FF1+ */
+            -webkit-border-radius:5px; /* Saf3-4 */
+            border-radius:5px;
+            -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+            -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+        }
+
+        caption {
+            font-weight: bold;
+        }
+        th, td {padding:18px 28px 18px; text-align: justify; }
+        th {padding-top:22px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
+        td {border-top:1px solid #e0e0e0; border-right:1px solid #e0e0e0;}
+        tr.odd-row td {background:#f6f6f6;}
+        td.first, th.first {text-align:left}
+        td.last {border-right:none;}
+        td {
+            background: -moz-linear-gradient(100% 25% 90deg, #fefefe, #f9f9f9);
+            background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f9f9f9), to(#fefefe));
+        }
+        tr.odd-row td {
+            background: -moz-linear-gradient(100% 25% 90deg, #f6f6f6, #f1f1f1);
+            background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f1f1f1), to(#f6f6f6));
+        }
+        th {
+            background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
+            background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#ededed), to(#e8eaeb));
+        }
+        tr:first-child th.first {
+            -moz-border-radius-topleft:5px;
+            -webkit-border-top-left-radius:5px; /* Saf3-4 */
+        }
+        tr:first-child th.last {
+            -moz-border-radius-topright:5px;
+            -webkit-border-top-right-radius:5px; /* Saf3-4 */
+        }
+        tr:last-child td.first {
+            -moz-border-radius-bottomleft:5px;
+            -webkit-border-bottom-left-radius:5px; /* Saf3-4 */
+        }
+        tr:last-child td.last {
+            -moz-border-radius-bottomright:5px;
+            -webkit-border-bottom-right-radius:5px; /* Saf3-4 */
+        }
+    </style>
+    <div id="wrap" style="margin: 0 10mm; text-align: justify;">
+        <h1>{{ produkt.nazwaHandlowa }} - {{ produkt.nazwaTechniczna }}</h1>
+        <p>{{ produkt.opisPelny }}</p>
+        <table style="margin-top: 20mm;">
+            <tbody>
+                {% if produkt.grupaProduktow %}
+                    <tr>
+                        <th>Grupa produktów:</th>
+                        <td>{{ produkt.grupaProduktow }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.czasMagazynowania %}
+                    <tr>
+                        <th>Czas magazynowania:</th>
+                        <td>{{ produkt.czasMagazynowania }} miesiące</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.magazynowanieOpis %}
+                    <tr>
+                        <th>Sposób magazynowania:</th>
+                        <td>{{ produkt.magazynowanieOpis }}</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        {% if produkt.cechyTechniczneProduktu is not empty %}
+            <table style="margin-top: 10mm;">
+                <caption>Cechy techniczne</caption>
+                <tbody>
+                {% if produkt.cechyTechniczneProduktu.wlasciwosciMechaniczne %}
+                    <tr>
+                        <th>Właściwości mechaniczne:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.wlasciwosciMechaniczne }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.testErichsen %}
+                    <tr>
+                        <th>Test Erichsen'a:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.testErichsen }} [mm]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.udarnosc %}
+                    <tr>
+                        <th>Udarność:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.udarnosc }} [cm D]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.probaMandrela %}
+                    <tr>
+                        <th>Próba Mandrela:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.probaMandrela }} [mm Ø]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.plastycznosc %}
+                    <tr>
+                        <th>Plastyczność:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.plastycznosc }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscScieranie %}
+                    <tr>
+                        <th>Odporność na ścieranie:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.odpornoscScieranie }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscMedia %}
+                    <tr>
+                        <th>Odporność na media:</th>
+                        <td>
+                            {% for medium in produkt.cechyTechniczneProduktu.odpornoscMedia %}
+                                {% if medium == 0 %}
+                                    Benzyna;
+                                {% elseif medium == 1 %}
+                                    Detergenty;
+                                {% elseif medium == 2 %}
+                                    Oleje;
+                                {% elseif medium == 3 %}
+                                    Oleje gorące;
+                                {% elseif medium == 4 %}
+                                    Woda;
+                                {% else %}
+                                    Inne;
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscMglaSolna %}
+                    <tr>
+                        <th>Odporność na mgłę solną:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.odpornoscMglaSolna }} [h]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscParaWodna %}
+                    <tr>
+                        <th>Odporność na parę wodną:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.odpornoscParaWodna }} [h]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.przyczepnosc %}
+                    <tr>
+                        <th>Przyczepność:</th>
+                        <td>
+                            {% if produkt.cechyTechniczneProduktu.przyczepnosc == 0 %}
+                                Gt0
+                            {% elseif produkt.cechyTechniczneProduktu.przyczepnosc == 1 %}
+                                Gt1
+                            {% elseif produkt.cechyTechniczneProduktu.przyczepnosc == 2 %}
+                                Gt2
+                            {% elseif produkt.cechyTechniczneProduktu.przyczepnosc == 3 %}
+                                Gt3
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscOgien %}
+                    <tr>
+                        <th>Rozprzestrzenianie się ognia:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.odpornoscOgien }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscKorozja %}
+                    <tr>
+                        <th>Kategoria korozyjności:</th>
+                        <td>
+                            {% if produkt.cechyTechniczneProduktu.odpornoscKorozja == 0 %}
+                                C1
+                            {% elseif produkt.cechyTechniczneProduktu.odpornoscKorozja == 1 %}
+                                C2
+                            {% elseif produkt.cechyTechniczneProduktu.odpornoscKorozja == 2 %}
+                                C3
+                            {% elseif produkt.cechyTechniczneProduktu.odpornoscKorozja == 3 %}
+                                C4
+                            {% elseif produkt.cechyTechniczneProduktu.odpornoscKorozja == 4 %}
+                                C5-I
+                            {% elseif produkt.cechyTechniczneProduktu.odpornoscKorozja == 5 %}
+                                C5-M
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.cechyTechniczneProduktu.odpornoscUV %}
+                    <tr>
+                        <th>Odporność na promienie UV:</th>
+                        <td>{{ produkt.cechyTechniczneProduktu.odpornoscUV }}</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if produkt.daneTechniczne is not empty %}
+            <table style="margin-top: 10mm;">
+                <caption>Dane techniczne</caption>
+                <tbody>
+                {% if produkt.daneTechniczne.gestoscMIN or produkt.daneTechniczne.gestoscMAX %}
+                    <tr>
+                        <th>Gęstość w 20°C:</th>
+                        <td>Min: {{ produkt.daneTechniczne.gestoscMIN }}</td>
+                        <td>Max: {{ produkt.daneTechniczne.gestoscMAX }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.gestoscMieszaninyMIN or produkt.daneTechniczne.gestoscMieszaninyMAX %}
+                    <tr>
+                        <th>Gęstość mieszaniny:</th>
+                        <td>Min: {{ produkt.daneTechniczne.gestoscMieszaninyMIN }}</td>
+                        <td>Max: {{ produkt.daneTechniczne.gestoscMieszaninyMAX }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.lepkoscFabrycznaStomerMIN or produkt.daneTechniczne.lepkoscFabrycznaStomerMAX %}
+                    <tr>
+                        <th>Lepkość farbycza (Stomer):</th>
+                        <td>Min: {{ produkt.daneTechniczne.lepkoscFabrycznaStomerMIN }} [KU]</td>
+                        <td>Max: {{ produkt.daneTechniczne.lepkoscFabrycznaStomerMAX }} [KU]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.lepkoscFabrycznaFordMIN or produkt.daneTechniczne.lepkoscFabrycznaFordMAX %}
+                    <tr>
+                        <th>Lepkość farbycza (Ford nr4):</th>
+                        <td>Min: {{ produkt.daneTechniczne.lepkoscFabrycznaFordMIN }} [sek.]</td>
+                        <td>Max: {{ produkt.daneTechniczne.lepkoscFabrycznaFordMAX }} [sek.]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.stopienRozdrobnieniaZiarnaMIN or produkt.daneTechniczne.stopienRozdrobnieniaZiarnaMAX %}
+                    <tr>
+                        <th>Stopień rozdrobnienia ziarna:</th>
+                        <td>Min: {{ produkt.daneTechniczne.stopienRozdrobnieniaZiarnaMIN }} [µm]</td>
+                        <td>Max: {{ produkt.daneTechniczne.stopienRozdrobnieniaZiarnaMAX }} [µm]</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.objZawartoscCzesciStalych or produkt.daneTechniczne.wagZawartoscCzesciStalych %}
+                    <tr>
+                        <th>Zawartość części stałych:</th>
+                        <td>Objętościowo: {{ produkt.daneTechniczne.objZawartoscCzesciStalych }}</td>
+                        <td>Wagowo: {{ produkt.daneTechniczne.wagZawartoscCzesciStalych }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.objZawartoscCzesciStalychMieszaniny or produkt.daneTechniczne.wagZawartoscCzesciStalychMieszaniny %}
+                    <tr>
+                        <th>Zawartość części stałych mieszaniny:</th>
+                        <td>Objętościowo: {{ produkt.daneTechniczne.objZawartoscCzesciStalychMieszaniny }}</td>
+                        <td>Wagowo: {{ produkt.daneTechniczne.wagZawartoscCzesciStalychMieszaniny }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.lzo %}
+                    <tr>
+                        <th>LZO (VOC)</th>
+                        <td colspan="2">{{ produkt.daneTechniczne.lzo }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if produkt.daneTechniczne.lzoRFU %}
+                    <tr>
+                        <th>LZO RFU (VOC RFU)</th>
+                        <td colspan="2">{{ produkt.daneTechniczne.lzoRFU }}</td>
+                    </tr>
+                {% endif %}
+
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+</body>
+</html>
+

@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use DFP\EtapIBundle\Entity\Produkt;
 use DFP\EtapIBundle\Form\ProduktType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Produkt controller.
@@ -320,5 +321,51 @@ class ProduktController extends Controller
             )
             ->getForm()
         ;
+    }
+
+    /**
+     * Generate Product Technical Sheet
+     *
+     * @param $id
+     * @Route("/{id}/karta-techniczna", name="backend_produkt_karta_techniczna_pdf")
+     * @Method("GET")
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function generatePDFAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('DFPEtapIBundle:Produkt')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Nie można znaleźć produkty.');
+        }
+
+        $html = $this->renderView('@DFPEtapI/Backend/Produkt/karta_techniczna.html.twig', array(
+                'produkt'    => $entity,
+            )
+        );
+
+        $pdf = $this->get('knp_snappy.pdf');
+        $pdf->setOption('encoding','utf-8');
+        $pdf->setOption('header-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-header');
+        $pdf->setOption('header-spacing',10);
+        $pdf->setOption('footer-spacing',10);
+        $pdf->setOption('margin-top',22);
+        $pdf->setOption('margin-left',0);
+        $pdf->setOption('margin-right',0);
+        $pdf->setOption('footer-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-footer');
+
+        return new Response(
+            $pdf->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'filename="karta_techniczna.pdf"'
+            )
+        );
     }
 }

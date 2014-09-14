@@ -34,3 +34,15 @@ fos_user_profile:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profil
+
+karta_techniczna_header:
+    path: /produkty/karta-techniczna-header
+    defaults:
+        _controller:  FrameworkBundle:Template:template
+        template:     DFPEtapIBundle:Backend/Produkt:karta_techniczna_header.html.twig
+
+karta_techniczna_footer:
+    path: /produkty/karta-techniczna-footer
+    defaults:
+        _controller:  FrameworkBundle:Template:template
+        template:     DFPEtapIBundle:Backend/Produkt:karta_techniczna_footer.html.twig

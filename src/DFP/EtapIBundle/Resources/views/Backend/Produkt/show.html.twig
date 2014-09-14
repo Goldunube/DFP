@@ -46,6 +46,11 @@
                 Edytuj
             </a>
         </li>
+        <li>
+            <a href="{{ path('backend_produkt_karta_techniczna_pdf', { 'id': entity.id }) }}" class="art-button">
+                PDF
+            </a>
+        </li>
         <li>{{ form(delete_form) }}</li>
     </ul>
 {% endblock %}
