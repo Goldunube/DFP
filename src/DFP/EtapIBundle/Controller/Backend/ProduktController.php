@@ -354,7 +354,7 @@ class ProduktController extends Controller
         $pdf->setOption('header-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-header');
         $pdf->setOption('header-spacing',10);
         $pdf->setOption('footer-spacing',10);
-        $pdf->setOption('margin-top',22);
+        $pdf->setOption('margin-top',35);
         $pdf->setOption('margin-left',0);
         $pdf->setOption('margin-right',0);
         $pdf->setOption('footer-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-footer');
