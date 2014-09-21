@@ -292,6 +292,11 @@ class KlientController extends Controller
                     ->add('powrot','submit',array('label'=>'Powrót'))
                     ->add('dodaj','submit',array('label'=>'Dodaj'));
 
+                $this->get('session')->getFlashBag()->add(
+                    'warning',
+                    "<p><strong>Uwaga!</strong> <br>Klient, którego próbujesz dodać już istnieje w bazie danych. Przed dodaniem kolejnego oddziału klienta koniecznie skontaktuj się Koordynatorem DFP w celu sprawdzenia, czy klient jest przypisany do innego Agenta.</p>"
+                );
+
                 return $this->render('DFPEtapIBundle:Frontend/Klient:filieKlienta.html.twig',array(
                     'klient'            => $entity,
                     'drugiFormularz'    => $form2step->createView(),
