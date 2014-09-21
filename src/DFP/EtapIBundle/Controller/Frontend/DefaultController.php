@@ -16,4 +16,20 @@ class DefaultController extends Controller
     {
         return array();
     }
+
+    /**
+     * @Route("/wyszukiwarka/klienci-wolni/", name="wyszukiwarka_jeden")
+     */
+    public function wyszukajJedenAction()
+    {
+        return $this->redirect($this->generateUrl('strona_w_budowie'));
+    }
+
+    /**
+     * @Route("/wyszukiwarka/klienci-zajeci", name="wyszukiwarka_dwa")
+     */
+    public function wyszukajDwaAction()
+    {
+        return $this->redirect($this->generateUrl('strona_w_budowie'));
+    }
 }
