@@ -3,6 +3,7 @@
 namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 
 /**
  * KlientRepository
@@ -46,5 +47,31 @@ class KlientRepository extends EntityRepository
         $query->getQuery();
 
         return $query;
+    }
+
+    public function getListaKlientowDSDQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+            ->select('k,f,fu,pd')
+            ->leftJoin('fu.filia','f')
+            ->leftJoin('fu.uzytkownik','u')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->where("u.roles LIKE '%ROLE_HWPS%'");
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->andwhere("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
+
+        try{
+            return $query;
+        } catch(NoResultException $e) {
+            return null;
+        }
     }
 }

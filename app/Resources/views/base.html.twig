@@ -51,6 +51,9 @@
                         <li><a class="poziom" href="{{ path('url_lista_klientow') }}">Klienci</a>
                             <ul>
                                 <li><a href="{{ path('url_lista_klientow') }}" title="Pokazuje przypisanych do mnie klientów.">Moi klienci</a> </li>
+                                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_KDFP') or is_granted('ROLE_KP') or is_granted('ROLE_DYR') or is_granted('ROLE_RKS') %}
+                                    <li><a href="{{ path('url_lista_klientow_dsd') }}">Klienci DSD</a></li>
+                                {% endif %}
                                 <li><a href="{{ path('wyszukiwarka_jeden') }}" title="Wyszukiwarka nie zarezerwowanych klientów po określeniu miejscowości.">Wyszukiwarka_1</a> </li>
                                 <li><a href="{{ path('wyszukiwarka_dwa') }}" title="Wyszukiwarka klientów po określeniu NIP, Nazwy lub kodu MAX.">Wyszukiwarka_2</a> </li>
                                 <li><a href="{{ path('url_fm_podstawowa_karta_klienta') }}" title="Formularz zakładania podstawowej karty klienta.">Dodaj nowego klienta</a> </li>
