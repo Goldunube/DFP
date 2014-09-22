@@ -70,6 +70,37 @@ class KlientController extends Controller
     }
 
     /**
+     * Lista wszystkich klientów kanalu DSD.
+     *
+     * @Route("/kanal-dsd/", name="url_lista_klientow_dsd")
+     * @Method("GET")
+     * @Template()
+     *
+     */
+    public function listaKlientowDSDAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $queryProcess = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowDSDQuery($kryteria);
+
+        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
+
+        return array(
+            'filie_uzytkownika'  => $pagination,
+        );
+    }
+
+    /**
      * TODO: Zmienić
      * Tworzy nową podstawową kartę klienta.
      *
@@ -260,6 +291,11 @@ class KlientController extends Controller
                     )
                     ->add('powrot','submit',array('label'=>'Powrót'))
                     ->add('dodaj','submit',array('label'=>'Dodaj'));
+
+                $this->get('session')->getFlashBag()->add(
+                    'warning',
+                    "<p><strong>Uwaga!</strong> <br>Klient, którego próbujesz dodać już istnieje w bazie danych. Przed dodaniem kolejnego oddziału klienta koniecznie skontaktuj się Koordynatorem DFP w celu sprawdzenia, czy klient jest przypisany do innego Agenta.</p>"
+                );
 
                 return $this->render('DFPEtapIBundle:Frontend/Klient:filieKlienta.html.twig',array(
                     'klient'            => $entity,

@@ -142,6 +142,15 @@
             </section>
         </section>
     </section>
+
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="flash-messages flash-{{ type }}">
+                <a href="#" id="modal-close-button" style="position: absolute; right:10px; color: #000000;">Zamknij X</a>
+                <p>{{ message|raw }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
 {% endblock content %}
 
 {% block javascripts %}
@@ -157,4 +166,7 @@
     $('.record_properties').on('focus','.tel-komorkowy', function(event) {
         $(this).mask('0-000-000-000', {reverse: false});
     })
+    $('#modal-close-button').bind('click',function(){
+        $('.flash-messages').fadeOut(500);
+    });
 {% endblock javascripts %}

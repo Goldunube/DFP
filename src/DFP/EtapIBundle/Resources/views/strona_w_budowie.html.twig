@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock stylesheets %}
+
+{% block body %}
+    <div id="main" style="height: 500px; min-height: 500px;">
+        {% block content %}
+            <section style="text-align: center; font-size: 16px; font-family: Trebuchet MS, Helvetica, Arial, sans-serif;">
+                <img src="{{ asset('css/images/strona_w_budowie.png') }}">
+                <p>
+                    Przepraszamy, strona którą chcesz wyświetlić znajduje się w trakcie budowy. Spróbuj później. W celu uzyskania bardziej prezycyjnych informacji skontaktuj się z administratorami serwisu (Dyr. Mirosław Miksza, KP Arkadiusz Jarzyński lub Adam Królikowski).
+                </p>
+                <p>W celu powrócenia do poprzedniej strony kliknij <a href="javascript:(history.back())">tutaj</a>.</p>
+            </section>
+        {% endblock content %}
+    </div>
+    <footer>
+        <p>Copyright Adam Królikowski</p>
+    </footer>
+
+{% endblock body %}

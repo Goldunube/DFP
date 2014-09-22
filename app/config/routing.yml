@@ -46,3 +46,9 @@ karta_techniczna_footer:
     defaults:
         _controller:  FrameworkBundle:Template:template
         template:     DFPEtapIBundle:Backend/Produkt:karta_techniczna_footer.html.twig
+
+strona_w_budowie:
+    path: /strona_w_budowie
+    defaults:
+        _controller:  FrameworkBundle:Template:template
+        template:     DFPEtapIBundle::strona_w_budowie.html.twig
