@@ -37,7 +37,7 @@
             <tbody>
             {% for filia_uzytkownika in filie_uzytkownika %}
                 <tr {{ (filia_uzytkownika.koniecPrzypisania is empty or filia_uzytkownika.koniecPrzypisania|date('Y-m-d') < "now"|date('Y-m-d')) ? "class='przeterminowane'" : "" }}>
-                    <th class="lp"><a href="{{ path('frontend_pokaz_filie_klienta', { 'id': filia_uzytkownika.filia.id }) }}">{{ loop.index }}</a></th>
+                    <th class="lp"><a href="{{ path('frontend_pokaz_filie_klienta', { 'id': filia_uzytkownika.filia.id }) }}">{{ filie_uzytkownika.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></th>
                     <td class="klient-nazwa-skrocona" title="Pełna nazwa: {{ filia_uzytkownika.filia.klient.nazwaPelna }}"><div>{{ filia_uzytkownika.filia.klient.nazwaSkrocona > 70 ? filia_uzytkownika.filia.klient.nazwaSkrocona[:70] ~ " ..." : filia_uzytkownika.filia.klient.nazwaSkrocona }}</div></td>
                     <td class="filia-nazwa">{{ filia_uzytkownika.filia.nazwaFilii }}</td>
                     <td class="filia-miejscowosc" title="{{ filia_uzytkownika.filia.ulica }}&#10;{{ filia_uzytkownika.filia.kodPocztowy|kodPocztowy }}; {{ filia_uzytkownika.filia.miejscowosc }}&#10;{{ filia_uzytkownika.filia.wojewodztwo }}">{{ filia_uzytkownika.filia.miejscowosc }}</td>

@@ -1,5 +1,7 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block title %}Portal DFP - {{ filia.klient.nazwaSkrocona }}{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/oferta_handlowa.css') }}" rel="stylesheet"/>
