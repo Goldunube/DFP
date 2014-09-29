@@ -194,7 +194,7 @@
                 Powrót
             </a>
         </li>
-        {% if (is_granted('ROLE_TECHNIK') and oferta.status == 0) %}
+        {% if ((is_granted('ROLE_TECHNIK') or is_granted('ROLE_KP')) and oferta.status == 0) %}
             <li>
                 {{ form(otworzDoborSystemuForm) }}
             </li>
