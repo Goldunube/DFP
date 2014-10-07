@@ -28,7 +28,7 @@
                     <td>
                         {% if filia.filieUzytkownicy|length > 0 %}
                             {% for przypisani in filia.filieUzytkownicy %}
-                                <div class="przypisanie-container">
+                                <div class="przypisanie-container {{ przypisani.koniecPrzypisania|date('Y-m-d') < "now"|date('Y-m-d') ? "przeterminowane" : "" }}">
                                     <div class="przypisany">
                                         {{ przypisani.uzytkownik }}
                                     </div>

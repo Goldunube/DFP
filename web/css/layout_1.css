@@ -462,3 +462,8 @@ fieldset.slownik legend{
     top: 20%;
     z-index: 99999;
 }
+.przypisanie-container.przeterminowane {
+    background-color: sienna;
+    border: 1px solid black;
+    color: white;
+}
