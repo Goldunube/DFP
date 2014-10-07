@@ -6,7 +6,7 @@
     <table class="records_list">
         <thead>
             <tr>
-                <th>Lp.</th>
+                <th>ID</th>
                 <th>Nazwa profilu</th>
                 <th>Informacje</th>
                 <th>Weryfikacja</th>
@@ -16,7 +16,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('profildzialalnosci_show', { 'id': entity.id }) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}.</a></td>
+                <td><a href="{{ path('profildzialalnosci_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.nazwaProfilu }}</td>
                 <td>{{ entity.info }}</td>
                 <td>{% if entity.zweryfikowany == 1 %}TAK{% else %}NIE{% endif %}</td>
