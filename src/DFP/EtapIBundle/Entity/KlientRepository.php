@@ -58,7 +58,7 @@ class KlientRepository extends EntityRepository
             ->leftJoin('u.profilUzytkownika','pu')
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
-            ->where("pu.stanowisko IN ('Agent DSD', 'Handlowiec DSD', 'Dyrektor DSD')");
+            ->where("pu.stanowisko IN ('Agent DSD', 'Handlowiec DSD', 'Dyrektor DSD','RKS DSD')");
 
         if($kryteria)
         {
