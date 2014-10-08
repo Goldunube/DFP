@@ -91,10 +91,11 @@ class PrzypisaneController extends Controller
             $em->persist($filiaUzytkownik);
             $em->flush();
 
+            $referers = $session->get('referers');
 
-            if($session->get('referers')['lista_przypisanych'])
+            if($referers['lista_przypisanych'])
             {
-                return $this->redirect($session->get('referers')['lista_przypisanych']);
+                return $this->redirect($referers['lista_przypisanych']);
             }
             return $this->redirect($this->generateUrl('backend_przypisanie_lista'));
         }
@@ -231,9 +232,11 @@ class PrzypisaneController extends Controller
             $em->persist($przypisanie);
             $em->flush();
 
-            if($session->get('referers')['lista_przypisanych'])
+            $referers = $session->get('referers');
+
+            if($referers['lista_przypisanych'])
             {
-                return $this->redirect($session->get('referers')['lista_przypisanych']);
+                return $this->redirect($referers['lista_przypisanych']);
             }
         }
 
