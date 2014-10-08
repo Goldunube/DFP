@@ -81,6 +81,8 @@ class PrzypisaneController extends Controller
             throw $this->createNotFoundException('Brak przypisania.');
         }
 
+        $session = $this->get('session');
+
         $updateForm = $this->createEditForm($filiaUzytkownik);
         $updateForm->handleRequest($request);
 
@@ -89,12 +91,17 @@ class PrzypisaneController extends Controller
             $em->persist($filiaUzytkownik);
             $em->flush();
 
+
+            if($session->get('referers')['lista_przypisanych'])
+            {
+                return $this->redirect($session->get('referers')['lista_przypisanych']);
+            }
             return $this->redirect($this->generateUrl('backend_przypisanie_lista'));
         }
 
         return array(
-            'przypisanie'     =>  $filiaUzytkownik,
-            'formularz' =>  $updateForm->createView(),
+            'przypisanie'       =>  $filiaUzytkownik,
+            'formularz'         =>  $updateForm->createView(),
         );
     }
 
@@ -133,11 +140,17 @@ class PrzypisaneController extends Controller
             throw $this->createNotFoundException('Nie znaleziono karty klienta.');
         }
 
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        $session = $this->get('session');
+        $session->set('referers',array('lista_przypisanych' => $previousUrl));
+
         $editForm = $this->createEditForm($filiaUzytkownik);
 
         return array(
-            'przypisanie'     =>  $filiaUzytkownik,
-            'formularz' =>  $editForm->createView(),
+            'przypisanie'       =>  $filiaUzytkownik,
+            'formularz'         =>  $editForm->createView(),
+            'powrot_url'        =>  $previousUrl,
         );
     }
 
@@ -200,6 +213,9 @@ class PrzypisaneController extends Controller
         {
             throw $this->createNotFoundException('Filia, do której chcesz przypisać użytkownika, nie istnieje');
         }
+
+        $session = $this->get('session');
+
         $przypisanie->setFilia($filia);
 
         $form = $this->createForm(new FiliaUzytkownikType(), $przypisanie, array(
@@ -214,6 +230,11 @@ class PrzypisaneController extends Controller
         {
             $em->persist($przypisanie);
             $em->flush();
+
+            if($session->get('referers')['lista_przypisanych'])
+            {
+                return $this->redirect($session->get('referers')['lista_przypisanych']);
+            }
         }
 
         return $this->redirect($this->generateUrl('backend_przypisanie_lista'));
@@ -234,6 +255,11 @@ class PrzypisaneController extends Controller
             throw $this->createNotFoundException('Filia, do której chcesz przypisać użytkownika, nie istnieje');
         }
 
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        $session = $this->get('session');
+        $session->set('referers',array('lista_przypisanych' => $previousUrl));
+
         $filiaUzytkownik = new FiliaUzytkownik();
         $filiaUzytkownik->setFilia($filia);
         $form = $this->createForm(new FiliaUzytkownikType(), $filiaUzytkownik, array(
@@ -246,6 +272,7 @@ class PrzypisaneController extends Controller
             'filia'                 =>  $filia,
             'filia_uzytkownik'      =>  $filiaUzytkownik,
             'formularz'             =>  $form->createView(),
+            'powrot_url'            =>  $previousUrl,
         );
     }
 }
