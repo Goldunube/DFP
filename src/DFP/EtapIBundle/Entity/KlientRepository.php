@@ -78,15 +78,25 @@ class KlientRepository extends EntityRepository
 
     public function getListaKlientowDSBQuery($kryteria = null)
     {
-        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
-            ->select('k,f,fu,pd')
-            ->leftJoin('fu.filia','f')
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
+            ->select('f, k, fu, u, pd')
+            ->innerJoin('f.klient','k')
+            ->leftJoin('f.filieUzytkownicy','fu')
             ->leftJoin('fu.uzytkownik','u')
             ->leftJoin('u.profilUzytkownika','pu')
-            ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
             ->where("pu.stanowisko IN ('RLS DSB', 'Dyrektor DSB')")
-            ->groupBy('f.id');
+            ->orderBy('k.nazwaSkrocona','ASC');
+
+//        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+//            ->select('k,f,fu,pd')
+//            ->leftJoin('fu.filia','f')
+//            ->leftJoin('fu.uzytkownik','u')
+//            ->leftJoin('u.profilUzytkownika','pu')
+//            ->leftJoin('f.klient','k')
+//            ->leftJoin('f.profileDzialalnosci','pd')
+//            ->where("pu.stanowisko IN ('RLS DSB', 'Dyrektor DSB')")
+//            ->groupBy('f.id');
 
         if($kryteria)
         {
