@@ -86,7 +86,7 @@ class KlientRepository extends EntityRepository
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
             ->where("pu.stanowisko IN ('RLS DSB', 'Dyrektor DSB')")
-            ->groupBy('k.id');
+            ->groupBy('f.id');
 
         if($kryteria)
         {

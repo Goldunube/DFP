@@ -127,7 +127,7 @@ class KlientController extends Controller
         $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
 
         return array(
-            'filie_uzytkownika'  => $pagination,
+            'lista_klientow'  => $pagination,
         );
     }
 
