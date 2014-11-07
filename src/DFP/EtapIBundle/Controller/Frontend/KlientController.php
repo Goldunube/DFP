@@ -101,6 +101,37 @@ class KlientController extends Controller
     }
 
     /**
+     * Lista wszystkich klientów kanalu DSB.
+     *
+     * @Route("/kanal-dsb/", name="url_lista_klientow_dsb")
+     * @Method("GET")
+     * @Template()
+     *
+     */
+    public function listaKlientowDSBAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+
+        $kryteria = null;
+
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $queryProcess = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowDSBQuery($kryteria);
+
+        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
+
+        return array(
+            'filie_uzytkownika'  => $pagination,
+        );
+    }
+
+    /**
      * TODO: Zmienić
      * Tworzy nową podstawową kartę klienta.
      *

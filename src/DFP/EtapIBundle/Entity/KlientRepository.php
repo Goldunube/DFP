@@ -75,4 +75,32 @@ class KlientRepository extends EntityRepository
             return null;
         }
     }
+
+    public function getListaKlientowDSBQuery($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+            ->select('k,f,fu,pd')
+            ->leftJoin('fu.filia','f')
+            ->leftJoin('fu.uzytkownik','u')
+            ->leftJoin('u.profilUzytkownika','pu')
+            ->leftJoin('f.klient','k')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->where("pu.stanowisko IN ('RLS DSB', 'Dyrektor DSB')")
+            ->groupBy('k.id');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->andwhere("$pole LIKE '%$wartosc%'");
+        };
+
+        $query->getQuery();
+
+        try{
+            return $query;
+        } catch(NoResultException $e) {
+            return null;
+        }
+    }
 }
