@@ -82,6 +82,12 @@ class OfertaHandlowa
     private $infoAnulacja;
 
     /**
+     * @var string
+     * @ORM\Column(name="info_technik", type="text", nullable=true)
+     */
+    private $infoTechnik;
+
+    /**
      * @var integer
      *
      * @ORM\OneToMany(targetEntity="OfertaHandlowaProfilSystem", mappedBy="ofertaHandlowa", cascade={"persist"}, orphanRemoval=true)
@@ -376,5 +382,21 @@ class OfertaHandlowa
     public function getTymczasoweProfileSystemy()
     {
         return $this->tymczasoweProfileSystemy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInfoTechnik()
+    {
+        return $this->infoTechnik;
+    }
+
+    /**
+     * @param string $infoTechnik
+     */
+    public function setInfoTechnik($infoTechnik)
+    {
+        $this->infoTechnik = $infoTechnik;
     }
 }
