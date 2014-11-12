@@ -18,6 +18,7 @@ $(document).ready(function()
         $newTableLinkLi = $(this);
         $holderOfertyProfileSystemy.data('index', $holderOfertyProfileSystemy.find('table').length);
         addTableForm($holderOfertyProfileSystemy, $newTableLinkLi);
+        $('.selectpicker').selectpicker();
     });
 
     $holderOfertyProfileSystemy.append($addTableLink);
@@ -58,7 +59,7 @@ $(document).ready(function()
 
         $collectionHolder.data('index', index + 1);
 
-        var $newFormLi = $('<table></table>').append(newForm);
+        var $newFormLi = $('<table class="table"></table>').append(newForm);
         $newLinkLi.before($newFormLi);
 
         addTableFormDeleteLink($newFormLi);
@@ -147,6 +148,4 @@ $(document).ready(function()
         },
         closeOnEscape: true
     });
-
-    $('.selectpicker').selectpicker();
 });

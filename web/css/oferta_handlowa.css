@@ -119,6 +119,17 @@ tfoot td, tfoot th {
 #main section {
     overflow: visible;
 }
+#oferty-systemy-container {
+    margin-bottom: 20px;
+}
 #oferty-systemy-container table th, #oferty-systemy-container table td {
     vertical-align: middle;
+}
+#oferty-systemy-container table tbody td {
+    padding: 5px;
+    overflow: visible;
+}
+#oferty-systemy-container table tbody td div {
+    overflow: visible;
+    max-height: 42px;
 }

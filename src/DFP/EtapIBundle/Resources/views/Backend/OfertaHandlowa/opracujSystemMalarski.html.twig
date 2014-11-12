@@ -178,31 +178,31 @@
     </aside>
 
     {{ form_start(form) }}
-        <section id="oferty-systemy-container" class="container-fluid">
+        <section id="oferty-systemy-container" class="container-fluid" data-prototype="{% filter escape %} {% include 'DFPEtapIBundle:Includes:ofertaSystem.html.twig' with {oferta_system: form.ofertySystemy.vars.prototype} %} {% endfilter %}">
             {% for oferta_system in form.ofertySystemy %}
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Profil działalności</th>
-                            <td>{{ form_widget(oferta_system.profil) }}</td>
+                            <td>{{ form_widget(oferta_system.profil, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th>Grunt / Gruntoemalia</th>
-                            <td>{{ form_widget(oferta_system.warstwa1) }}</td>
+                            <td>{{ form_widget(oferta_system.warstwa1, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
                         </tr>
                         <tr>
                             <th>Międzywarstwa</th>
-                            <td>{{ form_widget(oferta_system.warstwa2) }}</td>
+                            <td>{{ form_widget(oferta_system.warstwa2, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
                         </tr>
                         <tr>
                             <th>Międzywarstwa</th>
-                            <td>{{ form_widget(oferta_system.warstwa3) }}</td>
+                            <td>{{ form_widget(oferta_system.warstwa3, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
                         </tr>
                         <tr>
                             <th>Farba nawierzchniowa</th>
-                            <td>{{ form_widget(oferta_system.warstwa4) }}</td>
+                            <td>{{ form_widget(oferta_system.warstwa4, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -210,14 +210,16 @@
         </section>
 
 {#    {% if oferta.status == 1 %}
-        <section id="oferty-profile-systemy-container" data-prototype="{% filter escape %} {% include 'DFPEtapIBundle:Includes:ofertaProfilSystem.html.twig' with {oferta_profil_system: form.ofertyProfileSystemy.vars.prototype} %} {% endfilter %}">
+        <section id="oferty-profile-systemy-container" data-prototype="{% filter escape %} {% include 'DFPEtapIBundle:Includes:ofertaSystem.html.twig' with {oferta_profil_system: form.ofertyProfileSystemy.vars.prototype} %} {% endfilter %}">
             {% for oferta_profil_system in form.ofertyProfileSystemy %}
                 <table>
-                    {% include 'DFPEtapIBundle:Includes:ofertaProfilSystem.html.twig' with {form: oferta_profil_system.vars.form} %}
+                    {% include 'DFPEtapIBundle:Includes:ofertaSystem.html.twig' with {form: oferta_profil_system.vars.form} %}
                 </table>
             {% endfor %}
         </section>
     {% endif %}#}
+
+    <hr>
 
     <ul class="record_actions">
         <li>
@@ -226,11 +228,11 @@
             </a>
         </li>
 
-        {% if form.zapisz is defined %} <li> {{ form_row(form.zapisz) }} </li> {% endif %}
+        {% if form.zapisz is defined %} <li> <button class="art-button zielony" name="{{ form.zapisz.vars.full_name }}" id="{{ form.zapisz.vars.id }}" type="submit">Zapisz</button> </li> {% endif %}
 
-        {% if form.zamknij is defined %} <li> {{ form_row(form.zamknij) }} </li> {% else %} <li> {{ form_row(form.otworz) }} </li> {% endif %}
+        {% if form.zamknij is defined %} <li> <button class="art-button zielony" name="{{ form.zamknij.vars.full_name }}" id="{{ form.zamknij.vars.id }}" type="submit">Zapisz i zamknij</button> </li> {% else %} <li> <button class="art-button zielony" name="{{ form.otworz.vars.full_name }}" id="{{ form.otworz.vars.id }}" type="submit">Zapisz</button> </li> {% endif %}
 
-        {% if form.anuluj is defined %} <li> <button id="btn-anuluj" class="art-button czerwony">Anuluj zamówienie</button> {{ form_row(form.anuluj) }} </li> {% endif %}
+        {% if form.anuluj is defined %} <li> <button id="btn-anuluj" class="art-button czerwony">Anuluj zamówienie</button> {{ form_widget(form.anuluj) }} </li> {% endif %}
 
     </ul>
 
@@ -248,3 +250,7 @@
     {% endjavascripts %}
 
 {% endblock %}
+
+{% block javascripts %}
+    $('.selectpicker').selectpicker();
+{% endblock javascripts %}
