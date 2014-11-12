@@ -391,7 +391,9 @@ class OfertaHandlowa
      */
     public function addOfertySystemy(OfertaSystem $ofertySystemy)
     {
-        $this->ofertySystemy[] = $ofertySystemy;
+        $ofertySystemy->setOferta($this);
+        if(!$this->ofertySystemy->contains($ofertySystemy))
+            $this->ofertySystemy->add($ofertySystemy);
 
         return $this;
     }
@@ -403,7 +405,8 @@ class OfertaHandlowa
      */
     public function removeOfertySystemy(OfertaSystem $ofertySystemy)
     {
-        $this->ofertySystemy->removeElement($ofertySystemy);
+        if($this->ofertySystemy->contains($ofertySystemy))
+            $this->ofertySystemy->remove($ofertySystemy);
     }
 
     /**

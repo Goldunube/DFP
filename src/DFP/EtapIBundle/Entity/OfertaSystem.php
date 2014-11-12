@@ -29,7 +29,7 @@ class OfertaSystem
 
     /**
      * @var string
-     * @ORM\Column(name="warstwa_2", type="string", nullable=true)
+     * @ORM\Column(name="warstwa_2", type="array", nullable=true)
      */
     private $warstwa2;
 

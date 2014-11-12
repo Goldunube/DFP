@@ -787,7 +787,7 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
 
-        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+        //$dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
 
         $previousUrl = $this->get('request')->headers->get('referer');
 
@@ -822,7 +822,6 @@ class OfertaHandlowaController extends Controller
             'oferta'                    =>  $ofertaHandlowa,
             'filia'                     =>  $filia,
             'powrot_url'                =>  $previousUrl,
-            'dobrane_systemy'           =>  $dobraneSystemy,
             'notatka_kategorie'         =>  $kategorieNotatek,
         );
     }

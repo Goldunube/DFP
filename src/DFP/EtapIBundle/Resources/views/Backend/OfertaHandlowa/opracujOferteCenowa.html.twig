@@ -174,7 +174,14 @@
     </aside>
 
     <section>
-        <h3>Dobrane systemy malarskie</h3>
+        <dl>
+            {% for ofertaSystem in oferta.ofertySystemy %}
+                <dt>{{ ofertaSystem.profil.nazwaProfilu }}</dt>
+                <dd>{{ ofertaSystem.warstwa1 }}</dd>
+            {% endfor %}
+        </dl>
+
+{#        <h3>Dobrane systemy malarskie</h3>
         <dl id="dobrane-systemy" class="table-display">
             {% for ofertaProfilSystem in dobrane_systemy %}
                 <dt>{{ ofertaProfilSystem.profilSystem.profilDzialalnosci }}</dt>
@@ -187,7 +194,7 @@
                 </dd>
                 <dd class="uwagi"><strong>Uwagi: </strong>{{ ofertaProfilSystem.uwagi }}</dd>
             {% endfor %}
-        </dl>
+        </dl>#}
     </section>
 
     <ul class="record_actions">
