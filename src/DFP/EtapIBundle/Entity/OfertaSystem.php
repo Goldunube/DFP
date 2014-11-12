@@ -23,32 +23,32 @@ class OfertaSystem
 
     /**
      * @var array
-     * @ORM\Column(name="warstwa_1", type="array")
+     * @ORM\Column(name="warstwa_1", type="array", nullable=true)
      */
     private $warstwa1;
 
     /**
-     * @var array
-     * @ORM\Column(name="warstwa_2", type="array")
+     * @var string
+     * @ORM\Column(name="warstwa_2", type="string", nullable=true)
      */
     private $warstwa2;
 
     /**
      * @var array
-     * @ORM\Column(name="warstwa_3", type="array")
+     * @ORM\Column(name="warstwa_3", type="array", nullable=true)
      */
     private $warstwa3;
 
     /**
      * @var array
-     * @ORM\Column(name="warstwa_4", type="array")
+     * @ORM\Column(name="warstwa_4", type="array", nullable=true)
      */
     private $warstwa4;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="informacja", type="text")
+     * @ORM\Column(name="informacja", type="text", nullable=true)
      */
     private $informacja;
 

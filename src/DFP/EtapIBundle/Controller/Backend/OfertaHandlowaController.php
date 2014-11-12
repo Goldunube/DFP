@@ -224,35 +224,35 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
 
-        if(!is_null($ofertaHandlowa->getTymczasoweProfileSystemy()))
-        {
-            $ofertaHandlowa->getOfertyProfileSystemy()->clear();
+//        if(!is_null($ofertaHandlowa->getTymczasoweProfileSystemy()))
+//        {
+//            $ofertaHandlowa->getOfertyProfileSystemy()->clear();
+//
+//            $tymczasoweProfileSystemy = $ofertaHandlowa->getTymczasoweProfileSystemy();
+//            foreach($tymczasoweProfileSystemy as $tempProfilSystem)
+//            {
+//                $newOfertaProfilSystem = new OfertaHandlowaProfilSystem();
+//                $newSystemMalarski = new SystemMalarski();
+//                $newProfilSystem = new ProfilSystem();
+//
+//                foreach($tempProfilSystem['system'] as $produktId)
+//                {
+//                    $tempProdukt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produktId);
+//                    $newSystemMalarski->addProdukty($tempProdukt);
+//                }
+//
+//                $tempProfilDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($tempProfilSystem['profil']);
+//                $newProfilSystem->setSystemMalarski($newSystemMalarski);
+//                $newProfilSystem->setProfilDzialalnosci($tempProfilDzialalnosci);
+//                $newOfertaProfilSystem->setProfilSystem($newProfilSystem);
+//                $newOfertaProfilSystem->setUwagi($tempProfilSystem['uwagi']);
+//                $ofertaHandlowa->addOfertyProfileSystemy($newOfertaProfilSystem);
+//
+//                $em->persist($ofertaHandlowa);
+//            }
+//        }
 
-            $tymczasoweProfileSystemy = $ofertaHandlowa->getTymczasoweProfileSystemy();
-            foreach($tymczasoweProfileSystemy as $tempProfilSystem)
-            {
-                $newOfertaProfilSystem = new OfertaHandlowaProfilSystem();
-                $newSystemMalarski = new SystemMalarski();
-                $newProfilSystem = new ProfilSystem();
-
-                foreach($tempProfilSystem['system'] as $produktId)
-                {
-                    $tempProdukt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produktId);
-                    $newSystemMalarski->addProdukty($tempProdukt);
-                }
-
-                $tempProfilDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($tempProfilSystem['profil']);
-                $newProfilSystem->setSystemMalarski($newSystemMalarski);
-                $newProfilSystem->setProfilDzialalnosci($tempProfilDzialalnosci);
-                $newOfertaProfilSystem->setProfilSystem($newProfilSystem);
-                $newOfertaProfilSystem->setUwagi($tempProfilSystem['uwagi']);
-                $ofertaHandlowa->addOfertyProfileSystemy($newOfertaProfilSystem);
-
-                $em->persist($ofertaHandlowa);
-            }
-        }
-
-        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+//        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
 
         $otworzDoborSystemuForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_otworz_opracowanie_systemu_malarskiego', array('id'=>$id)))
@@ -279,7 +279,7 @@ class OfertaHandlowaController extends Controller
             'otworzDoborSystemuForm'    =>  $otworzDoborSystemuForm->createView(),
             'powrot_url'                =>  $previousUrl,
             'notatka_kategorie'         =>  $kategorieNotatek,
-            'dobrane_systemy'           =>  $dobraneSystemy,
+//            'dobrane_systemy'           =>  $dobraneSystemy,
         );
     }
 
@@ -303,9 +303,9 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
 
-        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
+        $dobraneSystemy = $ofertaHandlowa->getOfertySystemy();
 
-                $kategorieNotatek = array(
+        $kategorieNotatek = array(
             1 => 'Wymagania klienta',
             2 => 'Informacje handlowe',
             3 => 'Harmonogram działań',
@@ -460,21 +460,25 @@ class OfertaHandlowaController extends Controller
      */
     private function zapiszOpracowanieSystemuMalarskiegoAction($tymczasowaTablica, $id)
     {
-        if($tymczasowaTablica != null)
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->clear();
-
-            /**
-             * @var $ofertaHandlowa OfertaHandlowa
-             */
-            $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-
-            $ofertaHandlowa->setTymczasoweProfileSystemy($tymczasowaTablica);
-
-            $em->persist($ofertaHandlowa);
-            $em->flush();
-        }
+        $em = $this->getDoctrine()->getManager();
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+        $em->persist($ofertaHandlowa);
+        $em->flush();
+//        if($tymczasowaTablica != null)
+//        {
+//            $em = $this->getDoctrine()->getManager();
+//            $em->clear();
+//
+//            /**
+//             * @var $ofertaHandlowa OfertaHandlowa
+//             */
+//            $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+//
+//            $ofertaHandlowa->setTymczasoweProfileSystemy($tymczasowaTablica);
+//
+//            $em->persist($ofertaHandlowa);
+//            $em->flush();
+//        }
 
         return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
     }
@@ -490,7 +494,6 @@ class OfertaHandlowaController extends Controller
     private function zamknijOpracowanieSystemuMalarskiego(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-//        $em->clear();
 
         /**
          * @var $ofertaHandlowa OfertaHandlowa
@@ -500,8 +503,8 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
             ->setMethod('POST')
-            ->add('ofertyProfileSystemy','collection',array(
-                    'type'          =>  new OfertaHandlowaProfilSystemType(),
+            ->add('ofertySystemy','collection',array(
+                    'type'          =>  new OfertaSystemType(),
                     'allow_add'     =>  true,
                     'by_reference'  =>  false,
                 )
@@ -527,56 +530,55 @@ class OfertaHandlowaController extends Controller
 
         if($ofertaHandlowaForm->isValid())
         {
-            $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
-
-            //SPRAWDŹ CZY DODAWANY SYSTEM ZNAJDUJE SIĘ JUŻ W BAZIE DANYCH POPRZEZ WYSZUKANIE PRODUKTÓW
-
-            /**
-             * @var OfertaHandlowaProfilSystem $ofertaProfilSystem
-             */
-            foreach($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem)
-            {
-                $sprSystem = array();
-                /**
-                 * @var $system SystemMalarski
-                 */
-                foreach($systemyMalarskieCollection as $system)
-                {
-                    if($system->getProdukty()->getValues() === $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty()->getValues())
-                    {
-                        $sprSystem[] = $system;
-                    }
-                }
-
-                // SPRAWDZENIE CZY W BAZIE DANYCH ZNAJDUJE SIĘ ENCJA PROFIL_SYSTEM O PODANYM PROFILU DZIAŁALNOŚCI I SYSTEMIE MALARSKIM
-                if(!empty($sprSystem))
-                {
-                    $query = $em->createQuery(
-                        'SELECT ps
-                        FROM DFPEtapIBundle:ProfilSystem ps
-                        WHERE ps.profilDzialalnosci = :profil AND ps.systemMalarski = :system'
-                    )
-                    ->setParameters(array('profil'=>$ofertaProfilSystem->getProfilSystem()->getProfilDzialalnosci(), 'system'=>$sprSystem[0]))
-                    ->setMaxResults(1);
-
-                    $profilSystemCheck = $query->getOneOrNullResult();
-                    if($profilSystemCheck)
-                    {
-                        $profilSystem =  $em->getRepository('DFPEtapIBundle:ProfilSystem')->find($profilSystemCheck->getId());
-                        $ofertaProfilSystem->setProfilSystem($profilSystem);
-                    }else{
-                        $ofertaProfilSystem->getProfilSystem()->setSystemMalarski($sprSystem[0]);
-                    }
-                }
-
-//                $em->persist($ofertaProfilSystem);
-
-            }
+//            $systemyMalarskieCollection = $em->getRepository('DFP\EtapIBundle\Entity\SystemMalarski')->findAll();
+//
+//            //SPRAWDŹ CZY DODAWANY SYSTEM ZNAJDUJE SIĘ JUŻ W BAZIE DANYCH POPRZEZ WYSZUKANIE PRODUKTÓW
+//
+//            /**
+//             * @var OfertaHandlowaProfilSystem $ofertaProfilSystem
+//             */
+//            foreach($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem)
+//            {
+//                $sprSystem = array();
+//                /**
+//                 * @var $system SystemMalarski
+//                 */
+//                foreach($systemyMalarskieCollection as $system)
+//                {
+//                    if($system->getProdukty()->getValues() === $ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty()->getValues())
+//                    {
+//                        $sprSystem[] = $system;
+//                    }
+//                }
+//
+//                // SPRAWDZENIE CZY W BAZIE DANYCH ZNAJDUJE SIĘ ENCJA PROFIL_SYSTEM O PODANYM PROFILU DZIAŁALNOŚCI I SYSTEMIE MALARSKIM
+//                if(!empty($sprSystem))
+//                {
+//                    $query = $em->createQuery(
+//                        'SELECT ps
+//                        FROM DFPEtapIBundle:ProfilSystem ps
+//                        WHERE ps.profilDzialalnosci = :profil AND ps.systemMalarski = :system'
+//                    )
+//                    ->setParameters(array('profil'=>$ofertaProfilSystem->getProfilSystem()->getProfilDzialalnosci(), 'system'=>$sprSystem[0]))
+//                    ->setMaxResults(1);
+//
+//                    $profilSystemCheck = $query->getOneOrNullResult();
+//                    if($profilSystemCheck)
+//                    {
+//                        $profilSystem =  $em->getRepository('DFPEtapIBundle:ProfilSystem')->find($profilSystemCheck->getId());
+//                        $ofertaProfilSystem->setProfilSystem($profilSystem);
+//                    }else{
+//                        $ofertaProfilSystem->getProfilSystem()->setSystemMalarski($sprSystem[0]);
+//                    }
+//                }
+//
+////                $em->persist($ofertaProfilSystem);
+//
+//            }
 
             $ofertaHandlowa->setStatus(2);
             $em->persist($ofertaHandlowa);
             $em->flush();
-
 
         }
 

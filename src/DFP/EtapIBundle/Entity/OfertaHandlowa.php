@@ -96,14 +96,14 @@ class OfertaHandlowa
     /**
      * Produkty dobiera koordynator DFP
      *
-     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt", mappedBy="oferta")
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt", mappedBy="oferta", cascade={"persist"})
      */
     private $ofertyProdukty;
 
     /**
      * Dobrane przez Technika systemy malarskie odpowiadajace profilowi działalności klienta
      *
-     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaSystem", mappedBy="oferta")
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaSystem", mappedBy="oferta",cascade={"persist"})
      */
     private $ofertySystemy;
 
