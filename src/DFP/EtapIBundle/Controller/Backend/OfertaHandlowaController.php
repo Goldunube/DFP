@@ -648,54 +648,61 @@ class OfertaHandlowaController extends Controller
 
         }
 
-        if($ofertaHandlowa->getOfertyProfileSystemy()->isEmpty())
+        foreach ($profileDzialalnosci as $profilDzialanosci)
         {
-            foreach($profileDzialalnosci as $profilDzialalnosci)
-            {
-                $systemMalarski = new SystemMalarski();
-                $profilSystem = new ProfilSystem();
-                $profilSystem->setProfilDzialalnosci($profilDzialalnosci);
-                $profilSystem->setSystemMalarski($systemMalarski);
-
-                $ofertaProfilSystem = new OfertaHandlowaProfilSystem();
-                $ofertaProfilSystem->setProfilSystem($profilSystem);
-                $ofertaHandlowa->addOfertyProfileSystemy($ofertaProfilSystem);
-            }
+            $ofertaSystem = new OfertaSystem();
+            $ofertaSystem->setProfil($profilDzialanosci);
+            $ofertaHandlowa->addOfertySystemy($ofertaSystem);
         }
 
-        if(!is_null($ofertaHandlowa->getTymczasoweProfileSystemy()))
-        {
-            $ofertaHandlowa->getOfertyProfileSystemy()->clear();
+//        if($ofertaHandlowa->getOfertyProfileSystemy()->isEmpty())
+//        {
+//            foreach($profileDzialalnosci as $profilDzialalnosci)
+//            {
+//                $systemMalarski = new SystemMalarski();
+//                $profilSystem = new ProfilSystem();
+//                $profilSystem->setProfilDzialalnosci($profilDzialalnosci);
+//                $profilSystem->setSystemMalarski($systemMalarski);
+//
+//                $ofertaProfilSystem = new OfertaHandlowaProfilSystem();
+//                $ofertaProfilSystem->setProfilSystem($profilSystem);
+//                $ofertaHandlowa->addOfertyProfileSystemy($ofertaProfilSystem);
+//            }
+//        }
 
-            $tymczasoweProfileSystemy = $ofertaHandlowa->getTymczasoweProfileSystemy();
-            foreach($tymczasoweProfileSystemy as $tempProfilSystem)
-            {
-                $newOfertaProfilSystem = new OfertaHandlowaProfilSystem();
-                $newSystemMalarski = new SystemMalarski();
-                $newProfilSystem = new ProfilSystem();
-
-                foreach($tempProfilSystem['system'] as $produktId)
-                {
-                    $tempProdukt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produktId);
-                    $newSystemMalarski->addProdukty($tempProdukt);
-                }
-
-                $tempProfilDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($tempProfilSystem['profil']);
-                $newProfilSystem->setSystemMalarski($newSystemMalarski);
-                $newProfilSystem->setProfilDzialalnosci($tempProfilDzialalnosci);
-                $newOfertaProfilSystem->setProfilSystem($newProfilSystem);
-                $newOfertaProfilSystem->setUwagi($tempProfilSystem['uwagi']);
-                $ofertaHandlowa->addOfertyProfileSystemy($newOfertaProfilSystem);
-
-                $em->persist($ofertaHandlowa);
-            }
-        }
+//        if(!is_null($ofertaHandlowa->getTymczasoweProfileSystemy()))
+//        {
+//            $ofertaHandlowa->getOfertyProfileSystemy()->clear();
+//
+//            $tymczasoweProfileSystemy = $ofertaHandlowa->getTymczasoweProfileSystemy();
+//            foreach($tymczasoweProfileSystemy as $tempProfilSystem)
+//            {
+//                $newOfertaProfilSystem = new OfertaHandlowaProfilSystem();
+//                $newSystemMalarski = new SystemMalarski();
+//                $newProfilSystem = new ProfilSystem();
+//
+//                foreach($tempProfilSystem['system'] as $produktId)
+//                {
+//                    $tempProdukt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produktId);
+//                    $newSystemMalarski->addProdukty($tempProdukt);
+//                }
+//
+//                $tempProfilDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($tempProfilSystem['profil']);
+//                $newProfilSystem->setSystemMalarski($newSystemMalarski);
+//                $newProfilSystem->setProfilDzialalnosci($tempProfilDzialalnosci);
+//                $newOfertaProfilSystem->setProfilSystem($newProfilSystem);
+//                $newOfertaProfilSystem->setUwagi($tempProfilSystem['uwagi']);
+//                $ofertaHandlowa->addOfertyProfileSystemy($newOfertaProfilSystem);
+//
+//                $em->persist($ofertaHandlowa);
+//            }
+//        }
 
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
             ->setMethod('POST')
-            ->add('ofertyProfileSystemy','collection',array(
-                    'type'          =>  new OfertaHandlowaProfilSystemType(),
+            ->add('ofertySystemy','collection',array(
+                    'type'          =>  new OfertaSystemType(),
                     'allow_add'     =>  true,
                     'by_reference'  =>  false,
                 )

@@ -1,19 +1,24 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/oferta_handlowa.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dfpetapi/js/dfp_obsluga_formularzy.js') }}"></script>
 {% endblock javascript %}
 
 {% block content -%}
-
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
-
     <section>
         <h1>Dobór Systemów Malarskich</h1>
         <table class="karta-klient">
@@ -172,7 +177,39 @@
         </a>
     </aside>
 
-    {% if oferta.status == 1 %}
+    {{ form_start(form) }}
+        <section id="oferty-systemy-container" class="container-fluid">
+            {% for oferta_system in form.ofertySystemy %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Profil działalności</th>
+                            <td>{{ form_widget(oferta_system.profil) }}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Grunt / Gruntoemalia</th>
+                            <td>{{ form_widget(oferta_system.warstwa1) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Międzywarstwa</th>
+                            <td>{{ form_widget(oferta_system.warstwa2) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Międzywarstwa</th>
+                            <td>{{ form_widget(oferta_system.warstwa3) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Farba nawierzchniowa</th>
+                            <td>{{ form_widget(oferta_system.warstwa4) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endfor %}
+        </section>
+
+{#    {% if oferta.status == 1 %}
         <section id="oferty-profile-systemy-container" data-prototype="{% filter escape %} {% include 'DFPEtapIBundle:Includes:ofertaProfilSystem.html.twig' with {oferta_profil_system: form.ofertyProfileSystemy.vars.prototype} %} {% endfilter %}">
             {% for oferta_profil_system in form.ofertyProfileSystemy %}
                 <table>
@@ -180,7 +217,7 @@
                 </table>
             {% endfor %}
         </section>
-    {% endif %}
+    {% endif %}#}
 
     <ul class="record_actions">
         <li>

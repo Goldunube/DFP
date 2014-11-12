@@ -24,19 +24,40 @@ class SystemMalarski
 
     /**
      * @var string
+     * @ORM\Column(name="nazwa", type="string", length=255, nullable=false)
+     */
+    private $nazwa;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="komentarz", type="text", nullable=true)
      */
     private $komentarz;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Produkt", inversedBy="systemyMalarskie")
-     * @ORM\JoinTable(name="systemymalarskie_produkty",
-     *      joinColumns={@ORM\JoinColumn(name="system_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="produkt_id", referencedColumnName="id")}
-     * )
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Produkt")
+     * @ORM\Column(name="warstwa_1")
      */
-    protected $produkty;
+    private $warstwa1;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Produkt")
+     * @ORM\Column(name="warstwa_2")
+     */
+    private $warstwa2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Produkt")
+     * @ORM\Column(name="warstwa_3")
+     */
+    private $warstwa3;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Produkt")
+     * @ORM\Column(name="warstwa_4")
+     */
+    private $warstwa4;
 
     /**
      * @var integer
@@ -57,14 +78,7 @@ class SystemMalarski
      */
     public function __construct()
     {
-        $this->produkty = new ArrayCollection();
         $this->profileSystemy= new ArrayCollection();
-    }
-
-    public function __toString()
-    {
-        $produkty = $this->getProdukty()->toArray();
-        return (string) implode('; ',$produkty);
     }
 
     /**
@@ -98,42 +112,6 @@ class SystemMalarski
     public function getKomentarz()
     {
         return $this->komentarz;
-    }
-
-    /**
-     * Add produkty
-     *
-     * @param Produkt $produkt
-     * @return SystemMalarski
-     */
-    public function addProdukty(Produkt $produkt)
-    {
-        if(false === $this->produkty->contains($produkt))
-        {
-            $this->produkty->add($produkt);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove produkty
-     *
-     * @param Produkt $produkty
-     */
-    public function removeProdukty(Produkt $produkty)
-    {
-        $this->produkty->removeElement($produkty);
-    }
-
-    /**
-     * Get produkty
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProdukty()
-    {
-        return $this->produkty;
     }
 
     /**
@@ -183,5 +161,120 @@ class SystemMalarski
     public function setZatwierdzony($zatwierdzony)
     {
         $this->zatwierdzony = $zatwierdzony;
+    }
+
+    /**
+     * Set nazwa
+     *
+     * @param string $nazwa
+     * @return SystemMalarski
+     */
+    public function setNazwa($nazwa)
+    {
+        $this->nazwa = $nazwa;
+
+        return $this;
+    }
+
+    /**
+     * Get nazwa
+     *
+     * @return string 
+     */
+    public function getNazwa()
+    {
+        return $this->nazwa;
+    }
+
+    /**
+     * Set warstwa1
+     *
+     * @param string $warstwa1
+     * @return SystemMalarski
+     */
+    public function setWarstwa1($warstwa1)
+    {
+        $this->warstwa1 = $warstwa1;
+
+        return $this;
+    }
+
+    /**
+     * Get warstwa1
+     *
+     * @return string 
+     */
+    public function getWarstwa1()
+    {
+        return $this->warstwa1;
+    }
+
+    /**
+     * Set warstwa2
+     *
+     * @param string $warstwa2
+     * @return SystemMalarski
+     */
+    public function setWarstwa2($warstwa2)
+    {
+        $this->warstwa2 = $warstwa2;
+
+        return $this;
+    }
+
+    /**
+     * Get warstwa2
+     *
+     * @return string 
+     */
+    public function getWarstwa2()
+    {
+        return $this->warstwa2;
+    }
+
+    /**
+     * Set warstwa3
+     *
+     * @param string $warstwa3
+     * @return SystemMalarski
+     */
+    public function setWarstwa3($warstwa3)
+    {
+        $this->warstwa3 = $warstwa3;
+
+        return $this;
+    }
+
+    /**
+     * Get warstwa3
+     *
+     * @return string 
+     */
+    public function getWarstwa3()
+    {
+        return $this->warstwa3;
+    }
+
+    /**
+     * Set warstwa4
+     *
+     * @param string $warstwa4
+     * @return SystemMalarski
+     */
+    public function setWarstwa4($warstwa4)
+    {
+        $this->warstwa4 = $warstwa4;
+
+        return $this;
+    }
+
+    /**
+     * Get warstwa4
+     *
+     * @return string 
+     */
+    public function getWarstwa4()
+    {
+        return $this->warstwa4;
     }
 }

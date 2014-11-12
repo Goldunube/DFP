@@ -70,36 +70,42 @@ class OfertaHandlowa
     private $status = 0;
 
     /**
+     * Dodatkowa informacja wprowadzana przez osobę zamawiającą w momencie zamówienia oferty handlowej
+     *
      * @var string
      * @ORM\Column(name="info_zamawiajacy", type="text", nullable=true)
      */
     private $infoZamawiajacego;
 
     /**
+     * Informacja zwrotna dotycząca powodu anulowania / odrzucenia opracowania oferty handlowej ze strony koordynatora DFP
+     *
      * @var string
      * @ORM\Column(name="info_anulowana", type="text", nullable=true)
      */
     private $infoAnulacja;
 
     /**
+     * Informacja zwrotna dotycząca powodu anulowania / odrzucenia opracowania oferty handlowej ze strony Technika / Technologa DFP
+     *
      * @var string
      * @ORM\Column(name="info_technik", type="text", nullable=true)
      */
     private $infoTechnik;
 
     /**
-     * @var integer
+     * Produkty dobiera koordynator DFP
      *
-     * @ORM\OneToMany(targetEntity="OfertaHandlowaProfilSystem", mappedBy="ofertaHandlowa", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt", mappedBy="oferta")
      */
-    protected $ofertyProfileSystemy;
+    private $ofertyProdukty;
 
     /**
-     * @var array
+     * Dobrane przez Technika systemy malarskie odpowiadajace profilowi działalności klienta
      *
-     * @ORM\Column(name="tymczasowe_profile_systemy", type="array", nullable=true)
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaSystem", mappedBy="oferta")
      */
-    private $tymczasoweProfileSystemy;
+    private $ofertySystemy;
 
 
     /**
@@ -107,7 +113,8 @@ class OfertaHandlowa
      */
     public function __construct()
     {
-        $this->ofertyProfileSystemy = new ArrayCollection();
+        $this->ofertyProdukty = new ArrayCollection();
+        $this->ofertySystemy = new ArrayCollection();
     }
 
     /**
@@ -282,40 +289,6 @@ class OfertaHandlowa
     }
     
     /**
-     * Add ofertyProfileSystemy
-     *
-     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
-     * @return OfertaHandlowa
-     */
-    public function addOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
-    {
-        $this->ofertyProfileSystemy[] = $ofertyProfileSystemy;
-        $ofertyProfileSystemy->setOfertaHandlowa($this);
-    
-        return $this;
-    }
-
-    /**
-     * Remove ofertyProfileSystemy
-     *
-     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
-     */
-    public function removeOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
-    {
-        $this->ofertyProfileSystemy->removeElement($ofertyProfileSystemy);
-    }
-
-    /**
-     * Get ofertyProfileSystemy
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOfertyProfileSystemy()
-    {
-        return $this->ofertyProfileSystemy;
-    }
-
-    /**
      * Set infoZamawiajacego
      *
      * @param string $infoZamawiajacego
@@ -362,29 +335,6 @@ class OfertaHandlowa
     }
 
     /**
-     * Set tymczasoweProfileSystemy
-     *
-     * @param array $tymczasoweProfileSystemy
-     * @return SystemMalarski
-     */
-    public function setTymczasoweProfileSystemy($tymczasoweProfileSystemy)
-    {
-        $this->tymczasoweProfileSystemy = $tymczasoweProfileSystemy;
-
-        return $this;
-    }
-
-    /**
-     * Get tymczasoweProfileSystemy
-     *
-     * @return array
-     */
-    public function getTymczasoweProfileSystemy()
-    {
-        return $this->tymczasoweProfileSystemy;
-    }
-
-    /**
      * @return string
      */
     public function getInfoTechnik()
@@ -398,5 +348,71 @@ class OfertaHandlowa
     public function setInfoTechnik($infoTechnik)
     {
         $this->infoTechnik = $infoTechnik;
+    }
+
+    /**
+     * Add ofertyProdukty
+     *
+     * @param OfertaProdukt $ofertyProdukty
+     * @return OfertaHandlowa
+     */
+    public function addOfertyProdukty(OfertaProdukt $ofertyProdukty)
+    {
+        $this->ofertyProdukty[] = $ofertyProdukty;
+
+        return $this;
+    }
+
+    /**
+     * Remove ofertyProdukty
+     *
+     * @param OfertaProdukt $ofertyProdukty
+     */
+    public function removeOfertyProdukty(OfertaProdukt $ofertyProdukty)
+    {
+        $this->ofertyProdukty->removeElement($ofertyProdukty);
+    }
+
+    /**
+     * Get ofertyProdukty
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOfertyProdukty()
+    {
+        return $this->ofertyProdukty;
+    }
+
+    /**
+     * Add ofertySystemy
+     *
+     * @param OfertaSystem $ofertySystemy
+     * @return OfertaHandlowa
+     */
+    public function addOfertySystemy(OfertaSystem $ofertySystemy)
+    {
+        $this->ofertySystemy[] = $ofertySystemy;
+
+        return $this;
+    }
+
+    /**
+     * Remove ofertySystemy
+     *
+     * @param OfertaSystem $ofertySystemy
+     */
+    public function removeOfertySystemy(OfertaSystem $ofertySystemy)
+    {
+        $this->ofertySystemy->removeElement($ofertySystemy);
+    }
+
+    /**
+     * Get ofertySystemy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOfertySystemy()
+    {
+        return $this->ofertySystemy;
     }
 }

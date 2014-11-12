@@ -10,11 +10,11 @@
 
 $(document).ready(function()
 {
-    $holderOfertyProfileSystemy = $('#oferty-profile-systemy-container');
+    $holderOfertyProfileSystemy = $('#oferty-systemy-container');
 
     $addTableLink.on('click',function(e) {
         e.preventDefault();
-        $holderOfertyProfileSystemy = $(this).closest('#oferty-profile-systemy-container');
+        $holderOfertyProfileSystemy = $(this).closest('#oferty-systemy-container');
         $newTableLinkLi = $(this);
         $holderOfertyProfileSystemy.data('index', $holderOfertyProfileSystemy.find('table').length);
         addTableForm($holderOfertyProfileSystemy, $newTableLinkLi);
@@ -114,7 +114,7 @@ $(document).ready(function()
         var sidebar = $(".left-toggle-sidebar");
         var pozycja = sidebar.css("left");
         sidebar.animate({left: parseInt(pozycja,10) == -512 ? "-1px" : "-512px"}, 1500, "easeInOutQuart" );
-    })
+    });
 
     //    Confirm-Dialog
     $('#btn-anuluj').click(function(e){
@@ -146,5 +146,7 @@ $(document).ready(function()
             duration: 500
         },
         closeOnEscape: true
-    })
+    });
+
+    $('.selectpicker').selectpicker();
 });

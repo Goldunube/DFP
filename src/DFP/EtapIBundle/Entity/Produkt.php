@@ -55,12 +55,6 @@ class Produkt
     private $grupaPromowania = 0;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SystemMalarski", mappedBy="produkty")
-     *
-     */
-    private $systemyMalarskie;
-
-    /**
      * @var integer
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\GrupaProduktow", inversedBy="produkty", cascade={"persist"})
      */
@@ -226,7 +220,6 @@ class Produkt
      */
     public function __construct()
     {
-        $this->systemyMalarskie = new ArrayCollection();
         $this->rodzajePowierzchni = new ArrayCollection();
         $this->przygotowaniePowierzchni = new ArrayCollection();
         $this->metodyAplikacji = new ArrayCollection();
@@ -319,39 +312,6 @@ class Produkt
     public function getGrupaPromowania()
     {
         return $this->grupaPromowania;
-    }
-    
-    /**
-     * Add systemyMalarskie
-     *
-     * @param SystemMalarski $systemyMalarskie
-     * @return Produkt
-     */
-    public function addSystemyMalarskie(SystemMalarski $systemyMalarskie)
-    {
-        $this->systemyMalarskie[] = $systemyMalarskie;
-    
-        return $this;
-    }
-
-    /**
-     * Remove systemyMalarskie
-     *
-     * @param SystemMalarski $systemyMalarskie
-     */
-    public function removeSystemyMalarskie(SystemMalarski $systemyMalarskie)
-    {
-        $this->systemyMalarskie->removeElement($systemyMalarskie);
-    }
-
-    /**
-     * Get systemyMalarskie
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSystemyMalarskie()
-    {
-        return $this->systemyMalarskie;
     }
 
     /**

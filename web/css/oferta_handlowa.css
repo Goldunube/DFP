@@ -8,10 +8,12 @@
     padding: 5px;
     width: 500px;
     resize: both;
+    font-size: 11px;
 }
 .sidebar-listek span {
     display: block;
     font-size: 21px;
+    left: 10px;
     position: relative;
     top: 15px;
     transform: rotate(90deg);
@@ -30,7 +32,7 @@
     overflow: hidden;
     padding: 5px;
     position: relative;
-    width: 25px;
+    width: 45px;
     z-index: 2;
 }
 .notatka {
@@ -113,4 +115,10 @@ tfoot td, tfoot th {
 #dobrane-systemy .uwagi {
     width: 320px;
     color: #AA4440;
+}
+#main section {
+    overflow: visible;
+}
+#oferty-systemy-container table th, #oferty-systemy-container table td {
+    vertical-align: middle;
 }

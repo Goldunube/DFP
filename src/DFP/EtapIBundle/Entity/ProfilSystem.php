@@ -41,11 +41,6 @@ class ProfilSystem
      */
     private $systemMalarski;
 
-    /**
-     * @ORM\OneToMany(targetEntity="OfertaHandlowaProfilSystem", mappedBy="profilSystem", cascade={"persist"}, orphanRemoval=true)
-     */
-    protected $ofertyProfileSystemy;
-
 
     /**
      * Constructor
@@ -131,38 +126,5 @@ class ProfilSystem
     public function getSystemMalarski()
     {
         return $this->systemMalarski;
-    }
-    
-    /**
-     * Add ofertyProfileSystemy
-     *
-     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
-     * @return ProfilSystem
-     */
-    public function addOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
-    {
-        $this->ofertyProfileSystemy[] = $ofertyProfileSystemy;
-    
-        return $this;
-    }
-
-    /**
-     * Remove ofertyProfileSystemy
-     *
-     * @param OfertaHandlowaProfilSystem $ofertyProfileSystemy
-     */
-    public function removeOfertyProfileSystemy(OfertaHandlowaProfilSystem $ofertyProfileSystemy)
-    {
-        $this->ofertyProfileSystemy->removeElement($ofertyProfileSystemy);
-    }
-
-    /**
-     * Get ofertyProfileSystemy
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOfertyProfileSystemy()
-    {
-        return $this->ofertyProfileSystemy;
     }
 }
