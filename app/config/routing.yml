@@ -52,3 +52,9 @@ strona_w_budowie:
     defaults:
         _controller:  FrameworkBundle:Template:template
         template:     DFPEtapIBundle::strona_w_budowie.html.twig
+
+cennik_produktow_przemyslowych:
+    path: /cennik-produktow-przemyslowych
+    defaults:
+        _controller:  FrameworkBundle:Template:template
+        template:     DFPEtapIBundle::cennik_produktow_przemyslowych.html.twig

@@ -1,0 +1,26 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content %}
+    <h1>Cennik produktów przemysłowych</h1>
+    <section class="container-fluid" style="margin-top: 50px;">
+        <div class="row">
+            <div class="col-lg-3">
+                <img src="{{ asset('css/images/cennik_produktow_przemyslowych_wycinek.jpg') }}" class="img-responsive img-thumbnail" alt="Cennik produktów przemysłowych - wycinek">
+            </div>
+            <div class="col-lg-9">
+                <p>Aktualny cennik do ściągnięcia tutaj --> <a href="https://dl.dropboxusercontent.com/s/bpc4jvo0fgkx8j2/CENNIK%20PRODUKT%C3%93W%20PRZEMYS%C5%81OWYCH%202014_handlowcy_RAL_2014.xls?dl=1">cennik produktów przemysłowych</a></p>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
