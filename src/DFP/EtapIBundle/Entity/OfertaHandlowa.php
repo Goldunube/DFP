@@ -418,4 +418,43 @@ class OfertaHandlowa
     {
         return $this->ofertySystemy;
     }
+
+    /**
+     * Get wybrane produkty w systemach malarskich
+     */
+    public function getWybraneProdukty()
+    {
+        $wybraneProdukty = new ArrayCollection();
+        if(($this->ofertyProdukty->isEmpty()) and (!$this->ofertySystemy->isEmpty()))
+        {
+            /**
+             * @var OfertaSystem $ofertaSystem
+             */
+            foreach($this->ofertySystemy as $ofertaSystem)
+            {
+                if($ofertaSystem->getWarstwa1() instanceof Produkt)
+                {
+                    if(!$wybraneProdukty->contains($ofertaSystem->getWarstwa1()))
+                        $wybraneProdukty->add($ofertaSystem->getWarstwa1());
+                }
+                if($ofertaSystem->getWarstwa2() instanceof Produkt)
+                {
+                    if(!$wybraneProdukty->contains($ofertaSystem->getWarstwa2()))
+                        $wybraneProdukty->add($ofertaSystem->getWarstwa2());
+                }
+                if($ofertaSystem->getWarstwa3() instanceof Produkt)
+                {
+                    if(!$wybraneProdukty->contains($ofertaSystem->getWarstwa3()))
+                        $wybraneProdukty->add($ofertaSystem->getWarstwa3());
+                }
+                if($ofertaSystem->getWarstwa4() instanceof Produkt)
+                {
+                    if(!$wybraneProdukty->contains($ofertaSystem->getWarstwa4()))
+                        $wybraneProdukty->add($ofertaSystem->getWarstwa4());
+                }
+            }
+
+            return $wybraneProdukty;
+        }
+    }
 }

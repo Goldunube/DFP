@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\OfertaHandlowaProfilSystem;
+use DFP\EtapIBundle\Entity\OfertaProdukt;
 use DFP\EtapIBundle\Entity\OfertaSystem;
 use DFP\EtapIBundle\Entity\Produkt;
 use DFP\EtapIBundle\Entity\ProfilDzialalnosci;
@@ -11,6 +12,7 @@ use DFP\EtapIBundle\Entity\ProfilSystem;
 use DFP\EtapIBundle\Entity\SystemMalarski;
 use DFP\EtapIBundle\Form\OfertaHandlowaProfilSystemType;
 use DFP\EtapIBundle\Form\OfertaHandlowaType;
+use DFP\EtapIBundle\Form\OfertaProduktType;
 use DFP\EtapIBundle\Form\OfertaSystemType;
 use DFP\EtapIBundle\Form\ProfilSystemType;
 use DFP\EtapIBundle\Form\SystemMalarskiType;
@@ -21,6 +23,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 /**
  * OfertaHandlowa controller.
@@ -781,11 +787,29 @@ class OfertaHandlowaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
         /**
          * @var $ofertaHandlowa OfertaHandlowa
          */
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
+
+        foreach ($ofertaHandlowa->getWybraneProdukty() as $produkt)
+        {
+            if($produkt instanceof Produkt)
+            {
+                $em->persist($produkt);
+                $ofertaProdukt = new OfertaProdukt();
+                $ofertaProdukt->setProdukt($produkt);
+                $ofertaProdukt->setCeny(array(''));
+                if(!$ofertaHandlowa->getOfertyProdukty()->contains($ofertaProdukt))
+                    $ofertaHandlowa->getOfertyProdukty()->add($ofertaProdukt);
+            }
+        }
 
         //$dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
 
@@ -798,7 +822,13 @@ class OfertaHandlowaController extends Controller
             4 => 'Notatki z wizyt'
         );
 
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder($ofertaHandlowa)
+            ->add('ofertyProdukty','collection',array(
+                    'type'          =>  new OfertaProduktType(),
+                    'allow_add'     =>  true,
+                    'by_reference'  =>  false,
+                )
+            )
             ->add('submit','submit', array(
                     'label' =>  'Zamknij ofertę',
                     'attr'  =>  array('class' => 'art-button zielony'),

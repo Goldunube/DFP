@@ -1,20 +1,27 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% block title %}Portal DFP - {{ filia.klient.nazwaSkrocona }}{% endblock %}
+{% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/oferta_handlowa.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dfpetapi/js/dfp_obsluga_formularzy.js') }}"></script>
 {% endblock javascript %}
+
+{% block title %}Portal DFP - {{ filia.klient.nazwaSkrocona }}{% endblock %}
 
 {% block content -%}
 
-{#    {{ form_start(form) }}
-    {{ form_errors(form) }}#}
     <section>
         <h1>Dobór Systemów Malarskich</h1>
         <table class="karta-klient">
@@ -146,6 +153,18 @@
             <div class="info-zamawiajacego">
                 {{ filia.adnotacja|striptags }}
             </div>
+            <h4>Dobrane systemy malarskie</h4>
+            <div class="info-zamawiajacego">
+                <dl>
+                    {% for ofertaSystem in oferta.ofertySystemy %}
+                        <dt>{{ ofertaSystem.profil.nazwaProfilu }}</dt>
+                        <dd><em>Grunt / Gruntoemalia</em> - {{ ofertaSystem.warstwa1 }}</dd>
+                        {% if ofertaSystem.warstwa2 %} <dd><em>Międzywarstwa</em> - {{ ofertaSystem.warstwa2 }}</dd> {% endif %}
+                        {% if ofertaSystem.warstwa3 %} <dd><em>Międzywarstwa</em> - {{ ofertaSystem.warstwa3 }}</dd> {% endif %}
+                        {% if ofertaSystem.warstwa4 %} <dd><em>Międzywarstwa</em> - {{ ofertaSystem.warstwa4 }}</dd> {% endif %}
+                    {% endfor %}
+                </dl>
+            </div>
         </aside>
     </div>
 
@@ -174,28 +193,39 @@
     </aside>
 
     <section>
-        <dl>
-            {% for ofertaSystem in oferta.ofertySystemy %}
-                <dt>{{ ofertaSystem.profil.nazwaProfilu }}</dt>
-                <dd>{{ ofertaSystem.warstwa1 }}</dd>
-            {% endfor %}
-        </dl>
-
-{#        <h3>Dobrane systemy malarskie</h3>
-        <dl id="dobrane-systemy" class="table-display">
-            {% for ofertaProfilSystem in dobrane_systemy %}
-                <dt>{{ ofertaProfilSystem.profilSystem.profilDzialalnosci }}</dt>
-                <dd>
-                    <ol>
-                        {% for produkt in ofertaProfilSystem.profilSystem.systemMalarski.produkty %}
-                            <li>{{ produkt.nazwaHandlowa }}</li>
-                        {% endfor %}
-                    </ol>
-                </dd>
-                <dd class="uwagi"><strong>Uwagi: </strong>{{ ofertaProfilSystem.uwagi }}</dd>
-            {% endfor %}
-        </dl>#}
+        <h3>Produkty zawarte w ofercie handlowej</h3>
+        {{ form_start(form) }}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 30px;">lp</th>
+                        <th>produkt</th>
+                        <th>cena</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ofertaProdukt in form.ofertyProdukty %}
+                        <tr>
+                            <th style="width: 30px;">{{ loop.index }}</th>
+                            <td>{{ form_widget(ofertaProdukt.produkt) }}</td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    {% for cena in ofertaProdukt.ceny %}
+                                        <li><input class="form-control" name="cena_nazwa[]" style="width: 60px;">{{ form_widget(cena, { 'attr' : { 'style' : 'width: 60px;' } }) }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {{ form_end(form) }}
+        {#{% for produkt in wybrane_produkty %}#}
+            {#{{ produkt }}#}
+        {#{% endfor %}#}
     </section>
+
+    <hr>
 
     <ul class="record_actions">
         <li>
@@ -204,7 +234,7 @@
             </a>
         </li>
         <li>
-            {{ form(form) }}
+            {#{{ form(form) }}#}
         </li>
         <li>
             <a href="#" class="art-button czerwony">Anuluj zamówienie</a>
