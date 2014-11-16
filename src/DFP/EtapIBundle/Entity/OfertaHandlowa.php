@@ -96,7 +96,7 @@ class OfertaHandlowa
     /**
      * Produkty dobiera koordynator DFP
      *
-     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt", mappedBy="oferta", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt", mappedBy="oferta", cascade={"ALL"}, orphanRemoval=true)
      */
     private $ofertyProdukty;
 
@@ -358,6 +358,7 @@ class OfertaHandlowa
      */
     public function addOfertyProdukty(OfertaProdukt $ofertyProdukty)
     {
+        $ofertyProdukty->setOferta($this);
         $this->ofertyProdukty[] = $ofertyProdukty;
 
         return $this;
@@ -456,5 +457,7 @@ class OfertaHandlowa
 
             return $wybraneProdukty;
         }
+
+        return array();
     }
 }

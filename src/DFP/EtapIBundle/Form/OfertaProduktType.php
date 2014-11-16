@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class OfertaProduktType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -16,10 +16,27 @@ class OfertaProduktType extends AbstractType
     {
         $builder
             ->add('ceny','collection',array(
-                    'type'  =>  'text'
+                    'type'  =>  new OfertaCenaType(),
+                    'allow_add' => true,
+                    'allow_delete'  =>  true,
+                    'prototype' =>  true,
+                    'by_reference'  =>  false
                 )
             )
-            ->add('produkt')
+            ->add('produkt',null,array(
+
+                )
+            )
+            ->add('opakowanieWartosc')
+            ->add('opakowanieJednostka','choice',array(
+                    'choices'   =>  array(
+                        'l'     =>  'Litry',
+                        'kg'    =>  'Kilogramy',
+                    ),
+                    'preferred_choices' =>  array('l')
+                )
+            )
+            ->add('informacjeDodatkowe')
         ;
     }
     
@@ -28,9 +45,11 @@ class OfertaProduktType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'DFP\EtapIBundle\Entity\OfertaProdukt'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'DFP\EtapIBundle\Entity\OfertaProdukt',
+            )
+        );
     }
 
     /**
@@ -38,6 +57,6 @@ class OfertaProduktType extends AbstractType
      */
     public function getName()
     {
-        return 'dfp_etapibundle_ofertaprodukt';
+        return 'dfp_ofertaprodukt';
     }
 }

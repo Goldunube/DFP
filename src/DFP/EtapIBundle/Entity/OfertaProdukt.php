@@ -2,6 +2,8 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use DFP\EtapIBundle\Model\OfertaCena;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,17 +31,40 @@ class OfertaProdukt
     private $ceny;
 
     /**
+     * @var integer
+     * @ORM\Column(name="opakowanie_wartosc", type="integer", nullable=false)
+     */
+    private $opakowanieWartosc;
+
+    /**
+     * @var string
+     * @ORM\Column(name="opakowanie_jednostka", type="string", length=15, nullable=false)
+     */
+    private $opakowanieJednostka;
+
+    /**
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\OfertaHandlowa", inversedBy="ofertyProdukty")
-     * @ORM\JoinColumn(name="oferta_id")
+     * @ORM\JoinColumn(name="oferta_id", nullable=false)
      */
     private $oferta;
 
     /**
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Produkt")
-     * @ORM\JoinColumn(name="produkt_id")
+     * @ORM\JoinColumn(name="produkt_id", nullable=false)
      */
     private $produkt;
 
+    /**
+     * @var string
+     * @ORM\Column(name="informacje", type="text", nullable=true)
+     */
+    private $informacjeDodatkowe;
+
+
+    public function __construct()
+    {
+        $this->ceny = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -52,16 +77,26 @@ class OfertaProdukt
     }
 
     /**
-     * Set ceny
+     * Add ceny
      *
-     * @param array $ceny
+     * @param OfertaCena $cena
      * @return OfertaProdukt
      */
-    public function setCeny($ceny)
+    public function addCeny(OfertaCena $cena)
     {
-        $this->ceny = $ceny;
+        $this->ceny->add($cena);
 
         return $this;
+    }
+
+    /**
+     * Remove ceny
+     *
+     * @param OfertaCena $cena
+     */
+    public function removeCeny(OfertaCena $cena)
+    {
+        $this->ceny->removeElement($cena);
     }
 
     /**
@@ -118,5 +153,53 @@ class OfertaProdukt
     public function getProdukt()
     {
         return $this->produkt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOpakowanieWartosc()
+    {
+        return $this->opakowanieWartosc;
+    }
+
+    /**
+     * @param int $opakowanieWartosc
+     */
+    public function setOpakowanieWartosc($opakowanieWartosc)
+    {
+        $this->opakowanieWartosc = $opakowanieWartosc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpakowanieJednostka()
+    {
+        return $this->opakowanieJednostka;
+    }
+
+    /**
+     * @param string $opakowanieJednostka
+     */
+    public function setOpakowanieJednostka($opakowanieJednostka)
+    {
+        $this->opakowanieJednostka = $opakowanieJednostka;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInformacjeDodatkowe()
+    {
+        return $this->informacjeDodatkowe;
+    }
+
+    /**
+     * @param string $informacjeDodatkowe
+     */
+    public function setInformacjeDodatkowe($informacjeDodatkowe)
+    {
+        $this->informacjeDodatkowe = $informacjeDodatkowe;
     }
 }
