@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Oferta handlowa</title>
+    <link href="{{ asset('css/bootstrap.min.css', absolute=true) }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css', absolute=true) }}" rel="stylesheet"/>
+</head>
+<body>
+    <div id="wrap" style="margin: 0 10mm; text-align: justify;">
+        <h1>Oferta farby przemysłowe</h1>
+        <h3>Bernardo Ecenarro</h3>
+        <section id="produkty">
+            <h4>Oferta techniczno - cenowa dotycząca powłok lakierowych:</h4>
+            <dl>
+                {% for ofertaProdukt in oferta.ofertyProdukty %}
+                    <dt>{{ ofertaProdukt.produkt.nazwaHandlowa }} - {{ ofertaProdukt.produkt.nazwaTechniczna }}</dt>
+                    <dd>{{ ofertaProdukt.produkt.opisPodstawowy }}</dd>
+                {% endfor %}
+            </dl>
+            <em>
+                Powyższe produkty należy stosować w określonych zestawach zgodnie z umieszczonymi w
+                ofercie tabelami oraz zgodnie z zaleceniami w kartach technicznych produktów.
+            </em>
+        </section>
+        <section id="systemy-malarskie">
+            <h4>Systemy malarskie</h4>
+            {% for systemMalarski in oferta.ofertySystemy %}
+                <dl>
+                    <dt>{{ systemMalarski.profil }}</dt>
+                    <dd><em>Grunt / Gruntoemalia </em>{{ systemMalarski.warstwa1 }}</dd>
+                    <dd><em>Międzywarstwa </em>{{ systemMalarski.warstwa2 }}</dd>
+                    <dd><em>Międzywarstwa / Farba nawierzchniowa </em>{{ systemMalarski.warstwa3 }}</dd>
+                    <dd><em>Farba nawierzchniowa </em>{{ systemMalarski.warstwa4 }}</dd>
+                </dl>
+            {% endfor %}
+        </section>
+        <section class="produkty">
+
+        </section>
+    </div>
+</body>
+</html>
+

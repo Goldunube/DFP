@@ -2,7 +2,6 @@
 
 namespace DFP\EtapIBundle\Entity;
 
-use DFP\EtapIBundle\Model\OfertaCena;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,9 +23,7 @@ class OfertaProdukt
     private $id;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="ceny", type="array")
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaCena",mappedBy="ofertaProdukt",cascade={"ALL"}, orphanRemoval=true)
      */
     private $ceny;
 
@@ -84,6 +81,7 @@ class OfertaProdukt
      */
     public function addCeny(OfertaCena $cena)
     {
+        $cena->setOfertaProdukt($this);
         $this->ceny->add($cena);
 
         return $this;

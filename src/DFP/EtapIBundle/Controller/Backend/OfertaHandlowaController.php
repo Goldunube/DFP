@@ -9,16 +9,14 @@ use DFP\EtapIBundle\Entity\Produkt;
 use DFP\EtapIBundle\Form\OfertaHandlowaProfilSystemType;
 use DFP\EtapIBundle\Form\OfertaProduktType;
 use DFP\EtapIBundle\Form\OfertaSystemType;
-use DFP\EtapIBundle\Model\OfertaCena;
+use DFP\EtapIBundle\Entity\OfertaCena;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * OfertaHandlowa controller.
@@ -720,7 +718,7 @@ class OfertaHandlowaController extends Controller
             }
         }
 
-        var_dump($obecneCeny);
+//        var_dump($obecneCeny);
         $previousUrl = $this->get('request')->headers->get('referer');
 
         $kategorieNotatek = array(
@@ -750,22 +748,12 @@ class OfertaHandlowaController extends Controller
         $form->handleRequest($request);
         if($form->isValid())
         {
-//            foreach($obecneProdukty as $ofertaProdukt)
-//            {
-//                foreach($ofertaProdukt->getCeny() as $cena)
-//                {
-//                    if(false === $ofertaHandlowa->getOfertyProdukty())
-//                    {
-//
-//                    }
-//                }
-//            }
-            //$ofertaHandlowa->setStatus(4);
+            $ofertaHandlowa->setStatus(4);
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());
             $em->persist($ofertaHandlowa);
             $em->flush();
 
-            //return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_oh'));
+            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_oh'));
         }
 
         return array(
@@ -774,6 +762,52 @@ class OfertaHandlowaController extends Controller
             'filia'                     =>  $filia,
             'powrot_url'                =>  $previousUrl,
             'notatka_kategorie'         =>  $kategorieNotatek,
+        );
+    }
+
+    /**
+     * Generate Oferta Handlowa Sheet
+     *
+     * @param $id
+     * @Route("/{id}/oferta_handlowa_pdf", name="backend_oferta_handlowa_pdf")
+     * @Method("GET")
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function generatePDFAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Nie można znaleźć oferty handlowej.');
+        }
+
+        $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
+                'oferta'    => $entity,
+            )
+        );
+
+        $pdf = $this->get('knp_snappy.pdf');
+        $pdf->setOption('encoding','utf-8');
+        //$pdf->setOption('header-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-header');
+        //$pdf->setOption('header-spacing',10);
+        //$pdf->setOption('footer-spacing',10);
+        //$pdf->setOption('margin-top',35);
+        //$pdf->setOption('margin-left',0);
+        //$pdf->setOption('margin-right',0);
+        //$pdf->setOption('footer-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-footer');
+
+        return new Response(
+            $pdf->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => 'filename="karta_techniczna.pdf"'
+            )
         );
     }
 }

@@ -24,7 +24,7 @@ class OfertaCenaType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'DFP\EtapIBundle\Model\OfertaCena',
+                'data_class' => 'DFP\EtapIBundle\Entity\OfertaCena',
             )
         );
     }
