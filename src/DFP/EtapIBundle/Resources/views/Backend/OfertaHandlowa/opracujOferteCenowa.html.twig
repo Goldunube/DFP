@@ -22,10 +22,10 @@
     <tr class="produkt">
         <th style="width: 30px;" rowspan="2">#</th>
         <td>{{ form_widget(website.produkt, { 'attr' : { 'data-live-search' : 'true' } } ) }}</td>
-        <td>
+        <td style="width: 100px;">
             {{ form_widget(website.opakowanieWartosc) }}
         </td>
-        <td>
+        <td style="width: 130px;">
             {{ form_widget(website.opakowanieJednostka) }}
         </td>
         <td>
@@ -34,20 +34,33 @@
                 <tr>
                     <th>Kolor</th>
                     <th>Cena</th>
+                    <th style="width: 35px;"></th>
                 </tr>
                 </thead>
-                <tbody data-prototype="{% filter escape %} {{ form_widget(website.ceny.vars.prototype) }} {% endfilter %}">
-                    <tr>
-                        {#<td><input class="form-control" name="{{ cena['kolor'].vars.full_name }}" value="{{ cena['kolor'].vars.value }}"></td>#}
-                        {#<td><input class="form-control" name="{{ cena['wartosc'].vars.full_name }}" value="{{ cena['wartosc'].vars.value }}"></td>#}
+                <tbody data-prototype="{{ _self.cena_prototype(website.ceny.vars.prototype)|e }}">
+                    <tr class="cena">
+                        <td><input class="form-control" id="" name="" value=""></td>
+                        <td><input class="form-control" id="" name="" value=""></td>
+                        <td style="width: 35px;"><a href="#"><span class="glyphicon glyphicon-plus-sign cena-add" style="color: #27A727; font-size: 14px;"></span></a><a href="#"><span class="glyphicon glyphicon-minus-sign cena-del" style="color: #e00800; font-size: 14px;"></span></a></td>
                     </tr>
                 </tbody>
             </table>
+        </td>
+        <td rowspan="2" class="col-action">
+            <a href="#" class="btn btn-danger produkt-del">Usuń</a>
         </td>
     </tr>
     <tr>
         <th>{{ form_label(website.informacjeDodatkowe) }}</th>
         <th colspan="3">{{ form_widget(website.informacjeDodatkowe) }}</th>
+    </tr>
+{% endmacro %}
+
+{% macro cena_prototype(website) %}
+    <tr class="cena">
+        <td><input class="form-control" id="{{ website['kolor'].vars.id }}" name="{{ website['kolor'].vars.full_name }}" value="{{ website['kolor'].vars.value }}"></td>
+        <td><input class="form-control" id="{{ website['wartosc'].vars.id }}" name="{{ website['wartosc'].vars.full_name }}" value="{{ website['wartosc'].vars.value }}"></td>
+        <td style="width: 35px;"><a href="#"><span class="glyphicon glyphicon-plus-sign cena-add" style="color: #27A727; font-size: 14px;"></span></a><a href="#"><span class="glyphicon glyphicon-minus-sign cena-del" style="color: #e00800; font-size: 14px;"></span></a></td>
     </tr>
 {% endmacro %}
 
@@ -227,11 +240,11 @@
     <h3>Produkty zawarte w ofercie handlowej</h3>
     {{ form_start(form) }}
         <section id="oferty-systemy-container" class="container-fluid">
-            <table class="table">
+            <table class="table" style="table-layout: auto;">
                 <thead>
                     <tr>
                         <th style="width: 30px;">lp</th>
-                        <th>produkt</th>
+                        <th style="width: 250px;">produkt</th>
                         <th colspan="2" style="width: 300px;">opakowanie</th>
                         <th>cena</th>
                         <th style="width: 80px;" class="col-action"></th>
@@ -242,10 +255,10 @@
                         <tr class="produkt">
                             <th style="width: 30px;" rowspan="2">{{ loop.index }}</th>
                             <td>{{ form_widget(ofertaProdukt.produkt, { 'attr' : { 'data-live-search' : 'true' } } ) }}</td>
-                            <td>
+                            <td style="width: 100px;">
                                 {{ form_widget(ofertaProdukt.opakowanieWartosc) }}
                             </td>
-                            <td>
+                            <td style="width: 130px;">
                                 {{ form_widget(ofertaProdukt.opakowanieJednostka) }}
                             </td>
                             <td>
@@ -257,22 +270,22 @@
                                             <th style="width: 35px;"></th>
                                         </tr>
                                     </thead>
-                                    <tbody data-prototype="{% filter escape %} {{ form_widget(ofertaProdukt.ceny.vars.prototype) }} {% endfilter %}">
+                                    <tbody data-prototype="{{ _self.cena_prototype(ofertaProdukt.ceny.vars.prototype)|e }}">
                                         {% for cena in ofertaProdukt.ceny %}
-                                            <tr>
+                                            <tr class="cena">
                                                 <td><input class="form-control" id="{{ cena['kolor'].vars.id }}" name="{{ cena['kolor'].vars.full_name }}" value="{{ cena['kolor'].vars.value }}"></td>
                                                 <td><input class="form-control" id="{{ cena['wartosc'].vars.id }}" name="{{ cena['wartosc'].vars.full_name }}" value="{{ cena['wartosc'].vars.value }}"></td>
-                                                <td style="width: 35px;"><a href="#"><span class="glyphicon glyphicon-plus-sign" style="color: #27A727; font-size: 14px;"></span></a><a href="#"><span class="glyphicon glyphicon-minus-sign" style="color: #e00800; font-size: 14px;"></span></a></td>
+                                                <td style="width: 35px;"><a href="#"><span class="glyphicon glyphicon-plus-sign cena-add" style="color: #27A727; font-size: 14px;"></span></a><a href="#"><span class="glyphicon glyphicon-minus-sign cena-del" style="color: #e00800; font-size: 14px;"></span></a></td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </td>
                             <td rowspan="2" class="col-action">
-                                <a href="#" class="btn btn-danger">Usuń</a>
+                                <a href="#" class="btn btn-danger produkt-del">Usuń</a>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="tessst">
                             <th>{{ form_label(ofertaProdukt.informacjeDodatkowe) }}</th>
                             <th colspan="3">{{ form_widget(ofertaProdukt.informacjeDodatkowe) }}</th>
                         </tr>

@@ -3,18 +3,12 @@
     var $addTableLink = $('<a href="#" class="add-table-link art-button maly zielony">Dodaj produkt</a>');
     var $newTableLinkLi = $('<span></span>').append($addTableLink);
 
-    var $collectionHolder;
-
-    var $addLink = $('<a href="#" class="add-link art-button maly zielony">Dodaj</a>');
-    var $newLinkLi = $('<span></span>').append($addLink);
-
 $(document).ready(function()
 {
     $holderOfertyProdukty = $('#oferty-produkty-container');
 
     $addTableLink.on('click',function(e) {
         e.preventDefault();
-        //$holderOfertyProdukty = $(this).closest('#oferty-produkty-container');
         $newTableLinkLi = $(this);
         $holderOfertyProdukty.data('index', $holderOfertyProdukty.find('tr.produkt').length);
         addTableForm($holderOfertyProdukty, $newTableLinkLi);
@@ -23,93 +17,42 @@ $(document).ready(function()
 
     $('#oferty-systemy-container').append($addTableLink);
 
-//    $collectionHolder = $('td.produkty');
-//
-//    $holderOfertyProdukty.on('click','.add-link',function(e) {
-//        e.preventDefault();
-//
-//        $collectionHolder = $(this).closest('td.produkty');
-//
-//        $newLinkLi = $(this).closest('span');
-//
-//        $collectionHolder.data('index', $collectionHolder.find(':input').length);
-//
-//        addForm($collectionHolder, $newLinkLi);
-//
-//    });
+    $holderOfertyProdukty.on('click','.produkt-del',function(e)
+    {
+        e.preventDefault();
+        $holderProdukt = $(this).closest('tr.produkt');
+        $holderProduktInfo = $holderProdukt.next('tr');
+        $holderProduktInfo.remove();
+        $holderProdukt.remove();
+    });
 
-//    $holderOfertyProdukty.on('click','.delete-link',function(e) {
-//        e.preventDefault();
-//
-//        $formLi = $(this).closest('span.parametr-container');
-//        $formLi.remove();
-//    });
-//
-//    $collectionHolder.append($newLinkLi);
+    $holderOfertyProdukty.on('click','.cena-add',function(e)
+    {
+        e.preventDefault();
+        $holderCeny = $(this).closest('tbody');
+        var prototype = $holderCeny.data('prototype');
+        $holderCeny.data('index',$holderCeny.find('tr.cena').length);
+        var indeks = $holderCeny.data('index');
+        var nowaCena = prototype.replace(/__name__/g, indeks);
+        $holderCeny.data('index', indeks + 1);
+        $holderCeny.append(nowaCena);
+//        alert($holderCeny.data('index'));
+    });
 
-    function addTableForm($collectionHolder, $newLinkLi)
+    $holderOfertyProdukty.on('click','.cena-del',function(e) {
+        e.preventDefault();
+
+        $formLi = $(this).closest('tr.cena');
+        $formLi.remove();
+    });
+
+    function addTableForm($collectionHolder)
     {
         var prototype = $collectionHolder.data('prototype');
-
         var index = $collectionHolder.data('index');
-
         var newForm = prototype.replace(/__name__/g, index);
-
-        //var $dodajLink = $('<span><a href="#" class="add-link art-button maly zielony">Dodaj</a></span>');
-
         $collectionHolder.data('index', index + 1);
-
-        //var $newFormLi = $('<tr></tr>').append(newForm);
         $collectionHolder.append(newForm);
-        //$newLinkLi.before($newFormLi);
-
-        //addTableFormDeleteLink($newFormLi);
-
-        //$newFormLi.find('td.produkty').append($dodajLink);
-    }
-
-    function addTableFormDeleteLink($FormLi)
-    {
-        var $removeForm = $('<a href="#" class="art-button maly czerwony" style="float:right;color:#FFFFFF;">X</a> ');
-
-        $FormLi.find('th.system-malarski').append($removeForm);
-
-        $removeForm.on('click', function(e)
-        {
-            e.preventDefault();
-
-            $FormLi.remove();
-        })
-    }
-
-    function addForm($collectionHolder, $newLinkLi)
-    {
-        var prototype = $collectionHolder.data('prototype');
-
-        var index = $collectionHolder.data('index');
-
-        var newForm = prototype.replace(/__name__/g, index);
-
-        $collectionHolder.data('index', index + 1);
-
-        var $newFormLi = $('<span class="parametr-container"></span>').append(newForm);
-        $newLinkLi.before($newFormLi);
-
-        addFormDeleteLink($newFormLi);
-    }
-
-    function addFormDeleteLink($FormLi)
-    {
-        var $removeForm = $('<a href="#" class="delete-link art-button maly czerwony">Usuń</a> ');
-
-        $FormLi.append($removeForm);
-
- /*       $removeForm.on('click', function(e)
-        {
-            e.preventDefault();
-
-            $FormLi.remove();
-        })*/
     }
 
     $('.sidebar-listek').click(function() {

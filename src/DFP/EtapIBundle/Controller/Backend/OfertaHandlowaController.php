@@ -778,8 +778,13 @@ class OfertaHandlowaController extends Controller
                     'by_reference'      =>  false,
                 )
             )
+            ->add('zapisz','submit', array(
+                    'label' =>  'Tylko zapisz',
+                    'attr'  =>  array('class' => 'art-button zielony'),
+                )
+            )
             ->add('submit','submit', array(
-                    'label' =>  'Zamknij ofertę',
+                    'label' =>  'Zapisz i zamknij',
                     'attr'  =>  array('class' => 'art-button zielony'),
                 )
             )
@@ -788,7 +793,7 @@ class OfertaHandlowaController extends Controller
         $form->handleRequest($request);
         if($form->isValid())
         {
-            $ofertaHandlowa->setStatus(4);
+//            $ofertaHandlowa->setStatus(4);
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());
             $em->persist($ofertaHandlowa);
             $em->flush();
