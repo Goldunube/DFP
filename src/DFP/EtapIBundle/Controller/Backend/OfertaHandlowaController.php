@@ -600,12 +600,52 @@ class OfertaHandlowaController extends Controller
 
         }
 
-        foreach ($profileDzialalnosci as $profilDzialanosci)
+        if($ofertaHandlowa->getOfertySystemy()->isEmpty())
         {
-            $ofertaSystem = new OfertaSystem();
-            $ofertaSystem->setProfil($profilDzialanosci);
-            $ofertaHandlowa->addOfertySystemy($ofertaSystem);
+            foreach ($profileDzialalnosci as $profilDzialanosci)
+            {
+                $ofertaSystem = new OfertaSystem();
+                $ofertaSystem->setProfil($profilDzialanosci);
+                $ofertaHandlowa->addOfertySystemy($ofertaSystem);
+            }
+        }else{
+            /**
+             * @var OfertaSystem $ofertaSystem
+             * @var Produkt $warstwa1
+             * @var Produkt $warstwa2
+             * @var Produkt $warstwa3
+             * @var Produkt $warstwa4
+             */
+            foreach($ofertaHandlowa->getOfertySystemy() as $ofertaSystem)
+            {
+                if($ofertaSystem->getWarstwa1())
+                {
+                    $warstwa1 = $ofertaSystem->getWarstwa1();
+                    $warstwa1 = $em->merge($warstwa1);
+                    $ofertaSystem->setWarstwa1($warstwa1);
+                }
+                if($ofertaSystem->getWarstwa2())
+                {
+                    $warstwa2 = $ofertaSystem->getWarstwa2();
+                    $warstwa2 = $em->merge($warstwa2);
+                    $ofertaSystem->setWarstwa2($warstwa2);
+                }
+                if($ofertaSystem->getWarstwa3())
+                {
+                    $warstwa3 = $ofertaSystem->getWarstwa3();
+                    $warstwa3 = $em->merge($warstwa3);
+                    $ofertaSystem->setWarstwa3($warstwa3);
+                }
+                if($ofertaSystem->getWarstwa4())
+                {
+                    $warstwa4 = $ofertaSystem->getWarstwa4();
+                    $warstwa4 = $em->merge($warstwa4);
+                    $ofertaSystem->setWarstwa4($warstwa4);
+                }
+            }
         }
+
+
 
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))

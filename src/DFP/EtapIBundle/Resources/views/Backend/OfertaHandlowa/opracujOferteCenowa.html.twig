@@ -232,8 +232,9 @@
                     <tr>
                         <th style="width: 30px;">lp</th>
                         <th>produkt</th>
-                        <th colspan="2">opakowanie</th>
+                        <th colspan="2" style="width: 300px;">opakowanie</th>
                         <th>cena</th>
+                        <th style="width: 80px;" class="col-action"></th>
                     </tr>
                 </thead>
                 <tbody id="oferty-produkty-container" data-prototype="{{ _self.information_prototype(form.ofertyProdukty.vars.prototype)|e }}">
@@ -253,6 +254,7 @@
                                         <tr>
                                             <th>Kolor</th>
                                             <th>Cena</th>
+                                            <th style="width: 35px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody data-prototype="{% filter escape %} {{ form_widget(ofertaProdukt.ceny.vars.prototype) }} {% endfilter %}">
@@ -260,10 +262,14 @@
                                             <tr>
                                                 <td><input class="form-control" id="{{ cena['kolor'].vars.id }}" name="{{ cena['kolor'].vars.full_name }}" value="{{ cena['kolor'].vars.value }}"></td>
                                                 <td><input class="form-control" id="{{ cena['wartosc'].vars.id }}" name="{{ cena['wartosc'].vars.full_name }}" value="{{ cena['wartosc'].vars.value }}"></td>
+                                                <td style="width: 35px;"><a href="#"><span class="glyphicon glyphicon-plus-sign" style="color: #27A727; font-size: 14px;"></span></a><a href="#"><span class="glyphicon glyphicon-minus-sign" style="color: #e00800; font-size: 14px;"></span></a></td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                            </td>
+                            <td rowspan="2" class="col-action">
+                                <a href="#" class="btn btn-danger">Usuń</a>
                             </td>
                         </tr>
                         <tr>

@@ -133,3 +133,14 @@ tfoot td, tfoot th {
     overflow: visible;
     max-height: 42px;
 }
+#main .col-action {
+    background-color: #f9f9f9;
+}
+#main .col-action {
+    border-bottom: 1px solid #f9f9f9;
+    border-right: 1px solid #f9f9f9;
+    border-top: 1px solid #f9f9f9;
+}
+#oferty-systemy-container table tbody tr {
+    border: 1px none ;
+}
