@@ -6,9 +6,23 @@
     <link href="{{ asset('css/bootstrap-theme.min.css', absolute=true) }}" rel="stylesheet"/>
 </head>
 <body>
+    <div id="header" class="container">
+        <div class="row">
+            <div class="col-xs-offset-8 col-xs-3">
+                <img src="{{ asset('css/images/logo_grupa_csv.png', absolute=true) }}">
+            </div>
+        </div>
+    </div>
     <div id="wrap" style="margin: 0 10mm; text-align: justify;">
+        <section id="strona-tytulowa">
+            <div id="adresat-container">
+                <address>
+                    <strong>{{ klient.nazwaSkrocona }}</strong><br>
+                </address>
+            </div>
+        </section>
         <h1>Oferta farby przemysłowe</h1>
-        <h3>Bernardo Ecenarro</h3>
+        <h3>BESA</h3>
         <section id="produkty">
             <h4>Oferta techniczno - cenowa dotycząca powłok lakierowych:</h4>
             <dl>

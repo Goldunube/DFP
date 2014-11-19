@@ -220,36 +220,6 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
 
-//        if(!is_null($ofertaHandlowa->getTymczasoweProfileSystemy()))
-//        {
-//            $ofertaHandlowa->getOfertyProfileSystemy()->clear();
-//
-//            $tymczasoweProfileSystemy = $ofertaHandlowa->getTymczasoweProfileSystemy();
-//            foreach($tymczasoweProfileSystemy as $tempProfilSystem)
-//            {
-//                $newOfertaProfilSystem = new OfertaHandlowaProfilSystem();
-//                $newSystemMalarski = new SystemMalarski();
-//                $newProfilSystem = new ProfilSystem();
-//
-//                foreach($tempProfilSystem['system'] as $produktId)
-//                {
-//                    $tempProdukt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produktId);
-//                    $newSystemMalarski->addProdukty($tempProdukt);
-//                }
-//
-//                $tempProfilDzialalnosci = $em->getRepository('DFPEtapIBundle:ProfilDzialalnosci')->find($tempProfilSystem['profil']);
-//                $newProfilSystem->setSystemMalarski($newSystemMalarski);
-//                $newProfilSystem->setProfilDzialalnosci($tempProfilDzialalnosci);
-//                $newOfertaProfilSystem->setProfilSystem($newProfilSystem);
-//                $newOfertaProfilSystem->setUwagi($tempProfilSystem['uwagi']);
-//                $ofertaHandlowa->addOfertyProfileSystemy($newOfertaProfilSystem);
-//
-//                $em->persist($ofertaHandlowa);
-//            }
-//        }
-
-//        $dobraneSystemy = $ofertaHandlowa->getOfertyProfileSystemy();
-
         $otworzDoborSystemuForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_otworz_opracowanie_systemu_malarskiego', array('id'=>$id)))
             ->setMethod('PUT')
@@ -275,7 +245,6 @@ class OfertaHandlowaController extends Controller
             'otworzDoborSystemuForm'    =>  $otworzDoborSystemuForm->createView(),
             'powrot_url'                =>  $previousUrl,
             'notatka_kategorie'         =>  $kategorieNotatek,
-//            'dobrane_systemy'           =>  $dobraneSystemy,
         );
     }
 
@@ -375,78 +344,6 @@ class OfertaHandlowaController extends Controller
         $previousUrl = $this->get('request')->headers->get('referer');
 
         return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
-    }
-
-    /**
-     * Funkcja zwracająca dobrane Systemy Malarskie w postaci tablicy
-     *
-     * @param Request $request
-     * @param $id
-     * @return array|null
-     */
-    private function zwrocTabliceDobranychSystemowMalarskich(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /**
-         * @var $ofertaHandlowa OfertaHandlowa
-         */
-        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-
-        $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
-            ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
-            ->setMethod('POST')
-            ->add('ofertyProfileSystemy','collection',array(
-                    'type'          =>  new OfertaHandlowaProfilSystemType(),
-                    'allow_add'     =>  true,
-                    'by_reference'  =>  false,
-                )
-            )
-            ->add('zapisz','submit',array(
-                    'label'         =>  'Zapisz',
-                    'attr'          =>  array('class'=>'art-button zielony')
-                )
-            )
-            ->add('zamknij','submit',array(
-                    'label'         =>  'Zapisz i zamknij',
-                    'attr'          =>  array('class'=>'art-button pomaranczowy')
-                )
-            )
-            ->add('anuluj','submit',array(
-                    'label'         =>  'Anuluj zamówienie',
-                    'attr'          =>  array('class'=>'art-button czerwony')
-                )
-            )
-            ->getForm();
-
-        $ofertaHandlowaForm->handleRequest($request);
-
-        if($ofertaHandlowaForm->isValid())
-        {
-//            $tempOfertyProfileSystemy = Array();
-//            $i = 0;
-//
-//            /**
-//             * @var $ofertaProfilSystem ofertaHandlowaProfilSystem
-//             */
-//            foreach($ofertaHandlowa->getOfertyProfileSystemy() as $ofertaProfilSystem)
-//            {
-//
-//                /**
-//                 * @var $produkt Produkt
-//                 */
-//                foreach($ofertaProfilSystem->getProfilSystem()->getSystemMalarski()->getProdukty() as $produkt)
-//                {
-//                    $tempOfertyProfileSystemy[$i]['system'][] = $produkt->getId();
-//                }
-//                $tempOfertyProfileSystemy[$i]['profil'] = $ofertaProfilSystem->getProfilSystem()->getProfilDzialalnosci()->getId();
-//                $tempOfertyProfileSystemy[$i]['uwagi'] = $ofertaProfilSystem->getUwagi();
-//                $i++;
-//            }
-//            return $tempOfertyProfileSystemy;
-        }
-
-        return null;
     }
 
     /**
@@ -851,14 +748,15 @@ class OfertaHandlowaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-        $nazwaFilii = $entity->getFilia()->getKlient()->getNazwaSkrocona();
+        $klient = $entity->getFilia()->getKlient();
 
         if (!$entity) {
             throw $this->createNotFoundException('Nie można znaleźć oferty handlowej.');
         }
 
         $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
-                'oferta'    => $entity,
+                'oferta'        =>  $entity,
+                'nazwa_klienta' =>  $klient
             )
         );
 
@@ -877,7 +775,7 @@ class OfertaHandlowaController extends Controller
             200,
             array(
                 'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'filename="'.$nazwaFilii.'_oferta_handlowa('.$id.').pdf"'
+                'Content-Disposition'   => 'filename="'.$klient->getNazwaSkrocona().'_oferta_handlowa('.$id.').pdf"'
             )
         );
     }
