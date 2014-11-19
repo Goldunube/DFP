@@ -9,10 +9,12 @@
     <tr>
         <th>Grunt / Gruntoemalia</th>
         <td>{{ form_widget(oferta_system.warstwa1, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
+        <td>Informacje dodatkowe</td>
     </tr>
     <tr>
         <th>Międzywarstwa</th>
         <td>{{ form_widget(oferta_system.warstwa2, { 'attr' : { 'data-live-search' : 'true' } }) }}</td>
+        <td rowspan="3">{{ form_widget(oferta_system.informacja, { 'attr' : { 'rows' : 5 } }) }}</td>
     </tr>
     <tr>
         <th>Międzywarstwa</th>

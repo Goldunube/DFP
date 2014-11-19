@@ -198,18 +198,6 @@
             <div class="info-zamawiajacego">
                 {{ filia.adnotacja|striptags }}
             </div>
-            <h4>Dobrane systemy malarskie</h4>
-            <div class="info-zamawiajacego">
-                <dl>
-                    {% for ofertaSystem in oferta.ofertySystemy %}
-                        <dt>{{ ofertaSystem.profil.nazwaProfilu }}</dt>
-                        <dd><em>Grunt / Gruntoemalia</em> - {{ ofertaSystem.warstwa1 }}</dd>
-                        {% if ofertaSystem.warstwa2 %} <dd><em>Międzywarstwa</em> - {{ ofertaSystem.warstwa2 }}</dd> {% endif %}
-                        {% if ofertaSystem.warstwa3 %} <dd><em>Międzywarstwa</em> - {{ ofertaSystem.warstwa3 }}</dd> {% endif %}
-                        {% if ofertaSystem.warstwa4 %} <dd><em>Międzywarstwa</em> - {{ ofertaSystem.warstwa4 }}</dd> {% endif %}
-                    {% endfor %}
-                </dl>
-            </div>
         </aside>
     </div>
 
@@ -236,6 +224,65 @@
             <span>Notatki</span>
         </a>
     </aside>
+
+    <h3>Dobrane systemy malarskie</h3>
+    <section id="dobrane-systemy-info" class="container-fluid">
+        {% for ofertaSystem in oferta.ofertySystemy %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ ofertaSystem.profil.nazwaProfilu }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-8">
+                        {% if ofertaSystem.warstwa1 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Grunt / Gruntoemalia</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa1 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if ofertaSystem.warstwa2 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Międzywarstwa</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa2 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if ofertaSystem.warstwa3 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Międzywarstwa / Farba nawierzchniowa</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa3 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if ofertaSystem.warstwa4 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Farba nawierzchniowa</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa4 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-4">
+                        <p style="text-decoration: underline;">Informacje dodatkowe:</p>
+                        <p>{{ ofertaSystem.informacja }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 
     <h3>Produkty zawarte w ofercie handlowej</h3>
     {{ form_start(form) }}
@@ -302,6 +349,7 @@
                     Powrót
                 </a>
             </li>
+            <li><button class="art-button zielony" name="{{ form.zapisz.vars.full_name }}" id="{{ form.zapisz.vars.id }}" type="submit">Tylko zapisz</button></li>
             {% if form.submit is defined %}
                 <li> <button class="art-button zielony" name="{{ form.submit.vars.full_name }}" id="{{ form.submit.vars.id }}" type="submit">Zapisz i zamknij</button> </li>
             {% endif %}

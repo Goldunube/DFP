@@ -141,6 +141,12 @@ tfoot td, tfoot th {
     border-right: 1px solid #f9f9f9;
     border-top: 1px solid #f9f9f9;
 }
+#oferty-systemy-container table {
+    border: 1px none;
+}
 #oferty-systemy-container table tbody tr {
     border: 1px none ;
+}
+#dobrane-systemy-info em {
+    color: #4682b4;
 }

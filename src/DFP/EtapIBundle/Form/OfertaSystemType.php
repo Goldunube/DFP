@@ -27,8 +27,7 @@ class OfertaSystemType extends AbstractType
                         },
                     'expanded'  =>  false,
                     'multiple'  =>  false,
-                    'required'  =>  true,
-                    'empty_value'    =>  '-- Wybierz produkt -- '
+                    'required'  =>  false,
                 )
             )
             ->add('warstwa2','entity',array(

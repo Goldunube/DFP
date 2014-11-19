@@ -450,33 +450,54 @@ class OfertaHandlowaController extends Controller
     }
 
     /**
-     * @param $tymczasowaTablica
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function zapiszOpracowanieSystemuMalarskiegoAction($tymczasowaTablica, $id)
+    private function zapiszOpracowanieSystemuMalarskiegoAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-        $em->persist($ofertaHandlowa);
-        $em->flush();
-//        if($tymczasowaTablica != null)
-//        {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->clear();
-//
-//            /**
-//             * @var $ofertaHandlowa OfertaHandlowa
-//             */
-//            $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-//
-//            $ofertaHandlowa->setTymczasoweProfileSystemy($tymczasowaTablica);
-//
-//            $em->persist($ofertaHandlowa);
-//            $em->flush();
-//        }
 
-        return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
+        /**
+         * @var $ofertaHandlowa OfertaHandlowa
+         */
+        $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+
+        $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
+            ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
+            ->setMethod('POST')
+            ->add('ofertySystemy','collection',array(
+                    'type'          =>  new OfertaSystemType(),
+                    'allow_add'     =>  true,
+                    'by_reference'  =>  false,
+                )
+            )
+            ->add('zapisz','submit',array(
+                    'label'         =>  'Zapisz',
+                    'attr'          =>  array('class'=>'art-button zielony')
+                )
+            )
+            ->add('zamknij','submit',array(
+                    'label'         =>  'Zapisz i zamknij',
+                    'attr'          =>  array('class'=>'art-button pomaranczowy')
+                )
+            )
+            ->add('anuluj','submit',array(
+                    'label'         =>  'Anuluj zamówienie',
+                    'attr'          =>  array('class'=>'art-button czerwony')
+                )
+            )
+            ->getForm();
+
+        $ofertaHandlowaForm->handleRequest($request);
+
+        if($ofertaHandlowaForm->isValid())
+        {
+            $em->persist($ofertaHandlowa);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)));
     }
 
     /**
@@ -686,17 +707,16 @@ class OfertaHandlowaController extends Controller
         {
             if($ofertaHandlowaForm->has('zapisz') && $ofertaHandlowaForm->get('zapisz')->isClicked())
             {
-                $tablicaTymczasowegoDoboruSystemuMalarskiego = $this->zwrocTabliceDobranychSystemowMalarskich($request,$id);
-
-                $this->zapiszOpracowanieSystemuMalarskiegoAction($tablicaTymczasowegoDoboruSystemuMalarskiego, $id);
-
+                $this->zapiszOpracowanieSystemuMalarskiegoAction($request, $id);
                 return $this->redirect($this->generateUrl('backend_opracowanie_systemu_malarskiego',array('id'=>$id)));
+
             }elseif($ofertaHandlowaForm->has('zamknij') && $ofertaHandlowaForm->get('zamknij')->isClicked())
             {
                 $this->zamknijOpracowanieSystemuMalarskiego($request,$id);
-
                 return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
+
             }elseif($ofertaHandlowaForm->has('anuluj') && $ofertaHandlowaForm->get('anuluj')->isClicked()){
+
                 $this->anulujOferteHandlowa($request, $id);
                 return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
             }
@@ -793,12 +813,17 @@ class OfertaHandlowaController extends Controller
         $form->handleRequest($request);
         if($form->isValid())
         {
-//            $ofertaHandlowa->setStatus(4);
+            $redirectUrl = $this->generateUrl('backend_opracowanie_oferty_cenowej', array('id' => $id));
+            if($form->get('submit')->isClicked())
+            {
+                $ofertaHandlowa->setStatus(4);
+                $redirectUrl = $this->generateUrl('backend_oferty_handlowe_oczekujace_oh');
+            }
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());
             $em->persist($ofertaHandlowa);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_oh'));
+            return $this->redirect($redirectUrl);
         }
 
         return array(
@@ -826,6 +851,7 @@ class OfertaHandlowaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
+        $nazwaFilii = $entity->getFilia()->getKlient()->getNazwaSkrocona();
 
         if (!$entity) {
             throw $this->createNotFoundException('Nie można znaleźć oferty handlowej.');
@@ -851,7 +877,7 @@ class OfertaHandlowaController extends Controller
             200,
             array(
                 'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'filename="karta_techniczna.pdf"'
+                'Content-Disposition'   => 'filename="'.$nazwaFilii.'_oferta_handlowa('.$id.').pdf"'
             )
         );
     }
