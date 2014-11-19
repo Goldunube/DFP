@@ -13,7 +13,10 @@ class OfertaCenaType extends AbstractType
     {
         $builder
             ->add('kolor')
-            ->add('wartosc')
+            ->add('wartosc','money', array(
+                    'currency'  =>  'PLN'
+                )
+            )
         ;
     }
 
