@@ -1,0 +1,36 @@
+#adresat-container {
+    margin-top: 40px;
+    margin-bottom: 200px;
+}
+#first-page-footer {
+    margin-top: 440px;
+    page-break-after: always;
+}
+#first-page-footer .stopka {
+}
+#first-page-footer .small {
+    font-size: 10px;
+}
+#first-page-footer img {
+    position: relative;
+    bottom: 0;
+    left: 530px;
+}
+section h4 {
+    margin-bottom: 20px;
+}
+#produkty {
+    page-break-after: always;
+}
+#produkty dl dd {
+    margin-bottom: 10px;
+}
+#systemy-malarskie dl {
+    margin-bottom: 20px;
+}
+#systemy-malarskie dl dd {
+    margin-left: 20px;
+}
+#systemy-malarskie dl dd span.glyphicon {
+    margin-right: 20px;
+}

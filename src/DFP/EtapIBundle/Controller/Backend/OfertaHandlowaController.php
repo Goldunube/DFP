@@ -756,7 +756,7 @@ class OfertaHandlowaController extends Controller
 
         $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
                 'oferta'        =>  $entity,
-                'nazwa_klienta' =>  $klient
+                'klient' =>  $klient
             )
         );
 
@@ -768,7 +768,8 @@ class OfertaHandlowaController extends Controller
         //$pdf->setOption('margin-top',35);
         //$pdf->setOption('margin-left',0);
         //$pdf->setOption('margin-right',0);
-        //$pdf->setOption('footer-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-footer');
+        //$urlFooter = $this->generateUrl('oferta_handlowa_pdf_footer',array(),true);
+        //$pdf->setOption('footer-html',$urlFooter);
 
         return new Response(
             $pdf->getOutputFromHtml($html),
