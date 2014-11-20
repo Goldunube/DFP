@@ -44,9 +44,9 @@
         <section id="produkty-opis">
             <h4>Oferta techniczno - cenowa dotycząca powłok lakierowych:</h4>
             <dl>
-                {% for ofertaProdukt in oferta.ofertyProdukty %}
-                    <dt>{{ ofertaProdukt.produkt.nazwaHandlowa }} - {{ ofertaProdukt.produkt.nazwaTechniczna }}</dt>
-                    <dd>{{ ofertaProdukt.produkt.opisPodstawowy }}</dd>
+                {% for ofertaProdukt in opisy_produktow %}
+                    <dt>{{ ofertaProdukt.nazwaHandlowa }} - {{ ofertaProdukt.nazwaTechniczna }}</dt>
+                    <dd>{{ ofertaProdukt.opisPodstawowy }}</dd>
                 {% endfor %}
             </dl>
             <em>
@@ -66,8 +66,66 @@
                 </dl>
             {% endfor %}
         </section>
-        <section class="produkty">
+        <section id="produkty-lista" class="container-fluid">
+            <table class="table table-condensed table-striped">
+                <caption>Lista cen produktów w zł/L</caption>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Produkt</th>
+                        <th>Opakowanie</th>
+                        <th>Cena</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ofertaProdukt in oferta.ofertyProdukty %}
+                        {% if ofertaProdukt.opakowanieJednostka == 'l' %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }} w proporcji objętościowej</td>
+                                <td>{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
+                                <td>
+                                    {% for cena in ofertaProdukt.ceny %}
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                {{ cena.kolor }}
+                                            </div>
+                                            <div class="col-xs-6">
+                                                {{ cena.wartosc }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
 
+            <table class="table table-condensed table-striped">
+                <caption>Lista cen produktów w zł/kg</caption>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Produkt</th>
+                    <th>Opakowanie</th>
+                    <th>Cena</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for ofertaProdukt in oferta.ofertyProdukty %}
+                        {% if ofertaProdukt.opakowanieJednostka == 'kg' %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }} w proporcji objętościowej</td>
+                                <td>{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
+                                <td>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
     </div>
 </body>

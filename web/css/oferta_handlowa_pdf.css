@@ -19,10 +19,10 @@
 section h4 {
     margin-bottom: 20px;
 }
-#produkty {
+#produkty-opis, #produkty-lista, #systemy-malarskie {
     page-break-after: always;
 }
-#produkty dl dd {
+#produkty-opis dl dd {
     margin-bottom: 10px;
 }
 #systemy-malarskie dl {

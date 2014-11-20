@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use DFP\EtapIBundle\Entity\Klient;
 use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\OfertaProdukt;
 use DFP\EtapIBundle\Entity\OfertaSystem;
@@ -747,29 +748,39 @@ class OfertaHandlowaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var OfertaHandlowa $entity
+         */
         $entity = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-        $klient = $entity->getFilia()->getKlient();
-
         if (!$entity) {
             throw $this->createNotFoundException('Nie można znaleźć oferty handlowej.');
         }
 
+        /**
+         * @var Klient $klient
+         * @var OfertaProdukt $ofertaProdukt
+         */
+        $klient = $entity->getFilia()->getKlient();
+        $produktyCenyLitry = new ArrayCollection();
+        $produktyCenyKilogramy = new ArrayCollection();
+        $opisy_produktow = new ArrayCollection();
+        foreach($entity->getOfertyProdukty() as $ofertaProdukt)
+        {
+            $produkt = $ofertaProdukt->getProdukt();
+
+            if(!$opisy_produktow->contains($produkt))
+                $opisy_produktow->add($produkt);
+        }
+
         $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
-                'oferta'        =>  $entity,
-                'klient' =>  $klient
+                'oferta'                    =>  $entity,
+                'klient'                    =>  $klient,
+                'opisy_produktow'           =>  $opisy_produktow,
             )
         );
 
         $pdf = $this->get('knp_snappy.pdf');
         $pdf->setOption('encoding','utf-8');
-        //$pdf->setOption('header-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-header');
-        //$pdf->setOption('header-spacing',10);
-        //$pdf->setOption('footer-spacing',10);
-        //$pdf->setOption('margin-top',35);
-        //$pdf->setOption('margin-left',0);
-        //$pdf->setOption('margin-right',0);
-        //$urlFooter = $this->generateUrl('oferta_handlowa_pdf_footer',array(),true);
-        //$pdf->setOption('footer-html',$urlFooter);
 
         return new Response(
             $pdf->getOutputFromHtml($html),
