@@ -67,85 +67,90 @@
             {% endfor %}
         </section>
         <section id="produkty-lista" class="container-fluid">
-            <table class="table table-condensed table-striped">
-                <caption>Lista cen produktów w zł/L</caption>
-                <thead>
+            {% if lista_produktow_litry is not empty %}
+                <table class="table table-condensed table-bordered">
+                    <caption><h4>Lista cen produktów w zł/L</h4></caption>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="col-produkt">Produkt</th>
+                            <th class="col-opakowanie">Opakowanie</th>
+                            <th class="col-cena"><span class="pull-left">Kolor</span><span class="pull-right">Cena</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ofertaProdukt in lista_produktow_litry %}
+                            {% if ofertaProdukt.opakowanieJednostka == 'l' %}
+                                <tr>
+                                    <td rowspan="2">{{ loop.index }}</td>
+                                    <td class="col-produkt">
+                                        <div>
+                                            <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                                            w proporcji objętościowej
+                                        </div>
+                                    </td>
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
+                                    <td class="col-cena">
+                                        {% for cena in ofertaProdukt.ceny %}
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    {{ cena.kolor }}
+                                                </div>
+                                                <div class="col-xs-6 col-cena-wartosc">
+                                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe }}</em></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if lista_produktow_kilogramy is not empty %}
+                <table class="table table-condensed table-striped table-bordered">
+                    <caption>Lista cen produktów w zł/kg</caption>
+                    <thead>
                     <tr>
                         <th>#</th>
                         <th class="col-produkt">Produkt</th>
                         <th class="col-opakowanie">Opakowanie</th>
                         <th class="col-cena">Cena</th>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for ofertaProdukt in oferta.ofertyProdukty %}
-                        {% if ofertaProdukt.opakowanieJednostka == 'l' %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td class="col-produkt">
-                                    <div>
-                                        <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
-                                        w proporcji objętościowej
-                                    </div>
-                                </td>
-                                <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
-                                <td class="col-cena">
-                                    {% for cena in ofertaProdukt.ceny %}
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                {{ cena.kolor }}
-                                            </div>
-                                            <div class="col-xs-6 col-cena-wartosc">
-                                                {{ cena.wartosc|number_format(2,',',' ') }} zł
-                                            </div>
+                    </thead>
+                    <tbody>
+                        {% for ofertaProdukt in lista_produktow_kilogramy %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td class="col-produkt">
+                                        <div>
+                                            <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                                            w proporcji objętościowej
                                         </div>
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <table class="table table-condensed table-striped">
-                <caption>Lista cen produktów w zł/kg</caption>
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th class="col-produkt">Produkt</th>
-                    <th class="col-opakowanie">Opakowanie</th>
-                    <th class="col-cena">Cena</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for ofertaProdukt in oferta.ofertyProdukty %}
-                        {% if ofertaProdukt.opakowanieJednostka == 'kg' %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td class="col-produkt">
-                                    <div>
-                                        <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
-                                        w proporcji objętościowej
-                                    </div>
-                                </td>
-                                <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
-                                <td class="col-cena">
-                                    {% for cena in ofertaProdukt.ceny %}
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                {{ cena.kolor }}
+                                    </td>
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
+                                    <td class="col-cena">
+                                        {% for cena in ofertaProdukt.ceny %}
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    {{ cena.kolor }}
+                                                </div>
+                                                <div class="col-xs-6 col-cena-wartosc">
+                                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
+                                                </div>
                                             </div>
-                                            <div class="col-xs-6 col-cena-wartosc">
-                                                {{ cena.wartosc|number_format(2,',',' ') }} zł
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </section>
     </div>
 </body>

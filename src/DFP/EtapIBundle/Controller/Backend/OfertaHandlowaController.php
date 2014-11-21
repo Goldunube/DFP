@@ -768,12 +768,20 @@ class OfertaHandlowaController extends Controller
 
             if(!$opisy_produktow->contains($produkt))
                 $opisy_produktow->add($produkt);
+
+            if($ofertaProdukt->getOpakowanieJednostka() === 'l')
+                $produktyCenyLitry->add($ofertaProdukt);
+
+            if($ofertaProdukt->getOpakowanieJednostka() === 'kg')
+                $produktyCenyKilogramy->add($ofertaProdukt);
         }
 
         $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
                 'oferta'                    =>  $entity,
                 'klient'                    =>  $klient,
                 'opisy_produktow'           =>  $opisy_produktow,
+                'lista_produktow_litry'     =>  $produktyCenyLitry,
+                'lista_produktow_kilogramy' =>  $produktyCenyKilogramy,
             )
         );
 

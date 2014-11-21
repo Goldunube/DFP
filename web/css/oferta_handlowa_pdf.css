@@ -19,11 +19,15 @@
 section h4 {
     margin-bottom: 20px;
 }
-#produkty-opis, #produkty-lista, #systemy-malarskie {
+#produkty-opis, #produkty-lista {
     page-break-after: always;
 }
 #produkty-opis dl dd {
     margin-bottom: 10px;
+}
+#produkty-lista table tbody tr:nth-child(4n+2), #produkty-lista table tbody tr:nth-child(4n+1)
+{
+    background-color: #f7f7f7;
 }
 #systemy-malarskie dl {
     margin-bottom: 20px;
