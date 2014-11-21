@@ -72,9 +72,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Produkt</th>
-                        <th>Opakowanie</th>
-                        <th>Cena</th>
+                        <th class="col-produkt">Produkt</th>
+                        <th class="col-opakowanie">Opakowanie</th>
+                        <th class="col-cena">Cena</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,16 +82,21 @@
                         {% if ofertaProdukt.opakowanieJednostka == 'l' %}
                             <tr>
                                 <td>{{ loop.index }}</td>
-                                <td><strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }} w proporcji objętościowej</td>
-                                <td>{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
-                                <td>
+                                <td class="col-produkt">
+                                    <div>
+                                        <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                                        w proporcji objętościowej
+                                    </div>
+                                </td>
+                                <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
+                                <td class="col-cena">
                                     {% for cena in ofertaProdukt.ceny %}
                                         <div class="row">
                                             <div class="col-xs-6">
                                                 {{ cena.kolor }}
                                             </div>
-                                            <div class="col-xs-6">
-                                                {{ cena.wartosc }}
+                                            <div class="col-xs-6 col-cena-wartosc">
+                                                {{ cena.wartosc|number_format(2,',',' ') }} zł
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -107,9 +112,9 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Produkt</th>
-                    <th>Opakowanie</th>
-                    <th>Cena</th>
+                    <th class="col-produkt">Produkt</th>
+                    <th class="col-opakowanie">Opakowanie</th>
+                    <th class="col-cena">Cena</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -117,9 +122,24 @@
                         {% if ofertaProdukt.opakowanieJednostka == 'kg' %}
                             <tr>
                                 <td>{{ loop.index }}</td>
-                                <td><strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }} w proporcji objętościowej</td>
-                                <td>{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
-                                <td>
+                                <td class="col-produkt">
+                                    <div>
+                                        <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                                        w proporcji objętościowej
+                                    </div>
+                                </td>
+                                <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
+                                <td class="col-cena">
+                                    {% for cena in ofertaProdukt.ceny %}
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                {{ cena.kolor }}
+                                            </div>
+                                            <div class="col-xs-6 col-cena-wartosc">
+                                                {{ cena.wartosc|number_format(2,',',' ') }} zł
+                                            </div>
+                                        </div>
+                                    {% endfor %}
                                 </td>
                             </tr>
                         {% endif %}

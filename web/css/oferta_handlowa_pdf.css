@@ -34,3 +34,15 @@ section h4 {
 #systemy-malarskie dl dd span.glyphicon {
     margin-right: 20px;
 }
+.col-produkt {
+    width: 280px;
+}
+.col-opakowanie {
+    width: 120px;
+}
+.col-cena {
+    width: 170px;
+}
+.col-cena-wartosc {
+   text-align: right;
+}
