@@ -33,7 +33,7 @@ $(document).ready(function()
         var prototype = $holderCeny.data('prototype');
         $holderCeny.data('index',$holderCeny.find('tr.cena').length);
         var indeks = $holderCeny.data('index');
-        var nowaCena = prototype.replace(/__name__/g, indeks);
+        var nowaCena = prototype.replace(/__cena_name__/g, indeks);
         $holderCeny.data('index', indeks + 1);
         $holderCeny.append(nowaCena);
 //        alert($holderCeny.data('index'));

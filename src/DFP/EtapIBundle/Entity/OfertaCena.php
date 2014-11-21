@@ -32,7 +32,7 @@ class OfertaCena
      * @var string
      * @ORM\Column(name="wartosc",type="string",nullable=false)
      */
-    private $wartosc = 0;
+    private $wartosc = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt",inversedBy="ceny")

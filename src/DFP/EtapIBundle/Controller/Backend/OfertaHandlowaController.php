@@ -564,8 +564,6 @@ class OfertaHandlowaController extends Controller
             }
         }
 
-
-
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
             ->setMethod('POST')
@@ -714,7 +712,7 @@ class OfertaHandlowaController extends Controller
             $redirectUrl = $this->generateUrl('backend_opracowanie_oferty_cenowej', array('id' => $id));
             if($form->get('submit')->isClicked())
             {
-                $ofertaHandlowa->setStatus(4);
+                //$ofertaHandlowa->setStatus(4);
                 $redirectUrl = $this->generateUrl('backend_oferty_handlowe_oczekujace_oh');
             }
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());

@@ -20,7 +20,8 @@ class OfertaProduktType extends AbstractType
                     'allow_add' => true,
                     'allow_delete'  =>  true,
                     'prototype' =>  true,
-                    'by_reference'  =>  false
+                    'prototype_name' =>  '__cena_name__',
+                    'by_reference'  =>  false,
                 )
             )
             ->add('produkt',null,array(

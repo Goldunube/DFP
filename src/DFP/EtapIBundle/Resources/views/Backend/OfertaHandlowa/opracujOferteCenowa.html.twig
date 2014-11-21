@@ -39,8 +39,8 @@
                 </thead>
                 <tbody data-prototype="{{ _self.cena_prototype(website.ceny.vars.prototype)|e }}">
                     <tr class="cena">
-                        <td><input class="form-control" id="" name="" value=""></td>
-                        <td><input class="form-control" id="" name="" value=""></td>
+                        <td><input class="form-control" id="{{ website.ceny.vars.id }}_0_kolor" name="{{ website.ceny.vars.full_name }}[0][kolor]" value=""></td>
+                        <td><input class="form-control" id="{{ website.ceny.vars.id }}_0_wartosc" name="{{ website.ceny.vars.full_name }}[0][wartosc]" value=""></td>
                         <td style="width: 35px;"><a href="#"><span class="glyphicon glyphicon-plus-sign cena-add" style="color: #27A727; font-size: 14px;"></span></a><a href="#"><span class="glyphicon glyphicon-minus-sign cena-del" style="color: #e00800; font-size: 14px;"></span></a></td>
                     </tr>
                 </tbody>
