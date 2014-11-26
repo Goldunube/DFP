@@ -113,20 +113,20 @@
             {% endif %}
 
             {% if lista_produktow_kilogramy is not empty %}
-                <table class="table table-condensed table-striped table-bordered">
+                <table class="table table-condensed table-bordered">
                     <caption>Lista cen produktów w zł/kg</caption>
                     <thead>
                     <tr>
                         <th>#</th>
                         <th class="col-produkt">Produkt</th>
                         <th class="col-opakowanie">Opakowanie</th>
-                        <th class="col-cena">Cena</th>
+                        <th class="col-cena"><span class="pull-left">Kolor</span><span class="pull-right">Cena</span></th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for ofertaProdukt in lista_produktow_kilogramy %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
+                                    <td rowspan="2">{{ loop.index }}</td>
                                     <td class="col-produkt">
                                         <div>
                                             <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
@@ -146,6 +146,9 @@
                                             </div>
                                         {% endfor %}
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe }}</em></td>
                                 </tr>
                         {% endfor %}
                     </tbody>
