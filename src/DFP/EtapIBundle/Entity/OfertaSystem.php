@@ -28,7 +28,7 @@ class OfertaSystem
     private $warstwa1;
 
     /**
-     * @var string
+     * @var array
      * @ORM\Column(name="warstwa_2", type="array", nullable=true)
      */
     private $warstwa2;

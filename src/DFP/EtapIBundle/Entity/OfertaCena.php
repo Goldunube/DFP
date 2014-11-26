@@ -29,10 +29,9 @@ class OfertaCena
     private $kolor = '';
 
     /**
-     * @var string
-     * @ORM\Column(name="wartosc",type="string",nullable=false)
+     * @ORM\Column(name="wartosc",type="decimal",precision=8,scale=2,nullable=false)
      */
-    private $wartosc = '';
+    private $wartosc = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\OfertaProdukt",inversedBy="ceny")
