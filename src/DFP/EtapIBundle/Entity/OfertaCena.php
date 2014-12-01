@@ -29,8 +29,7 @@ class OfertaCena
     private $kolor = '';
 
     /**
-     * @var string
-     * @ORM\Column(name="wartosc",type="string",nullable=false)
+     * @ORM\Column(name="wartosc",type="decimal",precision=8,scale=2,nullable=false)
      */
     private $wartosc = 0;
 

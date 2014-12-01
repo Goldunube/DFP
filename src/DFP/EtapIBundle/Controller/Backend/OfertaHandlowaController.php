@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use DFP\EtapIBundle\Entity\Klient;
 use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\OfertaProdukt;
 use DFP\EtapIBundle\Entity\OfertaSystem;
@@ -563,8 +564,6 @@ class OfertaHandlowaController extends Controller
             }
         }
 
-
-
         $ofertaHandlowaForm = $this->createFormBuilder($ofertaHandlowa)
             ->setAction($this->generateUrl('backend_opracowanie_systemu_malarskiego', array('id' => $id)))
             ->setMethod('POST')
@@ -713,7 +712,7 @@ class OfertaHandlowaController extends Controller
             $redirectUrl = $this->generateUrl('backend_opracowanie_oferty_cenowej', array('id' => $id));
             if($form->get('submit')->isClicked())
             {
-                $ofertaHandlowa->setStatus(4);
+                //$ofertaHandlowa->setStatus(4);
                 $redirectUrl = $this->generateUrl('backend_oferty_handlowe_oczekujace_oh');
 
             }
@@ -748,28 +747,47 @@ class OfertaHandlowaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /**
+         * @var OfertaHandlowa $entity
+         */
         $entity = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
-        $klient = $entity->getFilia()->getKlient();
-
         if (!$entity) {
             throw $this->createNotFoundException('Nie można znaleźć oferty handlowej.');
         }
 
+        /**
+         * @var Klient $klient
+         * @var OfertaProdukt $ofertaProdukt
+         */
+        $klient = $entity->getFilia()->getKlient();
+        $produktyCenyLitry = new ArrayCollection();
+        $produktyCenyKilogramy = new ArrayCollection();
+        $opisy_produktow = new ArrayCollection();
+        foreach($entity->getOfertyProdukty() as $ofertaProdukt)
+        {
+            $produkt = $ofertaProdukt->getProdukt();
+
+            if(!$opisy_produktow->contains($produkt))
+                $opisy_produktow->add($produkt);
+
+            if($ofertaProdukt->getOpakowanieJednostka() === 'l')
+                $produktyCenyLitry->add($ofertaProdukt);
+
+            if($ofertaProdukt->getOpakowanieJednostka() === 'kg')
+                $produktyCenyKilogramy->add($ofertaProdukt);
+        }
+
         $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
-                'oferta'        =>  $entity,
-                'nazwa_klienta' =>  $klient
+                'oferta'                    =>  $entity,
+                'klient'                    =>  $klient,
+                'opisy_produktow'           =>  $opisy_produktow,
+                'lista_produktow_litry'     =>  $produktyCenyLitry,
+                'lista_produktow_kilogramy' =>  $produktyCenyKilogramy,
             )
         );
 
         $pdf = $this->get('knp_snappy.pdf');
         $pdf->setOption('encoding','utf-8');
-        //$pdf->setOption('header-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-header');
-        //$pdf->setOption('header-spacing',10);
-        //$pdf->setOption('footer-spacing',10);
-        //$pdf->setOption('margin-top',35);
-        //$pdf->setOption('margin-left',0);
-        //$pdf->setOption('margin-right',0);
-        //$pdf->setOption('footer-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-footer');
 
         return new Response(
             $pdf->getOutputFromHtml($html),

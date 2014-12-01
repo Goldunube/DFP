@@ -1,0 +1,52 @@
+#adresat-container {
+    margin-top: 40px;
+    margin-bottom: 200px;
+}
+#first-page-footer {
+    margin-top: 440px;
+    page-break-after: always;
+}
+#first-page-footer .stopka {
+}
+#first-page-footer .small {
+    font-size: 10px;
+}
+#first-page-footer img {
+    position: relative;
+    bottom: 0;
+    left: 530px;
+}
+section h4 {
+    margin-bottom: 20px;
+}
+#produkty-opis, #produkty-lista {
+    page-break-after: always;
+}
+#produkty-opis dl dd {
+    margin-bottom: 10px;
+}
+#produkty-lista table tbody tr:nth-child(4n+2), #produkty-lista table tbody tr:nth-child(4n+1)
+{
+    background-color: #f7f7f7;
+}
+#systemy-malarskie dl {
+    margin-bottom: 20px;
+}
+#systemy-malarskie dl dd {
+    margin-left: 20px;
+}
+#systemy-malarskie dl dd span.glyphicon {
+    margin-right: 20px;
+}
+.col-produkt {
+    width: 280px;
+}
+.col-opakowanie {
+    width: 120px;
+}
+.col-cena {
+    width: 170px;
+}
+.col-cena-wartosc {
+   text-align: right;
+}

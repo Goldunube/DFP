@@ -4,6 +4,7 @@
     <title>Oferta handlowa</title>
     <link href="{{ asset('css/bootstrap.min.css', absolute=true) }}" rel="stylesheet"/>
     <link href="{{ asset('css/bootstrap-theme.min.css', absolute=true) }}" rel="stylesheet"/>
+    <link href="{{ asset('css/oferta_handlowa_pdf.css', absolute=true) }}" rel="stylesheet"/>
 </head>
 <body>
     <div id="header" class="container">
@@ -17,18 +18,35 @@
         <section id="strona-tytulowa">
             <div id="adresat-container">
                 <address>
-                    <strong>{{ klient.nazwaSkrocona }}</strong><br>
+                    <strong>{{ klient.nazwaPelna }}</strong><br>
+                    {{ oferta.filia.kodPocztowy }}; {{ oferta.filia.miejscowosc }}<br>
+                    {{ oferta.filia.ulica }}
                 </address>
             </div>
         </section>
-        <h1>Oferta farby przemysłowe</h1>
-        <h3>BESA</h3>
-        <section id="produkty">
+        <h1 class="text-center text-uppercase">Oferta</h1>
+        <h2 class="text-center text-uppercase">farby przemysłowe</h2>
+        <div id="first-page-footer">
+            <div class="row">
+                <div class="col-xs-9">
+                    <strong>Grupa CSV Sp. z o.o. Dział Farb Przemysłowych</strong>
+                    <p class="small">ul. Mazura 16, 02-830 Warszawa, tel +48 22 54 40 340, fax +48 22 54 40 399, <a href="mailto: farbyprzemyslowe@csv.pl">farbyprzemyslowe@csv.pl</a> <a href="http://www.farbyprzemyslowe.csv.pl">www.farbyprzemyslowe.csv.pl</a></p>
+                    <strong>Grupa CSV Sp. z o.o.</strong>
+                    <p class="small">
+                        ul. Pomorska 58-60, 70-812 Szczecin, tel +48 91 43 21 900, fax +48 91 46 01 459<br>
+                        NIP 534-247-60-33 REGON 143024171 Wysokość kapitału zakładowego 66 291 000,00 PLN<br>
+                        Sąd Rejonowy w Warszawie XIV Wydział Gospodarczy KRS 0000380775
+                    </p>
+                    <img style="position: absolute; z-index: 10;" src="{{ asset("css/images/dfp_diament.png", absolute=true) }}" class="pull-left">
+                </div>
+            </div>
+        </div>
+        <section id="produkty-opis">
             <h4>Oferta techniczno - cenowa dotycząca powłok lakierowych:</h4>
             <dl>
-                {% for ofertaProdukt in oferta.ofertyProdukty %}
-                    <dt>{{ ofertaProdukt.produkt.nazwaHandlowa }} - {{ ofertaProdukt.produkt.nazwaTechniczna }}</dt>
-                    <dd>{{ ofertaProdukt.produkt.opisPodstawowy }}</dd>
+                {% for ofertaProdukt in opisy_produktow %}
+                    <dt>{{ ofertaProdukt.nazwaHandlowa }} - {{ ofertaProdukt.nazwaTechniczna }}</dt>
+                    <dd>{{ ofertaProdukt.opisPodstawowy }}</dd>
                 {% endfor %}
             </dl>
             <em>
@@ -36,20 +54,106 @@
                 ofercie tabelami oraz zgodnie z zaleceniami w kartach technicznych produktów.
             </em>
         </section>
-        <section id="systemy-malarskie">
-            <h4>Systemy malarskie</h4>
+        <section id="systemy-malarskie" class="container-fluid">
+            <h4>Systemy malarskie:</h4>
             {% for systemMalarski in oferta.ofertySystemy %}
                 <dl>
                     <dt>{{ systemMalarski.profil }}</dt>
-                    <dd><em>Grunt / Gruntoemalia </em>{{ systemMalarski.warstwa1 }}</dd>
-                    <dd><em>Międzywarstwa </em>{{ systemMalarski.warstwa2 }}</dd>
-                    <dd><em>Międzywarstwa / Farba nawierzchniowa </em>{{ systemMalarski.warstwa3 }}</dd>
-                    <dd><em>Farba nawierzchniowa </em>{{ systemMalarski.warstwa4 }}</dd>
+                    {% if systemMalarski.warstwa1 %}<dd><span class="glyphicon glyphicon-hand-right"></span>{{ systemMalarski.warstwa1 }} <em class="text-muted">(Grunt / Gruntoemalia)</em></dd>{% endif %}
+                    {% if systemMalarski.warstwa2 %}<dd><span class="glyphicon glyphicon-hand-right"></span>{{ systemMalarski.warstwa2 }} <em class="text-muted">(Międzywarstwa)</em></dd>{% endif %}
+                    {% if systemMalarski.warstwa3 %}<dd><span class="glyphicon glyphicon-hand-right"></span>{{ systemMalarski.warstwa3 }} <em class="text-muted">(Międzywarstwa / Farba nawierzchniowa)</em></dd>{% endif %}
+                    {% if systemMalarski.warstwa4 %}<dd><span class="glyphicon glyphicon-hand-right"></span>{{ systemMalarski.warstwa4 }} <em class="text-muted">(Farba nawierzchniowa)</em></dd>{% endif %}
                 </dl>
             {% endfor %}
         </section>
-        <section class="produkty">
+        <section id="produkty-lista" class="container-fluid">
+            {% if lista_produktow_litry is not empty %}
+                <table class="table table-condensed table-bordered">
+                    <caption><h4>Lista cen produktów w zł/L</h4></caption>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="col-produkt">Produkt</th>
+                            <th class="col-opakowanie">Opakowanie</th>
+                            <th class="col-cena"><span class="pull-left">Kolor</span><span class="pull-right">Cena</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ofertaProdukt in lista_produktow_litry %}
+                            {% if ofertaProdukt.opakowanieJednostka == 'l' %}
+                                <tr>
+                                    <td rowspan="2">{{ loop.index }}</td>
+                                    <td class="col-produkt">
+                                        <div>
+                                            <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                                            w proporcji objętościowej
+                                        </div>
+                                    </td>
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
+                                    <td class="col-cena">
+                                        {% for cena in ofertaProdukt.ceny %}
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    {{ cena.kolor }}
+                                                </div>
+                                                <div class="col-xs-6 col-cena-wartosc">
+                                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe }}</em></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
 
+            {% if lista_produktow_kilogramy is not empty %}
+                <table class="table table-condensed table-bordered">
+                    <caption>Lista cen produktów w zł/kg</caption>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th class="col-produkt">Produkt</th>
+                        <th class="col-opakowanie">Opakowanie</th>
+                        <th class="col-cena"><span class="pull-left">Kolor</span><span class="pull-right">Cena</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for ofertaProdukt in lista_produktow_kilogramy %}
+                                <tr>
+                                    <td rowspan="2">{{ loop.index }}</td>
+                                    <td class="col-produkt">
+                                        <div>
+                                            <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                                            w proporcji objętościowej
+                                        </div>
+                                    </td>
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
+                                    <td class="col-cena">
+                                        {% for cena in ofertaProdukt.ceny %}
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    {{ cena.kolor }}
+                                                </div>
+                                                <div class="col-xs-6 col-cena-wartosc">
+                                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe }}</em></td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </section>
     </div>
 </body>
