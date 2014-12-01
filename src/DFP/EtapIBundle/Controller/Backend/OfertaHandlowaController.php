@@ -715,6 +715,7 @@ class OfertaHandlowaController extends Controller
             {
                 $ofertaHandlowa->setStatus(4);
                 $redirectUrl = $this->generateUrl('backend_oferty_handlowe_oczekujace_oh');
+
             }
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());
             $em->persist($ofertaHandlowa);
