@@ -101,6 +101,13 @@ class OfertaHandlowa
     private $ofertyProdukty;
 
     /**
+     * Dodatki dobiera koordynator DFP
+     *
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaDodatek", mappedBy="oferta", cascade={"ALL"}, orphanRemoval=true)
+     */
+    private $ofertyDodatki;
+
+    /**
      * Dobrane przez Technika systemy malarskie odpowiadajace profilowi działalności klienta
      *
      * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaSystem", mappedBy="oferta",cascade={"persist"})
@@ -115,6 +122,7 @@ class OfertaHandlowa
     {
         $this->ofertyProdukty = new ArrayCollection();
         $this->ofertySystemy = new ArrayCollection();
+        $this->ofertyDodatki = new ArrayCollection();
     }
 
     /**
@@ -382,6 +390,40 @@ class OfertaHandlowa
     public function getOfertyProdukty()
     {
         return $this->ofertyProdukty;
+    }
+
+    /**
+     * Add ofertyDodatki
+     *
+     * @param OfertaDodatek $ofertyDodatki
+     * @return OfertaHandlowa
+     */
+    public function addOfertyDodatki(OfertaDodatek $ofertyDodatki)
+    {
+        $ofertyDodatki->setOferta($this);
+        $this->ofertyDodatki[] = $ofertyDodatki;
+
+        return $this;
+    }
+
+    /**
+     * Remove ofertyDodatki
+     *
+     * @param OfertaDodatek $ofertyDodatki
+     */
+    public function removeOfertyDodatki(OfertaDodatek $ofertyDodatki)
+    {
+        $this->ofertyDodatki->removeElement($ofertyDodatki);
+    }
+
+    /**
+     * Get ofertyDodatki
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOfertyDodatki()
+    {
+        return $this->ofertyDodatki;
     }
 
     /**

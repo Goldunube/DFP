@@ -284,9 +284,10 @@
         {% endfor %}
     </section>
 
-    <h3>Produkty zawarte w ofercie handlowej</h3>
+    <h3>Oferta cenowa</h3>
     {{ form_start(form) }}
         <section id="oferty-systemy-container" class="container-fluid">
+            <h4>Lista produktów</h4>
             <table class="table" style="table-layout: auto;">
                 <thead>
                     <tr>
@@ -337,6 +338,56 @@
                             <th colspan="3">{{ form_widget(ofertaProdukt.informacjeDodatkowe) }}</th>
                         </tr>
                     {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <hr>
+
+        <section class="container-fluid">
+            <h4>Lista dodatków</h4>
+            <table class="table" style="table-layout: auto;">
+                <thead>
+                <tr>
+                    <th style="width: 30px;">lp</th>
+                    <th style="width: 250px;">produkt</th>
+                    <th style="width: 300px;">opakowanie</th>
+                    <th style="width: 300px;">jednostka</th>
+                    <th>cena</th>
+                    <th style="width: 80px;" class="col-action"></th>
+                </tr>
+                </thead>
+                <tbody id="oferty-dodatki-container" data-prototype="{{ _self.information_prototype(form.ofertyProdukty.vars.prototype)|e }}">
+                {% for ofertaProdukt in form.ofertyProdukty %}
+                    <tr class="produkt">
+                        <th style="width: 30px;" rowspan="2">{{ loop.index }}</th>
+                        <td>
+                            <select class="form-control">
+                                <option>-- wybierz dodatek --</option>
+                            </select>
+                        </td>
+                        <td style="width: 130px;">
+                            <input type="text" class="form-control">
+                        </td>
+                        <td style="width: 100px;">
+                            <select class="form-control">
+                                <option>Szt</option>
+                                <option>Kg</option>
+                                <option>L</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control">
+                        </td>
+                        <td rowspan="2" class="col-action">
+                            <a href="#" class="btn btn-danger produkt-del">Usuń</a>
+                        </td>
+                    </tr>
+                    <tr class="tessst">
+                        <th>{{ form_label(ofertaProdukt.informacjeDodatkowe) }}</th>
+                        <th colspan="3">{{ form_widget(ofertaProdukt.informacjeDodatkowe) }}</th>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </section>
