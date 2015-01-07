@@ -1,0 +1,143 @@
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
+
+{% block content -%}
+    <style type="text/css">
+        .indeks {
+            width: 190px;
+        }
+        td.indeks {
+            text-align: left;
+        }
+        td.nazwa {
+            text-align: left;
+        }
+        .jm, .ilosc {
+            width: 70px;
+        }
+        td.ilosc {
+            text-align: right;
+        }
+    </style>
+
+    <h1>Stan magazynu Działu Farb Przemysłowych</h1>
+
+    <h2>Produkty specjalne</h2>
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">Lp</th>
+            <th class="indeks">Indeks</th>
+            <th class="nazwa">Nazwa</th>
+            <th class="ilosc">Ilość</th>
+            <th class="jm">Jednostka</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pozycja in produkty_specjalne %}
+            <tr>
+                <th class="lp" >{{ loop.index }}</th>
+                <td class="indeks">{{ pozycja.indeks }}</td>
+                <td class="nazwa">{{ pozycja.nazwa }}</td>
+                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="jm">{{ pozycja.jm }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Grunty i podkłady</h2>
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">Lp</th>
+            <th class="indeks">Indeks</th>
+            <th class="nazwa">Nazwa</th>
+            <th class="ilosc">Ilość</th>
+            <th class="jm">Jednostka</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pozycja in grunty_podklady %}
+            <tr>
+                <th class="lp" >{{ loop.index }}</th>
+                <td class="indeks">{{ pozycja.indeks }}</td>
+                <td class="nazwa">{{ pozycja.nazwa }}</td>
+                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="jm">{{ pozycja.jm }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Farby / Gruntoemalie</h2>
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">Lp</th>
+            <th class="indeks">Indeks</th>
+            <th class="nazwa">Nazwa</th>
+            <th class="ilosc">Ilość</th>
+            <th class="jm">Jednostka</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pozycja in gruntoemalie %}
+            <tr>
+                <th class="lp" >{{ loop.index }}</th>
+                <td class="indeks">{{ pozycja.indeks }}</td>
+                <td class="nazwa">{{ pozycja.nazwa }}</td>
+                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="jm">{{ pozycja.jm }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Konwertory</h2>
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">Lp</th>
+            <th class="indeks">Indeks</th>
+            <th class="nazwa">Nazwa</th>
+            <th class="ilosc">Ilość</th>
+            <th class="jm">Jednostka</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pozycja in konwertory %}
+            <tr>
+                <th class="lp" >{{ loop.index }}</th>
+                <td class="indeks">{{ pozycja.indeks }}</td>
+                <td class="nazwa">{{ pozycja.nazwa }}</td>
+                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="jm">{{ pozycja.jm }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Pigmenty</h2>
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">Lp</th>
+            <th class="indeks">Indeks</th>
+            <th class="nazwa">Nazwa</th>
+            <th class="ilosc">Ilość</th>
+            <th class="jm">Jednostka</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pozycja in pigmenty %}
+            <tr>
+                <th class="lp" >{{ loop.index }}</th>
+                <td class="indeks">{{ pozycja.indeks }}</td>
+                <td class="nazwa">{{ pozycja.nazwa }}</td>
+                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="jm">{{ pozycja.jm }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
