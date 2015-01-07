@@ -140,4 +140,28 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <h2>Dodatki</h2>
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th class="lp">Lp</th>
+            <th class="indeks">Indeks</th>
+            <th class="nazwa">Nazwa</th>
+            <th class="ilosc">Ilość</th>
+            <th class="jm">Jednostka</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pozycja in dodatki %}
+            <tr>
+                <th class="lp" >{{ loop.index }}</th>
+                <td class="indeks">{{ pozycja.indeks }}</td>
+                <td class="nazwa">{{ pozycja.nazwa }}</td>
+                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="jm">{{ pozycja.jm }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

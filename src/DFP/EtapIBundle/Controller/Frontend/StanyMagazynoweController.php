@@ -32,27 +32,32 @@ class StanyMagazynoweController extends Controller
         $gruntoemalie = array();
         $konwertory = array();
         $pigmenty = array();
+        $dodatki = array();
         /**
          * @var StanyMagazynowe $produkt
          */
         foreach($stanyMagazynowe as $produkt)
         {
             $indeks = $produkt->getIndeks();
-            if(preg_match('/^.AK/',$indeks)) //PRODUKTY SPECJALNE
+            if(preg_match('/^EFP(-[^-]*)-(R|CT)\d+/',$indeks)) //PRODUKTY SPECJALNE
             {
                 array_push($produktySpecjalne,$produkt);
-            }elseif(preg_match('/^.PG/',$indeks)) // GRUNTY I PODKŁADY
+            }elseif(preg_match('/^EPG/',$indeks)) // GRUNTY I PODKŁADY
             {
                 array_push($gruntyPodklady,$produkt);
-            }elseif(preg_match('/^.FP/',$indeks)) // GRUNTY I PODKŁADY
+            }elseif(preg_match('/^EFP/',$indeks)) // GRUNTY I PODKŁADY
             {
                 array_push($gruntoemalie,$produkt);
-            }elseif(preg_match('/^.ZX/',$indeks)) // GRUNTY I PODKŁADY
+            }elseif(preg_match('/^EZX/',$indeks)) // GRUNTY I PODKŁADY
             {
                 array_push($konwertory,$produkt);
-            }elseif(preg_match('/^.(BP|BM)/',$indeks)) // GRUNTY I PODKŁADY
+            }elseif(preg_match('/^E(BP|BM)/',$indeks)) // GRUNTY I PODKŁADY
             {
                 array_push($pigmenty,$produkt);
+            }
+            elseif(preg_match('/^E(BP|BM)/',$indeks)) // DODATKI
+            {
+                array_push($dodatki,$produkt);
             }
         }
 
@@ -62,6 +67,7 @@ class StanyMagazynoweController extends Controller
             'gruntoemalie' => $gruntoemalie,
             'konwertory' => $konwertory,
             'pigmenty' => $pigmenty,
+            'dodatki' => $dodatki,
         );
     }
 } 
