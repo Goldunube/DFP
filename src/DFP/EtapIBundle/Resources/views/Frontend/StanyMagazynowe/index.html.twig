@@ -38,7 +38,7 @@
                 <th class="lp" >{{ loop.index }}</th>
                 <td class="indeks">{{ pozycja.indeks }}</td>
                 <td class="nazwa">{{ pozycja.nazwa }}</td>
-                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="ilosc">{{ pozycja.ilosc|number_format(2,',','.') }}</td>
                 <td class="jm">{{ pozycja.jm }}</td>
             </tr>
         {% endfor %}
@@ -62,7 +62,7 @@
                 <th class="lp" >{{ loop.index }}</th>
                 <td class="indeks">{{ pozycja.indeks }}</td>
                 <td class="nazwa">{{ pozycja.nazwa }}</td>
-                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="ilosc">{{ pozycja.ilosc|number_format(2,',','.') }}</td>
                 <td class="jm">{{ pozycja.jm }}</td>
             </tr>
         {% endfor %}
@@ -86,7 +86,7 @@
                 <th class="lp" >{{ loop.index }}</th>
                 <td class="indeks">{{ pozycja.indeks }}</td>
                 <td class="nazwa">{{ pozycja.nazwa }}</td>
-                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="ilosc">{{ pozycja.ilosc|number_format(2,',','.') }}</td>
                 <td class="jm">{{ pozycja.jm }}</td>
             </tr>
         {% endfor %}
@@ -110,7 +110,7 @@
                 <th class="lp" >{{ loop.index }}</th>
                 <td class="indeks">{{ pozycja.indeks }}</td>
                 <td class="nazwa">{{ pozycja.nazwa }}</td>
-                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="ilosc">{{ pozycja.ilosc|number_format(2,',','.') }}</td>
                 <td class="jm">{{ pozycja.jm }}</td>
             </tr>
         {% endfor %}
@@ -134,7 +134,7 @@
                 <th class="lp" >{{ loop.index }}</th>
                 <td class="indeks">{{ pozycja.indeks }}</td>
                 <td class="nazwa">{{ pozycja.nazwa }}</td>
-                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="ilosc">{{ pozycja.ilosc|number_format(2,',','.') }}</td>
                 <td class="jm">{{ pozycja.jm }}</td>
             </tr>
         {% endfor %}
@@ -158,7 +158,7 @@
                 <th class="lp" >{{ loop.index }}</th>
                 <td class="indeks">{{ pozycja.indeks }}</td>
                 <td class="nazwa">{{ pozycja.nazwa }}</td>
-                <td class="ilosc">{{ pozycja.ilosc }}</td>
+                <td class="ilosc">{{ pozycja.ilosc|number_format(2,',','.') }}</td>
                 <td class="jm">{{ pozycja.jm }}</td>
             </tr>
         {% endfor %}
