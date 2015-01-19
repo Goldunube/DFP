@@ -100,6 +100,12 @@ class Klient
      */
     private $stronaWWW;
 
+    /**
+     * @ORM\OneToOne(targetEntity="DFP\EtapIBundle\Entity\KlientObrot")
+     * @ORM\JoinColumn(name="klient_obrot_id")
+     */
+    private $obrot;
+
     public function __construct()
     {
         $this->filie = new ArrayCollection();
@@ -387,5 +393,21 @@ class Klient
     {
         $this->stronaWWW = $stronaWWW;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObrot()
+    {
+        return $this->obrot;
+    }
+
+    /**
+     * @param mixed $obrot
+     */
+    public function setObrot($obrot)
+    {
+        $this->obrot = $obrot;
     }
 }
