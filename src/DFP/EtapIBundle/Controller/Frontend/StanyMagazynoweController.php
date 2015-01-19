@@ -55,7 +55,7 @@ class StanyMagazynoweController extends Controller
             {
                 array_push($pigmenty,$produkt);
             }
-            elseif(preg_match('/^E(BP|BM)/',$indeks)) // DODATKI
+            elseif(preg_match('/^EDL/',$indeks)) // DODATKI
             {
                 array_push($dodatki,$produkt);
             }
