@@ -101,8 +101,8 @@ class Klient
     private $stronaWWW;
 
     /**
-     * @ORM\OneToOne(targetEntity="DFP\EtapIBundle\Entity\KlientObrot")
-     * @ORM\JoinColumn(name="klient_obrot_id")
+     * @var string
+     * @ORM\Column(name="obrot90", type="decimal", precision=10, scale=2)
      */
     private $obrot;
 

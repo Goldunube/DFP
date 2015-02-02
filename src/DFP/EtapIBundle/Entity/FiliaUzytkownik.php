@@ -66,6 +66,12 @@ class FiliaUzytkownik
      */
     private $uzytkownik;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="blokada", type="boolean")
+     */
+    private $blokada = false;
+
 
     public function __toString()
     {
@@ -218,5 +224,21 @@ class FiliaUzytkownik
     public function getUzytkownik()
     {
         return $this->uzytkownik;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getBlokada()
+    {
+        return $this->blokada;
+    }
+
+    /**
+     * @param boolean $blokada
+     */
+    public function setBlokada($blokada)
+    {
+        $this->blokada = $blokada;
     }
 }

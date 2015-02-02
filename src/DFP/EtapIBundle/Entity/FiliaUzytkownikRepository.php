@@ -61,10 +61,11 @@ class FiliaUzytkownikRepository extends EntityRepository
         $idu = $user->getId();
 
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
-            ->select('k,f,fu,pd')
+            ->select('k,f,fu,pd,fn')
             ->leftJoin('fu.filia','f')
             ->leftJoin('f.klient','k')
             ->leftJoin('f.profileDzialalnosci','pd')
+            ->leftJoin('f.filieNotatki','fn')
             ->where('fu.uzytkownik = :idu')
             ->setParameter('idu',$idu);
 
