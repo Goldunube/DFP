@@ -59,7 +59,14 @@
                 </tr>
                 <tr>
                     <th>Profil działalności:</th>
-                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                    <td>
+                        {% for profilDzialalnosci in filia.profileDzialalnosci %}
+                            <span title="{{ profilDzialalnosci.info }}">
+                                {{ profilDzialalnosci.nazwaProfilu }}
+                            </span>
+                            {{ not loop.last ? '|' }}
+                        {% endfor %}
+                    </td>
                 </tr>
                 <tr>
                     <th>Stosowany system malarski:</th>
@@ -106,7 +113,7 @@
                     {% if filia.filieRodzajePowierzchni|length > 0 %}
                         <dl class="table-display">
                             {% for rodzajPowierzchniFilii in filia.filieRodzajePowierzchni %}
-                                <dt>{{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</dt>
+                                <dt title="{{ rodzajPowierzchniFilii.rodzajPowierzchni.opis }}">{{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</dt>
                                 <dd>{{ rodzajPowierzchniFilii.info }}</dd>
                             {% endfor %}
                         </dl>
@@ -117,7 +124,7 @@
                     {% if filia.filieProcesyPrzygotowaniaPowierzchni|length > 0 %}
                         <dl class="table-display">
                             {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
-                                <dt>{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
+                                <dt title="{{ procesFilii.procesPrzygotowaniaPowierzchni.opis }}">{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
                                 <dd>{{ procesFilii.info }}</dd>
                             {% endfor %}
                         </dl>
@@ -128,7 +135,7 @@
                     {% if filia.filieProcesyAplikacji|length > 0 %}
                         <dl class="table-display">
                             {% for procesFilii in filia.filieProcesyAplikacji %}
-                                <dt>{{ procesFilii.procesAplikacji.nazwaProcesu }}</dt>
+                                <dt title="{{ procesFilii.procesAplikacji.opis }}">{{ procesFilii.procesAplikacji.nazwaProcesu }}</dt>
                                 <dd>{{ procesFilii.info }}</dd>
                             {% endfor %}
                         </dl>
@@ -141,7 +148,7 @@
                     {% if filia.filieProcesyUtwardzaniaPowloki|length > 0 %}
                         <dl class="table-display">
                             {% for procesFilii in filia.filieProcesyUtwardzaniaPowloki %}
-                                <dt>{{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
+                                <dt title="{{ procesFilii.procesUtwardzaniaPowloki.opis }}">{{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
                                 <dd>
                                     <dl>
                                         <dt>Temp. min:</dt>
@@ -161,7 +168,7 @@
                     {% if filia.filieWymaganiaPowloki|length > 0 %}
                         <dl class="table-display">
                             {% for wymaganiaPowloki in filia.filieWymaganiaPowloki %}
-                                <dt>{{ wymaganiaPowloki.wymaganiaPowloki.nazwaParametru }}</dt>
+                                <dt title="{{ wymaganiaPowloki.wymaganiaPowloki.opis }}">{{ wymaganiaPowloki.wymaganiaPowloki.nazwaParametru }}</dt>
                                 <dd>{{ wymaganiaPowloki.info }}</dd>
                             {% endfor %}
                         </dl>
@@ -172,7 +179,7 @@
                     {% if filia.filieWymaganiaProduktu|length > 0 %}
                         <dl class="table-display">
                             {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
-                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
+                                <dt title="{{ filiaWymaganiaProduktu.wymaganiaProduktu.opis }}">{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
                                 <dd>{{ filiaWymaganiaProduktu.info }}</dd>
                             {% endfor %}
                         </dl>

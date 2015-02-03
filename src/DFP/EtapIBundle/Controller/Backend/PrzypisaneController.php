@@ -117,7 +117,11 @@ class PrzypisaneController extends Controller
                 'method'    => 'PUT',
         ));
 
-        $form->add('submit','submit', array('label'=>'Aktualizuj'));
+        $form->add('submit','submit', array(
+                'label' =>  'Aktualizuj',
+                'attr'  =>  array('class'=>'btn-zapisz')
+            )
+        );
 
         return $form;
     }
@@ -148,10 +152,18 @@ class PrzypisaneController extends Controller
 
         $editForm = $this->createEditForm($filiaUzytkownik);
 
+        $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
+
         return array(
             'przypisanie'       =>  $filiaUzytkownik,
             'formularz'         =>  $editForm->createView(),
             'powrot_url'        =>  $previousUrl,
+            'notatka_kategorie' =>  $kategorieNotatek
         );
     }
 
@@ -223,7 +235,11 @@ class PrzypisaneController extends Controller
                 'action'        =>  $this->generateUrl('backend_przypisane_utworz', array('filiaId'=>$filiaId )),
                 'method'        =>  'POST',
             ));
-        $form->add('submit','submit', array('label'=>"Utwórz"));
+        $form->add('submit','submit', array(
+                'label'=>"Zapisz",
+                'attr'  =>  array('class'=>'btn-zapisz')
+            )
+        );
 
         $form->handleRequest($request);
 
@@ -264,18 +280,32 @@ class PrzypisaneController extends Controller
         $session->set('referers',array('lista_przypisanych' => $previousUrl));
 
         $filiaUzytkownik = new FiliaUzytkownik();
+        $filiaUzytkownik->setPoczatekPrzypisania(new \DateTime());
+        $filiaUzytkownik->setKoniecPrzypisania(new \DateTime());
         $filiaUzytkownik->setFilia($filia);
         $form = $this->createForm(new FiliaUzytkownikType(), $filiaUzytkownik, array(
                 'action'        =>  $this->generateUrl('backend_przypisane_utworz', array('filiaId'=>$filiaId )),
                 'method'        =>  'POST',
             ));
-        $form->add('submit','submit', array('label'=>"Utwórz"));
+        $form->add('submit','submit', array(
+                'label'=>"Zapisz",
+                'attr'  =>  array('class'=>'btn-zapisz')
+            )
+        );
+
+        $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
 
         return array(
             'filia'                 =>  $filia,
             'filia_uzytkownik'      =>  $filiaUzytkownik,
             'formularz'             =>  $form->createView(),
             'powrot_url'            =>  $previousUrl,
+            'notatka_kategorie'     => $kategorieNotatek
         );
     }
 }

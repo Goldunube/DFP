@@ -14,13 +14,24 @@
 {% block content %}
     <h1>Cennik produktów przemysłowych</h1>
     <section class="container-fluid" style="margin-top: 50px;">
+        {% if is_granted('ROLE_HDFP') %}
+            <div class="row">
+                <div class="col-lg-3">
+                    <img src="{{ asset('css/images/cennik_produktow_przemyslowych_wycinek.jpg') }}" class="img-responsive img-thumbnail" alt="Cennik produktów przemysłowych - wycinek">
+                </div>
+                <div class="col-lg-9">
+                    <p>Aktualny cennik do ściągnięcia tutaj --> <a href="https://www.dropbox.com/sh/f95xea31mwldiyi/AABISvuQOkBZu7ROG5o1t_tNa?dl=0">cennik produktów przemysłowych</a></p>
+                </div>
+            </div>
+        {% else %}
         <div class="row">
             <div class="col-lg-3">
                 <img src="{{ asset('css/images/cennik_produktow_przemyslowych_wycinek.jpg') }}" class="img-responsive img-thumbnail" alt="Cennik produktów przemysłowych - wycinek">
             </div>
             <div class="col-lg-9">
-                <p>Aktualny cennik do ściągnięcia tutaj --> <a href="https://dl.dropboxusercontent.com/s/wvko33qqid49pk5/CENNIK%202014_handlowcy_11_2014.xls?dl=1">cennik produktów przemysłowych</a></p>
+                <p>Aktualny cennik do ściągnięcia tutaj --> <a href="https://www.dropbox.com/sh/0tgeyschqci61d6/AACqgtMpS-6EchQzMkiTJvsxa?dl=0">cennik produktów przemysłowych</a></p>
             </div>
         </div>
+        {% endif %}
     </section>
 {% endblock content %}

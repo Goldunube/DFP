@@ -284,7 +284,7 @@ class Filia
      */
     public function setMiejscowosc($miejscowosc)
     {
-        $miejscowosc = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\- ]/', '', $miejscowosc);
+        $miejscowosc = preg_replace('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\-\. ]/', '', $miejscowosc);
         $this->miejscowosc = ucwords($miejscowosc);
     
         return $this;
@@ -331,7 +331,7 @@ class Filia
      */
     public function setUlica($ulica)
     {
-        $ulica = preg_replace(array('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\-\/\\\ ]/', '/^ul[., ]+/i', '/^al[., ]+/i'), '', $ulica);
+        $ulica = preg_replace(array('/[^A-Za-z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\-\/\\\\. ]/', '/^ul[., ]+/i', '/^al[., ]+/i'), '', $ulica);
         $this->ulica = $ulica;
     
         return $this;

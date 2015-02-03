@@ -28,7 +28,11 @@ class FiliaUzytkownikType extends AbstractType
                     'widget'        =>  'single_text',
                     'format'        =>  'yyyy-MM-dd HH:mm',
                     'attr'          =>  array('class'=>'dataczas'),
-                ));
+                ))
+            ->add('perm',null,array(
+                    'required'      =>  false
+                )
+            );
     }
     
     /**

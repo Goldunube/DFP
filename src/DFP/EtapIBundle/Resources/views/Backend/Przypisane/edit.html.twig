@@ -1,13 +1,56 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% form_theme formularz '@DFPEtapI/Form/bootstrap_form.html.twig' %}
+
 {% block content -%}
-    <section>
+    <style type="text/css">
+        /*  KATEGORIE NOTATEK  */
+        .kategorie-notatek {
+            border-radius: 3px;
+            border-style: solid;
+            border-width: 1px;
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            padding: 0 10px;
+        }
+        .kategoria-1 {
+            background-color: #ff282f;
+            color: #000000;
+        }
+        .kategoria-2 {
+            background-color: #00aa00;
+            color: #000000;
+        }
+        .kategoria-3 {
+            background-color: #F78008;
+            color: #000000;
+        }
+        .kategoria-4 {
+            background-color: #87CEEB;
+            color: #000000;
+        }
+    </style>
+
+    <section class="container-fluid">
         <h1>Edycja przypisania</h1>
-        <div class="dlt-container" style="margin-bottom: 15px;">
-            <h2>Dane filii</h2>
-            <dl class="table-display">
+        <div class="row" style="margin-top: 25px;">
+            <dl class="dl-horizontal col-lg-12">
                 <dt>Nazwa klienta:</dt>
-                <dd>{{ przypisanie.filia.klient.nazwaPelna }}</dd>
+                <dd><a class="link" target="_blank" href="{{ path('backend_filia_show', {'id': przypisanie.filia.id} ) }}">{{ przypisanie.filia.klient.nazwaPelna }}</a></dd>
                 <dt>Nazwa filii: </dt>
                 <dd>{{ przypisanie.filia }}</dd>
                 <dt>Adres:</dt>
@@ -16,36 +59,69 @@
                 <dd>{{ przypisanie.filia.profileDzialalnosci|join(' | ') }}</dd>
             </dl>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% set ostatniaNotatka = przypisanie.filia.filieNotatki|last %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                            <span class="kategorie-notatek kategoria-{{ ostatniaNotatka.rodzaj }}">{{ attribute(notatka_kategorie,ostatniaNotatka.rodzaj) }}</span>
+                            <span>{{ ostatniaNotatka.uzytkownik }} - {{ ostatniaNotatka.uzytkownik.profilUzytkownika.stanowisko }} || {{ ostatniaNotatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
+                    </div>
+                    <div class="panel-body">
+                        {{ ostatniaNotatka.tresc|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="well well-sm">
+            Ustawienia przypisania
+        </div>
 
         {{ form_start(formularz) }}
-            <table class="records_list">
-                <thead>
-                <tr>
-                    <th rowspan="2">Użytkownik</th>
-                    <th colspan="2">Przypisany</th>
-                </tr>
-                <tr>
-                    <th>poczatek</th>
-                    <th>koniec</th>
-                </tr>
-                </thead>
+        <section>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Użytkownik</label>
+                <div class="col-sm-3">
+                    {{ form_widget(formularz.uzytkownik) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Przypisz...</label>
+                <label class="col-sm-1 control-label">Początek</label>
+                <div class="col-sm-3">
+                    {{ form_widget(formularz.poczatekPrzypisania) }}
+                </div>
+                <label class="col-sm-1 control-label">Koniec</label>
+                <div class="col-sm-3">
+                    {{ form_widget(formularz.koniecPrzypisania) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <div class="col-sm-2 col-sm-offset-2">
+                        <div class="checkbox">
+                            <label>
+                                {{ form_widget(formularz.perm) }} bezterminowo
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <tbody>
-                    <tr>
-                        <th>{{ form_widget(formularz.uzytkownik) }}</th>
-                        <td>{{ form_widget(formularz.poczatekPrzypisania) }}</td>
-                        <td>{{ form_widget(formularz.koniecPrzypisania) }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <ul class="record_actions">
-                <li>
-                    <a href="{{ powrot_url }}" class="art-button">Powrót</a>
-                </li>
-                <li>
-                    {{ form_row(formularz.submit, {'attr' : {'class':'art-button zielony'} }) }}
-                </li>
-            </ul>
+        <hr>
+        <div class="row">
+            <div class="col-xs-2">
+                <a href="{{ powrot_url }}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    Powrót
+                </a>
+            </div>
+            <div class="col-xs-2">
+                {{ form_widget(formularz.submit) }}
+            </div>
+        </div>
         {{ form_end(formularz) }}
     </section>
 
@@ -54,4 +130,5 @@
 {% block javascripts %}
     {{ parent() }}
     $('.dataczas').datetimepicker({dateFormat: "yy-mm-dd"});
+    $('.selectpicker').selectpicker();
 {% endblock javascripts %}
