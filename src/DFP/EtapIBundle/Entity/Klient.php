@@ -102,7 +102,7 @@ class Klient
 
     /**
      * @var string
-     * @ORM\Column(name="obrot90", type="decimal", precision=10, scale=2)
+     * @ORM\Column(name="obrot90", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $obrot;
 
