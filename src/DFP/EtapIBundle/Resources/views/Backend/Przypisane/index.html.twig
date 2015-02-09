@@ -1,14 +1,81 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+    {% block stylesheets %}
+        <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    {% endblock %}
+
 {% block content -%}
     <section>
         <h1>Przedłużenie przypisania</h1>
 
-        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
-            {{ knp_pagination_filter(lista_filii, {'k.nazwaSkrocona': 'Nazwa klienta', 'k.kodMax': 'Kod MAX', 'u.nazwisko': 'Nazwisko osoby przypisanej'}) }}
+        <div class="well">
+            Filtr
         </div>
 
-        <table class="records_list">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Użytkownik</th>
+                    <th>Klient</th>
+                    <th class="text-right">Obrót</th>
+                    <th class="text-center"><abbr title="Data ostatniego raportu">Ost. raport <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                    <th class="text-center">Koniec rezerwacji</th>
+                    <th class="text-center"><abbr title="Możliwość podglądu i edycji karty klienta">Dostęp <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set lp = 1 %}
+                {% for przypisany in filie_uzytkownicy %}
+                    {% for filiaUzytkownika in przypisany.filieUzytkownicy %}
+                        {% set ostatniaNotatka = filiaUzytkownika.filia.filieNotatki|first %}
+                        {% set blokadaNotatka = false %}
+                        {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot < 3000 ? true : false %}
+                        {% set rezerwacja = false %}
+                        <tr>
+                            <th>{{ lp }}.</th>
+                            <td>{{ przypisany }}</td>
+                            <td>{{ filiaUzytkownika.filia.klient.nazwaSkrocona }} {{ filiaUzytkownika.filia != 'Filia Główna' ? filiaUzytkownika.filia }}</td>
+                            <td class="text-right {{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'text-danger' }} ">{{ filiaUzytkownika.filia.klient.obrot|waluta }}</td>
+                            {% if ostatniaNotatka %}
+                                <td class="{{ ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') ? 'text-danger' }} text-center">{{ ostatniaNotatka ? ostatniaNotatka.dataSporzadzenia|date('d.m.Y') : 'brak notatek' }}</td>
+                                {% if ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') %} {% set blokadaNotatka = true %} {% endif %}
+                            {% else %}
+                                <td class="text-danger text-center">brak notatek</td>
+                                {% set blokadaNotatka = true %}
+                            {% endif %}
+                            {% if filiaUzytkownika.perm %}
+                                <td class="text-center text-success">Na stałe (perm.)</td>
+                                {% set rezerwacja = true %}
+                            {% else %}
+                                {% set dataKoncaPrzypisania = filiaUzytkownika.koniecPrzypisania %}
+                                {% if date() < dataKoncaPrzypisania and date()|date_modify('+7days') >= dataKoncaPrzypisania %}
+                                    <td class="text-warning text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-info-sign"></span></td>
+                                    {% set rezerwacja = true %}
+                                {% elseif date() > dataKoncaPrzypisania %}
+                                    <td class="text-danger text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-exclamation-sign"></span></td>
+                                {% else %}
+                                    <td class="text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }}</td>
+                                    {% set rezerwacja = true %}
+                                {% endif %}
+                            {% endif %}
+                            {% if blokadaNotatka and blokadaObrot and rezerwacja == false %}
+                                <td class="text-center text-danger"><span class="glyphicon glyphicon-minus-sign"></span></td>
+                            {% else %}
+                                <td class="text-center text-success"><span class="glyphicon glyphicon-ok-sign"></span></td>
+                            {% endif %}
+                        </tr>
+                        {% set lp = lp + 1 %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {#<table class="records_list">
             <thead>
             <tr>
                 <th class="lp">Lp</th>
@@ -52,10 +119,10 @@
                 </tr>
             {% endfor %}
             </tbody>
-        </table>
-        <div class="navigation">
+        </table>#}
+{#        <div class="navigation">
             {{ knp_pagination_render(lista_filii) }}
-        </div>
+        </div>#}
     </section>
 
     <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">

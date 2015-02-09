@@ -1,0 +1,451 @@
+a.link {
+    color: #FF4500;
+    text-decoration: underline;
+}
+table .lp {
+    width: 35px;
+}
+table .lp:after {
+    content: '.';
+}
+td.wyrozniony {
+    background-color: #f0e68c;
+    color: black;
+}
+/*label:not(.control-label) {
+    font-size: 20px;
+    margin-right: 10px;
+}*/
+label.required:after {
+    content: " *";
+    color: #FF0000;
+}
+.radio label, .checkbox label {
+    font-size: 14px;
+}
+span.required {
+    color: #FF0000;
+    font-weight: normal;
+    font-style: italic;
+}
+#main {
+    min-height: 800px;
+    height:auto !important;
+    height: 800px;
+}
+#main section h1, #main section h2 {
+    color: #FF9000;
+    text-shadow: 0 0 1px #333333;
+}
+#main section h3 {
+    color: #FF9000;
+    text-shadow: 0 0 0.2px #333333;
+}
+#main h1 sup {
+    font-size: 10px;
+    color: #000000;
+}
+.two-columns {
+    margin: 15px auto;
+}
+.two-columns h4 {
+    color: #A0522D;
+    font-size: 13px;
+    margin: 2px 0;
+}
+div.info-zamawiajacego {
+    background-color: #ffefd5;
+    border: 1px solid;
+    height: 130px;
+    padding: 5px;
+}
+.klient-profil-dzialalnosci div {
+    font-size: 9px;
+}
+.karta-klienta th {
+    padding-left: 7px;
+    text-align: left;
+    width: 170px;
+}
+.karta-klienta td {
+    padding-left: 7px;
+    text-align: left;
+}
+.asc:after {
+    background: url("images/sort-arrow-up.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: " ";
+    display: inline-block;
+    height: 10px;
+    left: 5px;
+    position: relative;
+    top: 0;
+    width: 10px;
+}
+.desc:after {
+    background: url("images/sort-arrow-down.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: " ";
+    display: inline-block;
+    height: 10px;
+    left: 5px;
+    position: relative;
+    top: 0;
+    width: 10px;
+}
+tr.przeterminowane td, tr.przeterminowane th {
+    background-color: #FF5050;
+    color: #FFFFFF;
+}
+.records_list dl {
+    border-bottom: 1px solid;
+    float: left;
+    margin: 0;
+    width: 99%;
+}
+.records_list dt {
+    border-top: 1px solid;
+    float: left;
+    width: 50%;
+}
+.records_list dd {
+    border-top: 1px solid;
+    float: left;
+    margin-left: 0;
+    padding-left: 0;
+    width: 50%;
+}
+td.profil-dzialalnosci select {
+    width: 235px;
+}
+
+/* KLAWISZE AKCJI */
+.record_actions {
+    list-style: none outside none;
+    padding: 0;
+    overflow: auto;
+    height: auto;
+}
+/*.record_actions form {
+    float: right;
+}*/
+.record_actions > li {
+    float: left;
+    margin: 0 4px;
+}
+.art-button
+{
+    border-collapse: separate;
+    -webkit-background-origin: border !important;
+    -moz-background-origin: border !important;
+    background-origin: border-box !important;
+    background: #EA7908 url("images/button.png") scroll;
+    background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -webkit-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -webkit-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -moz-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -moz-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -o-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -o-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -ms-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -ms-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    -svg-background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    border: 1px solid #8A99A8;
+    padding: 0 10px;
+    margin: 0 auto;
+    height: 24px;
+}
+
+a.art-button, a.art-button:link, a:link.art-button:link, body a.art-button:link, a.art-button:visited, body a.art-button:visited, input.art-button, button.art-button
+{
+    text-decoration: none;
+    font-size: 13px;
+    font-family: Arial, 'Arial Unicode MS', Helvetica, Sans-Serif;
+    font-weight: bold;
+    font-style: normal;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0 5px 0 0 !important;
+    overflow: visible;
+    cursor: pointer;
+    text-indent: 0;
+    line-height: 24px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    z-index: 1;
+}
+.art-button img {
+    margin: 0;
+    vertical-align: middle;
+}
+input.art-button {
+    float: none !important;
+}
+.art-button.active, .art-button.active:hover
+{
+    background: #A1ADBA url("images/activebutton.png") scroll;
+    background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -webkit-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), -webkit-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -moz-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), -moz-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -o-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), -o-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -ms-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), -ms-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    -svg-background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/activebutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    border: 1px solid #8A99A8;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+.art-button.active, .art-button.active:hover
+{
+    color: #FFFFFF !important;
+}
+
+.art-button.hover, .art-button:hover
+{
+    background: #A1ADBA url("images/hoveredbutton.png") scroll;
+    background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -webkit-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -webkit-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -moz-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -moz-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -o-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -o-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -ms-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -ms-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    -svg-background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.15);
+    border: 1px solid #FFFFFF;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+.art-button.hover, .art-button:hover
+{
+    color: #E2341D !important;
+}
+#login-form .art-button
+{
+    line-height: 18px;
+    height: 18px;
+}
+.art-button.pomaranczowy {
+    background: #EA7908 url("images/button.png") scroll;
+    background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -webkit-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -webkit-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -moz-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -moz-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -o-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -o-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: -ms-linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), -ms-linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+    -svg-background: linear-gradient(top, rgba(250, 177, 105, 0.24) 0, rgba(247, 131, 16, 0.15) 40%, rgba(121, 62, 4, 0.12) 100%) no-repeat, url("images/button.png"), linear-gradient(top, #F89E44 0, #F78008 40%, #9D5206 100%) no-repeat;
+}
+.art-button.zielony
+{
+    background: #005206 url("images/button.png") scroll;
+    background: linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+    background: -webkit-linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), -webkit-linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+    background: -moz-linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), -moz-linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+    background: -o-linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), -o-linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+    background: -ms-linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), -ms-linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+    background: linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+    -svg-background: linear-gradient(top , rgba(23, 235, 68, 0.23) 0px, rgba(50, 154, 33, 0.19) 40%, rgba(5, 15, 6, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #009E44 0px, #005206 40%, #005206 100%) no-repeat;
+}
+.art-button.czerwony
+{
+    background: #c20500 url("images/button.png") scroll;
+    background: linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+    background: -webkit-linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), -webkit-linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+    background: -moz-linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), -moz-linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+    background: -o-linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), -o-linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+    background: -ms-linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), -ms-linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+    background: linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+    -svg-background: linear-gradient(top , rgba(235, 97, 89, 0.20) 0px, rgba(159, 17, 20, 0.41) 40%, rgba(70, 5, 8, 0.10) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #f40500 0px, #c20500 40%, #900000 100%) no-repeat;
+}
+.art-button.czarny
+{
+    background: #000 url("images/button.png") scroll;
+    background: linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+    background: -webkit-linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), -webkit-linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+    background: -moz-linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat scroll 0 0%, url("images/button.png") repeat scroll 0 0%, -moz-linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+    background: -o-linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), -o-linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+    background: -ms-linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), -ms-linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+    background: linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+    -svg-background: linear-gradient(top , rgba(0, 0, 0, 0.23) 0px, rgba(0, 0, 0, 0.19) 40%, rgba(0, 0, 0, 0.11) 100%) no-repeat, url("images/button.png"), linear-gradient(top , #000000 0px, #000000 40%, #000000 100%) no-repeat;
+}
+.art-button.zielony:hover, .art-button.czerwony:hover , .art-button.czarny:hover, .art-button.pomaranczowy:hover {
+    background: #A1ADBA url("images/hoveredbutton.png") scroll;
+    background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -webkit-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -webkit-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -moz-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -moz-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -o-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -o-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: -ms-linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), -ms-linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+    -svg-background: linear-gradient(top, rgba(228, 231, 235, 0.27) 0, rgba(96, 113, 130, 0.11) 100%) no-repeat, url("images/hoveredbutton.png"), linear-gradient(top, #CDD4DA 0, #728597 100%) no-repeat;
+}
+a.art-button.maly.zielony, a.art-button.maly.czerwony, a.art-button.maly.czarny, a.art-button.maly.pomaranczowy, a.art-button.maly, button.art-button.maly.zielony, button.art-button.maly.czerwony, button.art-button.maly.czarny, button.art-button.maly.pomaranczowy, button.art-button.maly
+{
+    height: 14px;
+    line-height: 14px;
+    font-size: 10px;
+}
+/* DEKLEARACJE SZEROKOŚCI i WYSOKOŚCI ELEMENTÓW */
+.szer-370
+{
+    width: 370px;
+}
+.wys-50
+{
+    height: 50px;
+}
+
+.przypisanie-container {
+    border-bottom: 1px dotted;
+}
+.przypisany {
+    float: left;
+    margin: 4px 0;
+    text-align: left;
+    width: 150px;
+}
+.data {
+    float: left;
+    margin: 4px 0;
+    text-align: left;
+}
+
+/* PAGINACJA */
+.pagination {
+    background-image: url("images/pagi-bg.png");
+    background-position: 50% 37%;
+    background-repeat: no-repeat;
+    font-size: 12px;
+    text-align: center;
+}
+.pagination span {
+    display: inline-block;
+    height: 32px;
+    margin: 10px auto;
+    padding: 10px 0 0;
+}
+.current, .page {
+    width: 28px;
+}
+.current {
+    background-image: url("images/pagi-current.png");
+    background-repeat: no-repeat;
+    color: #FFFFFF;
+    cursor: default;
+    height: 28px;
+}
+.previous {
+    background-image: url("images/pagi-prev.png");
+    background-position: 50% 40%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    width: 14px;
+}
+.next {
+    background-image: url("images/pagi-next.png");
+    background-position: 50% 40%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    width: 14px;
+}
+.previous > a, .next > a {
+    display: inline-block;
+    height: 10px;
+    width: 14px;
+}
+/* WYGLĄD LIST DEFINICJI */
+div.dlt-container {
+    overflow: auto;
+    height: auto;
+}
+dl.table-display {
+    border-bottom: 1px solid #999999;
+    float: left;
+    margin: 1em 0;
+    padding: 0;
+    width: 520px;
+}
+.table-display > dt {
+    border-top: 1px solid #999999;
+    clear: left;
+    float: left;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px;
+    width: 200px;
+}
+.table-display > dd {
+    border-top: 1px solid #999999;
+    float: left;
+    margin: 0;
+    padding: 5px;
+    width: 300px;
+}
+.table-display dd dl dd {
+    margin: 0;
+    border-left: 6px groove;
+    padding-left: 10px;
+}
+.table-display dd dl dt {
+    font-weight: bold;
+}
+.table-display dd dl dt:nth-child(n+2) {
+    margin-top: 10px;
+}
+div.two-columns dl.table-display {
+    width: 440px;
+}
+div.two-columns .table-display > dt {
+    width: 150px;
+    color: #4682B4;
+}
+div.two-columns .table-display > dd {
+    width: 270px;
+}
+fieldset.slownik {
+    width: 210px;
+    border-radius: 5px;
+    text-align: center;
+    float: left;
+}
+fieldset.slownik legend{
+    font-weight: bold;
+}
+.ui-autocomplete {
+    text-align: left;
+}
+.ui-autocomplete-category {
+    color: #B3B3B3;
+}
+.ui-menu-item a {
+    padding: 2px 1em !important;
+}
+/*      TOGGLE SIDEBAR`y        */
+.left-toggle-sidebar {
+    left: -512px;
+    position: fixed;
+    top: 20%;
+    z-index: 99999;
+}
+.przypisanie-container.przeterminowane {
+    background-color: sienna;
+    border: 1px solid black;
+    color: white;
+}

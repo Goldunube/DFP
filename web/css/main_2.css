@@ -1,0 +1,357 @@
+body {
+    background-color: #FFFFFF;
+    color: #696969;
+    font-family: Arial,Tahoma,Verdana;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+input {
+    background-color: #F0F0F0;
+    border: 1px solid #AAAAAA;
+    color: #666666;
+    font-size: 10px;
+    height: 17px;
+}
+input[type="checkbox"], input[type="radio"] {
+    cursor: pointer;
+}
+a {
+    text-decoration: none;
+}
+.ui-state-active {
+    background-color: #FFA500;
+    color: #FFFFFF !important;
+}
+header p.mapa-portal-dfp img {
+    width: 187px !important;
+    margin: 13px 12px !important;
+}
+header p.mapa-portal-dfp {
+    clear: none;
+    display: block;
+    float: left;
+    margin: 0 0 0 140px;
+}
+#login-form input {
+    margin: 3px 0 3px 5px;
+    padding: 0 0 0 3px;
+    width: 150px;
+}
+#login-form input[type="submit"] {
+    left: 5px;
+    position: relative;
+    top: 28px;
+    width: 65px;
+}
+#login-form #remember-label {
+    color: #666666;
+    cursor: pointer;
+    font-size: 12px;
+    position: relative;
+    top: -3px;
+}
+#login-form dl {
+    color: #999999;
+    float: left;
+    font-size: 11px;
+    height: 30px;
+    margin-left: 5px;
+    text-align: left;
+    width: 150px;
+}
+#login-form dd {
+    color: #333333;
+    font-weight: bold;
+    margin: 0;
+}
+#login-form > div {
+    display: inline-block;
+    float: right;
+    height: 40px;
+    margin: 6px 14px;
+    width: 75px;
+}
+#login-form div p {
+    margin: 1px 0;
+    width: 77px;
+}
+#wrap {
+    margin: auto;
+    text-align: left;
+    width: 1000px;
+}
+div {
+    margin: 0;
+    padding: 0;
+}
+#naglowek-strony {
+    background: url("images/header_bg.gif") repeat-x;
+    height: 84px;
+    margin: 0 auto;
+}
+#naglowek-strony img {
+    margin: 16px 0 12px 14px;
+    width: 160px;
+}
+#naglowek-strony .login-box {
+    background: #FFCCCC url("images/login_box_bg.jpg") no-repeat;
+    color: #FFFFFF;
+    float: right;
+    height: 84px;
+    width: 386px;
+}
+#naglowek-strony .login-box, #naglowek-strony .login-box input {
+    font-size: 12px;
+}
+#login-form {
+    float: right;
+    height: 68px;
+    margin-top: 16px;
+    overflow: hidden;
+    width: 258px;
+}
+#login-form p {
+    float: left;
+    margin: 0;
+    width: 160px;
+}
+/* POCZĄTEK USTAWIEŃ MENU GŁÓWNEGO */
+#menu-glowne {
+    background: url("images/menu_bg.gif") repeat-x;
+    height: 50px;
+    margin: 7px auto 0;
+    overflow-y: visible;
+    padding: 0;
+    width: 1001px;
+    outline: none;
+    position: relative;
+}
+#mainmenu {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+#mainmenu:before,
+#mainmenu:after {
+    content: "";
+    display: table;
+}
+
+#mainmenu:after {
+    clear: both;
+}
+#mainmenu {
+    zoom:1;
+}
+#mainmenu li {
+    float: left;
+    position: relative;
+}
+#mainmenu > li {
+    height: 50px;
+    width: 100px;
+}
+
+#mainmenu a {
+    font-size: 11px;
+    float: left;
+    /*padding: 12px 30px;*/
+    color: #696969;
+    /*text-transform: uppercase;*/
+    /*font: bold 12px Arial, Helvetica;*/
+    text-decoration: none;
+    /*text-shadow: 0 1px 0 #000;*/
+}
+#mainmenu a.poziom {
+    display: block;
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    margin: 16px 0 0;
+    padding: 10px 0;
+}
+#mainmenu li:hover > a {
+    background-color: #EF7D20;
+    color: #FFFFFF;
+}
+*html #mainmenu li a:hover { /* IE6 only */
+    background-color: #EF7D20;
+    color: #FFFFFF;
+}
+#mainmenu ul {
+    margin: 20px 0 0 0;
+    _margin: 0; /*IE6 only*/
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 1;
+    background: #444;
+    background: linear-gradient(#444, #111);
+    box-shadow: 0 -1px 0 rgba(255,255,255,.3);
+    border-radius: 3px;
+    transition: all .3s ease-in-out;
+    padding: 0;
+}
+#mainmenu li:hover > ul {
+    opacity: 1;
+    visibility: visible;
+    margin: 0;
+}
+#mainmenu ul ul {
+    top: 0;
+    left: 150px;
+    margin: 0 0 0 20px;
+    _margin: 0; /*IE6 only*/
+    box-shadow: -1px 0 0 rgba(255,255,255,.3);
+}
+#mainmenu ul li {
+    float: none;
+    display: block;
+    border: 0;
+    _line-height: 0; /*IE6 only*/
+    box-shadow: 0 1px 0 #111, 0 2px 0 #666;
+}
+#mainmenu ul li:last-child {
+    box-shadow: none;
+}
+#mainmenu ul a {
+    padding: 10px;
+    width: 130px;
+    _height: 10px; /*IE6 only*/
+    display: block;
+    white-space: nowrap;
+    float: none;
+    text-transform: none;
+    color: #FFFFFF;
+}
+#mainmenu ul a:hover {
+    background-color: #0186ba;
+    background-image: linear-gradient(#04acec, #0186ba);
+}
+#mainmenu ul li:first-child > a {
+    border-radius: 3px 3px 0 0;
+}
+#mainmenu ul li:first-child > a:after {
+    content: '';
+    position: absolute;
+    left: 40px;
+    top: -6px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #444;
+}
+#mainmenu ul ul li:first-child a:after {
+    left: -6px;
+    top: 50%;
+    margin-top: -6px;
+    border-left: 0;
+    border-bottom: 6px solid transparent;
+    border-top: 6px solid transparent;
+    border-right: 6px solid #3b3b3b;
+}
+#mainmenu ul li:first-child a:hover:after {
+    border-bottom-color: #04acec;
+}
+#mainmenu ul ul li:first-child a:hover:after {
+    border-right-color: #0299d3;
+    border-bottom-color: transparent;
+}
+#mainmenu ul li:last-child > a {
+    border-radius: 0 0 3px 3px;
+}
+
+/* KONIEC USTAWIEŃ MENU GŁÓWNEGO */
+
+#main {
+    background-color: #F9F9F9;
+    border: 1px solid #C0C0C0;
+    height: 800px;
+    padding: 25px;
+    /*width: 949px;*/
+}
+#main section {
+    overflow: hidden;
+}
+#main section h1 {
+    clear: both;
+    font-size: 25px;
+    margin: 7px auto;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+#main .two-columns {
+    overflow: hidden;
+}
+#main .two-columns section {
+    float: left;
+    width: 600px;
+}
+#main .two-columns aside {
+    /*border-left: 3px double #000000;*/
+    float: right;
+    padding-left: 3px;
+    width: 340px;
+    overflow: hidden;
+}
+#main div.produkty {
+    max-height: none;
+    height: auto;
+}
+div.produkty .parametr-container {
+    float: left;
+    width: 100%;
+}
+div.produkty .parametr-container > select {
+    float: left;
+    width: 160px;
+}
+div.produkty .parametr-container > a {
+    float: right;
+    top: 5px;
+}
+footer {
+    font-size: 8px;
+}
+footer p {
+    float: right;
+}
+#modal-windows {
+    display: none;
+}
+.flash-messages {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 5px;
+    display: block;
+    left: 50%;
+    margin-left: -250px;
+    padding: 5px;
+    position: fixed;
+    top: 50%;
+    width: 500px;
+    z-index: 100;
+    font-size: 16px;
+}
+.flash-warning {
+    color: orangered;
+}
+.flash-success {
+    color: darkgreen;
+}
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 40%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }

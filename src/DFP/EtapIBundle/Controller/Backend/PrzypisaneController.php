@@ -29,36 +29,39 @@ class PrzypisaneController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('knp_paginator');
 
-        $kryteria = null;
+        $filieUzytkownicy = $em->getRepository('DFPEtapIBundle:Uzytkownik')->getAllPrzypisani();
 
-        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
-        {
-            $pole = $this->get('request')->query->get('filterField');
-            $wartosc = $this->get('request')->query->get('filterValue');
-            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
-        }
-
-        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiSearchQuery($kryteria);
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),17);
-
-        $deleteForms = new ArrayCollection();
-        foreach($pagination as $filia)
-        {
-            /* @var $filia Filia */
-            foreach($filia->getFilieUzytkownicy() as $przypisany)
-            {
-                /* @var $przypisany FiliaUzytkownik */
-                $deleteForms[$przypisany->getId()] = $this->createDeleteForm()->createView();
-            }
-        }
-
-        /** @var $deleteForms array */
-
+//        $em = $this->getDoctrine()->getManager();
+//        $paginator = $this->get('knp_paginator');
+//
+//        $kryteria = null;
+//
+//        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+//        {
+//            $pole = $this->get('request')->query->get('filterField');
+//            $wartosc = $this->get('request')->query->get('filterValue');
+//            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+//        }
+//
+//        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiSearchQuery($kryteria);
+//        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),17);
+//
+//        $deleteForms = new ArrayCollection();
+//        foreach($pagination as $filia)
+//        {
+//            /* @var $filia Filia */
+//            foreach($filia->getFilieUzytkownicy() as $przypisany)
+//            {
+//                /* @var $przypisany FiliaUzytkownik */
+//                $deleteForms[$przypisany->getId()] = $this->createDeleteForm()->createView();
+//            }
+//        }
+//
+//        /** @var $deleteForms array */
+//
         return array(
-            'lista_filii'   => $pagination,
-            'delete_forms'  => $deleteForms,
+            'filie_uzytkownicy'   => $filieUzytkownicy,
         );
     }
 
