@@ -57,23 +57,25 @@
                 <dd>{{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}; {{ filia.ulica }}</dd>
                 <dt>Profil działalności:</dt>
                 <dd>{{ filia.profileDzialalnosci|join(' | ') }}</dd>
+                <dt>Ostatnia notatka:</dt>
+                <dd>
+                    {% set ostatniaNotatka = filia.filieNotatki|last %}
+                    {% if ostatniaNotatka %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="kategorie-notatek kategoria-{{ ostatniaNotatka.rodzaj }}">{{ attribute(notatka_kategorie,ostatniaNotatka.rodzaj) }}</span>
+                                <span>{{ ostatniaNotatka.uzytkownik }} - {{ ostatniaNotatka.uzytkownik.profilUzytkownika.stanowisko }} || {{ ostatniaNotatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
+                            </div>
+                            <div class="panel-body">
+                                {{ ostatniaNotatka.tresc|raw }}
+                            </div>
+                        </div>
+                    {% else %}
+                        Brak notatek
+                    {% endif %}
+                </dd>
             </dl>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                {% set ostatniaNotatka = filia.filieNotatki|last %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <span class="kategorie-notatek kategoria-{{ ostatniaNotatka.rodzaj }}">{{ attribute(notatka_kategorie,ostatniaNotatka.rodzaj) }}</span>
-                        <span>{{ ostatniaNotatka.uzytkownik }} - {{ ostatniaNotatka.uzytkownik.profilUzytkownika.stanowisko }} || {{ ostatniaNotatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
-                    </div>
-                    <div class="panel-body">
-                        {{ ostatniaNotatka.tresc|raw }}
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="well well-sm">
             Ustawienia przypisania
         </div>
@@ -130,7 +132,7 @@
 {% block javascripts %}
     {{ parent() }}
     $('.dataczas').datetimepicker({
-        formattedDateTime: "yy-mm-dd H:i",
+        lang: 'pl',
         changeYear: true,
         changeMonth: true,
         closeText: 'Zamknij',
@@ -145,7 +147,7 @@
         dayNamesShort: ['Nie','Pn','Wt','Śr','Czw','Pt','So'],
         dayNamesMin: ['N','Pn','Wt','Śr','Cz','Pt','So'],
         weekHeader: 'Tydz',
-        dateFormat: 'dd.mm.yy',
+        dateFormat: 'yy-mm-dd',
         firstDay: 1,
         isRTL: false,
         showMonthAfterYear: false,

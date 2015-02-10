@@ -80,6 +80,7 @@ class PrzypisaneController extends Controller
         {
             throw $this->createNotFoundException('Brak przypisania.');
         }
+        $filia = $filiaUzytkownik->getFilia();
 
         $session = $this->get('session');
 
@@ -100,9 +101,21 @@ class PrzypisaneController extends Controller
             return $this->redirect($this->generateUrl('backend_przypisanie_lista'));
         }
 
+        $previousUrl = $this->get('request')->headers->get('referer');
+
+        $kategorieNotatek = array(
+            1 => 'Wymagania klienta',
+            2 => 'Informacje handlowe',
+            3 => 'Harmonogram działań',
+            4 => 'Notatki z wizyt'
+        );
+
         return array(
+            'filia'             =>  $filia,
             'przypisanie'       =>  $filiaUzytkownik,
             'formularz'         =>  $updateForm->createView(),
+            'powrot_url'        =>  $previousUrl,
+            'notatka_kategorie' =>  $kategorieNotatek
         );
     }
 
@@ -144,6 +157,7 @@ class PrzypisaneController extends Controller
         if (!$filiaUzytkownik) {
             throw $this->createNotFoundException('Nie znaleziono karty klienta.');
         }
+        $filia = $filiaUzytkownik->getFilia();
 
         $previousUrl = $this->get('request')->headers->get('referer');
 
@@ -160,6 +174,7 @@ class PrzypisaneController extends Controller
         );
 
         return array(
+            'filia'             =>  $filia,
             'przypisanie'       =>  $filiaUzytkownik,
             'formularz'         =>  $editForm->createView(),
             'powrot_url'        =>  $previousUrl,
@@ -305,7 +320,7 @@ class PrzypisaneController extends Controller
             'filia_uzytkownik'      =>  $filiaUzytkownik,
             'formularz'             =>  $form->createView(),
             'powrot_url'            =>  $previousUrl,
-            'notatka_kategorie'     => $kategorieNotatek
+            'notatka_kategorie'     =>  $kategorieNotatek
         );
     }
 }
