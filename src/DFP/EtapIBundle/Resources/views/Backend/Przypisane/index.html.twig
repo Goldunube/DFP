@@ -1,61 +1,86 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+    {% block stylesheets %}
+        <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
 {% block content -%}
     <section>
         <h1>Przedłużenie przypisania</h1>
 
-        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
-            {{ knp_pagination_filter(lista_filii, {'k.nazwaSkrocona': 'Nazwa klienta', 'k.kodMax': 'Kod MAX', 'u.nazwisko': 'Nazwisko osoby przypisanej'}) }}
+        <div class="well">
+            Filtr
         </div>
 
-        <table class="records_list">
+        <table class="table records_list">
             <thead>
-            <tr>
-                <th class="lp">Lp</th>
-                <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
-                <th>Nazwa filii</th>
-                <th>Kod MAX</th>
-                <th class="szer-370">{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
-            </tr>
+                <tr>
+                    <th>#</th>
+                    <th>Użytkownik</th>
+                    <th>Klient</th>
+                    <th class="text-right"><abbr title="Obrót kroczący z ostatnich 90 dni." data-toggle="tooltip">Obrót 90 <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                    <th class="text-center"><abbr title="Data ostatniego raportu" data-toggle="tooltip">Ost. raport <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                    <th class="text-center"><abbr title="Data końca wstępnej rezerwacji (mechanizm zapobiegający blokowaniu klienta w przypadku nie spełnienia wyrunków)" data-toggle="tooltip">Koniec wstępnej rezerwacji <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                    <th class="text-center"><abbr title="Możliwość podglądu i edycji karty klienta" data-toggle="tooltip">Dostęp <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                </tr>
             </thead>
             <tbody>
-            {% for filia in lista_filii %}
-                <tr class="wys-50">
-                    <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
-                    <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
-                    <td>{{ filia.nazwaFilii }}</td>
-                    <td>{{ filia.klient.kodMax }}</td>
-                    <td>
-                        {% if filia.filieUzytkownicy|length > 0 %}
-                            {% for przypisani in filia.filieUzytkownicy %}
-                                <div class="przypisanie-container {{ przypisani.koniecPrzypisania|date('Y-m-d') < "now"|date('Y-m-d') ? "przeterminowane" : "" }}">
-                                    <div class="przypisany">
-                                        {{ przypisani.uzytkownik }}
-                                    </div>
-                                    <div class="data">
-                                        {{ przypisani.koniecPrzypisania|date("Y-m-d") }}
-                                    </div>
-                                    <div class="record_actions" style="width: 120px">
-                                        <a href="{{ path("backend_przypisane_edycja", {'id' : przypisani.id}) }}" class="art-button maly pomaranczowy" style="float: left;">Edytuj</a>
-                                        {{ form_start(delete_forms[przypisani.id], {'action':path('backend_przypisane_usun', {'id' : przypisani.id} )}) }}
-                                            {{ form_widget(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony confirm-delete','style':'float:right;'} }) }}
-                                        {{ form_end(delete_forms[przypisani.id]) }}
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-                        {% endif %}
-                        <ul class="record_actions">
-                            <li style="margin: 0;"><a href="{{ path('backend_przypisanie_nowe', {'filiaId':filia.id} ) }}" class="art-button maly zielony">Dodaj</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
+                {% set lp = 1 %}
+                {% for przypisany in filie_uzytkownicy %}
+                    {% for filiaUzytkownika in przypisany.filieUzytkownicy %}
+                        {% set ostatniaNotatka = filiaUzytkownika.filia.filieNotatki|first %}
+                        {% set blokadaNotatka = false %}
+                        {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot == 0 ? true : false %}
+                        {% set rezerwacja = false %}
+                        <tr class="{{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'warning' }}">
+                            <th><a href="{{ path('backend_przypisane_edycja', { 'id' : filiaUzytkownika.id }) }}">{{ lp }}.</a></th>
+                            <td>{{ przypisany }}</td>
+                            <td data-toggle="tooltip" data-placement="bottom" title="{{ filiaUzytkownika.filia.klient.nazwaPelna }}">{{ filiaUzytkownika.filia.klient.nazwaSkrocona }} {{ filiaUzytkownika.filia != 'Filia Główna' ? filiaUzytkownika.filia }}</td>
+                            <td class="text-right {{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'text-danger' }} ">{{ filiaUzytkownika.filia.klient.obrot|waluta }}</td>
+                            {% if ostatniaNotatka %}
+                                <td class="{{ ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') ? 'text-danger' }} text-center">{{ ostatniaNotatka ? ostatniaNotatka.dataSporzadzenia|date('d.m.Y') : 'brak notatek' }}</td>
+                                {% if ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') %} {% set blokadaNotatka = true %} {% endif %}
+                            {% else %}
+                                <td class="text-danger text-center">brak notatek</td>
+                                {% set blokadaNotatka = true %}
+                            {% endif %}
+                            {% if filiaUzytkownika.perm %}
+                                <td class="text-center text-success">Na stałe (perm.)</td>
+                                {% set rezerwacja = true %}
+                            {% else %}
+                                {% set dataKoncaPrzypisania = filiaUzytkownika.koniecPrzypisania %}
+                                {% if date() < dataKoncaPrzypisania and date()|date_modify('+7days') >= dataKoncaPrzypisania %}
+                                    <td class="text-warning text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-info-sign"></span></td>
+                                    {% set rezerwacja = true %}
+                                {% elseif date() > dataKoncaPrzypisania %}
+                                    <td class="text-danger text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-exclamation-sign"></span></td>
+                                {% else %}
+                                    <td class="text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }}</td>
+                                    {% set rezerwacja = true %}
+                                {% endif %}
+                            {% endif %}
+                            {% if blokadaNotatka and blokadaObrot and rezerwacja == false %}
+                                <td class="text-center text-danger"><span class="glyphicon glyphicon-minus-sign"></span></td>
+                            {% else %}
+                                <td class="text-center text-success"><span class="glyphicon glyphicon-ok-sign"></span></td>
+                            {% endif %}
+                        </tr>
+                        {% set lp = lp + 1 %}
+                    {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
-        <div class="navigation">
-            {{ knp_pagination_render(lista_filii) }}
-        </div>
     </section>
 
     <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
@@ -66,6 +91,10 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
     {#   Confirm-Dialog  #}
     $('.confirm-delete').click(function(e){
@@ -99,4 +128,6 @@
         },
         closeOnEscape: true
     })
+
+    $('.records_list').obslugaTabel();
 {% endblock javascripts %}

@@ -13,7 +13,8 @@ class DFPExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFilter('nip', array($this, 'nipFilter')),
-            new \Twig_SimpleFilter('kodPocztowy', array($this, 'kodPocztowyFilter'))
+            new \Twig_SimpleFilter('kodPocztowy', array($this, 'kodPocztowyFilter')),
+            new \Twig_SimpleFilter('waluta', array($this, 'walutaFilter'))
         );
     }
 
@@ -35,5 +36,10 @@ class DFPExtension extends \Twig_Extension
         }
 
         return $kodPocztowy;
+    }
+
+    public function walutaFilter($kwota)
+    {
+        return number_format($kwota,2,',',' ').' zł';
     }
 }

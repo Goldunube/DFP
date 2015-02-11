@@ -22,4 +22,16 @@ class UzytkownikRepository extends EntityRepository
 
         return $query;
     }
+
+    public function getAllPrzypisani()
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select('u,fu')
+            ->leftJoin('u.filieUzytkownicy','fu')
+            ->leftJoin('fu.filia','f')
+            ->orderBy('u.imie','ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
