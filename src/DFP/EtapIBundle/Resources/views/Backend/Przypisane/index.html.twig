@@ -8,6 +8,13 @@
         <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
     {% endblock %}
 
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
 {% block content -%}
     <section>
         <h1>Przedłużenie przypisania</h1>
@@ -16,7 +23,7 @@
             Filtr
         </div>
 
-        <table class="table">
+        <table class="table records_list">
             <thead>
                 <tr>
                     <th>#</th>
@@ -34,10 +41,10 @@
                     {% for filiaUzytkownika in przypisany.filieUzytkownicy %}
                         {% set ostatniaNotatka = filiaUzytkownika.filia.filieNotatki|first %}
                         {% set blokadaNotatka = false %}
-                        {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot < 3000 ? true : false %}
+                        {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot == 0 ? true : false %}
                         {% set rezerwacja = false %}
-                        <tr>
-                            <th>{{ lp }}.</th>
+                        <tr class="{{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'warning' }}">
+                            <th><a href="{{ path('backend_przypisane_edycja', { 'id' : filiaUzytkownika.id }) }}">{{ lp }}.</a></th>
                             <td>{{ przypisany }}</td>
                             <td data-toggle="tooltip" data-placement="bottom" title="{{ filiaUzytkownika.filia.klient.nazwaPelna }}">{{ filiaUzytkownika.filia.klient.nazwaSkrocona }} {{ filiaUzytkownika.filia != 'Filia Główna' ? filiaUzytkownika.filia }}</td>
                             <td class="text-right {{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'text-danger' }} ">{{ filiaUzytkownika.filia.klient.obrot|waluta }}</td>
@@ -74,55 +81,6 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        {#<table class="records_list">
-            <thead>
-            <tr>
-                <th class="lp">Lp</th>
-                <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
-                <th>Nazwa filii</th>
-                <th>Kod MAX</th>
-                <th class="szer-370">{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for filia in lista_filii %}
-                <tr class="wys-50">
-                    <td class="lp"><a href="{{ path('klient_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
-                    <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
-                    <td>{{ filia.nazwaFilii }}</td>
-                    <td>{{ filia.klient.kodMax }}</td>
-                    <td>
-                        {% if filia.filieUzytkownicy|length > 0 %}
-                            {% for przypisani in filia.filieUzytkownicy %}
-                                <div class="przypisanie-container {{ przypisani.koniecPrzypisania|date('Y-m-d') < "now"|date('Y-m-d') ? "przeterminowane" : "" }}">
-                                    <div class="przypisany">
-                                        {{ przypisani.uzytkownik }}
-                                    </div>
-                                    <div class="data">
-                                        {{ przypisani.koniecPrzypisania|date("Y-m-d") }}
-                                    </div>
-                                    <div class="record_actions" style="width: 120px">
-                                        <a href="{{ path("backend_przypisane_edycja", {'id' : przypisani.id}) }}" class="art-button maly pomaranczowy" style="float: left;">Edytuj</a>
-                                        {{ form_start(delete_forms[przypisani.id], {'action':path('backend_przypisane_usun', {'id' : przypisani.id} )}) }}
-                                            {{ form_widget(delete_forms[przypisani.id].submit, {'attr': {'class':'art-button maly czerwony confirm-delete','style':'float:right;'} }) }}
-                                        {{ form_end(delete_forms[przypisani.id]) }}
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-                        {% endif %}
-                        <ul class="record_actions">
-                            <li style="margin: 0;"><a href="{{ path('backend_przypisanie_nowe', {'filiaId':filia.id} ) }}" class="art-button maly zielony">Dodaj</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>#}
-{#        <div class="navigation">
-            {{ knp_pagination_render(lista_filii) }}
-        </div>#}
     </section>
 
     <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
@@ -170,4 +128,6 @@
         },
         closeOnEscape: true
     })
+
+    $('.records_list').obslugaTabel();
 {% endblock javascripts %}
