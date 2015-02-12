@@ -22,6 +22,7 @@ class AppKernel extends Kernel
                 new FOS\UserBundle\FOSUserBundle(),
                 new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
                 new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+                new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new DFP\EtapIBundle\DFPEtapIBundle(),
         );
 

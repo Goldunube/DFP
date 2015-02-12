@@ -5,6 +5,7 @@ namespace DFP\EtapIBundle\Controller\Backend;
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Entity\FiliaUzytkownik;
 use DFP\EtapIBundle\Form\FiliaUzytkownikType;
+use DFP\EtapIBundle\Form\Filtry\ListaPrzypisanychFiltrType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,6 +31,17 @@ class PrzypisaneController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $form = $this->get('form.factory')->create(new ListaPrzypisanychFiltrType());
+
+        if($this->get('request')->query->has($form->getName()))
+        {
+            $form->submit($this->get('request')->query->get($form->getName()));
+
+            $filterBuilder = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:Uzytkownik')->createQueryBuilder('u');
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+
+            var_dump($filterBuilder->getDQL());
+        }
         $filieUzytkownicy = $em->getRepository('DFPEtapIBundle:Uzytkownik')->getAllPrzypisani();
 
 //        $em = $this->getDoctrine()->getManager();
@@ -61,7 +73,8 @@ class PrzypisaneController extends Controller
 //        /** @var $deleteForms array */
 //
         return array(
-            'filie_uzytkownicy'   => $filieUzytkownicy,
+            'filie_uzytkownicy'     =>  $filieUzytkownicy,
+            'form_filter'           =>  $form->createView()
         );
     }
 
