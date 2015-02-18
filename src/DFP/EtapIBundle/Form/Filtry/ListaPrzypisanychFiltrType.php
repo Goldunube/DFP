@@ -3,6 +3,7 @@
 namespace DFP\EtapIBundle\Form\Filtry;
 
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -38,6 +39,11 @@ class ListaPrzypisanychFiltrType extends AbstractType
             ->add('przypisany','filter_entity', array(
                     'class'     =>  'DFP\EtapIBundle\Entity\Uzytkownik',
                     'label' =>  'Osoba przypisana',
+                    'query_builder' =>  function(EntityRepository $er)
+                        {
+                            return $er->createQueryBuilder('u')
+                                ->orderBy('u.imie');
+                        },
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
                                 $qb = $filterQuery->getQueryBuilder();

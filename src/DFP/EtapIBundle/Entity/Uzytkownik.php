@@ -28,6 +28,7 @@ class Uzytkownik extends BaseUser
      * @var string
      *
      * @ORM\Column(name="imie", type="string", length=15, nullable=true)
+     * @ORM\OrderBy()
      */
     private $imie;
 
