@@ -47,6 +47,9 @@ class PrzypisaneController extends Controller
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
 
             $result = $filterBuilder->getQuery()->getResult();
+            $query = $filterBuilder->getQuery();
+            $filieUzytkownicy = $paginator->paginate($query, $this->get('request')->query->get('strona',1),25);
+
 
             $searchQuery = $request->query->get('lista_przypisanych_filter');
             $tempFilieUzytkownika = new ArrayCollection();
@@ -63,8 +66,9 @@ class PrzypisaneController extends Controller
                             $tempFilieUzytkownika->add($filiaUzytkownika);
                         }
                     }
+                    $filieUzytkownicy = $paginator->paginate($tempFilieUzytkownika, $this->get('request')->query->get('strona',1),25);
                 }elseif($searchQuery['dostep'] == 1){
-                    foreach($result as $filiaUzytkownika)
+                    foreach($filieUzytkownicy as $filiaUzytkownika)
                     {
                         $filiaUzytkownika->checkIfBlock();
                         if($filiaUzytkownika->getRezerwacja() or !$filiaUzytkownika->getBlokadaObrot() or !$filiaUzytkownika->getBlokadaNotatka())
@@ -72,10 +76,8 @@ class PrzypisaneController extends Controller
                             $tempFilieUzytkownika->add($filiaUzytkownika);
                         }
                     }
+                    $filieUzytkownicy = $paginator->paginate($tempFilieUzytkownika, $this->get('request')->query->get('strona',1),25);
                 }
-                $filieUzytkownicy = $paginator->paginate($tempFilieUzytkownika, $this->get('request')->query->get('strona',1),25);
-            }else{
-                $filieUzytkownicy = $paginator->paginate($filterBuilder, $this->get('request')->query->get('strona',1),25);
             }
         }else{
             $filterBuilder = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
