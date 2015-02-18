@@ -22,56 +22,71 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PrzypisaneController extends Controller
 {
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return array
      * @Template()
      * @Route("/", name="backend_przypisanie_lista")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->get('form.factory')->create(new ListaPrzypisanychFiltrType());
+        $paginator = $this->get('knp_paginator');
 
         if($this->get('request')->query->has($form->getName()))
         {
             $form->submit($this->get('request')->query->get($form->getName()));
 
-            $filterBuilder = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:Uzytkownik')->createQueryBuilder('u');
+            $filterBuilder = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+                ->select('u,fu,fi,kli')
+                ->leftjoin('fu.uzytkownik','u')
+                ->leftjoin('fu.filia','fi')
+                ->leftjoin('fi.klient','kli');
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
 
-            var_dump($filterBuilder->getDQL());
-        }
-        $filieUzytkownicy = $em->getRepository('DFPEtapIBundle:Uzytkownik')->getAllPrzypisani();
+            $result = $filterBuilder->getQuery()->getResult();
 
-//        $em = $this->getDoctrine()->getManager();
-//        $paginator = $this->get('knp_paginator');
-//
-//        $kryteria = null;
-//
-//        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
-//        {
-//            $pole = $this->get('request')->query->get('filterField');
-//            $wartosc = $this->get('request')->query->get('filterValue');
-//            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
-//        }
-//
-//        $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiSearchQuery($kryteria);
-//        $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),17);
-//
-//        $deleteForms = new ArrayCollection();
-//        foreach($pagination as $filia)
-//        {
-//            /* @var $filia Filia */
-//            foreach($filia->getFilieUzytkownicy() as $przypisany)
-//            {
-//                /* @var $przypisany FiliaUzytkownik */
-//                $deleteForms[$przypisany->getId()] = $this->createDeleteForm()->createView();
-//            }
-//        }
-//
-//        /** @var $deleteForms array */
-//
+            $searchQuery = $request->query->get('lista_przypisanych_filter');
+            $tempFilieUzytkownika = new ArrayCollection();
+
+            if(isset($searchQuery['dostep']))
+            {
+                if($searchQuery['dostep'] == 0 and ($searchQuery['dostep']) != null)
+                {
+                    foreach($result as $filiaUzytkownika)
+                    {
+                        $filiaUzytkownika->checkIfBlock();
+                        if(!$filiaUzytkownika->getRezerwacja() and $filiaUzytkownika->getBlokadaObrot() and $filiaUzytkownika->getBlokadaNotatka())
+                        {
+                            $tempFilieUzytkownika->add($filiaUzytkownika);
+                        }
+                    }
+                }elseif($searchQuery['dostep'] == 1){
+                    foreach($result as $filiaUzytkownika)
+                    {
+                        $filiaUzytkownika->checkIfBlock();
+                        if($filiaUzytkownika->getRezerwacja() or !$filiaUzytkownika->getBlokadaObrot() or !$filiaUzytkownika->getBlokadaNotatka())
+                        {
+                            $tempFilieUzytkownika->add($filiaUzytkownika);
+                        }
+                    }
+                }
+                $filieUzytkownicy = $paginator->paginate($tempFilieUzytkownika, $this->get('request')->query->get('strona',1),5);
+            }
+        }else{
+            $filterBuilder = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+                ->select('u,fu,fi,kli')
+                ->leftjoin('fu.uzytkownik','u')
+                ->leftjoin('fu.filia','fi')
+                ->leftjoin('fi.klient','kli');
+
+            $query = $filterBuilder->getQuery();
+            $filieUzytkownicy = $paginator->paginate($query, $this->get('request')->query->get('strona',1),25);
+
+        }
+
         return array(
             'filie_uzytkownicy'     =>  $filieUzytkownicy,
             'form_filter'           =>  $form->createView()

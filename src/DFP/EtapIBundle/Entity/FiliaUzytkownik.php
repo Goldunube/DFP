@@ -72,6 +72,22 @@ class FiliaUzytkownik
      */
     private $blokada = false;
 
+    /**
+     * @var bool
+     */
+    private $rezerwacja = false;
+
+    /**
+     * @var bool
+     */
+    private $blokadaObrot = false;
+
+    /**
+     * @var bool
+     */
+    private $blokadaNotatka = false;
+
+
 
     public function __toString()
     {
@@ -240,5 +256,50 @@ class FiliaUzytkownik
     public function setBlokada($blokada)
     {
         $this->blokada = $blokada;
+    }
+
+    public function checkIfBlock()
+    {
+        $date0 = new \DateTime();
+        $date0->modify('-30 days');
+        $dateNow = new \DateTime('now');
+
+        if($this->getPerm() == true or $this->getKoniecPrzypisania() > $dateNow)
+        {
+            $this->rezerwacja = true;
+        }
+
+        if(!$this->getFilia()->getFilieNotatki()->isEmpty())
+        {
+            $this->blokadaNotatka = $this->getFilia()->getFilieNotatki()->first()->getDataSporzadzenia() < $date0 ? true : false;
+        }else{
+            $this->blokadaNotatka = true;
+        }
+
+        $this->blokadaObrot = $this->getFilia()->getKlient()->getObrot() < 3000 ? true : false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getRezerwacja()
+    {
+        return $this->rezerwacja;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getBlokadaObrot()
+    {
+        return $this->blokadaObrot;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getBlokadaNotatka()
+    {
+        return $this->blokadaNotatka;
     }
 }

@@ -77,54 +77,52 @@
                     <th>Użytkownik</th>
                     <th>Klient</th>
                     <th class="text-right"><abbr title="Obrót kroczący z ostatnich 90 dni." data-toggle="tooltip">Obrót 90 <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
-                    <th class="text-center"><abbr title="Data ostatniego raportu" data-toggle="tooltip">Ost. raport <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
+                    <th class="text-center"><abbr title="Data ostatniego raportu" data-toggle="tooltip">Ost. notatka <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
                     <th class="text-center"><abbr title="Data końca wstępnej rezerwacji (mechanizm zapobiegający blokowaniu klienta w przypadku nie spełnienia wyrunków)" data-toggle="tooltip">Koniec wstępnej rezerwacji <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
                     <th class="text-center"><abbr title="Możliwość podglądu i edycji karty klienta" data-toggle="tooltip">Dostęp <sup><span class="glyphicon glyphicon-question-sign text-info"></span></sup></abbr></th>
                 </tr>
             </thead>
             <tbody>
                 {% set lp = 1 %}
-                {% for przypisany in filie_uzytkownicy %}
-                    {% for filiaUzytkownika in przypisany.filieUzytkownicy %}
-                        {% set ostatniaNotatka = filiaUzytkownika.filia.filieNotatki|first %}
-                        {% set blokadaNotatka = false %}
-                        {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot == 0 ? true : false %}
-                        {% set rezerwacja = false %}
-                        <tr class="{{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'warning' }}">
-                            <th><a href="{{ path('backend_przypisane_edycja', { 'id' : filiaUzytkownika.id }) }}">{{ lp }}.</a></th>
-                            <td>{{ przypisany }}</td>
-                            <td data-toggle="tooltip" data-placement="bottom" title="{{ filiaUzytkownika.filia.klient.nazwaPelna }}">{{ filiaUzytkownika.filia.klient.nazwaSkrocona }} {{ filiaUzytkownika.filia != 'Filia Główna' ? filiaUzytkownika.filia }}</td>
-                            <td class="text-right {{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'text-danger' }} ">{{ filiaUzytkownika.filia.klient.obrot|waluta }}</td>
-                            {% if ostatniaNotatka %}
-                                <td class="{{ ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') ? 'text-danger' }} text-center">{{ ostatniaNotatka ? ostatniaNotatka.dataSporzadzenia|date('d.m.Y') : 'brak notatek' }}</td>
-                                {% if ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') %} {% set blokadaNotatka = true %} {% endif %}
-                            {% else %}
-                                <td class="text-danger text-center">brak notatek</td>
-                                {% set blokadaNotatka = true %}
-                            {% endif %}
-                            {% if filiaUzytkownika.perm %}
-                                <td class="text-center text-success">Na stałe (perm.)</td>
+                {% for filiaUzytkownika in filie_uzytkownicy %}
+                    {% set ostatniaNotatka = filiaUzytkownika.filia.filieNotatki|first %}
+                    {% set blokadaNotatka = false %}
+                    {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot == 0 ? true : false %}
+                    {% set rezerwacja = false %}
+                    <tr class="{{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'warning' }}">
+                        <th><a href="{{ path('backend_przypisane_edycja', { 'id' : filiaUzytkownika.id }) }}">{{ loop.index }}.</a></th>
+                        <td>{{ filiaUzytkownika.uzytkownik }}</td>
+                        <td data-toggle="tooltip" data-placement="bottom" title="{{ filiaUzytkownika.filia.klient.nazwaPelna }}">{{ filiaUzytkownika.filia.klient.nazwaSkrocona }} {{ filiaUzytkownika.filia != 'Filia Główna' ? filiaUzytkownika.filia }}</td>
+                        <td class="text-right {{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'text-danger' }} ">{{ filiaUzytkownika.filia.klient.obrot|waluta }}</td>
+                        {% if ostatniaNotatka %}
+                            <td class="{{ ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') ? 'text-danger' }} text-center">{{ ostatniaNotatka ? ostatniaNotatka.dataSporzadzenia|date('d.m.Y') : 'brak notatek' }}</td>
+                            {% if ostatniaNotatka.dataSporzadzenia < date()|date_modify('-30days') %} {% set blokadaNotatka = true %} {% endif %}
+                        {% else %}
+                            <td class="text-danger text-center">brak notatek</td>
+                            {% set blokadaNotatka = true %}
+                        {% endif %}
+                        {% if filiaUzytkownika.perm %}
+                            <td class="text-center text-success">Na stałe (perm.)</td>
+                            {% set rezerwacja = true %}
+                        {% else %}
+                            {% set dataKoncaPrzypisania = filiaUzytkownika.koniecPrzypisania %}
+                            {% if date() < dataKoncaPrzypisania and date()|date_modify('+7days') >= dataKoncaPrzypisania %}
+                                <td class="text-warning text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-info-sign"></span></td>
                                 {% set rezerwacja = true %}
+                            {% elseif date() > dataKoncaPrzypisania %}
+                                <td class="text-danger text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-exclamation-sign"></span></td>
                             {% else %}
-                                {% set dataKoncaPrzypisania = filiaUzytkownika.koniecPrzypisania %}
-                                {% if date() < dataKoncaPrzypisania and date()|date_modify('+7days') >= dataKoncaPrzypisania %}
-                                    <td class="text-warning text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-info-sign"></span></td>
-                                    {% set rezerwacja = true %}
-                                {% elseif date() > dataKoncaPrzypisania %}
-                                    <td class="text-danger text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }} <span class="glyphicon glyphicon-exclamation-sign"></span></td>
-                                {% else %}
-                                    <td class="text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }}</td>
-                                    {% set rezerwacja = true %}
-                                {% endif %}
+                                <td class="text-center">{{ dataKoncaPrzypisania|date('d.m.Y') }}</td>
+                                {% set rezerwacja = true %}
                             {% endif %}
-                            {% if blokadaNotatka and blokadaObrot and rezerwacja == false %}
-                                <td class="text-center text-danger"><span class="glyphicon glyphicon-minus-sign"></span></td>
-                            {% else %}
-                                <td class="text-center text-success"><span class="glyphicon glyphicon-ok-sign"></span></td>
-                            {% endif %}
-                        </tr>
-                        {% set lp = lp + 1 %}
-                    {% endfor %}
+                        {% endif %}
+                        {% if blokadaNotatka and blokadaObrot and rezerwacja == false %}
+                            <td class="text-center text-danger"><span class="glyphicon glyphicon-minus-sign"></span></td>
+                        {% else %}
+                            <td class="text-center text-success"><span class="glyphicon glyphicon-ok-sign"></span></td>
+                        {% endif %}
+                    </tr>
+                    {% set lp = lp + 1 %}
                 {% endfor %}
             </tbody>
         </table>

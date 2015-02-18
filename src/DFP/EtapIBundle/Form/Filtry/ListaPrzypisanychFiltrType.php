@@ -18,8 +18,8 @@ class ListaPrzypisanychFiltrType extends AbstractType
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
                                 $qb = $filterQuery->getQueryBuilder();
-                                $qb->andWhere('tzt.id = :id')
-                                    ->setParameter('id', $values['value']);
+                                $qb->andWhere('kli.nazwaPelna LIKE :nazwa')
+                                    ->setParameter('nazwa', '%'.$values['value'].'%');
                             }
                         }
                 )
@@ -29,19 +29,20 @@ class ListaPrzypisanychFiltrType extends AbstractType
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
                                 $qb = $filterQuery->getQueryBuilder();
-                                $qb->andWhere('tzt.id = :id')
-                                    ->setParameter('id', $values['value']);
+                                $qb->andWhere('kli.kodMax = :kodMax')
+                                    ->setParameter('kodMax', $values['value']);
                             }
                         }
                 )
             )
-            ->add('przypisany','filter_text', array(
+            ->add('przypisany','filter_entity', array(
+                    'class'     =>  'DFP\EtapIBundle\Entity\Uzytkownik',
                     'label' =>  'Osoba przypisana',
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
                                 $qb = $filterQuery->getQueryBuilder();
-                                $qb->andWhere('tzt.id = :id')
-                                    ->setParameter('id', $values['value']);
+                                $qb->andWhere('u.id = :idP')
+                                    ->setParameter('idP', $values['value']);
                             }
                         }
                 )
@@ -50,13 +51,11 @@ class ListaPrzypisanychFiltrType extends AbstractType
                     'label' =>  'Status',
                     'choices'   =>  array(
                         0   =>  'Tylko zablokowani',
-                        1   =>  'Tylko odblokowani'
+                        1   =>  'Tylko odblokowani',
                     ),
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
-                                $qb = $filterQuery->getQueryBuilder();
-                                $qb->andWhere('tzt.id = :id')
-                                    ->setParameter('id', $values['value']);
+
                             }
                         }
                 )
