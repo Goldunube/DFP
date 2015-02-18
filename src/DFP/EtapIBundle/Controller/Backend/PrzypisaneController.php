@@ -73,7 +73,9 @@ class PrzypisaneController extends Controller
                         }
                     }
                 }
-                $filieUzytkownicy = $paginator->paginate($tempFilieUzytkownika, $this->get('request')->query->get('strona',1),5);
+                $filieUzytkownicy = $paginator->paginate($tempFilieUzytkownika, $this->get('request')->query->get('strona',1),25);
+            }else{
+                $filieUzytkownicy = $paginator->paginate($filterBuilder, $this->get('request')->query->get('strona',1),25);
             }
         }else{
             $filterBuilder = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
