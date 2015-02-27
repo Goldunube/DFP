@@ -62,6 +62,11 @@ class KlientType extends AbstractType
                     'expanded'  =>  true
                 )
             )
+            ->add('dataZalozenia',null,array(
+                    'label'     =>  'Data założenia:',
+                    'required'  =>  false,
+                )
+            )
             /*->add('filie', 'collection', array(
                     'type'      =>  new FiliaType(),
                     'label'     =>  false,

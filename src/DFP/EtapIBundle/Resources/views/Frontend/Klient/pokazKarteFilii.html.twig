@@ -22,10 +22,13 @@
         <h1>Filia <sup>(ID: {{ filia.id }})</sup></h1>
         <div class="status-container">
             {% if filia.aktywna == 1 %}
-                <span class="aktywny">Aktywna</span>
+                <span class="aktywny">Aktywna</span> <span> Data założenia: </span>
             {% else %}
                 <span class="nieaktywny">Nieaktywna</span>
             {% endif %}
+        </div>
+        <div>
+            <span>Data założenia karty klienta: {{ filia.klient.dataZalozenia|date('d-m-Y H:i') }}</span>
         </div>
         <section id="info-podstawowe">
             <h2>Informacje podstawowe:</h2>
@@ -167,7 +170,7 @@
         </section>
 
         <section id="notatki">
-            <h2>Wymagania klienta, harmonogram działań, notatki bieżące:</h2>
+            <h2>Ustalenia / Notatki:</h2>
             <div class="container">
                 {% for notatka in filia.filieNotatki %}
                     {% set wyrozniona = notatka.uzytkownik.profilUzytkownika.stanowisko in stanowiska ? "style=color:red;" : "" %}
