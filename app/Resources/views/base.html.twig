@@ -63,9 +63,7 @@
                             </ul>
                         </li>
                         <li><a class="poziom" href="{{ path('frontend_oferty_handlowe_wszystkie') }}">Oferty Handlowe</a></li>
-                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TECHNIK') or is_granted('ROLE_HDFP') or is_granted('ROLE_DYR') or is_granted('ROLE_KP') or is_granted('ROLE_KDFP') %}
-                            <li><a class="poziom" href="{{ path('cennik_produktow_przemyslowych') }}">Do pobrania</a></li>
-                        {% endif %}
+                        <li><a class="poziom" href="{{ path('cennik_produktow_przemyslowych') }}">Do pobrania</a></li>
                         <li><a class="poziom" href="{{ path('stany_magazynowe') }}" title="Stany magazynowe Działu Farb Przemysłowych">St. magazynowe</a></li>
                     {% endif %}
                 {% endblock menu_glowne %}
