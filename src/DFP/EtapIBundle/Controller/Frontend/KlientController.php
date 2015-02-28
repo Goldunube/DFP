@@ -18,6 +18,7 @@ use DFP\EtapIBundle\Entity\WymaganiaPowloki;
 use DFP\EtapIBundle\Entity\WymaganiaProduktu;
 use DFP\EtapIBundle\Form\FiliaNotatkaType;
 use DFP\EtapIBundle\Form\FiliaType;
+use DFP\EtapIBundle\Form\Filtry\ListaMoichKlientowFiltrType;
 use DFP\EtapIBundle\Form\KlientType;
 use DFP\EtapIBundle\Form\KartaKlientaPodstawowaType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -49,23 +50,44 @@ class KlientController extends Controller
     public function listaKlientowAction()
     {
         $em = $this->getDoctrine()->getManager();
+
+        $form = $this->get('form.factory')->create(new ListaMoichKlientowFiltrType());
         $paginator = $this->get('knp_paginator');
 
-        $kryteria = null;
-
-        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        if($this->get('request')->query->has($form->getName()))
         {
-            $pole = $this->get('request')->query->get('filterField');
-            $wartosc = $this->get('request')->query->get('filterValue');
-            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+            $form->submit($this->get('request')->query->get($form->getName()));
+
+            $filterBuilder = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+                ->select('u,fu,fi,kli,fn,prof')
+                ->leftjoin('fu.uzytkownik','u')
+                ->leftjoin('fu.filia','fi')
+                ->leftjoin('fi.klient','kli')
+                ->leftJoin('fi.filieNotatki','fn')
+                ->leftJoin('fi.profileDzialalnosci','prof')
+                ->where('fu.uzytkownik = :idu')
+                ->setParameter('idu', $this->getUser()->getId());
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            $query = $filterBuilder->getQuery();
+            $filieUzytkownicy = $paginator->paginate($query, $this->get('request')->query->get('strona',1),25);
+        }else{
+            $filterBuilder = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
+                ->select('u,fu,fi,kli,fn,prof')
+                ->leftjoin('fu.uzytkownik','u')
+                ->leftjoin('fu.filia','fi')
+                ->leftjoin('fi.klient','kli')
+                ->leftJoin('fi.filieNotatki','fn')
+                ->leftJoin('fi.profileDzialalnosci','prof')
+                ->where('fu.uzytkownik = :idu')
+                ->setParameter('idu', $this->getUser()->getId());
+
+            $query = $filterBuilder->getQuery();
+            $filieUzytkownicy = $paginator->paginate($query, $this->get('request')->query->get('strona',1),25);
         }
 
-        $queryProcess = $em->getRepository('DFPEtapIBundle:FiliaUzytkownik')->getZnajdzFilieUzytkownikaSearchQuery($this->getUser(), $kryteria);
-
-        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
-
         return array(
-            'filie_uzytkownika'  => $pagination,
+            'filie_uzytkownika' =>  $filieUzytkownicy,
+            'form_filter'       =>  $form->createView()
         );
     }
 
