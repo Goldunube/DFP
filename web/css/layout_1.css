@@ -468,3 +468,9 @@ fieldset.slownik legend{
     border: 1px solid black;
     color: white;
 }
+button.red {
+    color: #FF0000;
+}
+button.green {
+    color: #008000;
+}

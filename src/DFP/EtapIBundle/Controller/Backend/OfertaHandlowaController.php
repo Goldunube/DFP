@@ -2,12 +2,12 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\Klient;
 use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\OfertaProdukt;
 use DFP\EtapIBundle\Entity\OfertaSystem;
 use DFP\EtapIBundle\Entity\Produkt;
-use DFP\EtapIBundle\Form\OfertaHandlowaProfilSystemType;
 use DFP\EtapIBundle\Form\OfertaProduktType;
 use DFP\EtapIBundle\Form\OfertaSystemType;
 use DFP\EtapIBundle\Entity\OfertaCena;
@@ -63,25 +63,25 @@ class OfertaHandlowaController extends Controller
             switch($ofertaHandlowa->getStatus())
             {
                 case 0:
-                    $suma['Oczekujących'] =+ 1;
+                    $suma['Oczekujących'] += 1;
                     break;
                 case 1:
-                    $suma['Dobór systemu'] =+ 1;
+                    $suma['Dobór systemu'] += 1;
                     break;
                 case 2:
-                    $suma['Opracowanie oferty cenowej'] =+ 1;
+                    $suma['Opracowanie oferty cenowej'] += 1;
                     break;
                 case 3:
-                    $suma['Opracowanie oferty cenowej'] =+ 1;
+                    $suma['Opracowanie oferty cenowej'] += 1;
                     break;
                 case 4:
-                    $suma['Zrealizowanych'] =+ 1;
+                    $suma['Zrealizowanych'] += 1;
                     break;
                 case 5:
-                    $suma['Anulowanych'] =+ 1;
+                    $suma['Anulowanych'] += 1;
                     break;
             }
-            $suma['Wszystkich ofert'] =+ 1;
+            $suma['Wszystkich ofert'] += 1;
         }
 
         $nazwyStatusow = array(
@@ -408,6 +408,12 @@ class OfertaHandlowaController extends Controller
                     'attr'          =>  array('class'=>'art-button czerwony')
                 )
             )
+            ->add('anulujInfo','hidden',array(
+                    'mapped'        =>  false,
+                    'required'      =>  false,
+                    'label'         =>  false,
+                )
+            )
             ->getForm();
 
         $ofertaHandlowaForm->handleRequest($request);
@@ -462,6 +468,12 @@ class OfertaHandlowaController extends Controller
                     'attr'          =>  array('class'=>'art-button czerwony')
                 )
             )
+            ->add('anulujInfo','hidden',array(
+                    'mapped'        =>  false,
+                    'required'      =>  false,
+                    'label'         =>  false,
+                )
+            )
             ->getForm();
 
         $ofertaHandlowaForm->handleRequest($request);
@@ -486,18 +498,36 @@ class OfertaHandlowaController extends Controller
      */
     private function anulujOferteHandlowa(Request $request, $id)
     {
+        $formData = $request->request->get('form');
+        $trescNotatki = $formData['anulujInfo'];
+        if(!$trescNotatki)
+        {
+            $trescNotatki = "Oferta Handlowa anulowana bez podawania przyczyny.";
+        }
         $em = $this->getDoctrine()->getManager();
         $em->clear();
-
         /**
          * @var $ofertaHandlowa OfertaHandlowa
          */
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
 
         $ofertaHandlowa->setStatus(5);
-        $ofertaHandlowa->setInfoAnulacja($this->get('request')->request->get('anulujInfo'));
+        $ofertaHandlowa->setInfoAnulacja($trescNotatki);
 
         $em->persist($ofertaHandlowa);
+
+        $filiaNotatka = new FiliaNotatka();
+        $filiaNotatka->setFilia($ofertaHandlowa->getFilia());
+        $filiaNotatka->setTresc($trescNotatki);
+        $filiaNotatka->setStatus(true);
+        $filiaNotatka->setRodzaj(2);
+        $filiaNotatka->setDataSporzadzenia(new \DateTime('now'));
+        $filiaNotatka->setKoniecEdycji(new \DateTime('now'));
+        $autor = $em->getRepository('DFPEtapIBundle:Uzytkownik')->find($this->getUser()->getId());
+        $filiaNotatka->setUzytkownik($autor);
+
+        $em->persist($filiaNotatka);
+
         $em->flush();
 
         return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
@@ -611,11 +641,10 @@ class OfertaHandlowaController extends Controller
                     'attr'          =>  array('class'=>'art-button czerwony','style'=>'display:none;')
                 )
             )
-            ->add('anulujInfo','textarea',array(
+            ->add('anulujInfo','hidden',array(
                     'mapped'        =>  false,
                     'required'      =>  false,
                     'label'         =>  false,
-                    'attr'          =>  array('style'=>'width: 90%; height:100px;')
                 )
             )
             ->getForm();
@@ -624,18 +653,23 @@ class OfertaHandlowaController extends Controller
 
         if($ofertaHandlowaForm->isValid())
         {
+            /** @noinspection PhpUndefinedMethodInspection */
             if($ofertaHandlowaForm->has('zapisz') && $ofertaHandlowaForm->get('zapisz')->isClicked())
             {
                 $this->zapiszOpracowanieSystemuMalarskiegoAction($request, $id);
                 return $this->redirect($this->generateUrl('backend_opracowanie_systemu_malarskiego',array('id'=>$id)));
 
-            }elseif($ofertaHandlowaForm->has('zamknij') && $ofertaHandlowaForm->get('zamknij')->isClicked())
+            }
+            /** @noinspection PhpUndefinedMethodInspection */
+            elseif($ofertaHandlowaForm->has('zamknij') && $ofertaHandlowaForm->get('zamknij')->isClicked())
             {
                 $this->zamknijOpracowanieSystemuMalarskiego($request,$id);
                 return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
 
-            }elseif($ofertaHandlowaForm->has('anuluj') && $ofertaHandlowaForm->get('anuluj')->isClicked()){
-
+            }
+            /** @noinspection PhpUndefinedMethodInspection */
+            elseif($ofertaHandlowaForm->has('anuluj') && $ofertaHandlowaForm->get('anuluj')->isClicked())
+            {
                 $this->anulujOferteHandlowa($request, $id);
                 return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_sm'));
             }
@@ -697,7 +731,6 @@ class OfertaHandlowaController extends Controller
             }
         }
 
-//        var_dump($obecneCeny);
         $previousUrl = $this->get('request')->headers->get('referer');
 
         $kategorieNotatek = array(
@@ -727,17 +760,45 @@ class OfertaHandlowaController extends Controller
                     'attr'  =>  array('class' => 'art-button zielony'),
                 )
             )
+            ->add('anuluj','submit',array(
+                    'label'         =>  'Anuluj zamówienie',
+                    'attr'          =>  array('class'=>'art-button czerwony','style'=>'display:none;')
+                )
+            )
+            ->add('anulujInfo','hidden',array(
+                    'mapped'        =>  false,
+                    'required'      =>  false,
+                    'label'         =>  false,
+                )
+            )
             ->getForm();
 
         $form->handleRequest($request);
         if($form->isValid())
         {
             $redirectUrl = $this->generateUrl('backend_opracowanie_oferty_cenowej', array('id' => $id));
+            /** @noinspection PhpUndefinedMethodInspection */
             if($form->get('submit')->isClicked())
             {
                 $ofertaHandlowa->setStatus(4);
-                $redirectUrl = $this->generateUrl('backend_oferty_handlowe_oczekujace_oh');
+                $filiaNotatka = new FiliaNotatka();
+                $filiaNotatka->setFilia($ofertaHandlowa->getFilia());
+                $filiaNotatka->setTresc('Opracowywanie oferty handlowej zostało zakończone. Ofertę można pobrać pod tym <a href="'.$this->generateUrl('oferta_handlowa_pdf', array('id' => $id)).'">linkiem</a>.');
+                $filiaNotatka->setStatus(true);
+                $filiaNotatka->setRodzaj(2);
+                $filiaNotatka->setDataSporzadzenia(new \DateTime('now'));
+                $filiaNotatka->setKoniecEdycji(new \DateTime('now'));
+                $autor = $em->getRepository('DFPEtapIBundle:Uzytkownik')->find($this->getUser()->getId());
+                $filiaNotatka->setUzytkownik($autor);
 
+                $em->persist($filiaNotatka);
+                $redirectUrl = $this->generateUrl('backend_oferty_handlowe_oczekujace_oh');
+            }
+            /** @noinspection PhpUndefinedMethodInspection */
+            elseif($form->has('anuluj') && $form->get('anuluj')->isClicked())
+            {
+                $this->anulujOferteHandlowa($request, $id);
+                return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_oh'));
             }
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());
             $em->persist($ofertaHandlowa);

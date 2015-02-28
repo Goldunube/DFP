@@ -285,7 +285,7 @@
     </section>
 
     <h3>Oferta cenowa</h3>
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <section id="oferty-systemy-container" class="container-fluid">
             <h4>Lista produktów</h4>
             <table class="table" style="table-layout: auto;">
@@ -404,14 +404,20 @@
             {% if form.submit is defined %}
                 <li> <button class="art-button zielony" name="{{ form.submit.vars.full_name }}" id="{{ form.submit.vars.id }}" type="submit">Zapisz i zamknij</button> </li>
             {% endif %}
-            <li>
-                <a href="#" class="art-button czerwony">Anuluj zamówienie</a>
-            </li>
+
+            {% if form.anuluj is defined %} <li> <button id="btn-anuluj" class="art-button czerwony">Anuluj zamówienie</button> {{ form_widget(form.anuluj) }} </li> {% endif %}
+
             <li style="float: right;">
                 <a href="{{ path('backend_oferta_handlowa_pdf', { 'id' : oferta.id }) }}" class="art-button czarny">Podgląd</a>
             </li>
         </ul>
 
+    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Wprowadź poniżej powód odrzucenia zamówienia Oferty Handlowej. Anulowana Oferta Handlowa zaostaje przeniesiona do archiwum wraz z podanym komentarzem.</p>
+        <textarea id="powod-anulowania" rows="3" style="width: 100%; color: black;"></textarea>
+    </div>
+
+    {{ form_row(form.anulujInfo) }}
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest':false}) }}
 
