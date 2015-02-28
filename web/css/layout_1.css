@@ -70,6 +70,7 @@ div.info-zamawiajacego {
     border: 1px solid;
     height: 130px;
     padding: 5px;
+    overflow-y: auto;
 }
 .klient-profil-dzialalnosci div {
     font-size: 9px;
