@@ -53,13 +53,35 @@ class OfertaHandlowaController extends Controller
         $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
 
         $deleteForms = new ArrayCollection();
-
+        $suma = array('Oczekujących'=>0,'Dobór systemu'=>0,'Opracowanie oferty cenowej'=>0,'Zrealizowanych'=>0,'Anulowanych'=>0,'Wszystkich ofert'=>0);
         /**
          * @var $ofertaHandlowa OfertaHandlowa
          */
         foreach($pagination as $ofertaHandlowa)
         {
             $deleteForms[$ofertaHandlowa->getId()] = $this->createDeleteForm($ofertaHandlowa->getId())->createView();
+            switch($ofertaHandlowa->getStatus())
+            {
+                case 0:
+                    $suma['Oczekujących'] =+ 1;
+                    break;
+                case 1:
+                    $suma['Dobór systemu'] =+ 1;
+                    break;
+                case 2:
+                    $suma['Opracowanie oferty cenowej'] =+ 1;
+                    break;
+                case 3:
+                    $suma['Opracowanie oferty cenowej'] =+ 1;
+                    break;
+                case 4:
+                    $suma['Zrealizowanych'] =+ 1;
+                    break;
+                case 5:
+                    $suma['Anulowanych'] =+ 1;
+                    break;
+            }
+            $suma['Wszystkich ofert'] =+ 1;
         }
 
         $nazwyStatusow = array(
@@ -75,6 +97,7 @@ class OfertaHandlowaController extends Controller
             'oferty_handlowe'   =>  $pagination,
             'statusy'           =>  $nazwyStatusow,
             'delete_forms'      =>  $deleteForms,
+            'suma_ofert'        =>  $suma
         );
     }
 
