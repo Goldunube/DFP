@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Klient
@@ -39,6 +40,7 @@ class Klient
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="data_zalozenia", type="datetime")
      */
     private $dataZalozenia;
