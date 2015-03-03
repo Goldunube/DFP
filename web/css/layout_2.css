@@ -91,10 +91,6 @@ div.info-zamawiajacego {
     top: 0;
     width: 10px;
 }
-tr.przeterminowane td, tr.przeterminowane th {
-    background-color: #FF5050;
-    color: #FFFFFF;
-}
 .records_list dl {
     border-bottom: 1px solid;
     float: left;

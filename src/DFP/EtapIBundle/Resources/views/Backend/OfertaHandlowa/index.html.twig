@@ -8,6 +8,21 @@
             {{ knp_pagination_filter(oferty_handlowe, {'k.nazwaSkrocona': 'Nazwa klienta', 'uz.nazwisko': 'Nazwisko osoby zamawiającej', 'ut.nazwisko':'Nazwisko technika', 'pd.nazwaProfilu':'Profil działalności','oh.status':'Status'}) }}
         </div>
 
+        <dl style="width: 230px;" class="table-display">
+            <dt style="width: 180px;">Oczekujących:</dt>
+            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Oczekujących'] }}</dd>
+            <dt style="width: 180px;">Dobór systemu:</dt>
+            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Dobór systemu'] }}</dd>
+            <dt style="width: 180px;">Opracowanie oferty cenowej:</dt>
+            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Opracowanie oferty cenowej'] }}</dd>
+            <dt style="width: 180px;">Zrealizowanych:</dt>
+            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Zrealizowanych'] }}</dd>
+            <dt style="width: 180px;">Anulowanych:</dt>
+            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Anulowanych'] }}</dd>
+            <dt style="width: 180px;">Wszystkich ofert:</dt>
+            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Wszystkich ofert'] }}</dd>
+        </dl>
+
         <table class="records_list">
             <thead>
             <tr>

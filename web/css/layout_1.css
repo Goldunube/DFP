@@ -70,6 +70,7 @@ div.info-zamawiajacego {
     border: 1px solid;
     height: 130px;
     padding: 5px;
+    overflow-y: auto;
 }
 .klient-profil-dzialalnosci div {
     font-size: 9px;
@@ -466,4 +467,10 @@ fieldset.slownik legend{
     background-color: sienna;
     border: 1px solid black;
     color: white;
+}
+button.red {
+    color: #FF0000;
+}
+button.green {
+    color: #008000;
 }

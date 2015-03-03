@@ -11,12 +11,12 @@
             e.preventDefault();
             e.stopPropagation();
 
-            if($(this).attr('class') != 'przeterminowane')
+            if($(this).hasClass('przeterminowane'))
             {
+                alert('Klient został zablokowany. Skontaktuj się z koordynatorem DFP.');
+            }else{
                 var hrefShow = $(e.currentTarget).find("th:first a").attr("href");
                 window.location.href=hrefShow;
-            }else{
-                alert('Klient został zablokowany. Skontaktuj się z koordynatorem DFP.');
             }
         })
     }

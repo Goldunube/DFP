@@ -110,7 +110,7 @@ class OfertaHandlowa
     /**
      * Dobrane przez Technika systemy malarskie odpowiadajace profilowi działalności klienta
      *
-     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaSystem", mappedBy="oferta",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\OfertaSystem", mappedBy="oferta",cascade={"all"})
      */
     private $ofertySystemy;
 

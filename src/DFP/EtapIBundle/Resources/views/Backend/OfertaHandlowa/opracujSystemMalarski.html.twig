@@ -238,12 +238,12 @@
 
     </ul>
 
-
     <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
         <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Wprowadź poniżej powód odrzucenia zamówienia Oferty Handlowej. Anulowana Oferta Handlowa zaostaje przeniesiona do archiwum wraz z podanym komentarzem.</p>
-        {{ form_row(form.anulujInfo) }}
+        <textarea id="powod-anulowania" rows="3" style="width: 100%; color: black;"></textarea>
     </div>
 
+    {{ form_row(form.anulujInfo) }}
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest':false}) }}
 

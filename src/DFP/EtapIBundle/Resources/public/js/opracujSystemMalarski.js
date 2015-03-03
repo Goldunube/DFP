@@ -132,11 +132,20 @@ $(document).ready(function()
         modal: true,
         buttons: {
             "Tak, anuluj zamówienie": function() {
+                $('#form_anulujInfo').val($('#powod-anulowania').val());
                 $('#form_anuluj').click();
             },
             "Nie, rezygnuje": function(event) {
                 $( this ).dialog( "close" );
             }
+        },
+        create:function () {
+            $(this).closest(".ui-dialog")
+                .find("button").eq(2) // the first button
+                .addClass("green");
+            $(this).closest(".ui-dialog")
+                .find("button").eq(1) // the first button
+                .addClass("red");
         },
         show: {
             effect: "blind",
