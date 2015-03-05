@@ -14,7 +14,7 @@
 {% block content %}
     <h1>Cennik produktów przemysłowych</h1>
     <section class="container-fluid" style="margin-top: 50px;">
-        {% if is_granted('ROLE_HDFP') %}
+        {% if is_granted('ROLE_HDFP') or is_granted('ROLE_KDFP') or is_granted('ROLE_KP') or is_granted('ROLE_DYR') %}
             <div class="row">
                 <div class="col-lg-3">
                     <img src="{{ asset('css/images/cennik_produktow_przemyslowych_wycinek.jpg') }}" class="img-responsive img-thumbnail" alt="Cennik produktów przemysłowych - wycinek">
