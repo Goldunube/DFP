@@ -59,7 +59,7 @@
                 <dd>{{ filia.profileDzialalnosci|join(' | ') }}</dd>
                 <dt>Ostatnia notatka:</dt>
                 <dd>
-                    {% set ostatniaNotatka = filia.filieNotatki|last %}
+                    {% set ostatniaNotatka = filia.filieNotatki|first %}
                     {% if ostatniaNotatka %}
                         <div class="panel panel-default">
                             <div class="panel-heading">
