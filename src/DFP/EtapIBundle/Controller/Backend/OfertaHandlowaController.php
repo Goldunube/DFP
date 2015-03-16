@@ -4,10 +4,14 @@ namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\FiliaNotatka;
 use DFP\EtapIBundle\Entity\Klient;
+use DFP\EtapIBundle\Entity\OfertaDodatek;
 use DFP\EtapIBundle\Entity\OfertaHandlowa;
 use DFP\EtapIBundle\Entity\OfertaProdukt;
 use DFP\EtapIBundle\Entity\OfertaSystem;
 use DFP\EtapIBundle\Entity\Produkt;
+use DFP\EtapIBundle\Entity\ProduktRozcienczalnik;
+use DFP\EtapIBundle\Entity\ProduktUtwardzacz;
+use DFP\EtapIBundle\Form\OfertaDodatekType;
 use DFP\EtapIBundle\Form\OfertaProduktType;
 use DFP\EtapIBundle\Form\OfertaSystemType;
 use DFP\EtapIBundle\Entity\OfertaCena;
@@ -709,6 +713,9 @@ class OfertaHandlowaController extends Controller
 
         $obecneCeny = new ArrayCollection();
 
+        /**
+         * @var OfertaProdukt $ofertaProdukt
+         */
         foreach($ofertaHandlowa->getOfertyProdukty() as $ofertaProdukt)
         {
             foreach ($ofertaProdukt->getCeny() as $cena) {
@@ -716,19 +723,60 @@ class OfertaHandlowaController extends Controller
             }
         }
 
+        $produkty = new ArrayCollection();
+        $dodatki = new ArrayCollection();
+
         foreach ($ofertaHandlowa->getWybraneProdukty() as $produkt)
         {
-            if($produkt instanceof Produkt)
+            /**
+             * @var Produkt $produkt
+             */
+            $produkt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produkt->getId());
+            if(!$produkty->contains($produkt))
+                $produkty->add($produkt);
+
+        }
+
+        foreach($produkty as $produkt)
+        {
+            $ofertaProdukt = new OfertaProdukt();
+            $ofertaProdukt->setProdukt($produkt);
+            $cena = new OfertaCena();
+            $ofertaProdukt->addCeny($cena);
+            $ofertaHandlowa->getOfertyProdukty()->add($ofertaProdukt);
+
+            /**
+             * @var ProduktUtwardzacz $produktUtwardzacz
+             */
+            $przygotowanieDoAplikacji = $produkt->getPrzygotowanieDoAplikacji();
+            if($przygotowanieDoAplikacji)
             {
-                $produkt = $em->getRepository('DFPEtapIBundle:Produkt')->find($produkt->getId());
-                $ofertaProdukt = new OfertaProdukt();
-                $ofertaProdukt->setProdukt($produkt);
-                $cena = new OfertaCena();
-                $ofertaProdukt->addCeny($cena);
-                if(!$ofertaHandlowa->getOfertyProdukty()->contains($ofertaProdukt))
-                    $ofertaHandlowa->getOfertyProdukty()->add($ofertaProdukt);
-                $ofertaProdukt->setOferta($ofertaHandlowa);
+                foreach($przygotowanieDoAplikacji->getProduktyUtwardzacze() as $produktUtwardzacz)
+                {
+                    $utwardzacz = $produktUtwardzacz->getUtwardzacz();
+                    if(!$dodatki->contains($utwardzacz))
+                        $dodatki->add($utwardzacz);
+                }
+
+                /**
+                 * @var ProduktRozcienczalnik $produktRozcienczalnik
+                 */
+                foreach($przygotowanieDoAplikacji->getProduktyRozcienczalniki() as $produktRozcienczalnik)
+                {
+                    $rozcienczalnik = $produktRozcienczalnik->getRozcienczalnik();
+                    if(!$dodatki->contains($rozcienczalnik))
+                        $dodatki->add($rozcienczalnik);
+                }
             }
+            $ofertaProdukt->setOferta($ofertaHandlowa);
+        }
+
+        foreach($dodatki as $produkt)
+        {
+            $ofertaDodatek = new OfertaDodatek();
+            $ofertaDodatek->setProdukt($produkt);
+            $ofertaHandlowa->getOfertyDodatki()->add($ofertaDodatek);
+            $ofertaDodatek->setOferta($ofertaHandlowa);
         }
 
         $previousUrl = $this->get('request')->headers->get('referer');
@@ -737,7 +785,8 @@ class OfertaHandlowaController extends Controller
             1 => 'Wymagania klienta',
             2 => 'Informacje handlowe',
             3 => 'Harmonogram działań',
-            4 => 'Notatki z wizyt'
+            4 => 'Notatki z wizyt',
+            5 => 'Informacja techniczna'
         );
 
         $form = $this->createFormBuilder($ofertaHandlowa)
@@ -745,6 +794,13 @@ class OfertaHandlowaController extends Controller
             ->setMethod('POST')
             ->add('ofertyProdukty','collection',array(
                     'type'              =>  new OfertaProduktType(),
+                    'allow_add'         =>  true,
+                    'allow_delete'      =>  true,
+                    'by_reference'      =>  false,
+                )
+            )
+            ->add('ofertyDodatki','collection',array(
+                    'type'              =>  new OfertaDodatekType(),
                     'allow_add'         =>  true,
                     'allow_delete'      =>  true,
                     'by_reference'      =>  false,
@@ -783,7 +839,7 @@ class OfertaHandlowaController extends Controller
                 $ofertaHandlowa->setStatus(4);
                 $filiaNotatka = new FiliaNotatka();
                 $filiaNotatka->setFilia($ofertaHandlowa->getFilia());
-                $filiaNotatka->setTresc('Opracowywanie oferty handlowej zostało zakończone. Ofertę można pobrać pod tym <a href="'.$this->generateUrl('oferta_handlowa_pdf', array('id' => $id)).'">linkiem</a>.');
+                $filiaNotatka->setTresc('<p>Opracowywanie oferty handlowej zostało zakończone. Ofertę można pobrać pod tym <a href="'.$this->generateUrl('oferta_handlowa_pdf', array('id' => $id)).'">linkiem</a>.</p>');
                 $filiaNotatka->setStatus(true);
                 $filiaNotatka->setRodzaj(2);
                 $filiaNotatka->setDataSporzadzenia(new \DateTime('now'));

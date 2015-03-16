@@ -398,7 +398,7 @@ class OfertaHandlowa
      * @param OfertaDodatek $ofertyDodatki
      * @return OfertaHandlowa
      */
-    public function addOfertyDodatki(OfertaDodatek $ofertyDodatki)
+    public function addOfertyDodatkus(OfertaDodatek $ofertyDodatki)
     {
         $ofertyDodatki->setOferta($this);
         $this->ofertyDodatki[] = $ofertyDodatki;
@@ -411,7 +411,7 @@ class OfertaHandlowa
      *
      * @param OfertaDodatek $ofertyDodatki
      */
-    public function removeOfertyDodatki(OfertaDodatek $ofertyDodatki)
+    public function removeOfertyDodatkus(OfertaDodatek $ofertyDodatki)
     {
         $this->ofertyDodatki->removeElement($ofertyDodatki);
     }
