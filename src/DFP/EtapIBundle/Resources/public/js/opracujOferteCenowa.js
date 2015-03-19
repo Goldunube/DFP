@@ -1,23 +1,45 @@
     var $holderOfertyProdukty;
+    var $holderOfertyDodatki;
 
-    var $addTableLink = $('<a href="#" class="add-table-link art-button maly zielony">Dodaj produkt</a>');
+    var $addTableLink = $('<a href="#" class="add-table-link art-button zielony">Dodaj produkt</a>');
+    var $addTableDodatekLink = $('<a href="#" class="add-table-link art-button zielony">Dodaj produkt</a>');
     var $newTableLinkLi = $('<span></span>').append($addTableLink);
+    var $newTableDodatekLinkLi = $('<span></span>').append($addTableDodatekLink);
 
 $(document).ready(function()
 {
     $holderOfertyProdukty = $('#oferty-produkty-container');
+    $holderOfertyDodatki = $('#oferty-dodatki-container');
 
     $addTableLink.on('click',function(e) {
         e.preventDefault();
         $newTableLinkLi = $(this);
         $holderOfertyProdukty.data('index', $holderOfertyProdukty.find('tr.produkt').length);
-        addTableForm($holderOfertyProdukty, $newTableLinkLi);
+        addTableForm($holderOfertyProdukty);
         $('.selectpicker').selectpicker();
     });
 
-    $('#oferty-systemy-container').append($addTableLink);
+    $addTableDodatekLink.on('click',function(e) {
+        e.preventDefault();
+        $newTableDodatekLinkLi = $(this);
+        $holderOfertyDodatki.data('index', $holderOfertyDodatki.find('tr.produkt').length);
+        addTableDodatkiForm($holderOfertyDodatki);
+        $('.selectpicker').selectpicker();
+    });
+
+    $holderOfertyProdukty.closest('table').after($addTableLink);
+    $holderOfertyDodatki.closest('table').after($addTableDodatekLink);
 
     $holderOfertyProdukty.on('click','.produkt-del',function(e)
+    {
+        e.preventDefault();
+        $holderProdukt = $(this).closest('tr.produkt');
+        $holderProduktInfo = $holderProdukt.next('tr');
+        $holderProduktInfo.remove();
+        $holderProdukt.remove();
+    });
+
+    $holderOfertyDodatki.on('click','.produkt-del',function(e)
     {
         e.preventDefault();
         $holderProdukt = $(this).closest('tr.produkt');
@@ -36,7 +58,6 @@ $(document).ready(function()
         var nowaCena = prototype.replace(/__cena_name__/g, indeks);
         $holderCeny.data('index', indeks + 1);
         $holderCeny.append(nowaCena);
-//        alert($holderCeny.data('index'));
     });
 
     $holderOfertyProdukty.on('click','.cena-del',function(e) {
@@ -47,6 +68,15 @@ $(document).ready(function()
     });
 
     function addTableForm($collectionHolder)
+    {
+        var prototype = $collectionHolder.data('prototype');
+        var index = $collectionHolder.data('index');
+        var newForm = prototype.replace(/__name__/g, index);
+        $collectionHolder.data('index', index + 1);
+        $collectionHolder.append(newForm);
+    }
+
+    function addTableDodatkiForm($collectionHolder)
     {
         var prototype = $collectionHolder.data('prototype');
         var index = $collectionHolder.data('index');

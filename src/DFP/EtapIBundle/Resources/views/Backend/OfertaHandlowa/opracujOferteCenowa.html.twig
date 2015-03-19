@@ -64,12 +64,30 @@
     </tr>
 {% endmacro %}
 
+{% macro dodatek_prototype(website) %}
+    <tr class="produkt">
+        <th style="width: 30px;"></th>
+        <td>
+            {{ form_widget(website.produkt) }}
+        </td>
+        <td style="width: 130px;">
+            {{ form_widget(website.opakowanie) }}
+        </td>
+        <td style="width: 100px;">
+            {{ form_widget(website.jednostka) }}
+        </td>
+        <td>
+            {{ form_widget(website.cena) }}
+        </td>
+        <td class="col-action">
+            <a href="#" class="btn btn-danger produkt-del">Usuń</a>
+        </td>
+    </tr>
+{% endmacro %}
+
 {% block title %}Portal DFP - {{ filia.klient.nazwaSkrocona }}{% endblock %}
 
 {% block content -%}
-    {% for test in form.ofertyDodatki %}
-        test
-    {% endfor %}
     <section>
         <h1>Dobór Systemów Malarskich</h1>
         <table class="karta-klient">
@@ -343,27 +361,24 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </section>
 
-        <hr>
+            <hr>
 
-        <section class="container-fluid">
             <h4>Lista dodatków</h4>
             <table class="table" style="table-layout: auto;">
                 <thead>
                 <tr>
                     <th style="width: 30px;">lp</th>
                     <th style="width: 250px;">produkt</th>
-                    <th style="width: 300px;">opakowanie</th>
-                    <th style="width: 300px;">jednostka</th>
+                    <th colspan="2" style="width: 300px;">opakowanie</th>
                     <th>cena</th>
                     <th style="width: 80px;" class="col-action"></th>
                 </tr>
                 </thead>
-                <tbody id="oferty-dodatki-container" data-prototype="{{ _self.information_prototype(form.ofertyProdukty.vars.prototype)|e }}">
+                <tbody id="oferty-dodatki-container" data-prototype="{{ _self.dodatek_prototype(form.ofertyDodatki.vars.prototype)|e }}">
                 {% for ofertaDodatek in form.ofertyDodatki %}
                     <tr class="produkt">
-                        <th style="width: 30px;" rowspan="2">{{ loop.index }}</th>
+                        <th style="width: 30px;">{{ loop.index }}</th>
                         <td>
                             {{ form_widget(ofertaDodatek.produkt) }}
                         </td>
@@ -376,13 +391,9 @@
                         <td>
                             {{ form_widget(ofertaDodatek.cena) }}
                         </td>
-                        <td rowspan="2" class="col-action">
+                        <td class="col-action">
                             <a href="#" class="btn btn-danger produkt-del">Usuń</a>
                         </td>
-                    </tr>
-                    <tr class="tessst">
-                        {#<th>{{ form_label(ofertaProdukt.informacjeDodatkowe) }}</th>#}
-                        {#<th colspan="3">{{ form_widget(ofertaProdukt.informacjeDodatkowe) }}</th>#}
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -397,7 +408,6 @@
                     Powrót
                 </a>
             </li>
-            <li><button class="art-button zielony" name="{{ form.zapisz.vars.full_name }}" id="{{ form.zapisz.vars.id }}" type="submit">Tylko zapisz</button></li>
             {% if form.submit is defined %}
                 <li> <button class="art-button zielony" name="{{ form.submit.vars.full_name }}" id="{{ form.submit.vars.id }}" type="submit">Zapisz i zamknij</button> </li>
             {% endif %}

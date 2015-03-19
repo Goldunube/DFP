@@ -7,6 +7,7 @@ security:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
         ROLE_TECHNOLOG:   ROLE_TECHNIK
+        ROLE_DYR:         ROLE_TECHNOLOG
 
     providers:
         fos_userbundle:

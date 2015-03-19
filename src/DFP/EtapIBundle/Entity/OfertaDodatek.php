@@ -22,16 +22,14 @@ class OfertaDodatek
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="cena", type="decimal")
+     * @ORM\Column(name="cena", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $cena;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="opakowanie", type="string", length=255)
+     * @ORM\Column(name="opakowanie", type="integer", nullable=false)
      */
     private $opakowanie;
 
