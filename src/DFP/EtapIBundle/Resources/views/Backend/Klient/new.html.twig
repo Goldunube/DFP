@@ -327,19 +327,19 @@
 
     {#  Input Mask  #}
     $('.record_properties').on('focusin','.kod-pocztowy', function() {
-        $(this).mask('00-000');
+        $(this).mask('00-000', { maxlength : false });
     });
     $('#procesy-utwardzania-powloki').on('focus', '.input-temp', function(event) {
-        $(this).mask('###000 \u00B0C', {reverse: true});
+        $(this).mask('###000 \u00B0C', {reverse: true, maxlength : false});
     });
     $('#procesy-utwardzania-powloki').on('focus', '.input-czas', function(event) {
-        $(this).mask('###000 minut', {reverse: true});
+        $(this).mask('###000 minut', {reverse: true, maxlength : false});
     });
     $('.record_properties').on('focus','.tel-stacjonarny', function(event) {
-        $(this).mask('(900) 000-00-00', {reverse: false});
+        $(this).mask('(900) 000-00-00', {reverse: false, maxlength : false});
     })
     $('.record_properties').on('focus','.tel-komorkowy', function(event) {
-        $(this).mask('0-000-000-000', {reverse: false});
+        $(this).mask('0-000-000-000', {reverse: false, maxlength : false});
     })
 
     $('.adres-www input').focusin(function() {

@@ -153,14 +153,14 @@
 {% block javascripts %}
     {{ parent() }}
     $('.record_properties').on('focusin','.kod-pocztowy', function() {
-        $(this).mask('00-000');
+        $(this).mask('00-000', { maxlength : false });
     });
     $('.record_properties [title!=""]').qtip({style: {widget:true}, position: { my: 'bottom left', at: 'top left', adjust: { x:30 } } });
     $('#filie-pracownicy').on('focus','.tel-stacjonarny', function(event) {
-        $(this).mask('(900) 000-00-00', {reverse: false});
+        $(this).mask('(900) 000-00-00', {reverse: false, maxlength : false});
     })
     $('#filie-pracownicy').on('focus','.tel-komorkowy', function(event) {
-        $(this).mask('0-000-000-000', {reverse: false});
+        $(this).mask('0-000-000-000', {reverse: false, maxlength : false});
     })
     $('#filie-pracownicy').obslugaFormularzy();
     $('.adres-www input').focusin(function() {
