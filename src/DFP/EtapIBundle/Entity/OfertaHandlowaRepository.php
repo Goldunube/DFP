@@ -149,4 +149,14 @@ class OfertaHandlowaRepository extends EntityRepository
 
         return $query;
     }
+
+    public function getLiczbaWszystkichOfertHandlowych(array $kryteria = array())
+    {
+        $query = $this->createQueryBuilder('oh')
+            ->select('oh.status,COUNT(oh) AS ile')
+            ->groupBy('oh.status')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
