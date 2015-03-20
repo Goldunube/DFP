@@ -1,0 +1,52 @@
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
+
+{% macro file(filename, type, title, content) %}
+    <div class="media">
+        <div class="media-left pull-left">
+            <a href="{{ path('do_pobrania_pobierz', { 'filename':filename }) }}">
+                <img class="media-object" src="{{ asset(getFileTypeIcon(type)) }}">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{ title }}</h4>
+            <p>{{ content }}</p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as media %}
+
+{% block title %}Portal DFP - do pobrania{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1 class="page-header">Do pobrania <small>materiały Działu Technicznego</small></h1>
+
+        {% for row in do_pobrania %}
+            {{ media.file(row.zalacznik.path,row.zalacznik.typ,row.title,row.content) }}
+        {% endfor %}
+
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_KDFP') or is_granted('ROLE_KP') or is_granted('ROLE_DYR') or is_granted('ROLE_RKS') %}
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{{ path('do_pobrania_new') }}" class="btn btn-primary">Dodaj</a>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}

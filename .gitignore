@@ -8,6 +8,8 @@
 /build/
 /vendor/
 /bin/
+/media/*
+!media/.htaccess
 /composer.phar
 /project_access.log
 /project_error.log
