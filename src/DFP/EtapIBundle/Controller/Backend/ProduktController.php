@@ -351,13 +351,13 @@ class ProduktController extends Controller
 
         $pdf = $this->get('knp_snappy.pdf');
         $pdf->setOption('encoding','utf-8');
-        $pdf->setOption('header-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-header');
+        $pdf->setOption('header-html',$this->generateUrl('karta_techniczna_header',array(),true));
         $pdf->setOption('header-spacing',10);
         $pdf->setOption('footer-spacing',10);
         $pdf->setOption('margin-top',35);
         $pdf->setOption('margin-left',0);
         $pdf->setOption('margin-right',0);
-        $pdf->setOption('footer-html','http://www.portaldfp.lh/app_dev.php/produkty/karta-techniczna-footer');
+        $pdf->setOption('footer-html',$this->generateUrl('karta_techniczna_footer',array(),true));
 
         return new Response(
             $pdf->getOutputFromHtml($html),
