@@ -44,6 +44,7 @@ class DoPobrania
     private $content;
 
     /**
+     * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(name="author_id")
      */
@@ -88,7 +89,7 @@ class DoPobrania
     private $allowedGroups = array();
 
     /**
-     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Zalacznik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Zalacznik",cascade={"all"})
      * @ORM\JoinColumn(name="zalacznik_id")
      */
     private $zalacznik;

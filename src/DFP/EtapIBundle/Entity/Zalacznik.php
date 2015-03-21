@@ -2,6 +2,7 @@
 
 namespace DFP\EtapIBundle\Entity;
 
+use DFP\EtapIBundle\Libs\Utils;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -189,6 +190,7 @@ class Zalacznik
     {
         if (null !== $this->getFile()) {
             // do whatever you want to generate a unique name
+            $this->setFilename(Utils::slugify($this->getFile()->getClientOriginalName()));
             $filename = sha1(uniqid(mt_rand(), true));
             $this->path = $filename.'.'.$this->getFile()->guessExtension();
             $this->typ = $this->getFile()->guessExtension();

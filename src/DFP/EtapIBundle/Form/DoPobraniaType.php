@@ -18,8 +18,9 @@ class DoPobraniaType extends AbstractType
             ->add('title',null,array('label'=>'Nagłówek'))
             ->add('content',null,array('label'=>'Treść'))
             ->add('publishedDate','datetime',array(
-                    'label'         =>  'Od kiedy dostępny?',
-                    'widget'   =>  'single_text',
+                    'label'     =>  'Od kiedy dostępny?',
+                    'widget'    =>  'single_text',
+                    'required'  =>  false
                 )
             )
             ->add('allowedGroups','choice',array(
@@ -32,6 +33,7 @@ class DoPobraniaType extends AbstractType
                     ),
                     'multiple'  =>  true,
                     'expanded'  =>  true,
+                    'required'  =>  false
                 )
             )
             ->add('zalacznik',new ZalacznikType())

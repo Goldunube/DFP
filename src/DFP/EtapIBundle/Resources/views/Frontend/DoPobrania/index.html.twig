@@ -1,6 +1,6 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
-{% macro file(filename, type, title, content) %}
+{% macro file(id, filename, type, title, content, control) %}
     <div class="media">
         <div class="media-left pull-left">
             <a href="{{ path('do_pobrania_pobierz', { 'filename':filename }) }}">
@@ -8,7 +8,15 @@
             </a>
         </div>
         <div class="media-body">
-            <h4 class="media-heading">{{ title }}</h4>
+            <div class="media-heading">
+                <span class="nazwa-zalacznika">{{ title }}</span>
+                {% if control %}
+                    <span class="pull-right">
+                        <a href="#">Edytuj</a>
+                        <a class="text-danger" href="{{ path('do_pobrania_usun', { 'id' : id }) }}">Usuń</a>
+                    </span>
+                {% endif %}
+            </div>
             <p>{{ content }}</p>
         </div>
     </div>
@@ -31,19 +39,22 @@
 
 {% block content %}
     <div class="container-fluid">
-        <h1 class="page-header">Do pobrania <small>materiały Działu Technicznego</small></h1>
-
-        {% for row in do_pobrania %}
-            {{ media.file(row.zalacznik.path,row.zalacznik.typ,row.title,row.content) }}
-        {% endfor %}
-
-    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_KDFP') or is_granted('ROLE_KP') or is_granted('ROLE_DYR') or is_granted('ROLE_RKS') %}
         <div class="row">
+            <div class="col-md-10">
+                <h1>Do pobrania <small>materiały Działu Technicznego</small></h1>
+            </div>
             <div class="col-md-2">
-                <a href="{{ path('do_pobrania_new') }}" class="btn btn-primary">Dodaj</a>
+                {% if uprawnienia %}
+                    <a href="{{ path('do_pobrania_new') }}" class="btn btn-primary pull-right">Dodaj</a>
+                {% endif %}
             </div>
         </div>
-    {% endif %}
+
+        <hr>
+
+        {% for row in do_pobrania %}
+            {{ media.file(row.id,row.zalacznik.path,row.zalacznik.typ,row.title,row.content,uprawnienia) }}
+        {% endfor %}
     </div>
 {% endblock content %}
 

@@ -474,3 +474,6 @@ button.red {
 button.green {
     color: #008000;
 }
+.media-heading .nazwa-zalacznika {
+    font-size: 16px;
+}

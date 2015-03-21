@@ -41,6 +41,15 @@
                 {{ form_widget(form.allowedGroups) }}
             </div>
         </div>
+        {{ form_row(form.zalacznik.file) }}
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_widget(form.submit) }}
+            </div>
+        </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}
