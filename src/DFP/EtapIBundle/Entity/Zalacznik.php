@@ -139,7 +139,7 @@ class Zalacznik
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../media/'.$this->getUploadDir();
+        return __DIR__.'/../../../../media'.$this->getUploadDir();
     }
 
     /**
@@ -192,8 +192,8 @@ class Zalacznik
             // do whatever you want to generate a unique name
             $this->setFilename(Utils::slugify($this->getFile()->getClientOriginalName()));
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->getFile()->guessExtension();
-            $this->typ = $this->getFile()->guessExtension();
+            $this->path = $filename.'.'.$this->getFile()->getClientOriginalExtension();
+            $this->typ = $this->getFile()->getClientOriginalExtension();
         }
     }
 
@@ -224,13 +224,22 @@ class Zalacznik
     }
 
     /**
+     * Pre remove upload
+     *
+     * @ORM\PreRemove()
+     */
+    public function preRemoveUpload()
+    {
+        $this->temp = $this->getAbsolutePath();
+    }
+
+    /**
      * @ORM\PostRemove()
      */
     public function removeUpload()
     {
-        $file = $this->getAbsolutePath();
-        if ($file) {
-            unlink($file);
+        if ($this->temp) {
+            unlink($this->temp);
         }
     }
 

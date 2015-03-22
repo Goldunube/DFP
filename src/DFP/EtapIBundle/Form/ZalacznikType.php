@@ -15,7 +15,6 @@ class ZalacznikType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('filename',null,array('label'=>'Nazwa pliku'))
             ->add('file',null,array(
                     'label' =>  'Wybierz plik'
                 )

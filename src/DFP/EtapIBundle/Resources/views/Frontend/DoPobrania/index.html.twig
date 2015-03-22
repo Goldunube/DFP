@@ -1,9 +1,9 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
-{% macro file(id, filename, type, title, content, control) %}
+{% macro file(id, slug, type, title, content, control, token) %}
     <div class="media">
         <div class="media-left pull-left">
-            <a href="{{ path('do_pobrania_pobierz', { 'filename':filename }) }}">
+            <a href="{{ path('do_pobrania_pobierz', { 'slug' : slug}) }}">
                 <img class="media-object" src="{{ asset(getFileTypeIcon(type)) }}">
             </a>
         </div>
@@ -12,8 +12,8 @@
                 <span class="nazwa-zalacznika">{{ title }}</span>
                 {% if control %}
                     <span class="pull-right">
-                        <a href="#">Edytuj</a>
-                        <a class="text-danger" href="{{ path('do_pobrania_usun', { 'id' : id }) }}">Usuń</a>
+                        {#<a href="#">Edytuj</a>#}
+                        <a class="text-danger usun-zalacznik" href="{{ path('do_pobrania_usun', { 'id' : id, 'token' : token }) }}">Usuń</a>
                     </span>
                 {% endif %}
             </div>
@@ -53,11 +53,29 @@
         <hr>
 
         {% for row in do_pobrania %}
-            {{ media.file(row.id,row.zalacznik.path,row.zalacznik.typ,row.title,row.content,uprawnienia) }}
+            {% set do_pobrania_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(row.id)) : null %}
+            {{ media.file(row.id,row.slug,row.zalacznik.typ,row.title,row.content,uprawnienia,do_pobrania_token) }}
         {% endfor %}
     </div>
 {% endblock content %}
 
 {% block javascripts %}
-
+    $('body').on('click','.usun-zalacznik',function(e)
+    {
+        e.preventDefault();
+        var $btn = $(this);
+        var $usunUrl = $btn.attr('href');
+        $.ajax({
+            url: $usunUrl,
+            type: 'DELETE',
+            success: function(json)
+            {
+                alert(json.message);
+                if(json.status === 'ok')
+                {
+                    $btn.closest('.media').remove();
+                }
+            }
+        })
+    })
 {% endblock javascripts %}

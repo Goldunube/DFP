@@ -26,10 +26,12 @@ class DoPobraniaType extends AbstractType
             ->add('allowedGroups','choice',array(
                     'label'     =>  'Widoczny dla...',
                     'choices'   =>  array(
-                        'ROLE_DYR'  =>  'Dyrektor',
-                        'ROLE_KP'   =>  'Kierownik produktu',
-                        'ROLE_KDFP' =>  'Koordynator DFP',
-                        'ROLE_HDFP' =>  'Handlowiec DFP'
+                        'ROLE_TECHNIK'  =>  'techników',
+                        'ROLE_HDFP'     =>  'handlowców DFP',
+                        'ROLE_HWPS'     =>  'WPS',
+                        'ROLE_FDFP'     =>  'freelancer\'ów',
+                        'ROLE_RLS'      =>  'RLS\'ów',
+                        'ROLE_RKS'      =>  'RKS\'ów',
                     ),
                     'multiple'  =>  true,
                     'expanded'  =>  true,
