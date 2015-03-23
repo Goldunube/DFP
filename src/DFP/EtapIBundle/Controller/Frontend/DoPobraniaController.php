@@ -6,6 +6,7 @@ use DFP\EtapIBundle\Entity\DoPobrania;
 use DFP\EtapIBundle\Form\DoPobraniaType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,8 +28,18 @@ class DoPobraniaController extends Controller
     public function indexAction()
     {
         $doPobraniaRepo = $this->getDoctrine()->getRepository('DFPEtapIBundle:DoPobrania');
-        $allList = $doPobraniaRepo->findAll();
+        $allList = $doPobraniaRepo->findAllBySort();
         $editPermissions = false;
+        $paginator = $this->get('knp_paginator');
+
+        $usersGroups = array(
+            'ROLE_TECHNIK'  =>  'Technik',
+            'ROLE_HDFP'     =>  'Handlowc DFP',
+            'ROLE_HWPS'     =>  'WPS',
+            'ROLE_FDFP'     =>  'Freelancer',
+            'ROLE_RLS'      =>  'RLS',
+            'ROLE_RKS'      =>  'RKS',
+        );
 
         if($this->get('security.authorization_checker')->isGranted('ROLE_KDFP') or $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
         {
@@ -38,6 +49,10 @@ class DoPobraniaController extends Controller
             $tempList = new ArrayCollection();
             $user = $this->getUser();
             $userRoles = $user->getRoles();
+
+            /**
+             * @var DoPobrania $doPobraniaEntity
+             */
             foreach($allList as $doPobraniaEntity)
             {
                 $allowedGroups = $doPobraniaEntity->getAllowedGroups();
@@ -49,11 +64,14 @@ class DoPobraniaController extends Controller
             $allList = $tempList;
         }
 
+        $pagination = $paginator->paginate($allList, $this->get('request')->query->get('strona',1),10);
+
         return array(
-            'do_pobrania'   =>  $allList,
+            'do_pobrania'   =>  $pagination,
             'uprawnienia'   =>  $editPermissions,
             'csrf_provider' =>  isset($csrfProvider) ? $csrfProvider : null,
-            'token'         =>  'DFPdel%d'
+            'token'         =>  'DFPdel%d',
+            'roles_table'   =>  $usersGroups
         );
     }
 
@@ -125,6 +143,49 @@ class DoPobraniaController extends Controller
 
         $response->setContent($content);
         return $response;
+    }
+
+    /**
+     * @Route("/do-pobrania/edytuj/{slug}", name="do_pobrania_edit")
+     * @Method({"GET","PUT"})
+     * @Template()
+     * @ParamConverter("doPobrania", class="DFPEtapIBundle:DoPobrania",options={"mapping" : { "slug" : "slug" } })
+     */
+    public function editAction(Request $request, DoPobrania $doPobrania)
+    {
+        if(!$doPobrania)
+        {
+            throw $this->createNotFoundException('Nie odnaleziono wskazanej do edycji encji.');
+        }
+
+        $form = $this->createForm(new DoPobraniaType(),$doPobrania,array(
+                'action'    =>  $this->generateUrl('do_pobrania_edit',array('slug'=>$doPobrania->getSlug())),
+                'method'    =>  'PUT'
+            )
+        );
+        $form
+            ->add('submit','submit',array(
+                    'label' =>  'Aktualizuj',
+                    'attr'  =>  array('class' => 'btn-primary pull-right col-md-1')
+                )
+            );
+
+        if($request->isMethod('PUT'))
+        {
+            $form->handleRequest($request);
+            if($form->isValid())
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($doPobrania);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('do_pobrania'));
+            }
+        }
+
+        return array(
+            'form'  =>  $form->createView()
+        );
     }
 
     /**

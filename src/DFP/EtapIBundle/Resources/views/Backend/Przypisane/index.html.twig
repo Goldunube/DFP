@@ -90,7 +90,7 @@
                     {% set blokadaObrot = filiaUzytkownika.filia.klient.obrot == 0 ? true : false %}
                     {% set rezerwacja = false %}
                     <tr class="{{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'warning' }}">
-                        <th><a href="{{ path('backend_przypisane_edycja', { 'id' : filiaUzytkownika.id }) }}">{{ loop.index }}.</a></th>
+                        <th><a href="{{ path('backend_przypisane_edycja', { 'id' : filiaUzytkownika.id }) }}">{{ filie_uzytkownicy.getPaginationData['firstItemNumber'] + loop.index - 1 }}.</a></th>
                         <td>{{ filiaUzytkownika.uzytkownik }}</td>
                         <td data-toggle="tooltip" data-placement="bottom" title="{{ filiaUzytkownika.filia.klient.nazwaPelna }}">{{ filiaUzytkownika.filia.klient.nazwaSkrocona }} {{ filiaUzytkownika.filia != 'Filia Główna' ? filiaUzytkownika.filia }}</td>
                         <td class="text-right {{ filiaUzytkownika.filia.klient.obrot < 3000 ? 'text-danger' }} ">{{ filiaUzytkownika.filia.klient.obrot|waluta }}</td>

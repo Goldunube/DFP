@@ -38,6 +38,7 @@ class DoPobraniaType extends AbstractType
                     'required'  =>  false
                 )
             )
+            ->add('sort',null,array('label'=>'Kolejność'))
             ->add('zalacznik',new ZalacznikType())
         ;
     }

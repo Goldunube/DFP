@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * DoPobrania
  *
  * @ORM\Table(name="do_pobrania_posts")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DFP\EtapIBundle\Entity\DoPobraniaRepository")
  */
 class DoPobrania
 {
@@ -93,6 +93,12 @@ class DoPobrania
      * @ORM\JoinColumn(name="zalacznik_id")
      */
     private $zalacznik;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="sort",nullable=false)
+     */
+    private $sort = 0;
 
 
     /**
@@ -310,5 +316,21 @@ class DoPobrania
     public function getAllowedGroups()
     {
         return $this->allowedGroups;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param int $sort
+     */
+    public function setSort($sort)
+    {
+        $this->sort = $sort;
     }
 }

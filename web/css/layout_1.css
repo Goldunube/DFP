@@ -477,3 +477,6 @@ button.green {
 .media-heading .nazwa-zalacznika {
     font-size: 16px;
 }
+.media-heading .label {
+    vertical-align: middle;
+}

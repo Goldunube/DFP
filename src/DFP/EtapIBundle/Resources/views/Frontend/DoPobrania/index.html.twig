@@ -1,20 +1,24 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
-{% macro file(id, slug, type, title, content, control, token) %}
+{% macro file(id, slug, type, title, content, control, token, userGroups, sort, roles_table) %}
     <div class="media">
         <div class="media-left pull-left">
-            <a href="{{ path('do_pobrania_pobierz', { 'slug' : slug}) }}">
+            <a href="{{ path('do_pobrania_pobierz', { 'slug' : slug }) }}">
                 <img class="media-object" src="{{ asset(getFileTypeIcon(type)) }}">
             </a>
         </div>
         <div class="media-body">
             <div class="media-heading">
-                <span class="nazwa-zalacznika">{{ title }}</span>
+                <span class="nazwa-zalacznika"><strong>{{ title }}</strong></span>
                 {% if control %}
-                    <span class="pull-right">
-                        {#<a href="#">Edytuj</a>#}
+                    <div class="pull-right">
+                        {% for grupa in userGroups %}
+                            <span class="label label-info">{{ roles_table[grupa] }}</span>
+                        {% endfor %}
+                        | kolejność: {{ sort|default(0) }} |
+                        <a href="{{ path('do_pobrania_edit', { 'slug' : slug }) }}">Edytuj</a>
                         <a class="text-danger usun-zalacznik" href="{{ path('do_pobrania_usun', { 'id' : id, 'token' : token }) }}">Usuń</a>
-                    </span>
+                    </div>
                 {% endif %}
             </div>
             <p>{{ content }}</p>
@@ -41,7 +45,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-10">
-                <h1>Do pobrania <small>materiały Działu Technicznego</small></h1>
+                <h1>Do pobrania</h1>
             </div>
             <div class="col-md-2">
                 {% if uprawnienia %}
@@ -51,11 +55,13 @@
         </div>
 
         <hr>
-
         {% for row in do_pobrania %}
             {% set do_pobrania_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(row.id)) : null %}
-            {{ media.file(row.id,row.slug,row.zalacznik.typ,row.title,row.content,uprawnienia,do_pobrania_token) }}
+            {{ media.file(row.id,row.slug,row.zalacznik.typ,row.title,row.content,uprawnienia,do_pobrania_token,row.allowedGroups,row.sort,roles_table) }}
         {% endfor %}
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(do_pobrania) }}
     </div>
 {% endblock content %}
 
