@@ -3,10 +3,13 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/oferta_handlowa.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 {% endblock javascript %}
 
 {% block content -%}
@@ -172,24 +175,127 @@
         </a>
     </aside>
 
-    <section>
-        {% if(dobrane_systemy) %}
-            <h3>Dobrane systemy malarskie</h3>
-            <dl id="dobrane-systemy" class="table-display">
-                {% for ofertaProfilSystem in dobrane_systemy %}
-                    <dt>{{ ofertaProfilSystem.profilSystem.profilDzialalnosci }}</dt>
-                    <dd>
-                        <ol>
-                            {% for produkt in ofertaProfilSystem.profilSystem.systemMalarski.produkty %}
-                                <li>{{ produkt.nazwaHandlowa }}</li>
-                            {% endfor %}
-                        </ol>
-                    </dd>
-                    <dd class="uwagi"><strong>Uwagi: </strong>{{ ofertaProfilSystem.uwagi }}</dd>
-                {% endfor %}
-            </dl>
-        {% endif %}
+    <h3>Dobrane systemy malarskie</h3>
+    <section id="dobrane-systemy-info" class="container-fluid">
+        {% for ofertaSystem in oferta.ofertySystemy %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ ofertaSystem.profil.nazwaProfilu }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-8">
+                        {% if ofertaSystem.warstwa1 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Grunt / Gruntoemalia</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa1 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if ofertaSystem.warstwa2 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Międzywarstwa</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa2 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if ofertaSystem.warstwa3 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Międzywarstwa / Farba nawierzchniowa</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa3 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if ofertaSystem.warstwa4 %}
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <em>Farba nawierzchniowa</em>
+                                </div>
+                                <div class="col-xs-6">
+                                    {{ ofertaSystem.warstwa4 }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-4">
+                        <p style="text-decoration: underline;">Informacje dodatkowe:</p>
+                        <p>{{ ofertaSystem.informacja }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 
+    <h3>Oferta cenowa</h3>
+    <section id="oferta-cenowa-info" class="container-fluid">
+        <h4>Produkty</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="lp">#</th>
+                    <th class="col-produkt">Produkt</th>
+                    <th class="col-opakowanie">Opakowanie</th>
+                    <th>Kolor</th>
+                    <th>Cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ofertaProdukt in oferta.ofertyProdukty %}
+                    <tr>
+                        <th class="lp">{{ loop.index }}</th>
+                        <td class="col-produkt">
+                            <div>
+                                <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
+                            </div>
+                        </td>
+                        <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
+                        <td class="col-cena" colspan="2">
+                            {% for cena in ofertaProdukt.ceny %}
+                                <div class="kolor-container" style="float: left;width: 50%">
+                                    {{ cena.kolor }}
+                                </div>
+                                <div class="cena-container" style="float: right;width: 50%">
+                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
+                                </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Dodatki</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="lp">#</th>
+                <th class="col-produkt">Produkt</th>
+                <th class="col-opakowanie">Opakowanie</th>
+                <th>Cena</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ofertaDodatek in oferta.ofertyDodatki %}
+                <tr>
+                    <th class="lp">{{ loop.index }}</th>
+                    <td class="col-produkt">
+                        {{ ofertaDodatek.produkt.nazwaHandlowa }}
+                    </td>
+                    <td class="col-opakowanie">{{ ofertaDodatek.opakowanie }} {{ ofertaDodatek.jednostka }}</td>
+                    <td class="col-cena">{{ ofertaDodatek.cena }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
     </section>
 
     <ul class="record_actions">

@@ -155,6 +155,33 @@
                 </table>
             {% endif %}
         </section>
+
+        {% if oferta.ofertyDodatki is not empty %}
+            <section id="dodatki-lista" class="container-fluid">
+                <table class="table table-condensed table-bordered">
+                    <caption>Lista cen dodatków</caption>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="col-produkt">Produkt</th>
+                            <th class="col-opakowanie">Opakowanie</th>
+                            <th class="col-cena">Cena</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for ofertaDodatek in oferta.ofertyDodatki %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ ofertaDodatek.produkt.nazwaHandlowa }}</td>
+                            <td>{{ ofertaDodatek.opakowanie }} {{ ofertaDodatek.jednostka }}</td>
+                            <td>{{ ofertaDodatek.cena }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% endif %}
+
     </div>
 </body>
 </html>

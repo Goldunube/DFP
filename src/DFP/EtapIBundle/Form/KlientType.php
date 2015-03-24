@@ -39,7 +39,7 @@ class KlientType extends AbstractType
                     )
                 )
             )
-            ->add('nip',null,array(
+            ->add('nip','text',array(
                     'label'     =>  'NIP:',
                     'required'  =>  true,
                 )

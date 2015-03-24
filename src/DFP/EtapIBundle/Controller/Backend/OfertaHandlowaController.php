@@ -302,8 +302,6 @@ class OfertaHandlowaController extends Controller
         $ofertaHandlowa = $em->getRepository('DFPEtapIBundle:OfertaHandlowa')->find($id);
         $filia = $ofertaHandlowa->getFilia();
 
-        $dobraneSystemy = $ofertaHandlowa->getOfertySystemy();
-
         $kategorieNotatek = array(
             1 => 'Wymagania klienta',
             2 => 'Informacje handlowe',
@@ -327,7 +325,6 @@ class OfertaHandlowaController extends Controller
             'filia'                     =>  $filia,
             'powrot_url'                =>  $previousUrl,
             'notatka_kategorie'         =>  $kategorieNotatek,
-            'dobrane_systemy'           =>  $dobraneSystemy,
             'nazwy_statusow'            =>  $nazwyStatusow,
         );
     }

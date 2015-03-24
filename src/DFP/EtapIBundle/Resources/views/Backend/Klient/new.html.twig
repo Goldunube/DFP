@@ -342,6 +342,10 @@
         $(this).mask('0-000-000-000', {reverse: false, maxlength : false});
     })
 
+    $('.record_properties').on('focus','.input-nip', function(event) {
+        $(this).mask('000-00-00-000', {reverse: false, maxlength : false});
+    })
+
     $('.adres-www input').focusin(function() {
         var url = $(this).val();
         if(url == "")
