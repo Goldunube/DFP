@@ -109,6 +109,9 @@ class OfertaHandlowaController extends Controller
 
         $pdf = $this->get('knp_snappy.pdf');
         $pdf->setOption('encoding','utf-8');
+        $pdf->setOption('margin-left','0');
+        $pdf->setOption('margin-right','0');
+        $pdf->setOption('margin-bottom','0');
 
         return new Response(
             $pdf->getOutputFromHtml($html),

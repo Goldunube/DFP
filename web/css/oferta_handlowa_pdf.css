@@ -3,24 +3,35 @@
     margin-bottom: 200px;
 }
 #first-page-footer {
-    margin-top: 440px;
+    margin-top: 107.2mm;
     page-break-after: always;
+    font-size: 10px;
 }
 #first-page-footer .stopka {
 }
 #first-page-footer .small {
-    font-size: 10px;
+    font-size: 8px;
 }
 #first-page-footer img {
-    position: relative;
-    bottom: 0;
-    left: 530px;
+    position: absolute;
+    bottom: -21.5mm;
+    right: 0;
 }
 section h4 {
     margin-bottom: 20px;
 }
+#produkty-opis, #produkty-lista, #systemy-malarskie, #dodatki-lista {
+    margin-left: 10mm;
+    margin-right: 10mm;
+}
 #produkty-opis, #produkty-lista {
     page-break-after: always;
+}
+#produkty-opis dl {
+    margin-bottom: 40px;
+}
+#produkty-opis dl dt {
+    margin-top: 40px;
 }
 #produkty-opis dl dd {
     margin-bottom: 10px;
@@ -37,6 +48,9 @@ section h4 {
 }
 #systemy-malarskie dl dd span.glyphicon {
     margin-right: 20px;
+}
+.col-lp {
+    width: 30px;
 }
 .col-produkt {
     width: 280px;
