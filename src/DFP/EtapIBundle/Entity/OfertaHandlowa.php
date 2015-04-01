@@ -114,6 +114,20 @@ class OfertaHandlowa
      */
     private $ofertySystemy;
 
+    /**
+     * Dodatkowa informacja zamieszczana na dole oferty handlowej
+     *
+     * @var string
+     * @ORM\Column(name="informacja_dodatkowa", type="text", nullable=true)
+     */
+    private $informacjaDodatkowa = null;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="data_konca_waznosci", type="datetime", nullable=true)
+     */
+    private $dataKoncaWaznosci;
+
 
     /**
      * Constructor
@@ -501,5 +515,37 @@ class OfertaHandlowa
         }
 
         return array();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacjaDodatkowa()
+    {
+        return $this->informacjaDodatkowa;
+    }
+
+    /**
+     * @param mixed $informacjaDodatkowa
+     */
+    public function setInformacjaDodatkowa($informacjaDodatkowa)
+    {
+        $this->informacjaDodatkowa = $informacjaDodatkowa;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDataKoncaWaznosci()
+    {
+        return $this->dataKoncaWaznosci;
+    }
+
+    /**
+     * @param \DateTime $dataKoncaWaznosci
+     */
+    public function setDataKoncaWaznosci($dataKoncaWaznosci)
+    {
+        $this->dataKoncaWaznosci = $dataKoncaWaznosci;
     }
 }

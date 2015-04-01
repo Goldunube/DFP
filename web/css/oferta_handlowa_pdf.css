@@ -20,7 +20,7 @@
 section h4 {
     margin-bottom: 20px;
 }
-#produkty-opis, #produkty-lista, #systemy-malarskie, #dodatki-lista {
+#produkty-opis, #produkty-lista, #systemy-malarskie, #dodatki-lista, #opis-dodatkowy, #data-waznosci {
     margin-left: 10mm;
     margin-right: 10mm;
 }
@@ -35,6 +35,9 @@ section h4 {
 }
 #produkty-opis dl dd {
     margin-bottom: 10px;
+}
+.table, .table tr, .table td, .table th {
+    border-color: #474747 !important;
 }
 #produkty-lista table tbody tr:nth-child(4n+2), #produkty-lista table tbody tr:nth-child(4n+1)
 {
@@ -56,11 +59,23 @@ section h4 {
     width: 280px;
 }
 .col-opakowanie {
-    width: 120px;
+    width: 80px;
 }
 .col-cena {
-    width: 170px;
+    width: 80px;
+}
+td.col-cena {
+    text-align: right;
+}
+td.col-opakowanie {
+    text-align: center;
 }
 .col-cena-wartosc {
    text-align: right;
+}
+.table-embed, .table-embed tr, .table-embed td {
+    background-color: transparent !important;
+}
+#data-waznosci {
+    margin-top: 20mm;
 }

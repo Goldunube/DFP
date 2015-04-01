@@ -1,39 +1,37 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% block content -%}
-    <section>
-        <h1>Lista ofert handlowych</h1>
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/layout-bootstrap-clear.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
 
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    <h1>Lista ofert handlowych</h1>
+    <nav>
         <div style="margin-bottom: 20px; height: auto; overflow: auto;">
             {{ knp_pagination_filter(oferty_handlowe, {'k.nazwaSkrocona': 'Nazwa klienta', 'uz.nazwisko': 'Nazwisko osoby zamawiającej', 'ut.nazwisko':'Nazwisko technika', 'pd.nazwaProfilu':'Profil działalności','oh.status':'Status'}) }}
         </div>
+    </nav>
 
-        <dl style="width: 230px;" class="table-display">
-            <dt style="width: 180px;">Oczekujących:</dt>
-            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Oczekujących'] }}</dd>
-            <dt style="width: 180px;">Dobór systemu:</dt>
-            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Dobór systemu'] }}</dd>
-            <dt style="width: 180px;">Opracowanie oferty cenowej:</dt>
-            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Opracowanie oferty cenowej'] }}</dd>
-            <dt style="width: 180px;">Zrealizowanych:</dt>
-            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Zrealizowanych'] }}</dd>
-            <dt style="width: 180px;">Anulowanych:</dt>
-            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Anulowanych'] }}</dd>
-            <dt style="width: 180px;">Wszystkich ofert:</dt>
-            <dd style="width: 30px; text-align: right;">{{ suma_ofert['Wszystkich ofert'] }}</dd>
-        </dl>
-
-        <table class="records_list">
+    <section class="container-fluid">
+        <table class="table table-bordered table-responsive table-striped records_list">
             <thead>
             <tr>
                 <th class="lp">ID</th>
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Klient','k.nazwaSkrocona') }}</th>
                 <th>{{ knp_pagination_sortable(oferty_handlowe,'Profil działalności','pd.nazwaProfilu') }}</th>
-                <th>{{ knp_pagination_sortable(oferty_handlowe,'Zamawiający','uz.imie') }}</th>
-                <th>{{ knp_pagination_sortable(oferty_handlowe,'Technik','ut.imie') }}</th>
-                <th title="Data złożenia zamówienia">{{ knp_pagination_sortable(oferty_handlowe,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
-                <th>{{ knp_pagination_sortable(oferty_handlowe,'Status','oh.status') }}</th>
-                <th></th>
+                <th style="width: 120px;">{{ knp_pagination_sortable(oferty_handlowe,'Zamawiający','uz.imie') }}</th>
+                <th style="width: 120px;">{{ knp_pagination_sortable(oferty_handlowe,'Technik','ut.imie') }}</th>
+                <th style="width: 100px;" title="Data złożenia zamówienia">{{ knp_pagination_sortable(oferty_handlowe,'Data złożenia','oh.dataZlozeniaZamowienia') }}</th>
+                <th style="width: 100px;">{{ knp_pagination_sortable(oferty_handlowe,'Status','oh.status') }}</th>
+                <th class="col-buttons"></th>
             </tr>
             </thead>
             <tbody>
@@ -46,10 +44,13 @@
                     <td>{{ oferta.technik is empty ? "-" : oferta.technik }}</td>
                     <td>{{ oferta.dataZlozeniaZamowienia|date("Y-m-d") }}</td>
                     <td>{{ attribute(statusy, oferta.status) }}</td>
-                    <td>
-                        <a href="{{ path('backend_pokaz_zrealizowana_oferte_handlowa', {'id':oferta.id}) }}" class="art-button maly pomaranczowy" style="float: left;">Pokaż</a>
+                    <td class="col-buttons">
                         {{ form_start(delete_forms[oferta.id]) }}
-                            {{ form_widget(delete_forms[oferta.id].submit, {'attr': {'class':'art-button maly czerwony confirm-delete','style':'float:right;'} }) }}
+                            <div class="btn-group btn-group-xs">
+                                <a href="{{ path('oferta_handlowa_pdf', { 'id' : oferta.id }) }}" class="btn btn-primary">PDF</a>
+                                <a href="{{ path('backend_pokaz_zrealizowana_oferte_handlowa', {'id':oferta.id}) }}" class="btn btn-success" style="float: left;">Pokaż</a>
+                                {{ form_widget(delete_forms[oferta.id].submit, {'attr': {'class':'btn btn-danger','style':'float:right;'} }) }}
+                            </div>
                         {{ form_end(delete_forms[oferta.id]) }}
                     </td>
                 </tr>
@@ -59,6 +60,35 @@
         <div class="navigation">
             {{ knp_pagination_render(oferty_handlowe) }}
         </div>
+
+        <hr>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge">{{ suma_ofert['Oczekujących'] }}</span>
+                Oczekujących
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{ suma_ofert['Dobór systemu'] }}</span>
+                Dobór systemu
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{ suma_ofert['Opracowanie oferty cenowej'] }}</span>
+                Opracowanie oferty cenowej
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{ suma_ofert['Zrealizowanych'] }}</span>
+                Zrealizowanych
+            </li>
+            <li class="list-group-item">
+                <span class="badge">{{ suma_ofert['Anulowanych'] }}</span>
+                Anulowanych
+            </li>
+            <li class="list-group-item active">
+                <span class="badge">{{ suma_ofert['Wszystkich ofert'] }}</span>
+                Wszystkich ofert:
+            </li>
+        </ul>
     </section>
 
     <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">

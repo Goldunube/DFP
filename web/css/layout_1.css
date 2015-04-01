@@ -480,3 +480,8 @@ button.green {
 .media-heading .label {
     vertical-align: middle;
 }
+table thead tr th.col-buttons, table tbody tr td.col-buttons {
+    background: none;
+    border: none;
+    vertical-align: middle;
+}

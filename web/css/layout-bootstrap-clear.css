@@ -1,0 +1,38 @@
+#main table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    font-size: 12px;
+    table-layout: auto;
+    text-align: left;
+}
+#main table thead {
+    background: none;
+}
+#main table th {
+    border: none;
+}
+#main table tbody tr {
+    border: 1px dotted;
+}
+#main table tbody td {
+    border: 1px dotted;
+    height: 32px;
+    overflow: hidden;
+    padding: 1px 7px;
+}
+#main table tbody td div {
+    max-height: 32px;
+    overflow: hidden;
+}
+table .lp {
+    width: 50px;
+}
+#main table tbody tr:nth-child(2n+1), #main table tfoot tr:nth-child(2n+1) {
+    background-color: #e5e5e5;
+}
+table .col-buttons {
+    background: none;
+    border: none;
+    vertical-align: middle;
+    width: 140px;
+}

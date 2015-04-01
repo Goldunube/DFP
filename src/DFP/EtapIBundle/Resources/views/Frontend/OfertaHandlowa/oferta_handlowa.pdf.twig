@@ -79,7 +79,8 @@
                             <th class="col-lp">#</th>
                             <th class="col-produkt">Produkt</th>
                             <th class="col-opakowanie">Opakowanie</th>
-                            <th class="col-cena"><span class="pull-left">Kolor</span><span class="pull-right">Cena</span></th>
+                            <th class="col-cena">Kolor</th>
+                            <th class="col-cena">Cena</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,28 +91,48 @@
                                     <td class="col-produkt">
                                         <div>
                                             <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
-                                            w proporcji
-                                            {% for produktUtwardzacz in ofertaProdukt.produkt.produktyUtwardzacze %}
-                                                {{ produktUtwardzacz.proporcjaMieszaniaObjetosciowo }} obj. z utw. {{ produktUtwardzacz.utwardzacz.nazwaTechniczna }}
-                                            {% endfor %}
+                                            {% set przygotowanieDoAplikacji = ofertaProdukt.produkt.przygotowanieDoAplikacji %}
+                                            {% if przygotowanieDoAplikacji %}
+                                                w proporcji
+                                                {% for produktUtwardzacz in przygotowanieDoAplikacji.produktyUtwardzacze %}
+                                                    {{ loop.first == false ? 'lub ' }}
+                                                    {{ produktUtwardzacz.proporcjaMieszaniaObjetosciowo }} obj. z utw. {{ produktUtwardzacz.utwardzacz.nazwaHandlowa }} <br>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </td>
-                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
-                                    <td class="col-cena">
-                                        {% for cena in ofertaProdukt.ceny %}
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    {{ cena.kolor }}
-                                                </div>
-                                                <div class="col-xs-6 col-cena-wartosc">
-                                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
-                                                </div>
-                                            </div>
-                                        {% endfor %}
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [ l ]</td>
+                                    <td>
+                                        <table class="table-embed">
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.kolor }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.kolor }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table-embed">
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe|default("-") }}</em></td>
+                                    <td colspan="4" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe|default("-") }}</em></td>
                                 </tr>
                             {% endif %}
                         {% endfor %}
@@ -127,7 +148,8 @@
                         <th class="col-lp">#</th>
                         <th class="col-produkt">Produkt</th>
                         <th class="col-opakowanie">Opakowanie</th>
-                        <th class="col-cena"><span class="pull-left">Kolor</span><span class="pull-right">Cena</span></th>
+                        <th class="col-cena">Kolor</th>
+                        <th class="col-cena">Cena</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -137,25 +159,48 @@
                                     <td class="col-produkt">
                                         <div>
                                             <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
-                                            w proporcji objętościowej
+                                            {% set przygotowanieDoAplikacji = ofertaProdukt.produkt.przygotowanieDoAplikacji %}
+                                            {% if przygotowanieDoAplikacji %}
+                                                w proporcji
+                                                {% for produktUtwardzacz in przygotowanieDoAplikacji.produktyUtwardzacze %}
+                                                    {{ loop.first == false ? 'lub ' }}
+                                                    {{ produktUtwardzacz.proporcjaMieszaniaObjetosciowo }} obj. z utw. {{ produktUtwardzacz.utwardzacz.nazwaHandlowa }} <br>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </td>
-                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [kg]</td>
-                                    <td class="col-cena">
-                                        {% for cena in ofertaProdukt.ceny %}
-                                            <div class="row">
-                                                <div class="col-xs-6">
-                                                    {{ cena.kolor }}
-                                                </div>
-                                                <div class="col-xs-6 col-cena-wartosc">
-                                                    {{ cena.wartosc|number_format(2,',',' ') }} zł
-                                                </div>
-                                            </div>
-                                        {% endfor %}
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [ kg ]</td>
+                                    <td>
+                                        <table class="table-embed">
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.kolor }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.kolor }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table-embed">
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% for cena in ofertaProdukt.ceny %}
+                                                <tr>
+                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe|default("-") }}</em></td>
+                                    <td colspan="4" class="small"><em>{{ ofertaProdukt.informacjeDodatkowe|default("-") }}</em></td>
                                 </tr>
                         {% endfor %}
                     </tbody>
@@ -188,7 +233,12 @@
                 </table>
             </section>
         {% endif %}
-
+        <div id="opis-dodatkowy">
+            {{ oferta.informacjaDodatkowa|raw }}
+        </div>
+        <div id="data-waznosci">
+            <strong>* Oferta handlowa ważna do dnia: {{ oferta.dataKoncaWaznosci|date('d.m.Y') }}</strong>
+        </div>
     </div>
 </body>
 </html>

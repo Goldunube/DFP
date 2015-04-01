@@ -781,6 +781,7 @@ class OfertaHandlowaController extends Controller
             $ofertaHandlowa->getOfertyDodatki()->add($ofertaDodatek);
             $ofertaDodatek->setOferta($ofertaHandlowa);
         }
+        $ofertaHandlowa->setDataKoncaWaznosci((new \DateTime())->add(new \DateInterval('P90D')));
 
         $previousUrl = $this->get('request')->headers->get('referer');
 
@@ -828,6 +829,18 @@ class OfertaHandlowaController extends Controller
                     'mapped'        =>  false,
                     'required'      =>  false,
                     'label'         =>  false,
+                )
+            )
+            ->add('dataKoncaWaznosci',null,array(
+                    'label'     =>  'Koniec ważności',
+                    'widget'    =>  'single_text',
+                    'label_attr'=>  array('class' => 'col-sm-2'),
+                )
+            )
+            ->add('informacjaDodatkowa',null,array(
+                    'label'     =>  'Opis dodatkowy',
+                    'label_attr'=>  array('class' => 'col-sm-2'),
+                    'attr'      =>  array('class' => 'tinymce')
                 )
             )
             ->getForm();
