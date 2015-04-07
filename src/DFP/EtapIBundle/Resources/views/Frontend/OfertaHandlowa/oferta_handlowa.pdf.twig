@@ -27,7 +27,7 @@
         <h1 class="text-center text-uppercase"><strong>Oferta</strong></h1>
         <h2 class="text-center text-uppercase"><strong>farby przemysłowe</strong></h2>
         <div class="container text-center">
-            <img style="margin: auto; width: 50mm;" src="{{ asset("css/images/logobesa.jpg", absolute=true) }}" />
+            <img style="margin: auto; width: 50mm;" src="{{ asset("css/images/logobesa_1.jpg", absolute=true) }}" />
         </div>
         <div id="first-page-footer" class="container">
             <div class="row text-left">
@@ -109,20 +109,10 @@
                                                     <td class="col-cena">{{ cena.kolor }}</td>
                                                 </tr>
                                             {% endfor %}
-                                            {% for cena in ofertaProdukt.ceny %}
-                                                <tr>
-                                                    <td class="col-cena">{{ cena.kolor }}</td>
-                                                </tr>
-                                            {% endfor %}
                                         </table>
                                     </td>
                                     <td>
                                         <table class="table-embed">
-                                            {% for cena in ofertaProdukt.ceny %}
-                                                <tr>
-                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
-                                                </tr>
-                                            {% endfor %}
                                             {% for cena in ofertaProdukt.ceny %}
                                                 <tr>
                                                     <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
@@ -177,20 +167,10 @@
                                                     <td class="col-cena">{{ cena.kolor }}</td>
                                                 </tr>
                                             {% endfor %}
-                                            {% for cena in ofertaProdukt.ceny %}
-                                                <tr>
-                                                    <td class="col-cena">{{ cena.kolor }}</td>
-                                                </tr>
-                                            {% endfor %}
                                         </table>
                                     </td>
                                     <td>
                                         <table class="table-embed">
-                                            {% for cena in ofertaProdukt.ceny %}
-                                                <tr>
-                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
-                                                </tr>
-                                            {% endfor %}
                                             {% for cena in ofertaProdukt.ceny %}
                                                 <tr>
                                                     <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
