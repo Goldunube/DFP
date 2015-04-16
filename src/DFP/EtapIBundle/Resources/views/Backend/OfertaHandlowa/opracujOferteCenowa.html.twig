@@ -418,6 +418,9 @@
                 </a>
             </li>
             {% if form.submit is defined %}
+                <li> <button class="art-button zielony" name="{{ form.zapisz.vars.full_name }}" id="{{ form.zapisz.vars.id }}" type="submit">Tylko zapisz</button> </li>
+            {% endif %}
+            {% if form.submit is defined %}
                 <li> <button class="art-button zielony" name="{{ form.submit.vars.full_name }}" id="{{ form.submit.vars.id }}" type="submit">Zapisz i zamknij</button> </li>
             {% endif %}
 

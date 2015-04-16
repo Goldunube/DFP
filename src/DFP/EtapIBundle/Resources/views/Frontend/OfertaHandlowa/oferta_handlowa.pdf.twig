@@ -96,7 +96,7 @@
                                                 w proporcji
                                                 {% for produktUtwardzacz in przygotowanieDoAplikacji.produktyUtwardzacze %}
                                                     {{ loop.first == false ? 'lub ' }}
-                                                    {{ produktUtwardzacz.proporcjaMieszaniaObjetosciowo }} obj. z utw. {{ produktUtwardzacz.utwardzacz.nazwaHandlowa }} <br>
+                                                    {{ produktUtwardzacz.proporcjaMieszaniaWagowo }} obj. z utw. {{ produktUtwardzacz.utwardzacz.nazwaHandlowa }} <br>
                                                 {% endfor %}
                                             {% endif %}
                                         </div>

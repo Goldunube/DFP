@@ -873,6 +873,8 @@ class OfertaHandlowaController extends Controller
             {
                 $this->anulujOferteHandlowa($request, $id);
                 return $this->redirect($this->generateUrl('backend_oferty_handlowe_oczekujace_oh'));
+            }elseif($form->has('zapisz') && $form->get('zapisz')->isClicked()){
+
             }
             $ofertaHandlowa->setKoordynatorDFP($this->getUser());
             $em->persist($ofertaHandlowa);
