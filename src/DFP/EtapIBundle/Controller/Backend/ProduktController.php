@@ -2,8 +2,11 @@
 
 namespace DFP\EtapIBundle\Controller\Backend;
 
+use DFP\EtapIBundle\Entity\ProduktNotatka;
 use DFP\EtapIBundle\Entity\ProduktUtwardzacz;
+use DFP\EtapIBundle\Form\ProduktNotatkaType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -365,6 +368,48 @@ class ProduktController extends Controller
             array(
                 'Content-Type'          => 'application/pdf',
                 'Content-Disposition'   => 'filename="karta_techniczna.pdf"'
+            )
+        );
+    }
+
+    /**
+     * @Route("/{id}/notatka/new", name="backend_produkt_nowa_notatka")
+     * @Method({"GET","POST"})
+     */
+    public function newProduktNotatkaAction(Produkt $produkt, Request $request)
+    {
+        if(!$produkt)
+        {
+            throw $this->createNotFoundException('Nie można dodać notatki do nieistniejącego produktu.');
+        }
+
+        $produktNotatka = new ProduktNotatka();
+        $produktNotatka->setProdukt($produkt);
+
+        $form = $this->createForm(new ProduktNotatkaType(), $produktNotatka, array(
+                'action'    =>  $this->generateUrl('backend_produkt_nowa_notatka', array('id'=>$produkt->getId())),
+                'method'    =>  'POST'
+            )
+        );
+
+        $form->add('submit','submit',array('label'=>'Utwórz'));
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($produktNotatka);
+            //$em->flush();
+
+            $response = new JsonResponse();
+            $response->setData(array('status'=>'ok','msg'=>'Notatka została dodana poprawnie.','content'=>$produktNotatka->getTresc()));
+
+            return $response;
+        }
+
+        return $this->render('@DFPEtapI/Backend/Produkt/notatka.new.html.twig',
+            array(
+                'form'  =>  $form->createView()
             )
         );
     }

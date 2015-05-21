@@ -693,6 +693,28 @@
         {{ form_end(delete_form) }}
     </section>
 
+    <aside id="produkty-notatki-container">
+        <div class="produkty-notatki-wrapper">
+            <div class="notatki-stare-container">
+                {% for notatka in entity.notatki %}
+                    <div class="notatka">
+                        <div class="notatka-header">{{ notatka.autor }}<span class="notatka-header-data">Data dodania: {{ notatka.createDate|date('Y-m-d H:i:s') }}</span></div>
+                        <div class="notatka-content">{{ notatka.tresc }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="notatka-nowa">
+                <div class="notatka-content">
+                    {{ render(controller('DFPEtapIBundle:Backend/Produkt:newProduktNotatka', { 'id' : entity.id })) }}
+                </div>
+            </div>
+        </div>
+        <div class="produkty-notatki-footer text-right">
+            <a href="#" id="nowa-notatka-toggle-btn">Nowa notatka</a>
+        </div>
+        <a href="javascript: void(0);" class="listek" ><span>Notatki</span></a>
+    </aside>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -700,4 +722,46 @@
     $('#utwardzacze-collection').collectionManager('<div class="row"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div></div>');
     $('#rozcienczalniki-collection').collectionManager('<div class="row"><div class="col-sm-5"></div><div class="col-sm-4"></div><div class="col-sm-3"></div></div>');
     $('.selectpicker').selectpicker();
+
+    $('#produkty-notatki-container').on('click','.listek',function() {
+        var dystans = $('#produkty-notatki-container').css('left');
+
+        if(dystans == "auto" || dystans == "0px")
+        {
+            $('#produkty-notatki-container').animate({
+                left: "-80%"
+            }, 1000, 'easeInQuint'
+                )
+            } else {
+                $('#produkty-notatki-container').animate({
+                left: "0px"
+                }, 1000, 'easeOutQuint'
+            )
+        }
+    });
+
+    $('#nowa-notatka-toggle-btn').click(function(e){
+        e.preventDefault();
+        $('.notatka-nowa').toggle();
+    });
+
+    $('.notatka-nowa').on('submit','form[name="dfp_produktnotatka"]', function(e) {
+        e.preventDefault(e);
+        var $form = $(this);
+        var url = $form.attr('action');
+        var method = $form.attr('method');
+        $.ajax({
+            url:    url,
+            type:   method,
+            data:   $form.serialize()
+        }).done(function(resp){
+            var $notatkaContainer = $('<div/>',{class:'notatka'});
+            var $notatka = $notatkaContainer.append(resp.content);
+            $('.notatki-stare-container').prepend($notatka);
+        }).error(function(xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
+        })
+    })
+
 {% endblock javascripts %}

@@ -379,3 +379,72 @@ footer p {
 .ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+
+/*      USTAIWENIA KALENDARZA BOCZNEGO      */
+#produkty-notatki-container {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-image: none;
+    left: 0;
+    position: fixed;
+    bottom: 8%;
+    width: 80%;
+    height: 40%;
+    z-index: 1001;
+    outline: 0;
+    border-radius: 0 5px 5px 0;
+    padding: 10px 25px;
+    border: 1px solid #ddd;
+    background-color: #ffff61;
+}
+#produkty-notatki-container a {
+    outline: 0;
+}
+.notatka {
+    margin-bottom: 10px;
+}
+.notatka-header {
+    font-weight: 700;
+}
+.notatka-header-data {
+    float: right;
+}
+.produkty-notatki-footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #888888;
+}
+#produkty-notatki-container .listek {
+    border-color: #ddd #ddd;
+    border-radius: 5px 5px 0 0;
+    border-style: solid;
+    border-width: 1px;
+    color: #ddd;
+    display: block;
+    right: -61px;
+    padding: 5px;
+    position: absolute;
+    top: 70px;
+    transform: rotate(90deg);
+    /* Safari */
+    -webkit-transform: rotate(90deg);
+    /* Firefox */
+    -moz-transform: rotate(90deg);
+    /* IE */
+    -ms-transform: rotate(90deg);
+    /* Opera */
+    -o-transform: rotate(90deg);
+    width: 90px;
+    z-index: 1001;
+    background-color: #fbda6f;
+}
+#produkty-notatki-container .listek span {
+    color: #428bca;
+}
+#produkty-notatki-container .notatka-nowa {
+    display: none;
+}
+
+/*      KONIEC USTAWIEŃ KALENDARZA BOCZNEGO     */

@@ -216,6 +216,14 @@ class Produkt
     private $producent = 0;
 
     /**
+     * @var integer
+     * @ORM\OneToMany(targetEntity="DFP\EtapIBundle\Entity\ProduktNotatka", mappedBy="produkt", cascade={"persist"}, orphanRemoval=true)
+     * @Assert\Valid()
+     * @ORM\OrderBy({"createDate" = "DESC"})
+     */
+    private $notatki;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -225,6 +233,7 @@ class Produkt
         $this->metodyAplikacji = new ArrayCollection();
         $this->produktyUtwardzacze = new ArrayCollection();
         $this->produktyRozcienczalniki = new ArrayCollection();
+        $this->notatki = new ArrayCollection();
     }
 
     /**
@@ -909,5 +918,38 @@ class Produkt
     public function setProducent($producent)
     {
         $this->producent = $producent;
+    }
+
+    /**
+     * Add notatki
+     *
+     * @param ProduktNotatka $notatki
+     * @return Produkt
+     */
+    public function addNotatki(ProduktNotatka $notatki)
+    {
+        $this->notatki[] = $notatki;
+
+        return $this;
+    }
+
+    /**
+     * Remove notatki
+     *
+     * @param ProduktNotatka $notatki
+     */
+    public function removeNotatki(ProduktNotatka $notatki)
+    {
+        $this->notatki->removeElement($notatki);
+    }
+
+    /**
+     * Get notatki
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotatki()
+    {
+        return $this->notatki;
     }
 }

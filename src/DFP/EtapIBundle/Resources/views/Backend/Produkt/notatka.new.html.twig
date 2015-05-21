@@ -1,0 +1,9 @@
+{% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
+
+
+{{ form_start(form) }}
+{{ form_widget(form.tresc,{ 'attr' : { 'style' : 'width:100%;' } }) }}
+<div style="width:100%; text-align:right; margin: 5px 0;">
+    {{ form_widget(form.submit, { 'attr' : { 'class' : 'btn btn-success btn-xs' } }) }}
+</div>
+{{ form_end(form) }}
