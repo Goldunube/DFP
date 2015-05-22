@@ -3,9 +3,8 @@
 namespace DFP\EtapIBundle\Controller\Backend;
 
 use DFP\EtapIBundle\Entity\ProduktNotatka;
-use DFP\EtapIBundle\Entity\ProduktUtwardzacz;
 use DFP\EtapIBundle\Form\ProduktNotatkaType;
-use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -165,10 +164,17 @@ class ProduktController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
+        if($this->get('security.authorization_checker')->isGranted('ROLE_KDFP') or $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        {
+            $csrfProvider = $this->get('form.csrf_provider');
+        }
+
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'csrf_provider' =>  isset($csrfProvider) ? $csrfProvider : null,
+            'token'         =>  'DFPdel%d',
         );
     }
 
@@ -397,12 +403,19 @@ class ProduktController extends Controller
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($produktNotatka);
-            //$em->flush();
+            if($this->isGranted('ROLE_KDFP') or $this->isGranted('ROLE_TECHNIK') or $this->isGranted('ROLE_ADMIN'))
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($produktNotatka);
+                $em->flush();
 
-            $response = new JsonResponse();
-            $response->setData(array('status'=>'ok','msg'=>'Notatka została dodana poprawnie.','content'=>$produktNotatka->getTresc()));
+                $response = new JsonResponse();
+                $response->setData(array('status'=>'ok','msg'=>'Notatka została dodana poprawnie.','notatka'=>array('header'=>sprintf("%s <span class='notatka-header-data'>Data dodania: %s | <a href='#' class='text-danger usun-notatke'>Usuń</a></span>",$produktNotatka->getAutor(),$produktNotatka->getCreateDate()->format('Y-m-d H:i:s')),'content'=>$produktNotatka->getTresc())));
+            }else{
+                $response = new JsonResponse();
+                $response->setData(array('message'=>'Brak uprawnień.'));
+                $response->setStatusCode(403);
+            }
 
             return $response;
         }
@@ -412,5 +425,32 @@ class ProduktController extends Controller
                 'form'  =>  $form->createView()
             )
         );
+    }
+
+    /**
+     * @Route("/notatka/{id}/{token}", name="backend_produkt_usun_notatke")
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_KDFP') or has_role('ROLE_TECHNIK') or has_role('ROLE_ADMIN')")
+     */
+    public function deleteProduktNotatkaAction(ProduktNotatka $produktNotatka, $token)
+    {
+        $validToken = sprintf('DFPdel%d',$produktNotatka->getId());
+        if(!$this->get('form.csrf_provider')->isCsrfTokenValid($validToken,$token))
+        {
+            throw $this->createAccessDeniedException('Błędny token akcji usuwania.');
+        }
+
+        if(!$produktNotatka)
+        {
+            throw $this->createNotFoundException('Nie ma notatki o wskazanym identyfikatorze.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($produktNotatka);
+        $em->flush();
+
+        return new JsonResponse(array(
+            'msg'   =>  'Notatka została usunięta.'
+        ));
     }
 }

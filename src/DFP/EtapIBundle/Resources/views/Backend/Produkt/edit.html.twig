@@ -9,10 +9,12 @@
 
 {% block javascript %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/i18n/defaults-pl_PL.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/dfpetapi/js/dfp_obsluga_formularzy.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/dfpetapi/js/produkt_notatka.js') }}"></script>
 {% endblock javascript %}
 
 {% form_theme edit_form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
@@ -484,12 +486,12 @@
         <hr>
         <div class="panel panel-info">
             <div class="panel-heading">
-                <a href="#panel-suszenie"data-toggle="collapse" data-parent="#panel-suszenie">Suszenie</a>
+                <a href="#panel-suszenie" data-toggle="collapse" data-parent="#panel-suszenie">Suszenie</a>
             </div>
             <div id="panel-suszenie" class="panel-body collapse in">
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <a href="#panel-suszenie-otoczenie"data-toggle="collapse" data-parent="#panel-suszenie-otoczenie">Poza kabiną (otoczenie)</a>
+                        <a href="#panel-suszenie-otoczenie" data-toggle="collapse" data-parent="#panel-suszenie-otoczenie">Poza kabiną (otoczenie)</a>
                     </div>
                     <div id="panel-suszenie-otoczenie" class="panel-body collapse in">
                         <div class="form-group ">
@@ -553,7 +555,7 @@
                 </div>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
-                        <a href="#panel-suszenie-kabina"data-toggle="collapse" data-parent="#panel-suszenie-kabina">W kabinie lakierniczej</a>
+                        <a href="#panel-suszenie-kabina" data-toggle="collapse" data-parent="#panel-suszenie-kabina">W kabinie lakierniczej</a>
                     </div>
                     <div id="panel-suszenie-kabina" class="panel-body collapse in">
                         <div class="form-group ">
@@ -620,7 +622,7 @@
         </div>
         <div class="panel panel-info">
             <div class="panel-heading">
-                <a href="#panel-charakterystyka-produktu"data-toggle="collapse" data-parent="#panel-charakterystyka-produktu">Charakterystyka produktu</a>
+                <a href="#panel-charakterystyka-produktu" data-toggle="collapse" data-parent="#panel-charakterystyka-produktu">Charakterystyka produktu</a>
             </div>
             <div id="panel-charakterystyka-produktu" class="panel-body collapse in">
                 <div class="form-group ">
@@ -698,8 +700,9 @@
             <div class="notatki-stare-container">
                 {% for notatka in entity.notatki %}
                     <div class="notatka">
-                        <div class="notatka-header">{{ notatka.autor }}<span class="notatka-header-data">Data dodania: {{ notatka.createDate|date('Y-m-d H:i:s') }}</span></div>
-                        <div class="notatka-content">{{ notatka.tresc }}</div>
+                        {% set delete_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(notatka.id)) : null %}
+                        <div class="notatka-header">{{ notatka.autor }}<span class="notatka-header-data">Data dodania: {{ notatka.createDate|date('Y-m-d H:i:s') }} | <a href="{{ path('backend_produkt_usun_notatke', { 'id' : notatka.id, 'token' : delete_token } ) }}" class="text-danger usun-notatke">Usuń</a></span></div>
+                        <div class="notatka-content">{{ notatka.tresc|raw }}</div>
                     </div>
                 {% endfor %}
             </div>
@@ -715,53 +718,11 @@
         <a href="javascript: void(0);" class="listek" ><span>Notatki</span></a>
     </aside>
 
+    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Potwierdzenie spowoduje nieodwracalne usunięcie elementu z bazy danych Portalu DFP.</p>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    $('#utwardzacze-collection').collectionManager('<div class="row"><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div><div class="col-sm-3"></div></div>');
-    $('#rozcienczalniki-collection').collectionManager('<div class="row"><div class="col-sm-5"></div><div class="col-sm-4"></div><div class="col-sm-3"></div></div>');
-    $('.selectpicker').selectpicker();
-
-    $('#produkty-notatki-container').on('click','.listek',function() {
-        var dystans = $('#produkty-notatki-container').css('left');
-
-        if(dystans == "auto" || dystans == "0px")
-        {
-            $('#produkty-notatki-container').animate({
-                left: "-80%"
-            }, 1000, 'easeInQuint'
-                )
-            } else {
-                $('#produkty-notatki-container').animate({
-                left: "0px"
-                }, 1000, 'easeOutQuint'
-            )
-        }
-    });
-
-    $('#nowa-notatka-toggle-btn').click(function(e){
-        e.preventDefault();
-        $('.notatka-nowa').toggle();
-    });
-
-    $('.notatka-nowa').on('submit','form[name="dfp_produktnotatka"]', function(e) {
-        e.preventDefault(e);
-        var $form = $(this);
-        var url = $form.attr('action');
-        var method = $form.attr('method');
-        $.ajax({
-            url:    url,
-            type:   method,
-            data:   $form.serialize()
-        }).done(function(resp){
-            var $notatkaContainer = $('<div/>',{class:'notatka'});
-            var $notatka = $notatkaContainer.append(resp.content);
-            $('.notatki-stare-container').prepend($notatka);
-        }).error(function(xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-        })
-    })
-
 {% endblock javascripts %}

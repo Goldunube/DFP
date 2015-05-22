@@ -105,11 +105,19 @@ $(document).ready(function()
         width: 500,
         modal: true,
         buttons: {
-            "Tak, anuluj zamówienie": function() {
-                $('#form_anuluj').click();
+            Ok: {
+                text: 'Tak, anuluj zamówienie',
+                class: 'btn btn-xs btn-danger',
+                click: function() {
+                    $('#form_anuluj').click();
+                }
             },
-            "Nie, rezygnuje": function(event) {
-                $( this ).dialog( "close" );
+            Cancel: {
+                text: 'Tak, anuluj zamówienie',
+                class: 'btn btn-xs btn-primary',
+                click: function() {
+                    $( this ).dialog( "close" );
+                }
             }
         },
         show: {

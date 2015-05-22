@@ -1,19 +1,32 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% block content -%}
-    <section>
-        <h1>Lista produktów</h1>
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/layout-bootstrap-clear.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
 
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    <h1>Lista produktów</h1>
+    <nav>
         <div style="margin-bottom: 20px; height: auto; overflow: auto;">
             {{ knp_pagination_filter(lista_produktow, { 'p.nazwaHandlowa': 'Nazwa' }) }}
         </div>
+    </nav>
 
-        <table class="records_list">
+    <section class="container-fluid">
+        <table class="table table-bordered table-responsive table-striped records_list">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>{{ knp_pagination_sortable(lista_produktow,'Nazwa','p.nazwaHandlowa') }}</th>
-                    <th>{{ knp_pagination_sortable(lista_produktow,'Grupa promowania','p.grupaPromowania') }}</th>
+                    <th>{{ knp_pagination_sortable(lista_produktow,'Rodzaj','p.grupaProduktow') }}</th>
                     <th>Uwagi</th>
                     <th></th>
                 </tr>
@@ -23,17 +36,13 @@
                 <tr>
                     <td><a href="{{ path('backend_produkty_show', { 'id': produkt.id }) }}">{{ produkt.id }}</a></td>
                     <td>{{ produkt.nazwaHandlowa }}</td>
-                    <td>{{ produkt.grupaPromowania }}</td>
+                    <td>{{ produkt.grupaProduktow }}</td>
                     <td>{{ produkt.uwagi }}</td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('backend_produkty_show', { 'id': produkt.id }) }}" class="art-button maly zielony">pokaż</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('backend_produkty_edit', { 'id': produkt.id }) }}" class="art-button maly pomaranczowy">edytuj</a>
-                            </li>
-                        </ul>
+                    <td style="width: 105px; vertical-align: middle;">
+                        <div class="btn-group btn-group-xs">
+                            <a href="{{ path('backend_produkty_show', { 'id': produkt.id }) }}" class="btn btn-primary">pokaż</a>
+                            <a href="{{ path('backend_produkty_edit', { 'id': produkt.id }) }}" class="btn btn-warning">edytuj</a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

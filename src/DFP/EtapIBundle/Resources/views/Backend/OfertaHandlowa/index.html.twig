@@ -49,7 +49,7 @@
                             <div class="btn-group btn-group-xs">
                                 <a href="{{ path('oferta_handlowa_pdf', { 'id' : oferta.id }) }}" class="btn btn-primary">PDF</a>
                                 <a href="{{ path('backend_pokaz_zrealizowana_oferte_handlowa', {'id':oferta.id}) }}" class="btn btn-success" style="float: left;">Pokaż</a>
-                                {{ form_widget(delete_forms[oferta.id].submit, {'attr': {'class':'btn btn-danger','style':'float:right;'} }) }}
+                                {{ form_widget(delete_forms[oferta.id].submit, {'attr': {'class':'btn btn-danger confirm-delete','style':'float:right;'} }) }}
                             </div>
                         {{ form_end(delete_forms[oferta.id]) }}
                     </td>
@@ -113,12 +113,20 @@
         height: 180,
         modal: true,
         buttons: {
-            "Usuń": function() {
-                $( this ).dialog( "close" );
-                $(this).data('submit-form').submit();
+            Ok: {
+                text: 'Usuń',
+                class: 'btn btn-xs btn-danger',
+                click: function() {
+                    $( this ).dialog( "close" );
+                    $(this).data('submit-form').submit();
+                }
             },
-            Anuluj: function(event) {
-                $( this ).dialog( "close" );
+            Cancel: {
+                text: 'Anuluj',
+                class: 'btn btn-xs btn-primary',
+                click: function(event) {
+                    $( this ).dialog( "close" );
+                }
             }
         },
         show: {

@@ -368,6 +368,9 @@ footer p {
 .flash-success {
     color: darkgreen;
 }
+.ui-datepicker-title {
+    color: #000;
+}
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
@@ -387,12 +390,12 @@ footer p {
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     border-image: none;
-    left: 0;
+    left: -80%;
     position: fixed;
     bottom: 8%;
     width: 80%;
     height: 40%;
-    z-index: 1001;
+    z-index: 100;
     outline: 0;
     border-radius: 0 5px 5px 0;
     padding: 10px 25px;
@@ -437,11 +440,16 @@ footer p {
     /* Opera */
     -o-transform: rotate(90deg);
     width: 90px;
-    z-index: 1001;
+    z-index: 100;
     background-color: #fbda6f;
 }
+.produkty-notatki-wrapper {
+    height: 85%;
+    overflow-y: scroll;
+    padding-right: 15px;
+}
 #produkty-notatki-container .listek span {
-    color: #428bca;
+    color: #003b6f;
 }
 #produkty-notatki-container .notatka-nowa {
     display: none;

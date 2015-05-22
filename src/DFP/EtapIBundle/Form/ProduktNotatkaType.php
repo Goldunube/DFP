@@ -15,7 +15,11 @@ class ProduktNotatkaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tresc',null,array('label'=>'Treść'))
+            ->add('tresc',null,array(
+                    'label'     =>  'Treść',
+                    'required'  =>  false
+                )
+            )
         ;
     }
     

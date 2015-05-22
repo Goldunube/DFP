@@ -1,5 +1,17 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/layout-bootstrap-clear.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
 {% form_theme delete_form _self %}
 
 {% block button_widget %}
@@ -11,46 +23,416 @@
     {% endspaceless %}
 {% endblock button_widget %}
 
+{% macro row(label, value) %}
+    <div class="row">
+        <div class="col-xs-3">
+            <strong>{{ label }}</strong>
+        </div>
+        <div class="col-xs-9">
+            {{ value|default(" - ") }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as data %}
+
 {% block content -%}
-    <h1>Produkt</h1>
+    <h1>{{ entity.nazwaHandlowa }} <small>({{ entity.grupaProduktow|lower }})</small></h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Nazwahandlowa</th>
-                <td>{{ entity.nazwaHandlowa }}</td>
-            </tr>
-            <tr>
-                <th>Grupapromowania</th>
-                <td>{{ entity.grupaPromowania }}</td>
-            </tr>
-            <tr>
-                <th>Uwagi</th>
-                <td>{{ entity.uwagi }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <hr>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('backend_produkty') }}" class="art-button">
-                Powrót do listy
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('backend_produkty_edit', { 'id': entity.id }) }}" class="art-button">
-                Edytuj
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('backend_produkt_karta_techniczna_pdf', { 'id': entity.id }) }}" class="art-button">
-                PDF
-            </a>
-        </li>
-        <li>{{ form(delete_form) }}</li>
-    </ul>
+    <section class="container-fluid">
+        <h4>Informacje podstawowe</h4>
+        {{ data.row('Producent',entity.producent) }}
+        {{ data.row('Nazwa techniczna',entity.nazwaTechniczna) }}
+        {{ data.row('Kod fabryczny',entity.kodFabrycznyProduktu) }}
+        {{ data.row('Numer edycji BESA',entity.numerEdycjiBESA) }}
+        {{ data.row('Numer edycji CSV',entity.numerEdycjiCSV) }}
+        {{ data.row('Grupa produktu',entity.grupaProduktow) }}
+        {{ data.row('Grupa promowania',entity.grupaPromowania) }}
+        {{ data.row('Czas magazynowania',entity.czasMagazynowania) }}
+        {{ data.row('Czas magazynowania opis',entity.magazynowanieOpis) }}
+        {{ data.row('Opis podstawowy',entity.opisPodstawowy) }}
+        {{ data.row('Opis pełny',entity.opisPelny) }}
+        {{ data.row('Opis pełny',entity.opisPelny) }}
+
+        <hr>
+
+        <h4>Cechy techniczne</h4>
+        {{ data.row('Opis pełny',entity.cechyTechniczneProduktu.wlasciwosciMechaniczne) }}
+        {{ data.row('Test Erichsen',entity.cechyTechniczneProduktu.testErichsen) }}
+        {{ data.row('Udarność',entity.cechyTechniczneProduktu.udarnosc) }}
+        {{ data.row('Próba Mandrela',entity.cechyTechniczneProduktu.probaMandrela) }}
+        {{ data.row('Plastyczność',entity.cechyTechniczneProduktu.plastycznosc) }}
+        {{ data.row('Odporność na ścieranie',entity.cechyTechniczneProduktu.odpornoscScieranie) }}
+        {{ data.row('Odporność na media',entity.cechyTechniczneProduktu.odpornoscMedia) }}
+        {{ data.row('Odporność na mgłę solną',entity.cechyTechniczneProduktu.odpornoscMglaSolna) }}
+        {{ data.row('Odporność na parę wodną',entity.cechyTechniczneProduktu.odpornoscParaWodna) }}
+        {{ data.row('Odporność korozyjna',entity.cechyTechniczneProduktu.odpornoscKorozja) }}
+        {{ data.row('Odporność na ogień',entity.cechyTechniczneProduktu.odpornoscOgien) }}
+        {{ data.row('Odporność UV',entity.cechyTechniczneProduktu.odpornoscUV) }}
+        {{ data.row('Przyczepność',entity.cechyTechniczneProduktu.przyczepnosc) }}
+
+        <hr>
+
+        <h4>Dane techniczne</h4>
+        {{ data.row('Gęstość w 20 st.C','min: ' ~ entity.daneTechniczne.gestoscMIN ~ ' max: ' ~ entity.daneTechniczne.gestoscMAX) }}
+        {{ data.row('Gęstość mieszaniny','min: ' ~ entity.daneTechniczne.gestoscMieszaninyMIN ~ ' max: ' ~ entity.daneTechniczne.gestoscMieszaninyMAX) }}
+        {{ data.row('Lepkość fabryczna (stomer)','min: ' ~ entity.daneTechniczne.lepkoscFabrycznaStomerMIN ~ ' max: ' ~ entity.daneTechniczne.lepkoscFabrycznaStomerMAX) }}
+        {{ data.row('Lepkość fabryczna (ford nr 4)','min: ' ~ entity.daneTechniczne.lepkoscFabrycznaFordMIN ~ ' max: ' ~ entity.daneTechniczne.lepkoscFabrycznaFordMAX) }}
+        {{ data.row('Stopień rozdrobnienia ziarna','min: ' ~ entity.daneTechniczne.stopienRozdrobnieniaZiarnaMIN ~ ' max: ' ~ entity.daneTechniczne.stopienRozdrobnieniaZiarnaMAX) }}
+        {{ data.row('Zawartość części stałych','objętościowo: ' ~ entity.daneTechniczne.objZawartoscCzesciStalych|default('-') ~ ' wagowo: ' ~ entity.daneTechniczne.wagZawartoscCzesciStalych|default('-')) }}
+        {{ data.row('Zaw. części stałych (miesz.)','objętościowo: ' ~ entity.daneTechniczne.objZawartoscCzesciStalychMieszaniny|default('-') ~ ' wagowo: ' ~ entity.daneTechniczne.wagZawartoscCzesciStalychMieszaniny|default('-')) }}
+        {{ data.row('LZO', entity.daneTechniczne.lzo) }}
+        {{ data.row('LZO (dla mieszanki RFU)', entity.daneTechniczne.lzoRFU) }}
+        {{ data.row('Rodzaj produktu', entity.daneTechniczne.rodzajProduktu) }}
+        {{ data.row('Kolor', entity.daneTechniczne.kolor) }}
+
+        <hr>
+
+        <h4>Przygotowanie powierzchni</h4>
+        {{ data.row('Rodzaje powierzchni', entity.rodzajePowierzchni) }}
+        {{ data.row('Przygotowanie powierzchni', entity.przygotowaniePowierzchni) }}
+        {{ data.row('Uwagi', entity.przygotowaniePowierzchniUwagi) }}
+
+        <hr>
+
+        <h4>Przygotowanie do aplikacji</h4>
+        <div class="row">
+            <div class="col-xs-3">
+                <strong>Utwardzacze</strong>
+            </div>
+            <div class="col-xs-9">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Utwardzacz</th>
+                            <th colspan="2" style="text-align: center;">Proporcje</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 15%">Wagowo</th>
+                            <th style="width: 15%">Objętościowo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if entity.przygotowanieDoAplikacji.produktyUtwardzacze %}
+                        {% for produkt in entity.przygotowanieDoAplikacji.produktyUtwardzacze %}
+                            <tr>
+                                <td>{{ produkt.utwardzacz }}</td>
+                                <td>{{ produkt.proporcjaMieszaniaObjetosciowo }}</td>
+                                <td>{{ produkt.proporcjaMieszaniaWagowo }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <strong>Rozcieńczalniki</strong>
+            </div>
+            <div class="col-xs-9">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Rozcieńczalnik</th>
+                        <th style="width: 20%">Proporcje mieszania</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if entity.przygotowanieDoAplikacji.produktyRozcienczalniki %}
+                        {% for produkt in entity.przygotowanieDoAplikacji.produktyRozcienczalniki %}
+                            <tr>
+                                <td>{{ produkt.rozcienczalnik }}</td>
+                                <td>{{ produkt.proporcjaMieszania }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {{ data.row('Żywotność mieszany', entity.przygotowanieDoAplikacji.zywotnoscMieszaniny) }}
+        {{ data.row('Lepkość do aplikacji (stomer)', 'min: ' ~ entity.przygotowanieDoAplikacji.lepkoscStomerMIN|default('-') ~ ' max: ' ~ entity.przygotowanieDoAplikacji.lepkoscStomerMAX|default('-')) }}
+        {{ data.row('Lepkość do aplikacji (ford)', 'min: ' ~ entity.przygotowanieDoAplikacji.lepkoscFordMIN|default('-') ~ ' max: ' ~ entity.przygotowanieDoAplikacji.lepkoscFordMAX|default('-')) }}
+        {{ data.row('Zalecana grubość (sucho)', 'min: ' ~ entity.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMin|default('-') ~ ' max: ' ~ entity.przygotowanieDoAplikacji.zalecanaGruboscPowlokiSuchoMax|default('-')) }}
+        {{ data.row('Zalecana grubość (mokro)', 'min: ' ~ entity.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMin|default('-') ~ ' max: ' ~ entity.przygotowanieDoAplikacji.zalecanaGruboscPowlokiMokroMax|default('-')) }}
+        {{ data.row('Przyspieszacz', entity.przygotowanieDoAplikacji.przyspieszacz) }}
+        {{ data.row('Antygrafiti', entity.przygotowanieDoAplikacji.antygrafiti ? 'Tak' : 'Nie') }}
+        {{ data.row('Pasta matująca', entity.przygotowanieDoAplikacji.pastaMatujaca) }}
+        {{ data.row('Strukturyzator', entity.przygotowanieDoAplikacji.strukturyzator) }}
+        {{ data.row('TIX', entity.przygotowanieDoAplikacji.tix) }}
+        {{ data.row('Dodatki', entity.przygotowanieDoAplikacji.dodatki) }}
+        {{ data.row('Uwagi', entity.przygotowanieDoAplikacji.uwagi) }}
+
+        <hr>
+
+    </section>
+    {#<div class="panel panel-info">#}
+        {#<div class="panel-heading">#}
+            {#<a href="#panel-suszenie" data-toggle="collapse" data-parent="#panel-suszenie">Suszenie</a>#}
+        {#</div>#}
+        {#<div id="panel-suszenie" class="panel-body collapse in">#}
+            {#<div class="panel panel-success">#}
+                {#<div class="panel-heading">#}
+                    {#<a href="#panel-suszenie-otoczenie" data-toggle="collapse" data-parent="#panel-suszenie-otoczenie">Poza kabiną (otoczenie)</a>#}
+                {#</div>#}
+                {#<div id="panel-suszenie-otoczenie" class="panel-body collapse in">#}
+                    {#<div class="form-group ">#}
+                        {#<label class="col-sm-3 control-label">Pyłosuchość</label>#}
+                        {#<div class="col-lg-4">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Temperatura</span>#}
+                                {#{{ form_widget(edit_form.suszenie.pylosuchoscTemperaturaOtoczenie) }}#}
+                                {#<span class="input-group-addon">&deg;C</span>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-3">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Czas</span>#}
+                                {#{{ form_widget(edit_form.suszenie.pylosuchoscCzasOtoczenie) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-2">#}
+                            {#{{ form_widget(edit_form.suszenie.pylosuchoscCzasOtoczenieJednostka) }}#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="form-group ">#}
+                        {#<label class="col-sm-3 control-label">Odporność na dotyk</label>#}
+                        {#<div class="col-lg-4">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Temperatura</span>#}
+                                {#{{ form_widget(edit_form.suszenie.dotykTemperaturaOtoczenie) }}#}
+                                {#<span class="input-group-addon">&deg;C</span>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-3">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Czas</span>#}
+                                {#{{ form_widget(edit_form.suszenie.dotykCzasOtoczenie) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-2">#}
+                            {#{{ form_widget(edit_form.suszenie.dotykCzasOtoczenieJednostka) }}#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="form-group ">#}
+                        {#<label class="col-sm-3 control-label">Pełne utwardzenie</label>#}
+                        {#<div class="col-lg-4">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Temperatura</span>#}
+                                {#{{ form_widget(edit_form.suszenie.utwardzenieTemperaturaOtoczenie) }}#}
+                                {#<span class="input-group-addon">&deg;C</span>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-3">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Czas</span>#}
+                                {#{{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenie) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-2">#}
+                            {#{{ form_widget(edit_form.suszenie.utwardzenieCzasOtoczenieJednostka) }}#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="panel panel-warning">#}
+                {#<div class="panel-heading">#}
+                    {#<a href="#panel-suszenie-kabina" data-toggle="collapse" data-parent="#panel-suszenie-kabina">W kabinie lakierniczej</a>#}
+                {#</div>#}
+                {#<div id="panel-suszenie-kabina" class="panel-body collapse in">#}
+                    {#<div class="form-group ">#}
+                        {#<label class="col-sm-3 control-label">Wstępne</label>#}
+                        {#<div class="col-lg-4">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Temperatura</span>#}
+                                {#{{ form_widget(edit_form.suszenie.wstepneTemperaturaKabina) }}#}
+                                {#<span class="input-group-addon">&deg;C</span>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-3">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Czas</span>#}
+                                {#{{ form_widget(edit_form.suszenie.wstepneCzasKabina) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-2">#}
+                            {#{{ form_widget(edit_form.suszenie.wstepneCzasKabinaJednostka) }}#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<div class="form-group ">#}
+                        {#<label class="col-sm-3 control-label">Docelowe</label>#}
+                        {#<div class="col-lg-4">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Temperatura</span>#}
+                                {#{{ form_widget(edit_form.suszenie.doceloweTemperaturaKabina) }}#}
+                                {#<span class="input-group-addon">&deg;C</span>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-3">#}
+                            {#<div class="input-group">#}
+                                {#<span class="input-group-addon">Czas</span>#}
+                                {#{{ form_widget(edit_form.suszenie.doceloweCzasKabina) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-lg-2">#}
+                            {#{{ form_widget(edit_form.suszenie.doceloweCzasKabinaJednostka) }}#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="form-group ">#}
+                {#{{ form_label(edit_form.suszenie.infrared) }}#}
+                {#<div class="col-lg-4">#}
+                    {#<div class="input-group">#}
+                        {#<span class="input-group-addon">Czas</span>#}
+                        {#{{ form_widget(edit_form.suszenie.infrared) }}#}
+                        {#<span class="input-group-addon">[min]</span>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="form-group ">#}
+                {#{{ form_label(edit_form.suszenie.ultraviolet) }}#}
+                {#<div class="col-lg-4">#}
+                    {#<div class="input-group">#}
+                        {#<span class="input-group-addon">Czas</span>#}
+                        {#{{ form_widget(edit_form.suszenie.ultraviolet) }}#}
+                        {#<span class="input-group-addon">[min]</span>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    {#<div class="panel panel-info">#}
+        {#<div class="panel-heading">#}
+            {#<a href="#panel-charakterystyka-produktu" data-toggle="collapse" data-parent="#panel-charakterystyka-produktu">Charakterystyka produktu</a>#}
+        {#</div>#}
+        {#<div id="panel-charakterystyka-produktu" class="panel-body collapse in">#}
+            {#<div class="form-group ">#}
+                {#<label class="col-sm-3 control-label">Połysk pod kątem 60&deg;</label>#}
+                {#<div class="col-lg-4">#}
+                    {#<div class="input-group">#}
+                            {#<span class="input-group-addon">#}
+                                {#Od#}
+                            {#</span>#}
+                        {#{{ form_widget(edit_form.charakterystykaProduktu.polyskPodKatemMin) }}#}
+                        {#<span class="input-group-addon">#}
+                                {#&percnt;#}
+                            {#</span>#}
+                    {#</div>#}
+                    {#{{ form_errors(edit_form.charakterystykaProduktu.polyskPodKatemMin) }}#}
+                {#</div>#}
+                {#<div class="col-lg-4">#}
+                    {#<div class="input-group">#}
+                            {#<span class="input-group-addon">#}
+                                {#Do#}
+                            {#</span>#}
+                        {#{{ form_widget(edit_form.charakterystykaProduktu.polyskPodKatemMax) }}#}
+                        {#<span class="input-group-addon">#}
+                                {#&percnt;#}
+                            {#</span>#}
+                    {#</div>#}
+                    {#{{ form_errors(edit_form.charakterystykaProduktu.polyskPodKatemMax) }}#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="form-group ">#}
+                {#<label class="col-sm-3 control-label">Czas do przelakierowania</label>#}
+                {#<div class="col-lg-4">#}
+                    {#<div class="input-group">#}
+                            {#<span class="input-group-addon">#}
+                                {#Od#}
+                            {#</span>#}
+                        {#{{ form_widget(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMin) }}#}
+                        {#<span class="input-group-addon">#}
+                                {#[h]#}
+                            {#</span>#}
+                    {#</div>#}
+                    {#{{ form_errors(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMin) }}#}
+                {#</div>#}
+                {#<div class="col-lg-4">#}
+                    {#<div class="input-group">#}
+                            {#<span class="input-group-addon">#}
+                                {#Do#}
+                            {#</span>#}
+                        {#{{ form_widget(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMax) }}#}
+                        {#<span class="input-group-addon">#}
+                                {#[h]#}
+                            {#</span>#}
+                    {#</div>#}
+                    {#{{ form_errors(edit_form.charakterystykaProduktu.czasDoPrzelakierowaniaMax) }}#}
+                {#</div>#}
+            {#</div>#}
+            {#{{ form_row(edit_form.charakterystykaProduktu.uwagi) }}#}
+        {#</div>#}
+    {#</div>#}
+    {#{{ form_row(edit_form.uwagi) }}#}
+    {#{{ form_widget(edit_form.submit) }}#}
+    {#{{ form_end(edit_form) }}#}
+    {#<hr>#}
+    {#{{ form_start(delete_form) }}#}
+    {#<a href="{{ path('backend_produkty') }}" class="btn btn-warning">#}
+        {#<span class="glyphicon glyphicon-chevron-left"></span>#}
+        {#Powrót#}
+    {#</a>#}
+    {#{{ form_widget(delete_form.submit) }}#}
+    {#{{ form_end(delete_form) }}#}
+    {#</section>#}
+
+    {#<aside id="produkty-notatki-container">#}
+        {#<div class="produkty-notatki-wrapper">#}
+            {#<div class="notatki-stare-container">#}
+                {#{% for notatka in entity.notatki %}#}
+                    {#<div class="notatka">#}
+                        {#{% set delete_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(notatka.id)) : null %}#}
+                        {#<div class="notatka-header">{{ notatka.autor }}<span class="notatka-header-data">Data dodania: {{ notatka.createDate|date('Y-m-d H:i:s') }} | <a href="{{ path('backend_produkt_usun_notatke', { 'id' : notatka.id, 'token' : delete_token } ) }}" class="text-danger usun-notatke">Usuń</a></span></div>#}
+                        {#<div class="notatka-content">{{ notatka.tresc|raw }}</div>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#</div>#}
+            {#<div class="notatka-nowa">#}
+                {#<div class="notatka-content">#}
+                    {#{{ render(controller('DFPEtapIBundle:Backend/Produkt:newProduktNotatka', { 'id' : entity.id })) }}#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="produkty-notatki-footer text-right">#}
+            {#<a href="#" id="nowa-notatka-toggle-btn">Nowa notatka</a>#}
+        {#</div>#}
+        {#<a href="javascript: void(0);" class="listek" ><span>Notatki</span></a>#}
+    {#</aside>#}
+
+    {#<ul class="record_actions">#}
+        {#<li>#}
+            {#<a href="{{ path('backend_produkty') }}" class="art-button">#}
+                {#Powrót do listy#}
+            {#</a>#}
+        {#</li>#}
+        {#<li>#}
+            {#<a href="{{ path('backend_produkty_edit', { 'id': entity.id }) }}" class="art-button">#}
+                {#Edytuj#}
+            {#</a>#}
+        {#</li>#}
+        {#<li>#}
+            {#<a href="{{ path('backend_produkt_karta_techniczna_pdf', { 'id': entity.id }) }}" class="art-button">#}
+                {#PDF#}
+            {#</a>#}
+        {#</li>#}
+        {#<li>{{ form(delete_form) }}</li>#}
+    {#</ul>#}
+
+{#    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Potwierdzenie spowoduje nieodwracalne usunięcie elementu z bazy danych Portalu DFP.</p>
+    </div>#}
 {% endblock %}
