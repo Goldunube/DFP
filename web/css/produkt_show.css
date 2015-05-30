@@ -1,0 +1,32 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Condensed);
+
+.specyfikacja-wiersz {
+    font-family: 'Ubuntu Condensed', sans-serif;
+    border-top: 1px dotted #dfdfdf;
+    padding: 5px 0;
+    margin: 0 15px;
+    word-spacing: 1px;
+}
+.specyfikacja-wiersz:hover {
+    background-color: #c0d6e1;
+}
+.naglowek-sekcji {
+    border-top: 1px solid #efefef;
+    padding: 20px 0;
+}
+.naglowek-sekcji h4 {
+    background-color: #87CEEB;
+    margin: 10px 0;
+    padding: 5px;
+}
+.naglowek-sekcji h4 > a {
+    float: right;
+    color: #333;
+    margin-right: 5px;
+}
+.naglowek-wiersza::after {
+    content: ':';
+}
+#main table tbody td {
+    padding: 8px;
+}
