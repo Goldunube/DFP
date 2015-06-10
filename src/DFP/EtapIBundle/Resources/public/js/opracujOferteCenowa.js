@@ -43,8 +43,8 @@ $(document).ready(function()
     {
         e.preventDefault();
         $holderProdukt = $(this).closest('tr.produkt');
-        $holderProduktInfo = $holderProdukt.next('tr');
-        $holderProduktInfo.remove();
+//        $holderProduktInfo = $holderProdukt.next('tr');
+//        $holderProduktInfo.remove();
         $holderProdukt.remove();
     });
 
