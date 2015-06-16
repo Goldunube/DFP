@@ -39,12 +39,15 @@ header p.mapa-portal-dfp {
     margin: 3px 0 3px 5px;
     padding: 0 0 0 3px;
     width: 150px;
+    height: 19px;
+    color: #666666;
 }
 #login-form input[type="submit"] {
     left: 5px;
     position: relative;
     top: 28px;
     width: 65px;
+    color: #ffffff;
 }
 #login-form #remember-label {
     color: #666666;
@@ -456,3 +459,34 @@ footer p {
 }
 
 /*      KONIEC USTAWIEŃ KALENDARZA BOCZNEGO     */
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #ffffff;
+    background-color: #f48a23;
+}
+
+.wiadomosci-container {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+.wiadomosc-naglowek {
+    color: #f48a23;
+    font-weight: 700;
+}
+.wiadomosci-container .row {
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 5px;
+    padding-bottom: 15px;
+}
+.wiadomosc-info {
+    color: #c6c6c6;
+    font-size: 11px;
+}
+.wiadomosc-naglowek h4 {
+    margin-bottom: 0;
+}
+.wiadomosc-naglowek-container {
+}
+.wiadomosc-tresc {
+    margin-top: 5px;
+}

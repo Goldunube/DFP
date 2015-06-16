@@ -100,6 +100,50 @@ class DoPobrania
      */
     private $sort = 0;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="przyklejony")
+     */
+    private $przyklejony = false;
+
+    /**
+     * @var int
+     * @ORM\Column(name="wiadomosci_show")
+     */
+    private $wiadomosciShow = 0;
+
+    /**
+     * @param boolean $przyklejony
+     */
+    public function setPrzyklejony($przyklejony)
+    {
+        $this->przyklejony = $przyklejony;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getPrzyklejony()
+    {
+        return $this->przyklejony;
+    }
+
+    /**
+     * @param boolean $wiadomosciShow
+     */
+    public function setWiadomosciShow($wiadomosciShow)
+    {
+        $this->wiadomosciShow = $wiadomosciShow;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getWiadomosciShow()
+    {
+        return $this->wiadomosciShow;
+    }
+
 
     /**
      * Get id

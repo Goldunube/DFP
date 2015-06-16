@@ -40,6 +40,14 @@ class DoPobraniaType extends AbstractType
             )
             ->add('sort',null,array('label'=>'Kolejność'))
             ->add('zalacznik',new ZalacznikType())
+            ->add('wiadomosciShow','choice',array(
+                    'label'     =>  'Gdzie widoczny?',
+                    'choices'   =>  array(
+                        0       =>  'Tylko do pobrania',
+                        2       =>  'Do pobrania oraz aktualności'
+                    )
+                )
+            )
         ;
     }
     

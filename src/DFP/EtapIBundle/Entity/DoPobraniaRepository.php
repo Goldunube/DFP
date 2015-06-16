@@ -19,6 +19,21 @@ class DoPobraniaRepository extends EntityRepository
             ->leftJoin('p.author','a')
             ->leftJoin('p.zalacznik','z')
             ->orderBy('p.sort')
+            ->where('p.wiadomosciShow IN (0,2)')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findAllAktualnosciBySort()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p,a,z')
+            ->leftJoin('p.author','a')
+            ->leftJoin('p.zalacznik','z')
+            ->orderBy('p.przyklejony','DESC')
+            ->addOrderBy('p.sort')
+            ->where('p.wiadomosciShow IN (1,2)')
             ->getQuery();
 
         return $query->getResult();

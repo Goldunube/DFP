@@ -1,0 +1,36 @@
+{% extends '@DFPEtapI/layout.html.twig' %}
+
+{% block title %}Portal DFP - wykaz zmian{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content %}
+        <ul class="nav nav-tabs">
+            <li><a href="{{ path('strona_glowna') }}">Wiadomości</a></li>
+            <li class="active"><a href="{{ path('wykaz_zmian_show') }}">Wykaz zmian</a></li>
+        </ul>
+        <h1>Wykaz zmian</h1>
+        <p>Lista wszystkich zmian wprowadzanych do Portalu DFP.</p>
+
+        {#  Wersja [1.0.0] - (2015-06-16)   #}
+        <h3>Wersja 1.0.0 - 2015-06-16</h3>
+        <h5>Dodane</h5>
+        <ul>
+            <li>Ustalenie obecnego stanu aplikacji jako wersja 1.0.0.</li>
+            <li>Mechanizm wyświetlania, edycji oraz dodawania aktualności DFP</li>
+            <li>Mechanizm informowania o zmianach aplikacji</li>
+        </ul>
+        <h5>Zmienione</h5>
+        <ul>
+            <li>Wizualna zmiana głównej strony aplikacji</li>
+        </ul>
+{% endblock content %}

@@ -1,7 +1,9 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_1.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/notatki_layout.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
@@ -9,7 +11,9 @@
 {% endblock stylesheets %}
 
 {% block javascript %}
-    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/timepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
     <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>

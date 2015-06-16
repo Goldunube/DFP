@@ -53,6 +53,12 @@ strona_w_budowie:
         _controller:  FrameworkBundle:Template:template
         template:     DFPEtapIBundle::strona_w_budowie.html.twig
 
+wykaz_zmian_show:
+    path: /wykaz-zmian
+    defaults:
+        _controller:  FrameworkBundle:Template:template
+        template:     DFPEtapIBundle:Frontend/Default:wykazZmianShow.html.twig
+
 cennik_produktow_przemyslowych:
     path: /cennik-produktow-przemyslowych
     defaults:

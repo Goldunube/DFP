@@ -1,7 +1,92 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
-{% block content %}
-    <section style="background: url({{ asset('css/images/tlo.jpg') }}) no-repeat scroll 50% 0 / 100% 90% rgba(0, 0, 0, 0); display: block; width: 949px; height: 800px;">
+{% macro post(obj,token) %}
+    <div class="row">
+        <div class="wiadomosc-naglowek-container">
+            <div class="col-xs-10 wiadomosc-naglowek">
+                <h4>
+                    {% if obj.przyklejony %}
+                        <img src="{{ asset('css/images/alert.png') }}">
+                    {% endif %}
+                    {{ obj.title }}
+                </h4>
+            </div>
+            <div class="col-xs-2 text-right">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_KDFP') %}
+                    <a class="btn btn-xs btn-warning" href="{{ path('aktualnosci_edit', { 'slug' : obj.slug }) }}">Edytuj</a>
+                    <a class="btn btn-xs btn-danger btn-usun" href="{{ path('aktualnosci_usun', { 'id' : obj.id, 'token' : token }) }}">Usuń</a>
+                {% endif %}
+            </div>
+            <div class="col-xs-12 wiadomosc-info">
+                {{ obj.author }} | {{ obj.createDate|date('Y-m-d H:i:s') }}
+            </div>
+        </div>
+        <div class="col-xs-12 wiadomosc-tresc">
+            {{ obj.content|raw }}
+        </div>
+    </div>
+{% endmacro %}
 
+{% import _self as aktualnosci %}
+
+{% block title %}Portal DFP - aktualności{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content %}
+    <style scoped="scoped">
+        .btn-dodaj {
+            position: relative;
+            top: -40px;
+        }
+    </style>
+    <section class="container-fluid">
+        {% if app.user %}
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="{{ path('strona_glowna') }}">Wiadomości</a></li>
+                <li><a href="{{ path('wykaz_zmian_show') }}">Wykaz zmian</a></li>
+            </ul>
+        {% endif %}
+        {% if uprawnienia %}
+            <div class="btn-dodaj">
+                <a href="{{ path('aktualnosci_new') }}" class="btn btn-primary pull-right">Dodaj</a>
+            </div>
+        {% endif %}
+        <div class="wiadomosci-container">
+            {% for row in wiadomosci %}
+                {% set usun_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(row.id)) : null %}
+                {{ aktualnosci.post(row,usun_token) }}
+            {% endfor %}
+        </div>
     </section>
 {% endblock content %}
+
+{% block javascripts %}
+    $('body').on('click','.btn-usun',function(e)
+    {
+        e.preventDefault();
+        var $btn = $(this);
+        var $usunUrl = $btn.attr('href');
+        $.ajax({
+            url: $usunUrl,
+            type: 'DELETE',
+            success: function(json)
+            {
+                alert(json.message);
+                if(json.status === 'ok')
+                {
+                    $btn.closest('.row').remove();
+                }
+            }
+        })
+    })
+{% endblock javascripts %}

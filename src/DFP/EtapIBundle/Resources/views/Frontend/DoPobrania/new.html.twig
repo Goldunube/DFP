@@ -2,17 +2,6 @@
 
 {% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
-{% endblock stylesheets %}
-
-{% block javascript %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-{% endblock javascript %}
-
 {% block title %}Portal DFP - do pobrania | nowy{% endblock %}
 
 {% block content -%}

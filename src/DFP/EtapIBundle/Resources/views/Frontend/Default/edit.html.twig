@@ -1,0 +1,82 @@
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
+
+{% form_theme form '@DFPEtapI/Form/bootstrap_form.html.twig' %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block title %}Portal DFP - aktualności | edycja{% endblock %}
+
+{% block content -%}
+    <style type="text/css">
+        .container-fluid input[type="file"] {
+            height: auto;
+            background: none;
+            border: none;
+        }
+    </style>
+    <div class="container-fluid">
+        <h1 class="page-header">Aktualności <small>edytuj materiał</small></h1>
+
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Przyklejony</label>
+            <div class="col-sm-9">
+                {% for row in form.przyklejony %}
+                    <label class="radio-inline">
+                        {{ form_widget(row) }} {{ row.vars.label }}
+                    </label>
+                {% endfor %}
+            </div>
+
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_widget(form.submit) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {#  tinyMCE  #}
+    tinymce.init({
+    selector:'textarea',
+    plugins: 'paste,autosave,fullscreen,charmap',
+    toolbar: "styleselect | bold italic underline removeformat | justifyleft justifycenter justifyright justifyfull | bullist numlist | outdent indent | cut copy paste | charmap | undo redo | restoredraft | fullscreen",
+    toolbar_items_size : 'small',
+    paste_as_text: true,
+    paste_data_images: false,
+    browser_spellcheck : true,
+    font_formats: "Times New Roman=times new roman,times;",
+    keep_styles: false,
+    schema: "html5",
+    visual: true,
+    menubar : false,
+    height : 300,
+    table_default_border: 1,
+    table_default_cellpadding: 3,
+    table_default_cellspacing: 0,
+    entity_encoding : "raw",
+    language: 'pl',
+
+    style_formats : [
+    {title: 'Pogrubiony', inline: 'b', icon: 'bold'},
+    {title: 'Kursywa', inline: 'i', icon: 'italic'},
+    {title: 'Podkreślenie', inline: 'span', styles : {textDecoration : 'underline'}, icon: 'underline'},
+    {title: 'Indeks górny', inline: 'sup', icon: 'superscript'},
+    {title: 'Indeks dolny', inline: 'sub', icon: 'subscript'},
+    ],
+
+    });
+{% endblock javascripts %}
