@@ -484,9 +484,14 @@ footer p {
 }
 .wiadomosc-naglowek h4 {
     margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 24px;
 }
 .wiadomosc-naglowek-container {
 }
 .wiadomosc-tresc {
-    margin-top: 5px;
+    margin-top: 20px;
+    margin-left: 30px;
 }

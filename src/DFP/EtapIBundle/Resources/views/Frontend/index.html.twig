@@ -4,9 +4,9 @@
     <div class="row">
         <div class="wiadomosc-naglowek-container">
             <div class="col-xs-10 wiadomosc-naglowek">
-                <h4>
+                <h4 title="{{ obj.title }}">
                     {% if obj.przyklejony %}
-                        <img src="{{ asset('css/images/alert.png') }}">
+                        <img src="{{ asset('css/images/alert.png') }}" height="18px" style="margin-right: 5px;">
                     {% endif %}
                     {{ obj.title }}
                 </h4>
@@ -17,12 +17,12 @@
                     <a class="btn btn-xs btn-danger btn-usun" href="{{ path('aktualnosci_usun', { 'id' : obj.id, 'token' : token }) }}">Usuń</a>
                 {% endif %}
             </div>
-            <div class="col-xs-12 wiadomosc-info">
-                {{ obj.author }} | {{ obj.createDate|date('Y-m-d H:i:s') }}
-            </div>
         </div>
         <div class="col-xs-12 wiadomosc-tresc">
             {{ obj.content|raw }}
+        </div>
+        <div class="col-xs-12 wiadomosc-info text-right">
+            {{ obj.author }} | {{ obj.createDate|date('Y-m-d H:i:s') }}
         </div>
     </div>
 {% endmacro %}
