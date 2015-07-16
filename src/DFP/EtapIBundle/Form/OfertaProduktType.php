@@ -33,6 +33,7 @@ class OfertaProduktType extends AbstractType
                     'choices'   =>  array(
                         'l'     =>  'Litry',
                         'kg'    =>  'Kilogramy',
+                        'szt'   =>  'Sztuki'
                     ),
                     'preferred_choices' =>  array('l')
                 )

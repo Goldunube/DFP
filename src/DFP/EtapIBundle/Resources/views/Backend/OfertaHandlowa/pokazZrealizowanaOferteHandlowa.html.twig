@@ -259,10 +259,10 @@
                         <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [l]</td>
                         <td class="col-cena" colspan="2">
                             {% for cena in ofertaProdukt.ceny %}
-                                <div class="kolor-container" style="float: left;width: 50%">
+                                <div class="kolor-container" style="float: left; width: 50%">
                                     {{ cena.kolor }}
                                 </div>
-                                <div class="cena-container" style="float: right;width: 50%">
+                                <div class="cena-container" style="float: right; width: 50%">
                                     {{ cena.wartosc|number_format(2,',',' ') }} zł
                                 </div>
                             {% endfor %}

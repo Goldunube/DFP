@@ -922,6 +922,7 @@ class OfertaHandlowaController extends Controller
         $klient = $entity->getFilia()->getKlient();
         $produktyCenyLitry = new ArrayCollection();
         $produktyCenyKilogramy = new ArrayCollection();
+        $produktyCenySztuki = new ArrayCollection();
         $opisy_produktow = new ArrayCollection();
         foreach($entity->getOfertyProdukty() as $ofertaProdukt)
         {
@@ -935,6 +936,9 @@ class OfertaHandlowaController extends Controller
 
             if($ofertaProdukt->getOpakowanieJednostka() === 'kg')
                 $produktyCenyKilogramy->add($ofertaProdukt);
+
+            if($ofertaProdukt->getOpakowanieJednostka() === 'szt')
+                $produktyCenySztuki->add($ofertaProdukt);
         }
 
         $html = $this->renderView('@DFPEtapI/Frontend/OfertaHandlowa/oferta_handlowa.pdf.twig', array(
@@ -943,11 +947,15 @@ class OfertaHandlowaController extends Controller
                 'opisy_produktow'           =>  $opisy_produktow,
                 'lista_produktow_litry'     =>  $produktyCenyLitry,
                 'lista_produktow_kilogramy' =>  $produktyCenyKilogramy,
+                'lista_produktow_sztuki'    =>  $produktyCenySztuki
             )
         );
 
         $pdf = $this->get('knp_snappy.pdf');
         $pdf->setOption('encoding','utf-8');
+        $pdf->setOption('margin-left','0');
+        $pdf->setOption('margin-right','0');
+        $pdf->setOption('margin-bottom','0');
 
         return new Response(
             $pdf->getOutputFromHtml($html),
