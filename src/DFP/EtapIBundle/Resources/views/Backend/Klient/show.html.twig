@@ -11,85 +11,126 @@
     {% endspaceless %}
 {% endblock button_widget %}
 
-{% block content -%}
-    <section>
-        <h1>Karta klienta: {{ entity.nazwaSkrocona }}</h1>
+{% block stylesheets %}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+{% endblock stylesheets %}
 
-        <table class="karta-klienta">
-            <tbody>
-                <tr>
-                    <th>ID</th>
-                    <td>{{ entity.id }}</td>
-                </tr>
-                <tr>
-                    <th>Pełna nazwa klienta</th>
-                    <td>{{ entity.nazwaPelna }}</td>
-                </tr>
-                <tr>
-                    <th>Skrócona nazwa klienta</th>
-                    <td>{{ entity.nazwaSkrocona }}</td>
-                </tr>
-                <tr>
-                    <th>Adres strony WWW:</th>
-                    <td>
-                        {% if entity.stronaWWW %}
-                            <a class="link" href="{{ entity.stronaWWW }}" target="_blank">{{ entity.stronaWWW }}</a>
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Profil działalności</th>
-                    <td>
-                        {% for filia in entity.filie %}
-                            {{ filia.profileDzialalnosci|join(" | ") }}
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Data założenia karty</th>
-                    <td>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th>NIP</th>
-                    <td>{{ entity.nip|nip }}</td>
-                </tr>
-                <tr>
-                    <th>Kod MAXx</th>
-                    <td>{{ entity.kodMax }}</td>
-                </tr>
-                <tr>
-                    <th>Kanał Dystrybucji</th>
-                    <td>{{ entity.kanalDystrybucji }}</td>
-                </tr>
-                <tr>
-                    <th>Aktywny</th>
-                    <td>{{ entity.aktywny }}</td>
-                </tr>
-            </tbody>
-        </table>
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
+{% block content -%}
+    <style>
+        .panel-heading > a {
+            color: inherit;
+        }
+    </style>
+    <div class="page-header">
+        <h1>Karta klienta: {{ entity.nazwaSkrocona }}</h1>
+    </div>
+    <section class="container-fluid">
+        <dl class="dl-horizontal">
+            <dt>Identyfikator</dt>
+            <dd>{{ entity.id }}</dd>
+            <dt>Pełna nazwa</dt>
+            <dd>{{ entity.nazwaPelna }}</dd>
+            <dt>Skrócona nazwa</dt>
+            <dd>{{ entity.nazwaSkrocona }}</dd>
+            <dt>Adres strony WWW</dt>
+            <dd>
+                {% if entity.stronaWWW %}
+                    <a class="link" href="{{ entity.stronaWWW }}" target="_blank">{{ entity.stronaWWW }}</a>
+                {% endif %}
+            </dd>
+            <dt>Profil działalności</dt>
+            <dd>
+                {% for filia in entity.filie %}
+                    {{ filia.profileDzialalnosci|join(" | ") }}
+                {% endfor %}
+            </dd>
+            <dt>Data założenia karty</dt>
+            <dd>{{ entity.dataZalozenia|date('Y-m-d H:i:s') }}</dd>
+            <dt>NIP</dt>
+            <dd>{{ entity.nip|nip }}</dd>
+            <dt>Kod MAX</dt>
+            <dd>{{ entity.kodMax }}</dd>
+            <dt>Kanał Dystrybucji</dt>
+            <dd>{{ entity.kanalDystrybucji }}</dd>
+            <dt>Aktywny</dt>
+            <dd>{{ entity.aktywny ? "Tak" : "Nie" }}</dd>
+        </dl>
     </section>
 
-    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
-        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Potwierdzenie spowoduje nieodwracalne usunięcie elementu z bazy danych Portalu DFP.</p>
-    </div>
+    <section class="container-fluid">
+        <div class="row">
+            {% for filia in entity.filie %}
+                {% if filia.aktywna %}
+                    <div class="col-md-12 col-lg-6">
+                        <div class="panel panel-{{ loop.first ? "primary" : "info" }}">
+                            <div class="panel-heading"><a href="{{ path('backend_filia_show' , { 'id' : filia.id }) }}">{{ filia.nazwaFilii }} <span class="glyphicon glyphicon-link"></span></a></div>
+                            <table class="table">
+                                <tr>
+                                    <th>Adres</th>
+                                    <td>{{ filia.ulica|capitalize }}; {{ filia.kodPocztowy }} {{ filia.miejscowosc }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Przypisani</th>
+                                    <td>{{ filia.filieUzytkownicy|join(" | ") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Profile</th>
+                                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{ filia.nazwaFilii }}</div>
+                            <div class="panel-body">
+                                <dl class="dl-horizontal">
+                                    <dt>Adres</dt>
+                                    <dd>{{ filia.ulica }}; {{ filia.kodPocztowy }} {{ filia.miejscowosc }}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr>
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('backend_klient') }}" class="art-button">
+            <a href="{{ path('backend_klient') }}" class="btn btn-warning">
                 Powrót do listy
             </a>
         </li>
         <li>
-            <a href="{{ path('klient_edit', { 'id': entity.id }) }}" class="art-button">
+            <a href="{{ path('klient_edit', { 'id': entity.id }) }}" class="btn btn-primary">
                 Edytuj
             </a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                {{ form_row(delete_form.submit, {'attr' : {'class':'art-button czerwony confirm-delete'} }) }}
+            {{ form_row(delete_form.submit, {'attr' : {'class':'btn btn-danger confirm-delete pull-right'} }) }}
             {{ form_end(delete_form) }}
         </li>
     </ul>
+
+    <div id="dialog-delete-confirm" title="Czy na pewno chcesz usunąć ?">
+        <p style="text-align: left;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Potwierdzenie spowoduje nieodwracalne usunięcie elementu z bazy danych Portalu DFP.</p>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
