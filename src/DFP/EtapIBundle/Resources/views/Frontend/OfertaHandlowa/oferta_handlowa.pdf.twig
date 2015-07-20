@@ -210,13 +210,6 @@
                                 <div>
                                     <strong>{{ ofertaProdukt.produkt.nazwaHandlowa }}</strong> - {{ ofertaProdukt.produkt.nazwaTechniczna }}<br>
                                     {% set przygotowanieDoAplikacji = ofertaProdukt.produkt.przygotowanieDoAplikacji %}
-                                    {% if przygotowanieDoAplikacji %}
-                                        w proporcji
-                                        {% for produktUtwardzacz in przygotowanieDoAplikacji.produktyUtwardzacze %}
-                                            {{ loop.first == false ? 'lub ' }}
-                                            {{ produktUtwardzacz.proporcjaMieszaniaObjetosciowo }} obj. z utw. {{ produktUtwardzacz.utwardzacz.nazwaHandlowa }} <br>
-                                        {% endfor %}
-                                    {% endif %}
                                 </div>
                             </td>
                             <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [ szt ]</td>
