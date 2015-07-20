@@ -71,26 +71,6 @@ div.info-zamawiajacego {
     padding-left: 7px;
     text-align: left;
 }
-.asc:after {
-    background: url("images/sort-arrow-up.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    content: " ";
-    display: inline-block;
-    height: 10px;
-    left: 5px;
-    position: relative;
-    top: 0;
-    width: 10px;
-}
-.desc:after {
-    background: url("images/sort-arrow-down.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    content: " ";
-    display: inline-block;
-    height: 10px;
-    left: 5px;
-    position: relative;
-    top: 0;
-    width: 10px;
-}
 .records_list dl {
     border-bottom: 1px solid;
     float: left;

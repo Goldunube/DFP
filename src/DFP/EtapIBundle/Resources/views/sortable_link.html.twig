@@ -1,0 +1,8 @@
+<a{% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>{{ title }}</a>
+{% if options.class == 'sortable' %}
+    <span class="glyphicon glyphicon-sort"></span>
+{% elseif options.class == 'asc' %}
+    <span class="glyphicon glyphicon-sort-by-attributes"></span>
+{% elseif options.class == 'desc' %}
+    <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+{% endif %}

@@ -1,0 +1,20 @@
+<form method="get" action="{{ action }}" enctype="application/x-www-form-urlencoded" class="form-inline">
+
+    <p class="form-control-static">Filtruj po:</p>
+
+    <select name="{{ filterFieldName }}" class="form-control input-sm">
+        {% for field, label in fields %}
+            <option value="{{ field }}"{% if selectedField == field %} selected="selected"{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="form-group form-group-sm">
+        <label class="sr-only" for="knp-ipt-search">Szukana wartość</label>
+        <input type="text" value="{{ selectedValue }}" name="{{ filterValueName }}" id="knp-ipt-search" class="form-control" />
+    </div>
+
+    <button class="btn btn-sm btn-primary">Szukaj</button>
+
+    <a href="{{ path(app.request.attributes.get('_route')) }}" class="btn btn-sm btn-danger">Wyczyść</a>
+
+</form>

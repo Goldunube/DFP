@@ -235,7 +235,7 @@ class Filia
      */
     public function setNazwaFilii($nazwaFilii)
     {
-        $nazwaFilii = preg_replace('/[^\p{L}\p{N} ]/u', '', $nazwaFilii);
+        $nazwaFilii = preg_replace('/[!@#$%\^\*\(\)_\=\[\]\{\}\|\/\?<>~`\'":\\\\]+/', '', $nazwaFilii);
         $this->nazwaFilii = $nazwaFilii;
     
         return $this;

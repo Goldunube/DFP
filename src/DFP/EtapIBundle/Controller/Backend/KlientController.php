@@ -47,7 +47,8 @@ class KlientController extends Controller
 
         $query = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowQuery($kryteria);
 
-        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21);
+        $pagination = $paginator->paginate($query,$this->get('request')->query->get('strona',1),21,array('wrap-queries'=>true));
+        $pagination->setFiltrationTemplate('::filtration.html.twig');
 
         return array(
             'lista_klientow' => $pagination,
