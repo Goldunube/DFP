@@ -113,6 +113,7 @@
         </section>
 
         <hr>
+
         <div class="row">
             <div class="col-xs-2">
                 <a href="{{ powrot_url }}" class="btn btn-warning">
@@ -125,6 +126,14 @@
             </div>
         </div>
         {{ form_end(formularz) }}
+
+        {{ form_start(form_delete) }}
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-xs-12">
+                {{ form_widget(form_delete.submit, { 'attr' : { 'class' : 'btn btn-danger' } }) }}
+            </div>
+        </div>
+        {{ form_end(form_delete) }}
     </section>
 
 {% endblock %}

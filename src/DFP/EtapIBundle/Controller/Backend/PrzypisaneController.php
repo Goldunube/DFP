@@ -201,6 +201,8 @@ class PrzypisaneController extends Controller
 
         $editForm = $this->createEditForm($filiaUzytkownik);
 
+        $deleteForm = $this->createDeleteForm($id);
+
         $kategorieNotatek = array(
             1 => 'Wymagania klienta',
             2 => 'Informacje handlowe',
@@ -213,7 +215,8 @@ class PrzypisaneController extends Controller
             'przypisanie'       =>  $filiaUzytkownik,
             'formularz'         =>  $editForm->createView(),
             'powrot_url'        =>  $previousUrl,
-            'notatka_kategorie' =>  $kategorieNotatek
+            'notatka_kategorie' =>  $kategorieNotatek,
+            'form_delete'       =>  $deleteForm->createView()
         );
     }
 
@@ -244,11 +247,13 @@ class PrzypisaneController extends Controller
     }
 
     /**
+     * @param $id
      * @return \Symfony\Component\Form\Form
      */
-    private function createDeleteForm()
+    private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
+            ->setAction($this->generateUrl('backend_przypisane_usun', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label'=> 'Usuń'))
             ->getForm();
