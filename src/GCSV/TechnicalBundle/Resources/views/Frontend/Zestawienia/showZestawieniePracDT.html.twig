@@ -1,0 +1,120 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/pmzeroclipboard/js/ZeroClipboard.min.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/pmzeroclipboard/js/config.js") }}"></script>
+{% endblock %}
+
+{% block title %}- zestawienie prac DT{% endblock %}
+
+{% block content -%}
+    <nav class="well">
+        <form method="get" action="{{ path('zaplecze_zestawienia_prac_dt') }}" class="form-horizontal">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="data-od-widget" class="form-group col-lg-4">
+                        <label class="control-label col-lg-4" for="data-od">Data od</label>
+                        <div class="col-lg-6">
+                            <input id="data-od" type="text" class="form-control datepicker" name="dataOd" value="{{ data_od|date('d-m-Y') }}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div id="data-do-widget" class="form-group col-lg-4">
+                        <label class="control-label col-lg-4" for="data-do">Data do</label>
+                        <div class="col-lg-6">
+                            <input id="data-do" type="text" class="form-control datepicker" name="dataDo" value="{{ data_do|date('d-m-Y') }}" autocomplete="off">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-lg-1">Wyświetl</button>
+                </div>
+            </div>
+        </form>
+    </nav>
+    <section class="container-fluid">
+        <h1>Zestawienie prac Działu Technicznego</h1>
+        <table id="zestawienie-table" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th rowspan="2">#</th>
+                    <th rowspan="2">Technik</th>
+                    <th colspan="4">Ilość dni wizyt</th>
+                    <th colspan="3">Urlopy i zwolnienia</th>
+                    <th colspan="3">Ilość (szt.)</th>
+                </tr>
+                <tr>
+                    <th>lokalnych</th>
+                    <th>wyjazdowych</th>
+                    <th>biuro</th>
+                    <th>łącznie</th>
+                    <th>urlopy</th>
+                    <th>zwolnienia</th>
+                    <th>łącznie</th>
+                    <th>wizyt</th>
+                    <th>raportów</th>
+                    <th>receptur</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for technik in zestawienie %}
+                <tr>
+                    <th>{{ loop.index }}</th>
+                    <td>{{ technik.imienazwisko }}</td>
+                    <td>{{ technik.ilosc_dni_lokalnych|default(0) }}</td>
+                    <td>{{ technik.ilosc_dni_wyjazdowych|default(0) }}</td>
+                    <td>{{ technik.ilosc_prace_biurowe|default(0) }}</td>
+                    <td>{{ technik.ilosc_dni|default(0) }}</td>
+                    <td>{{ technik.ilosc_dni_urlopow|default(0) }}</td>
+                    <td>{{ technik.ilosc_dni_zwolnien|default(0) }}</td>
+                    <td>{{ technik.ilosc_dni_urlopow_i_zwolnien|default(0) }}</td>
+                    <td>{{ technik.ilosc_wizyt|default(0) }}</td>
+                    <td>{{ technik.ilosc_raportow|default(0) }}</td>
+                    <td>{{ technik.ilosc_receptur|default(0) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button id="copy-button" data-clipboard-target="zestawienie-table" title="Kliknij, aby skopiować.">Kopiuj</button>
+    </section>
+
+{% endblock %}
+
+{% block dodatkowe_skrypty_js %}
+    <script type="text/javascript">
+        var $iptRozpoczecieDataWidget = $('#data-od-widget').find('.datepicker');
+        var $iptZakonczenieDataWidget = $('#data-do-widget').find('.datepicker');
+
+        $('.datepicker').datetimepicker({
+            locale: 'pl',
+            useCurrent: true,
+            showTodayButton: true,
+            showClear: true,
+            format: 'DD.MM.YYYY'
+        });
+        $iptRozpoczecieDataWidget.on("dp.change", function (e) {
+            if($iptZakonczenieDataWidget.data("DateTimePicker").date() < e.date)
+            {
+                $iptZakonczenieDataWidget.data("DateTimePicker")
+                        .minDate(e.date)
+                        .date(e.date);
+            }else{
+                $iptZakonczenieDataWidget.data("DateTimePicker")
+                        .minDate(e.date);
+            }
+        });
+        $iptZakonczenieDataWidget.data("DateTimePicker").minDate(moment("{{ data_do|date('Y-m-d') }}"));
+        $iptZakonczenieDataWidget.on("dp.change", function (e) {
+            $iptRozpoczecieDataWidget.data("DateTimePicker").maxDate(e.date);
+        });
+    </script>
+{% endblock dodatkowe_skrypty_js %}
+
+{% block javascripts %}
+    var client = new ZeroClipboard($("#copy-button"));
+{% endblock javascripts %}

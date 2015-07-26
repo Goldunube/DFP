@@ -1,0 +1,72 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/core.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {{ form_start(form) }}
+    <section class="container-fluid">
+        <h1>{% trans %}Dodaj urlop{% endtrans %}</h1>
+
+        <div class="container-fluid">
+            {% for child in form %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_row(child) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    {{ form_end(form) }}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('zaplecze_urlopy_kalendarz') }}" class="btn btn-warning" role="button">{% trans %} Powrót{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    $('#gcsv_termin_urlopu_start').datetimepicker({
+        pickTime: false,
+        language: 'pl',
+        showToday: true,
+        defaultDate: moment(),
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#gcsv_termin_urlopu_koniec').datetimepicker({
+        pickTime: false,
+        language: 'pl',
+        showToday: true,
+        defaultDate: moment(),
+        format: 'YYYY-MM-DD'
+    });
+
+    $('#gcsv_termin_urlopu_dataZgloszenia').datetimepicker({
+        pickTime: true,
+        language: 'pl',
+        showToday: true,
+        defaultDate: moment(),
+        format: 'YYYY-MM-DD HH:mm',
+    });
+
+    $('.container-fluid select').select2();
+{% endblock javascripts %}

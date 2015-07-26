@@ -195,6 +195,11 @@ class Filia
      */
     protected $filieOfertyHandlowe;
 
+    /**
+     * @ORM\OneToMany(targetEntity="GCSV\TechnicalBundle\Entity\ZdarzenieTechniczne", mappedBy="oddzialFirmy")
+     */
+    protected $zdarzeniaTechniczne;
+
     public function __construct()
     {
         $this->filieUzytkownicy = new ArrayCollection();

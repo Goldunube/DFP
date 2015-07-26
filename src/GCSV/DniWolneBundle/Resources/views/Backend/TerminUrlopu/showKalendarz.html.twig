@@ -1,0 +1,116 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    'bundles/gcsvcore/css/thirdparty/jquery-qtip/jquery.qtip.min.css'
+    'bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css'
+    'bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css'
+    'bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css'
+    'bundles/gcsvfullcalendar/css/fullcalendar.min.css'
+    'bundles/gcsvtechnical/css/kalendarz.css' filter="cssrewrite" %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts
+    'bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js'
+    'bundles/gcsvfullcalendar/js/fullcalendar.min.js'
+    'bundles/gcsvfullcalendar/js/lang-all.js'
+    'bundles/gcsvfullcalendar/js/gcal.js'
+    'bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js'
+    'bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js'
+    'bundles/gcsvcore/js/thirdparty/jquery-qtip/jquery.qtip.min.js' output="js/compiled/jquery" %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvdniwolne/js/kalendarz-ustawienia.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    <section class="container-fluid">
+        <h1>{% trans %}Kalendarz urlopów{% endtrans %}</h1>
+
+        {% include '@GCSVFullCalendar/Default/kalendarz.html.twig' %}
+    </section>
+
+    <div id="formularz-container" class="modal fade" tabindex="-1">
+        <form action="#" name="zdt">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    {{ form_start(form) }}
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Urlop / Zwolnienie</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid form-horizontal">
+                            {{ form_row(form.osoba) }}
+                            {{ form_row(form.start) }}
+                            {{ form_row(form.koniec) }}
+                            {{ form_row(form.typ) }}
+                            {{ form_row(form.zatwierdzil) }}
+                            {{ form_row(form.dataZgloszenia) }}
+                        </div>
+                        <div class="modal-footer">
+                            <div class="container-fluid">
+                                {{ form_widget(form.submit) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <aside id="lista-kalendarzy">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-poludnie" data-toggle="tab">Południe</a></li>
+            <li><a href="#tab-polnoc" data-toggle="tab">Północ</a></li>
+            <li><a href="#tab-wschod" data-toggle="tab">Wschód</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-poludnie">
+                <ul>
+                    {% for technik in technicyPoludnie %}
+                        {% if technik.kalendarz is defined %}
+                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
+                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
+                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                        {% endif %}
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab-polnoc">
+                <ul>
+                    {% for technik in technicyPolnoc %}
+                        {% if technik.kalendarz is defined %}
+                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
+                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
+                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                        {% endif %}
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab-wschod">
+                <ul>
+                    {% for technik in technicyWschod %}
+                        {% if technik.kalendarz is defined %}
+                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
+                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
+                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                        {% endif %}
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}" >{{ technik.imieNazwisko }}</label></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <a href="javascript: void(0);" class="listek" ><span>Kalendarze</span></a>
+    </aside>
+{% endblock content -%}

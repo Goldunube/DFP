@@ -1,0 +1,174 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% form_theme form with ['GCSVCoreBundle:Form:bootstrap_form.html.twig',_self] %}
+
+{% block form_label %}
+    {% spaceless %}
+        {% if label is not sameas(false) %}
+            {% if not compound %}
+                {% set label_attr = label_attr|merge({'for': id}) %}
+            {% endif %}
+            {% if required %}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% endif %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' col-lg-2 control-label')|trim}) %}
+            {% if label is empty %}
+                {% set label = name|humanize %}
+            {% endif %}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{ label|trans({}, translation_domain) }}
+            {% if required %}
+                <sup class="required" data-toggle="tooltip" data-placement="bottom" title="To pole jest wymagane"><span class="glyphicon glyphicon glyphicon-asterisk small"></span></sup>
+            {% endif %}
+            {% if optional is defined %}
+                <small class="text-muted">({% trans %}opcjonalne{% endtrans %})</small>
+            {% endif %}
+            </label>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_label %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-typeahead/bootstrap3-typeahead.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {{ form_start(form) }}
+    <section class="container-fluid">
+        <div class="well well-sm">
+            <span class="text-muted lead">Zdarzenie techniczne - informacje</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Rodzaj zdarzenia:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>{{ zdarzenie.rodzajZdarzeniaTechnicznego }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Klient:</b></p>
+            </div>
+            <div class="col-sm-9">
+                {% if zdarzenie.oddzialFirmy %}
+                    <p><a href="#"><span data-placement="bottom" data-toggle="tooltip" data-original-title="{{ zdarzenie.oddzialFirmy.Firma.nazwaPelna }}" style="cursor: pointer;">{{ zdarzenie.oddzialFirmy.Firma.nazwaSkrocona }}</span> <span class="text-info">(oddział: {{ zdarzenie.oddzialFirmy.nazwa != null ? zdarzenie.oddzialFirmy.nazwa : zdarzenie.oddzialFirmy.adresy[0].miasto }} )</span></a> </p>
+                {% else %}
+                    -
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Adres:</b></p>
+            </div>
+            <div class="col-sm-9">
+                {% if zdarzenie.oddzialFirmy %}
+                    <p>{{ zdarzenie.oddzialFirmy.adresy[0].ulica }}; {{ zdarzenie.oddzialFirmy.adresy[0].kodPocztowy|kodPocztowy }} {{ zdarzenie.oddzialFirmy.adresy[0].miasto }} </p>
+                {% else %}
+                    -
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Opis / Cel:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>{{ zdarzenie.opis }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Terminy zdarzenia:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <dl class="dl-horizontal">
+                    {% for uczestnik in zdarzenie.uczestnikZdarzeniaTechnicznego %}
+                        <dt style="text-align: left;">{{ uczestnik.osoba.imienazwisko }}</dt>
+                        {% for termin in uczestnik.terminy %}
+                            <dd>{{ termin.rozpoczecieWizyty|date('d.m.Y') }} <span class="glyphicon glyphicon-link" style="color: #0044cc;"></span> {{ termin.zakonczenieWizyty|date('d.m.Y') }}</dd>
+                        {% endfor %}
+                    {% endfor %}
+                </dl>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section class="container-fluid">
+        <h1>{% trans %}Notatka po wizycie{% endtrans %}</h1>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <div class="checkbox">
+                    <label>
+                        {{ form_widget(form.publiczna) }} Zaznacz to pole jeżeli chcesz by notatka była <strong>widoczna dla wszystkich</strong>.
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.rodzaj) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.rodzaj) }}
+                <p class="help-block">Wpisz dowolny rodzaj / kategorię notatki np. "Notatka wewnętrzna" (domyślnie), "Uwagi o RLS", "Ważna", itp.</p>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.tresc) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.tresc) }}
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <a href="{{ back_link is defined ? path(back_link.name, { 'id' : back_link.args.id }) : app.request.headers.get('referer') }}" class="btn btn-warning">{% trans %}Powrót{% endtrans %}</a>
+            </div>
+            <div class="col-lg-3 col-lg-offset-6 text-right">
+                {{ form_widget(form.submit) }}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block dodatkowe_skrypty_js %}
+    {{ tinymce_init() }}
+{% endblock dodatkowe_skrypty_js %}
+
+{% block javascripts %}
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substrRegex;
+            matches = [];
+            substrRegex = new RegExp(q, 'i');
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    matches.push({ value: str });
+                }
+            });
+            cb(matches);
+        };
+    };
+
+    var rodzajeNotatek = ['Notatka wewnętrzna'];
+
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.typeahead').typeahead({
+        minLength: 2,
+        highlight: true
+    },{
+        name:   "rodzaj-notatki",
+        source: substringMatcher(rodzajeNotatek)
+    })
+{% endblock javascripts %}

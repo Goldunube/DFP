@@ -1,0 +1,78 @@
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+
+{{ form_start(form) }}
+<div class="tab-pane active" id="tab-zdt-dane">
+    <div class="row">
+        <div class="col-md-3">
+            <b>Status zdarzenia</b>
+        </div>
+        <div class="col-md-9">
+            <div class="btn-group" data-toggle="buttons">
+                {% for child in form.status %}
+                    {% if child.vars.value is defined %}
+                        <label class="btn btn-default btn-xs">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {{ form_label(form.oddzialFirmy) }}
+        <div class="col-md-9">
+            {{ form_widget(form.oddzialFirmy, { 'attr' : { 'class':'input-xs' } } ) }}
+        </div>
+    </div>
+    <div class="row">
+        {{ form_label(form.rodzajZdarzeniaTechnicznego) }}
+        <div class="col-md-9">
+            {{ form_widget(form.rodzajZdarzeniaTechnicznego, { 'attr' : { 'class':'input-xs' } } )}}
+        </div>
+    </div>
+    {% set technik = form.uczestnikZdarzeniaTechnicznego|first %}
+    <div class="row">
+        {{ form_label(technik.osoba,'Technik') }}
+        <div class="col-md-9">
+            {{ form_widget(technik.osoba, { 'attr' : { 'class':'input-xs' } }) }}
+            {{ form_errors(technik.osoba) }}
+        </div>
+    </div>
+    <div class="row">
+        {{ form_label(form.opis) }}
+        <div class="col-md-9">
+            {{ form_widget(form.opis, { 'attr' : { 'rows' : '10' } } ) }}
+        </div>
+    </div>
+    <div class="row">
+        {{ form_label(form.osobaZlecajaca,'Zlecający') }}
+        <div class="col-md-9">
+            {{ form_widget(form.osobaZlecajaca, { 'attr' : { 'class':'input-xs' } } ) }}
+        </div>
+    </div>
+    {{ form_row(form.dlugoscGeo) }}
+    {{ form_row(form.szerokoscGeo) }}
+</div>
+<div class="tab-pane" id="tab-zdt-termin">
+    {% set termin = technik.terminy|first %}
+    <div class="row">
+        <div class="col-md-3">
+            <label for="zdt-opis">Termin zdarzenia</label>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group date">
+                <span class="input-group-addon input-xs">{{ termin.rozpoczecieWizyty.vars.label }}</span>
+                {{ form_widget(termin.rozpoczecieWizyty, { 'attr' : { 'class':'input-xs' } } ) }}
+            </div>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1">
+            <div class="input-group date">
+                <span class="input-group-addon input-xs">{{ termin.zakonczenieWizyty.vars.label }}</span>
+                {{ form_widget(termin.zakonczenieWizyty, { 'attr' : { 'class':'input-xs' } } ) }}
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_widget(form.reset) }}
+{{ form_widget(form.submit) }}
+{{ form_end(form) }}

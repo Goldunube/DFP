@@ -1,0 +1,6 @@
+services:
+    gcsv.raportbundle.raport_techniczny_subscriber:
+        class:  GCSV\RaportBundle\EventListener\RaportTechnicznySubscriber
+        arguments:  [@service_container]
+        tags:
+            - { name: doctrine.event_subscriber }

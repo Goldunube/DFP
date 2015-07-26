@@ -1,0 +1,43 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvmagazyn/css/stany_magazynowe.css') }}" />
+{% endblock stylesheets %}
+
+{% block content -%}
+    <section class="container-fluid">
+        <h1>{% trans %}Stan mojego magazynu wirtualnego{% endtrans %}</h1>
+
+        <table class="table table-striped magazyn">
+            <thead>
+            <tr>
+                <th class="col-width-50">#</th>
+                <th class="col-width-150">Indeks</th>
+                <th class="col-width-400">Nazwa</th>
+                <th class="col-width-50 text-right">Ilość</th>
+                <th class="col-width-50 text-center">JM</th>
+                <th class="col-width-70 text-right">Wartość</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pozycja in stan_magazynu %}
+                <tr>
+                    <th class="col-width-50">{{ loop.index }}.</th>
+                    <td class="col-width-150">{{ pozycja.produkt.indeks }}</td>
+                    <td class="col-width-400">{{ pozycja.produkt.nazwa }}</td>
+                    <td class="col-width-50 text-right">{{ pozycja.ilosc|number_format(2,',',' ') }}</td>
+                    <td class="col-width-50 text-center">{{ pozycja.produkt.jednostka }}</td>
+                    <td style="text-align: right;" class="col-width-70">{{ pozycja.wartosc|number_format(2,',',' ') }} zł</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4">Łączna wartość magazynu</td>
+                <td colspan="2" style="text-align: right;">{{ wartosc_magazynu|number_format(2,',',' ') }} zl</td>
+            </tr>
+            </tfoot>
+        </table>
+    </section>
+{% endblock %}

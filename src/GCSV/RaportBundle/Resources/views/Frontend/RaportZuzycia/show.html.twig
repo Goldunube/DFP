@@ -1,0 +1,113 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui/blitzer/jquery-ui-1.10.4.custom.min.css') }}">
+{% endblock %}
+
+{% block content -%}
+    <div class="page-header">
+        <h1>Raport zużycia</h1>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>Identyfikator raportu</dt>
+        <dd>{{ raportZuzycia.id }}</dd>
+        <dt>Rodzaj wizyty</dt>
+        <dd>{{ raportZuzycia.zdarzenieTechniczne.rodzajZdarzeniaTechnicznego.nazwa }}</dd>
+        <dt>Technik wykonujący</dt>
+        <dd>{{ raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.osoba.imieNazwisko }}</dd>
+        <dt>Osoba zlecająca</dt>
+        <dd>{{ raportZuzycia.zdarzenieTechniczne.osobaZlecajaca.imieNazwisko }}</dd>
+        <dt>Nazwa klienta</dt>
+        <dd>{{ raportZuzycia.zdarzenieTechniczne.oddzialFirmy.firma.nazwaSkrocona }}</dd>
+        <dt>Data wizyty</dt>
+        <dd>
+            {% set rozpoczecieZdarzenia = raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.terminy|first.rozpoczecieWizyty %}
+            {% set zakonczenieZdarzenia = raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.terminy|first.zakonczenieWizyty %}
+            {{ rozpoczecieZdarzenia == zakonczenieZdarzenia ? rozpoczecieZdarzenia|date('Y-m-d') : rozpoczecieZdarzenia|date('Y-m-d')~' / '~zakonczenieZdarzenia|date('Y-m-d') }}
+        </dd>
+        <dt>Symbol magazynu</dt>
+        <dd>{{ raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.osoba.magazyn.symbol }}</dd>
+        <dt>Klient kanału</dt>
+        <dd>
+            {% if raportZuzycia.zdarzenieTechniczne.oddzialFirmy %}
+                {{ raportZuzycia.zdarzenieTechniczne.oddzialFirmy.firma.kanalDystrybucji.nazwa }}
+            {% else %}
+                Klient nieokreślony
+            {% endif %}
+        </dd>
+        <dt>Koszt ponosi</dt>
+        <dd>
+            {% set numerKonta = raportZuzycia.zdarzenieTechniczne.osobaZlecajaca.numerKonta %}
+            {{ numerKonta ? numerKonta : raportZuzycia.zdarzenieTechniczne.osobaZlecajaca.imieNazwisko }}
+        </dd>
+        <dt>Raport zaakceptował</dt>
+        <dd>{{ raportZuzycia.osobaAkceptujaca.imieNazwisko|default('-') }}</dd>
+        <dt>Data akceptacji</dt>
+        <dd>{{ raportZuzycia.dataAkceptacji ? raportZuzycia.dataAkceptacji|date('Y-m-d') : '-' }}</dd>
+    </dl>
+    <div class="clearfix"></div>
+    <hr>
+    <section class="container-fluid">
+        <div class="panel panel-info">
+            <div class="panel-heading">Lista materiałów zużytych</div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Indeks</th>
+                        <th>Nazwa artykułu</th>
+                        <th>Ilość</th>
+                        <th title="Jednostka Masy">JM</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in raportZuzycia.raportZuzyciaProdukty if row.iloscZuzyta %}
+                        <tr>
+                            <td>{{ row.produkt.indeks }}</td>
+                            <td>{{ row.produkt.nazwa }}</td>
+                            <td>{{ row.iloscZuzyta }}</td>
+                            <td>{{ row.produkt.jednostka }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">Lista materiałów pozostawionych u klienta</div>
+            <div class="panel-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Indeks</th>
+                        <th>Nazwa artykułu</th>
+                        <th>Ilość</th>
+                        <th title="Jednostka Masy">JM</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in raportZuzycia.raportZuzyciaProdukty if row.iloscZostawiona %}
+                        <tr>
+                            <td>{{ row.produkt.indeks }}</td>
+                            <td>{{ row.produkt.nazwa }}</td>
+                            <td>{{ row.iloscZostawiona }}</td>
+                            <td>{{ row.produkt.jednostka }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid">
+        <hr>
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript: history.back();" class="btn btn-warning"><i class="fa fa-chevron-left fa-lg"></i> Powrót</a>
+            </div>
+        </div>
+    </div>
+{% endblock content -%}

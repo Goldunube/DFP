@@ -1,3 +1,13 @@
+gcsv_technical_frontend:
+    resource: "@GCSVTechnicalBundle/Controller/Frontend/"
+    type:     annotation
+    prefix:   /
+
+gcsv_technical_backend:
+    resource: "@GCSVTechnicalBundle/Controller/Backend/"
+    type:     annotation
+    prefix:   /zaplecze
+
 dfp_frontend:
     resource: "@DFPEtapIBundle/Controller/Frontend/"
     type:     annotation

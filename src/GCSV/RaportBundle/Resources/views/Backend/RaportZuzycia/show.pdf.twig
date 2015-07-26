@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Grupa CSV | Raport Zużycia</title>
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap/bootstrap.min.css',null,true) }}">
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap/bootstrap-theme.min.css',null,true) }}">
+</head>
+<body style="margin: 0 25px">
+    <style type="text/css" scoped="scoped">
+        body {
+            font-size: 8pt;
+        }
+        .footer .row {
+            margin: 25px 0;
+        }
+    </style>
+
+    <div>
+        <table class="table table-condensed">
+            <tr>
+                <th>Identyfikacja raportu:</th>
+                <td>{{ raportZuzycia.id }}</td>
+            </tr>
+            <tr>
+                <th>Rodzaj wizyty:</th>
+                <td>{{ raportZuzycia.zdarzenieTechniczne.rodzajZdarzeniaTechnicznego.nazwa }}</td>
+            </tr>
+            <tr>
+                <th>Technik wykonujący:</th>
+                <td>{{ raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.osoba.imieNazwisko }}</td>
+            </tr>
+            <tr>
+                <th>Zlecający:</th>
+                <td>{{ raportZuzycia.zdarzenieTechniczne.osobaZlecajaca.imieNazwisko }}</td>
+            </tr>
+            <tr>
+                <th>Nazwa klienta:</th>
+                <td>
+                    {% if raportZuzycia.zdarzenieTechniczne.oddzialFirmy %}
+                        {{ raportZuzycia.zdarzenieTechniczne.oddzialFirmy.firma.nazwaSkrocona }}
+                    {% else %}
+                        Klient nieokreślony
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Miejsce wizyty:</th>
+                <td>{{ adres }}</td>
+            </tr>
+            <tr>
+                <th>Data wizyty:</th>
+                {% set rozpoczecieZdarzenia = raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.terminy|first.rozpoczecieWizyty %}
+                {% set zakonczenieZdarzenia = raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.terminy|first.zakonczenieWizyty %}
+                <td>{{ rozpoczecieZdarzenia == zakonczenieZdarzenia ? rozpoczecieZdarzenia|date('Y-m-d') : rozpoczecieZdarzenia|date('Y-m-d')~' / '~zakonczenieZdarzenia|date('Y-m-d') }}</td>
+            </tr>
+            <tr>
+                <th>Symbol magazynu:</th>
+                <td>{{ raportZuzycia.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|first.osoba.magazyn.symbol }}</td>
+            </tr>
+            <tr>
+                <th>Klient kanału:</th>
+                <td>{% if raportZuzycia.zdarzenieTechniczne.oddzialFirmy %}
+                        {{ raportZuzycia.zdarzenieTechniczne.oddzialFirmy.firma.kanalDystrybucji.nazwa }}
+                    {% else %}
+                        Klient nieokreślony
+                    {% endif %}</td>
+            </tr>
+            <tr>
+                <th>Koszt zużycia ponosi:</th>
+                <td>
+                    {% set numerKonta = raportZuzycia.zdarzenieTechniczne.osobaZlecajaca.numerKonta %}
+                    {{ numerKonta ? numerKonta : raportZuzycia.zdarzenieTechniczne.osobaZlecajaca.imieNazwisko }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr>
+    <table id="lista-produktow" class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>Indeks</th>
+                <th>Nazwa</th>
+                <th>Zużyte ilości</th>
+                <th>j.m.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in raportZuzycia.raportZuzyciaProdukty() %}
+                <tr>
+                    <td>{{ row.produkt.indeks }}</td>
+                    <td>{{ row.produkt.nazwa }}</td>
+                    <td>{{ row.iloscZuzyta+row.iloscZostawiona }}</td>
+                    <td>{{ row.produkt.jednostka }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+
+    <div class="footer container-fluid">
+        <div class="row">
+            <div class="col-xs-3 col-xs-offset-9">
+                <p>Podpis osoby przyjmującej:<br>
+                    ..........................................
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-9">
+                <p>Rodzaj dokumentu rozliczającego: ..........................................</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 col-xs-offset-9">
+                <p>Podpis osoby rozliczającej:<br>
+                    ..........................................
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

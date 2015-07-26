@@ -1,0 +1,95 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {{ form_start(form) }}
+    <section class="container-fluid">
+        <h1>{% trans %}Tworzenie nowego raport zużycia{% endtrans %}</h1>
+
+        <div class="container-fluid">
+            <table id="raport-zuzycia-fm" class="table">
+                <thead>
+                    <tr>
+                        <th colspan="5">Stan magazynu wirtualnego</th>
+                        <th colspan="2">Zużycie</th>
+                    </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Produkt</th>
+                        <th>Nazwa</th>
+                        <th>Ilość</th>
+                        <th>JM</th>
+                        <th>Zużyłem</th>
+                        <th>Zostawiłem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pozycja in stan_magazynu_wirtualnego %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ pozycja.produkt.indeks }} {{ form_widget(form.raportZuzyciaProdukty[loop.index - 1].produkt) }}</td>
+                            <td>{{ pozycja.produkt.nazwa }}</td>
+                            <td>{{ pozycja.ilosc }}</td>
+                            <td>{{ pozycja.produkt.jednostka }}</td>
+                            <td>{{ form_widget(form.raportZuzyciaProdukty[loop.index - 1].iloscZuzyta) }}</td>
+                            <td>{{ form_widget(form.raportZuzyciaProdukty[loop.index - 1].iloscZostawiona) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <hr>
+
+            <div class="row">
+                <label class="col-sm-12 control-label" for="{{ form.uwagi.vars.id }}">Uwagi do raportu</label>
+                <div class="col-sm-12">
+                    {{ form_widget(form.uwagi) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ back_link is defined ? path(back_link.name, { 'id' : back_link.args.id }) : path('raporty_zuzycia') }}" class="btn btn-warning" role="button">{% trans %}Powrót{% endtrans %}</a>
+                {{ form_widget(form.submit) }}
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#raport-zuzycia-fm').DataTable({
+                "paging":   false,
+                "ordering": false,
+                "info":     false,
+                'language': {
+                    'search':   'Szukaj:'
+                }
+            });
+
+            $("#gcsv_rapzuz_submit").on('click',function(e){
+                table
+                    .search('')
+                    .draw();
+            })
+        });
+    </script>
+{% endblock %}

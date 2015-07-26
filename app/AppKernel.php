@@ -24,6 +24,7 @@ class AppKernel extends Kernel
                 new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
                 new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new DFP\EtapIBundle\DFPEtapIBundle(),
+            new GCSV\TechnicalBundle\GCSVTechnicalBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,0 +1,50 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% block content -%}
+    <section class="container-fluid">
+        <h1>{% trans %}Lista RaportTechniczny{% endtrans %}</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>cel</th>
+                <th>tresc</th>
+                <th>zalecenia</th>
+                <th>dataUtworzenia</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('raporttechniczny_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+
+                    <td>{{ entity.cel }}</td>
+                    <td>{{ entity.tresc }}</td>
+                    <td>{{ entity.zalecenia }}</td>
+                    <td>{% if entity.dataUtworzenia %}{{ entity.dataUtworzenia|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if entity.dataModyfikacji %}{{ entity.dataModyfikacji|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>
+
+                        <a href="{{ path('raporttechniczny_show', { 'id': entity.id }) }}"
+                           class="btn btn-xs btn-warning">{% trans %}show{% endtrans %}</a>
+
+
+                        <a href="{{ path('raporttechniczny_edit', { 'id': entity.id }) }}"
+                           class="btn btn-xs btn-warning">{% trans %}edit{% endtrans %}</a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"><a href="{{ path('raporttechniczny_new') }}" class="btn btn-success"
+                                     role="button">{% trans %}Nowy{% endtrans %}</a></div>
+        </div>
+    </div>
+{% endblock %}

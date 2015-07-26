@@ -1,0 +1,51 @@
+#panel-dt nav {
+    border-right: 1px solid #e3e3e3;
+}
+#panel-dt h4 {
+    color: #4682b4;
+}
+.list-group > a.disabled {
+    background-color: #eee;
+    color: #777;
+}
+.list-group > a.disabled:hover,
+.list-group > a.disabled:focus {
+    color: #999999;
+    text-decoration: none;
+    background-color: #eee;
+    cursor: not-allowed;
+}
+#dokumentacja-container {
+    font-size: 12px;
+    max-height: 205px;
+    overflow: auto;
+}
+#dokumentacja-container .row {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+#dokumentacja-container .rodzaj-dokumentu, #dokumentacja-container .identyfikator {
+    margin: 3px 0;
+}
+#dokumentacja-container .badge {
+    width: 100%;
+    overflow: hidden;
+}
+.deleted {
+    text-decoration: line-through;
+}
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}

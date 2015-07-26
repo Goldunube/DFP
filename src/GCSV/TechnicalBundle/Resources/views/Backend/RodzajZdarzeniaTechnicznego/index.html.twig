@@ -1,0 +1,53 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
+{% block content -%}
+    <section class="container-fluid">
+        <h1>{% trans %}Rodzaje zdarzeń technicznych{% endtrans %}</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nazwa</th>
+                <th>Opis</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>
+                        <a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_show', { 'id': entity.id }) }}">{{ entity.id }}</a>
+                    </td>
+                    <td>{{ entity.nazwa }}</td>
+                    <td>{{ entity.opis }}</td>
+                    <td class="text-right">
+                        <a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_show', { 'id': entity.id }) }}" class="btn btn-xs btn-primary">{% trans %}pokaż{% endtrans %}</a>
+                        <a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning">{% trans %}edytuj{% endtrans %}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"><a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_new') }}" class="btn btn-success">{% trans %}Nowy{% endtrans %}</a></div>
+        </div>
+    </div>
+{% endblock %}

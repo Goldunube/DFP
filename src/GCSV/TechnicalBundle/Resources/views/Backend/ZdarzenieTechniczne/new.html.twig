@@ -1,0 +1,290 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+{% form_theme form.priorytet _self %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div class="btn-group {% if class is defined %} {{ class }} {% endif %}" data-toggle="buttons">
+            {% for child in form %}
+                {% if child.vars.value is defined %}
+                    {% if child.vars.value == -1 %}
+                        <label class="btn btn-success">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% elseif child.vars.value == 0 %}
+                        <label class="btn btn-warning active">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% else %}
+                        <label class="btn btn-danger">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-typeahead/bootstrap3-typeahead.css') }}" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.css" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/zdarzenie-techniczne-new.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/core.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/gcsv_autocomplete.js') }}"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/lang-all.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/gcal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <section class="container-fluid">
+        <h1 style="margin-bottom: 20px;">Nowe zdarzenie techniczne</h1>
+        <fieldset>
+            <div class="form-group">
+                {{ form_label(form.rodzajZdarzeniaTechnicznego) }}
+                <div class="col-sm-4">
+                    {{ form_widget(form.rodzajZdarzeniaTechnicznego) }}
+                    {{ form_errors(form.rodzajZdarzeniaTechnicznego) }}
+                </div>
+                <div class="col-sm-offset-1 col-sm-4 text-right">
+                    {{ form_widget(form.priorytet) }}
+                </div>
+            </div>
+            <div id="pola-dodatkowe"></div>
+            {{ form_row(form.oddzialFirmy) }}
+            {{ form_row(form.dlugoscGeo) }}
+            {{ form_row(form.szerokoscGeo) }}
+            {{ form_row(form.osobaZlecajaca) }}
+        </fieldset>
+
+        <fieldset id="technicy-container">
+            {#<legend>Technik / Technicy<button id="oddzialy-collection-btn-add" class="btn btn-primary btn-xs btn-labeled"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>{% trans %}Dodaj{% endtrans %}</button></legend>#}
+            <legend>Technik / Technicy</legend>
+            {% for technik in form.uczestnikZdarzeniaTechnicznego %}
+                <div class="form-group">
+                    {{ form_label(technik.osoba,'Technik') }}
+                    <div class="col-sm-9">
+                        {{ form_widget(technik.osoba) }}
+                        {{ form_errors(technik.osoba) }}
+                    </div>
+                </div>
+                {% for termin in technik.terminy %}
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Termin zdarzenia</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <span class="input-group-addon">{{ termin.rozpoczecieWizyty.vars.label }}</span>
+                                {{ form_widget(termin.rozpoczecieWizyty) }}
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            {{ form_errors(termin.rozpoczecieWizyty) }}
+                        </div>
+                        <div class="col-sm-4 col-sm-offset-1">
+                            <div class="input-group date">
+                                <span class="input-group-addon">{{ termin.zakonczenieWizyty.vars.label }}</span>
+                                {{ form_widget(termin.zakonczenieWizyty) }}
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            {{ form_errors(termin.zakonczenieWizyty) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </fieldset>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><a href="#kalendarz-container" id="kalendarz-href-panel" class="href-panel">Kalendarz</a> / <a href="#mapa-container" id="mapa-href-panel"  class="href-panel">Mapa</a></label>
+            <div class="form-control-static col-sm-9">
+                <div id="kalendarz-mapa-container">
+                    <div class="slider">
+                        <div id="kalendarz-container" class="horizont-panel aktywny">
+                            {% include '@GCSVFullCalendar/Default/kalendarz.html.twig' %}
+                        </div>
+                        <div id="mapa-container" class="horizont-panel">
+                            {{ google_map(mapa) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{ form_end(form) }}
+
+    <script>
+        var $klient = $('#zdt_klient');
+        var $oddzial = $('#zdt_oddzial');
+        var $lokalizacja = $('#zdt_lokalizacja_test');
+        var $szerokoscGeo = $('#zdt_szerokoscGeo');
+        var $dlugoscGeo = $('#zdt_dlugoscGeo');
+        var marker;
+        geocoder = new google.maps.Geocoder();
+
+        $oddzial.change(function()
+        {
+            var adresy = pickupLokalizacje($(html).find('#zdt_oddzial').val()).responseJSON;
+            for(key in adresy)
+            {
+                if(adresy.hasOwnProperty(key))
+                {
+                    var HTML = '<option value="'+ key +'">'+ adresy[key]['placowka'] +' --> ('+ adresy[key]['lokalizacja'] +')</option>';
+                    $lokalizacja.append(HTML);
+                }
+            }
+        });
+
+        function pickupLokalizacje(idOddzialu)
+        {
+            return $.ajax({
+                url : Routing.generate('ajax_get_lokalizacje_oddzialu', { id: idOddzialu } ),
+                type: "GET",
+                async: false
+            })
+            .done(function(data) {
+                return data
+            })
+        }
+
+        function placeMarker(location,map) {
+            marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                animation: google.maps.Animation.DROP
+            });
+        }
+
+        function codeLatLng(latlng,map) {
+            geocoder.geocode({'latLng': latlng}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        console.log(results[1].formatted_address);
+                    } else {
+                        alert('Nie znaleziono pasującego adresu.');
+                    }
+                } else {
+                    alert('Błąd geocoder\'a: ' + status);
+                }
+            });
+        }
+
+        $('#zdt_rodzajZdarzeniaTechnicznego').change(function()
+        {
+            var $rodzajZdarzenia = $(this).val();
+            $.ajax({
+                url: Routing.generate('ajax_get_dodatkowe_pola_zdarzenia', { id: $rodzajZdarzenia } ),
+                type: "GET"
+            })
+            .done(function(html) {
+                $('#pola-dodatkowe').html(html);
+            })
+        });
+
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.datepicker').datetimepicker({
+        pickTime: false,
+        language: 'pl',
+        showToday: true,
+        defaultDate: moment()
+    });
+    $('#zdt_osobaZlecajaca').select2();
+    $('#technicy-container select').select2();
+    $('#zdt_oddzialFirmy').gcsv_autocomplete({
+        url_list: Routing.generate('ajax_search_oddzial'),
+        url_get: Routing.generate('ajax_get_oddzial')
+    })
+    .on('typeahead:selected',function($e,datum){
+        var latLng = new google.maps.LatLng(datum.lat,datum.lng);
+        if ((window.google !== undefined) && (window.mapa_container !== undefined))
+        {
+            if(marker !== undefined)
+            {
+                marker.setMap(null);
+            }
+            placeMarker(latLng,window.mapa_container.map);
+        }
+        $('#zdt_dlugoscGeo').val(datum.lng);
+        $('#zdt_szerokoscGeo').val(datum.lat);
+    })
+    .on('typeahead:autocompleted',function($e,datum){
+        var latLng = new google.maps.LatLng(datum.lat,datum.lng);
+        if ((window.google !== undefined) && (window.mapa_container !== undefined))
+        {
+            if(marker !== undefined)
+            {
+                marker.setMap(null);
+            }
+            placeMarker(latLng,window.mapa_container.map);
+        }
+        $('#zdt_dlugoscGeo').val(datum.lng);
+        $('#zdt_szerokoscGeo').val(datum.lat);
+    })
+
+    $('#kalendarz-href-panel').click(function() {
+        $(".slider").animate({left: "0"}, 1500, "easeInOutQuart" );
+    })
+
+    $('#mapa-href-panel').click(function() {
+        $(".slider").animate({left: "-625px"}, 1500, "easeInOutQuart" );
+    })
+
+    var users = $('#zdt_uczestnikZdarzeniaTechnicznego_0_osoba').select2('data').id;
+    $('#zdt_uczestnikZdarzeniaTechnicznego_0_osoba').on('change',function(e){
+        $('#kalendarz-container').fullCalendar('refetchEvents');
+    });
+
+    $('#kalendarz-container').fullCalendar({
+        firstDay: 1,
+        weekends: true,
+        allDayDefault: true,
+        selectable: true,
+        selectHelper: true,
+        editable: true,
+        theme: false,
+        lang: 'pl',
+        lazyFetching: true,
+        eventSources: [
+            {
+                // Kalendarz świąt polskich
+                url: 'https://www.google.com/calendar/feeds/pl.polish%23holiday%40group.v.calendar.google.com/public/basic',
+                color: 'black',
+                textColor: 'white'
+            },
+            {
+                url: Routing.generate('fullcalendar_loader'),
+                type: 'POST',
+                // A way to add custom filters to your event listeners
+                data: function() {
+                    return { users: $('#zdt_uczestnikZdarzeniaTechnicznego_0_osoba').select2('data').id };
+                },
+                error: function() {
+                    //alert('There was an error while fetching Google Calendar!');
+                }
+            }
+        ]
+    });
+
+{% endblock javascripts %}

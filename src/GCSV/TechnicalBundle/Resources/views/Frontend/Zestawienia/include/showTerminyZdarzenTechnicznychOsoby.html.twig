@@ -1,0 +1,47 @@
+<table class="table table-bordered lista-wizyt">
+    <caption class="text-info">{{ technik.imienazwisko }} <span class="zasieg">(zasięg: {{ technik.profil.zasieg }} km)</span></caption>
+    <thead>
+    <tr>
+        <th class="col-width-50">ID</th>
+        <th>Klient</th>
+        <th class="col-width-100">Rodzaj</th>
+        <th class="col-width-70">Zlecający</th>
+        <th class="col-width-160">Termin (Ilość dni)</th>
+        <th class="col-width-70">Status</th>
+        <th class="col-width-70">Dystans</th>
+        <th class="col-width-50 text-center pomoc" title="Raport Techniczny" data-toggle="tooltip">RT <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+        <th class="col-width-50 text-center pomoc" title="Notatka Wewnętrzna" data-toggle="tooltip">NW <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+        <th class="col-width-50 text-center pomoc" title="Raport Zużycia" data-toggle="tooltip">RZ <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+        <th class="col-width-50 text-center pomoc" title="Receptura" data-toggle="tooltip">RE <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+        <th class="col-width-100">Uwagi</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for termin in terminy %}
+        {% set uczestnik = termin.uczestnikZdarzeniaTechnicznego %}
+        {% set zdarzenieTechniczne = uczestnik.zdarzenieTechniczne %}
+        {% set firma = zdarzenieTechniczne.oddzialFirmy ? zdarzenieTechniczne.oddzialFirmy.firma %}
+        {% set zlecajacy = zdarzenieTechniczne.osobaZlecajaca %}
+        {% set leftDays = dateDiff(termin.rozpoczecieWizyty,termin.zakonczenieWizyty)|date('%d') %}
+        <tr class="{{ statusy_klasy[zdarzenieTechniczne.status] }}">
+            <th><a href="{{ path('zdarzenie_techniczne_show', { 'id' : zdarzenieTechniczne.id } ) }}">{{ termin.id }}.</a></th>
+            <td title="<storng>Pełna nazwa:</strong><br>{{ firma.nazwaPelna|default("Brak danych") }}" data-toggle="tooltip" class="pomoc">{{ firma.nazwaSkrocona|default("-") }}</td>
+            <td title="{{ zdarzenieTechniczne.rodzajZdarzeniaTechnicznego }}" data-toggle="tooltip">{{ zdarzenieTechniczne.rodzajZdarzeniaTechnicznego }}</td>
+            <td title="{{ zlecajacy.imienazwisko }}" data-toggle="tooltip">{{ zlecajacy.imienazwisko }}</td>
+            <td title="<div class='text-left'><u>Termin zdarzenia:</u><br><b>Początek: </b>{{ termin.rozpoczecieWizyty|date('d.m.Y') }}<br><b>Koniec: </b> {{ termin.zakonczenieWizyty|date_modify("-1 day")|date('d.m.Y') }}<br><b>Ilość dni: </b>{{ leftDays|default('0') }}</div>" data-toggle="tooltip">{{ termin.rozpoczecieWizyty|date('d.m.Y') }} <span class="glyphicon glyphicon-link" style="color: #0044cc;"></span> {{ termin.zakonczenieWizyty|date_modify("-1 day")|date('d.m.Y') }} ({{ leftDays|default("0") }})</td>
+            <td title="{{ statusy[zdarzenieTechniczne.status] }}" data-toggle="tooltip">{{ statusy[zdarzenieTechniczne.status] }}</td>
+            <td class="text-right">{{ uczestnik.dystans|dystans }}</td>
+            <td class="text-center"><span class="{{ zdarzenieTechniczne.isRaportTechniczny ? 'glyphicon glyphicon-ok' }}"></span></td>
+            <td class="text-center"><span class="{{ zdarzenieTechniczne.isNotatka ? 'glyphicon glyphicon-ok' }}"></span></td>
+            <td class="text-center"><span class="{{ zdarzenieTechniczne.isRaportZuzycia ? 'glyphicon glyphicon-ok' }}"></span></td>
+            <td class="text-center"><span class="{{ zdarzenieTechniczne.isReceptury ? 'glyphicon glyphicon-ok' }}"></span></td>
+            <td class="col-uwagi">
+                {{ isWizytaWyjazdowa(technik.profil.zasieg,uczestnik.dystans) ? '<i class="fa fa-plane" title="Wizyta wyjazdowa" data-toggle="tooltip"></i>' : '<i class="fa fa-car" title="Wizyta lokalna" data-toggle="tooltip"></i>' }}
+                {{ checkDateInRange(termin.rozpoczecieWizyty,termin.zakonczenieWizyty|date_modify("-1 day"),dataOd,dataDo) == false ? '<i class="fa fa-exclamation-triangle text-danger" title="Uwaga wizyta na przełomie miesiąca!" data-toggle="tooltip"></i>' }}
+                {{ zdarzenieTechniczne.rodzajZdarzeniaTechnicznego == "Szkolenie wewnętrzne" ? '<span class="label label-warning" title="Szkolenie wewnętrzne" data-toggle="tooltip">SzW</span>' }}
+                {{ zdarzenieTechniczne.rodzajZdarzeniaTechnicznego == "Prace organizacyjne DT" ? '<span class="label label-info" title="Prace organizacyjne DT" data-toggle="tooltip">PO</span>' }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

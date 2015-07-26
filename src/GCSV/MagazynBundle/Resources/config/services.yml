@@ -1,0 +1,6 @@
+services:
+    gcsv.form.type.produkt_typeahead:
+        class: GCSV\MagazynBundle\Form\Type\ProduktType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: produkt_typeahead }

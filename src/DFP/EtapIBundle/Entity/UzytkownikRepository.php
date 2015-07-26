@@ -34,4 +34,29 @@ class UzytkownikRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function findAllUnclockOrderByImie()
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select('u,p')
+            ->leftJoin('u.profilUzytkownika','p')
+            ->Where('u.locked = false')
+            ->orderBy('u.imie')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findAllUnlockTechnicy()
+    {
+        $query = $this->createQueryBuilder('ut')
+            ->select('ut,p')
+            ->leftJoin('ut.profilUzytkownika','p')
+            ->where('p.stanowisko = :technik')
+            ->setParameter('technik','Technik')
+            ->andWhere('ut.locked = false')
+            ->orderBy('ut.imie','ASC');
+
+        return $query->getQuery()->getResult();
+    }
 }

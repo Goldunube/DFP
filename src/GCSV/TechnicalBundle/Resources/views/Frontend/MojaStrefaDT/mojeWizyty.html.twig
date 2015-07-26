@@ -1,0 +1,262 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% form_theme form.raport_tech _self %}
+{% form_theme form.raport_zuz _self %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div class="btn-group {% if class is defined %} {{ class }} {% endif %}" data-toggle="buttons">
+            {% for child in form %}
+                {% if child.vars.value is defined %}
+                    {% if child.vars.value == '' %}
+                        <label class="btn btn-default {{ child.vars.checked ? 'active' }}">
+                            {{ form_widget(child) }} <span class="glyphicon glyphicon-off"></span> Wył.
+                        </label>
+                    {% elseif child.vars.value == 1 %}
+                        <label class="btn btn-default {{ child.vars.checked ? 'active' }}">
+                            {{ form_widget(child) }} <span class="glyphicon glyphicon-ok"></span> Tak
+                        </label>
+                    {% else %}
+                        <label class="btn btn-default {{ child.vars.checked ? 'active' }}">
+                            {{ form_widget(child) }} <span class="glyphicon glyphicon-remove"></span> Nie
+                        </label>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/lista_wizyt.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    <nav class="well">
+        <form method="get" action="#lista-wizyt" role="search" class="form-horizontal">
+            <div class="container-fluid">
+                <div id="adv-filters" class="collapse">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="klient_filter_nazwaSkrocona" class="col-lg-6 control-label">ID zdarzenia</label>
+                                <div class="col-lg-6">
+                                    {{ form_widget(form.id, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="klient_filter_nip" class="col-lg-2 control-label">Rodzaj</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(form.rodzaj, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="klient_filter_kodMax" class="col-lg-4 control-label">Status</label>
+                                <div class="col-lg-8">
+                                    {{ form_widget(form.status, { 'attr' : { 'class' : 'form-control select2' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="klient_filter_nazwaSkrocona" class="col-lg-2 control-label">Klient</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(form.klient, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="klient_filter_nip" class="col-lg-2 control-label" title="Raport Techniczny" data-toggle="tooltip">RT</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(form.raport_tech, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="klient_filter_nip" class="col-lg-2 control-label" title="Raport Zużycia" data-toggle="tooltip">RZ</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(form.raport_zuz, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="klient_filter_nip" class="col-lg-3 control-label">Technik</label>
+                                <div class="col-lg-9">
+                                    {{ form_widget(form.technik, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="klient_filter_nip" class="col-lg-3 control-label">Zlecający</label>
+                                <div class="col-lg-9">
+                                    {{ form_widget(form.zlecajacy, { 'attr' : { 'class' : 'form-control' } } ) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="klient_filter_kodMax" class="col-lg-3 control-label">Od</label>
+                            <div class="col-lg-9">
+                                {{ form_widget(form.rozpoczecieWizyty, { 'attr' : { 'class' : 'form-control text-center datepicker', 'autocomplete' : 'off' } } ) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="klient_filter_kodMax" class="col-lg-3 control-label">Do</label>
+                            <div class="col-lg-9">
+                                {{ form_widget(form.zakonczenieWizyty, { 'attr' : { 'class' : 'form-control text-center datepicker', 'autocomplete' : 'off' } } ) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-lg-offset-3">
+                        {{ form_rest(form) }}
+                        <div class="col-lg-12">
+                            <input type="submit" name="submit-filter" value="Szukaj" class="btn btn-primary right"/>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-adv-filter" class="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target="#adv-filters">Filtr zaawansowany</button>
+            </div>
+        </form>
+    </nav>
+
+    <table id="lista-wizyt" class="table table-hover lista-wizyt">
+        <thead>
+        <tr>
+            <th class="col-width-50">ID</th>
+            <th>Klient</th>
+            <th class="col-width-160">Rodzaj</th>
+            <th class="col-width-100">Zlecający</th>
+            <th class="col-width-180">Termin (ilość dni)</th>
+            <th class="col-width-100">Status</th>
+            <th class="col-width-70">Dystans</th>
+            <th class="col-width-50 text-center pomoc" title="Raport Techniczny" data-toggle="tooltip">RT <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+            <th class="col-width-50 text-center pomoc" title="Raport Zużycia" data-toggle="tooltip">RZ <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+            <th class="col-width-50 text-center pomoc" title="Receptura" data-toggle="tooltip">RE <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+        </tr>
+        </thead>
+        <tbody data-link="row" class="rowlink">
+        {% set breakLine = true %}
+        {% for termin in terminy_zdarzen %}
+            {% if termin.rozpoczecieWizyty < date() and breakLine == true %}
+                <tr>
+                    <td colspan="10" style="background-color: red; color: #ff0000; text-align: right; padding: 0; position: relative; overflow: visible; height: 2px;">
+                        <span style="position: absolute; border-bottom: 2px solid; padding-left: 30px; top: -18px; right: -118px;">Dziś {{ date()|date('d.m.Y') }}</span>
+                    </td>
+                </tr>
+                {% set breakLine = false %}
+            {% endif %}
+            {% set status = termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.status %}
+            {% set dystans = termin.uczestnikZdarzeniaTechnicznego.dystans %}
+            {% set dystansx2 = termin.uczestnikZdarzeniaTechnicznego.dystans * 2 %}
+            {% set ile_receptur = termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.receptury|length %}
+            {% set ile_rap_tech = termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.raportyTechniczne|length %}
+            {% set leftDays = dateDiff(termin.rozpoczecieWizyty,termin.zakonczenieWizyty)|date('%d') %}
+            <tr class="{{ statusy_klasy[status] }}">
+                <td style="font-weight: bold;"><a href="{{ path('zdarzenie_techniczne_show', { 'id' : termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.id } ) }}">{{ termin.id }}</a></td>
+                {% if termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy %}
+                    <td title="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy.firma.nazwaSkrocona }}" data-toggle="tooltip">
+                        {{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy.firma.nazwaSkrocona }}
+                    </td>
+                {% else %}
+                    <td>
+                        -
+                    </td>
+                {% endif %}
+                <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.rodzajZdarzeniaTechnicznego }}</td>
+                <td title="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.osobaZlecajaca.imieNazwisko }}" data-toggle="tooltip">{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.osobaZlecajaca.imie|slice(0,1) }}.{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.osobaZlecajaca.nazwisko }}</td>
+                <td>{{ termin.rozpoczecieWizyty|date('d.m.Y') }} <span class="glyphicon glyphicon-link" style="color: #0044cc;"></span> {{ termin.zakonczenieWizyty|date_modify("-1 day")|date('d.m.Y') }} (<span class="text-info">{{ leftDays }}</span>)</td>
+                <td>{{ statusy[status] }}</td>
+                <td class="text-right" data-toggle="tooltip" title="Dystans całkowity: {{ dystansx2|dystans }}">{{ dystans|dystans }}</td>
+                <td class="text-center"><span class="{{ ile_rap_tech > 0 ? 'glyphicon glyphicon-ok' }}"></span></td>
+                <td class="text-center"><span class="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.isRaportZuzycia ? 'glyphicon glyphicon-ok' }}"></span></td>
+                {% if ile_receptur > 0 %}
+                    <td class="text-center" title="Liczba opracowanych receptur: {{ ile_receptur }}" data-toggle="tooltip"><span class="glyphicon glyphicon-ok"></span></td>
+                {% else %}
+                    <td class="text-center"></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="container-fluid bottom-navigation">
+        <div class="navigation">
+            {{ knp_pagination_render(terminy_zdarzen) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block dodatkowe_skrypty_js %}
+    <script type="text/javascript">
+        var $iptRozpoczecieDataWidget = $('#wizyty_filter_rozpoczecieWizyty');
+        var $iptZakonczenieDataWidget = $('#wizyty_filter_zakonczenieWizyty');
+        var $advFilterContainer = $('#adv-filters');
+        var $btnAdvFilter = $('#btn-adv-filter');
+
+        $('select').select2({'allowClear':true});
+
+        $('[data-toggle="tooltip"]').tooltip({
+            'container' :   'body',
+            'delay'     :   500
+        });
+
+        $('.datepicker').datetimepicker({
+            locale: 'pl',
+            useCurrent: true,
+            showTodayButton: true,
+            showClear: true,
+            format: 'DD.MM.YYYY'
+        });
+        $iptRozpoczecieDataWidget.on("dp.change", function (e) {
+            $iptZakonczenieDataWidget.data("DateTimePicker").minDate(e.date);
+        });
+        $iptZakonczenieDataWidget.on("dp.change", function (e) {
+            $iptRozpoczecieDataWidget.data("DateTimePicker").maxDate(e.date);
+        });
+
+        $advFilterContainer.on('shown.bs.collapse',function(e)
+        {
+            $btnAdvFilter.html('Zwiń filtr');
+        });
+        $advFilterContainer.on('hidden.bs.collapse',function(e)
+        {
+            $btnAdvFilter.html('Rozwiń filtr');
+        });
+    </script>
+{% endblock dodatkowe_skrypty_js %}

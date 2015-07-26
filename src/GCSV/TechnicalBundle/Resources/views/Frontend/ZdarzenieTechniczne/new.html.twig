@@ -1,0 +1,181 @@
+{% extends is_full_view() ? '@GCSVCore/Frontend/frontend_layout.html.twig' : '::mobile.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+{% form_theme form.priorytet _self %}
+
+{% block choice_widget_expanded %}
+    {% spaceless %}
+        <div class="btn-group {% if class is defined %} {{ class }} {% endif %}" data-toggle="buttons">
+            {% for child in form %}
+                {% if child.vars.value is defined %}
+                    {% if child.vars.value == -1 %}
+                        <label class="btn btn-success">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% elseif child.vars.value == 0 %}
+                        <label class="btn btn-warning active">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% else %}
+                        <label class="btn btn-danger">
+                            {{ form_widget(child) }} {{ child.vars.label }}
+                        </label>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    {% stylesheets
+        'css/jquery-ui/blitzer/jquery-ui-1.10.4.custom.min.css'
+        'bundles/gcsvcore/css/thirdparty/jquery-qtip/jquery.qtip.min.css'
+        'bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css'
+        'bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css'
+        'bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css'
+        'bundles/gcsvcore/css/thirdparty/bootstrap-typeahead/bootstrap3-typeahead.css'
+        'bundles/gcsvfullcalendar/css/fullcalendar.min.css'
+        'bundles/gcsvtechnical/css/kalendarz.css' filter="cssrewrite" %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts
+        'bundles/gcsvcore/js/core.js'
+        'bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js'
+        'bundles/gcsvfullcalendar/js/fullcalendar.min.js'
+        'bundles/gcsvfullcalendar/js/lang-all.js'
+        'bundles/gcsvfullcalendar/js/gcal.js'
+        'bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js'
+        'bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js'
+        'bundles/gcsvcore/js/thirdparty/jquery-qtip/jquery.qtip.min.js' output="js/compiled/zdarzenie-techniczne-new" %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/gcsv_autocomplete.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/zdarzenie-techniczne-new.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ is_full_view() ? '<section class="container-fluid">' }}
+        <h1 style="margin-bottom: 20px;">Nowe zdarzenie techniczne</h1>
+        <fieldset>
+            {% if is_full_view() %}
+                <div class="form-group {{ form.rodzajZdarzeniaTechnicznego.vars.errors|length > 0 ? 'has-error' }}">
+                    {{ form_label(form.rodzajZdarzeniaTechnicznego,null, { 'label_attr' : { 'class' : 'col-xs-12' } }) }}
+                    <div class="col-sm-4 col-xs-6">
+                        {{ form_widget(form.rodzajZdarzeniaTechnicznego) }}
+                        {{ form_errors(form.rodzajZdarzeniaTechnicznego) }}
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-4 col-xs-offset-1 col-xs-5 text-right">
+                        {{ form_widget(form.priorytet) }}
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <div class="col-xs-12 text-right">
+                        {{ form_widget(form.priorytet) }}
+                    </div>
+                </div>
+                <div class="form-group {{ form.rodzajZdarzeniaTechnicznego.vars.errors|length > 0 ? 'has-error' }}">
+                    {{ form_label(form.rodzajZdarzeniaTechnicznego,null, { 'label_attr' : { 'class' : 'col-xs-12' } }) }}
+                    <div class="col-sm-4 col-xs-12">
+                        {{ form_widget(form.rodzajZdarzeniaTechnicznego) }}
+                        {{ form_errors(form.rodzajZdarzeniaTechnicznego) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div id="pola-dodatkowe"></div>
+            {#{{ form_row(form.opis) }}#}
+            <div class="form-group {{ form.opis.vars.errors|length > 0 ? 'has-error' }}">
+                {{ form_label(form.opis) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.opis) }}
+                    {{ form_errors(form.opis) }}
+                    <button class="speech-record-btn"><i class="fa fa-microphone fa-2x"></i></button>
+                </div>
+            </div>
+            {{ form_row(form.oddzialFirmy) }}
+            {{ form_row(form.dlugoscGeo) }}
+            {{ form_row(form.szerokoscGeo) }}
+        </fieldset>
+
+        <fieldset id="technicy-container">
+            {% for technik in form.uczestnikZdarzeniaTechnicznego %}
+                <div class="form-group {{ technik.osoba.vars.errors|length > 0 ? 'has-error' }}">
+                    {{ form_label(technik.osoba,'Technik') }}
+                    <div class="col-sm-9">
+                        {{ form_widget(technik.osoba) }}
+                        {{ form_errors(technik.osoba) }}
+                    </div>
+                </div>
+                {% for termin in technik.terminy %}
+                    {% if termin.rozpoczecieWizyty.vars.errors|length > 0 or termin.zakonczenieWizyty.vars.errors|length > 0 %}
+                        {% set terminError = true %}
+                    {% endif %}
+                    <div class="form-group {{ terminError|default(false) ? 'has-error' : '' }}">
+                        <label class="col-sm-3 col-xs-12 control-label">Termin zdarzenia</label>
+                        <div class="col-sm-4 col-xs-6">
+                            <div id="datetimepicker-start" class="input-group date">
+                                {{ form_widget(termin.rozpoczecieWizytyWidget) }}
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            {{ form_widget(termin.rozpoczecieWizyty) }}
+                        </div>
+                        <div class="col-sm-4 col-sm-offset-1 col-xs-6">
+                            <div id="datetimepicker-koniec" class="input-group date">
+                                {{ form_widget(termin.zakonczenieWizytyWidget) }}
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                            {{ form_widget(termin.zakonczenieWizyty) }}
+                        </div>
+                        {% if terminError|default(false) %}
+                            <div class="col-sm-9 col-sm-offset-3">
+                                {{ form_errors(termin.zakonczenieWizyty) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </fieldset>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Kalendarz</label>
+            <div class="form-control-static col-sm-9">
+                <div id="kalendarz-container" class="horizont-panel aktywny">
+                    {% include '@GCSVFullCalendar/Default/kalendarz.html.twig' %}
+                </div>
+            </div>
+        </div>
+        {{ form_row(form.osobaZlecajaca) }}
+
+        <hr>
+
+        {{ form_widget(form.submit) }}
+
+    {{ is_full_view() ? '</section>' }}
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% if is_mobile_view() %}
+        var $rodzajSelect =  $('#zdt_rodzajZdarzeniaTechnicznego');
+        var $technikSelect = $('#technicy-container select');
+        $rodzajSelect.select2("destroy");
+        $technikSelect.select2("destroy");
+    {% endif %}
+{% endblock javascripts %}

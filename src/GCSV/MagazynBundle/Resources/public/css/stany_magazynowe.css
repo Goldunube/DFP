@@ -1,0 +1,94 @@
+table.magazyn {
+    font-size: 12px;
+}
+table.magazyn tfoot {
+    font-weight: bold;
+    font-size: 14px;
+}
+.magazyn .col-width-50 {
+    width: 50px;
+}
+.magazyn .col-width-70 {
+    width: 70px;
+}
+.magazyn .col-width-150 {
+    width: 150px;
+}
+.magazyn .col-width-200 {
+    width: 200px;
+}
+.magazyn .col-width-300 {
+    width: 300px;
+}
+.magazyn .col-width-350 {
+    width: 350px;
+}
+.magazyn .col-width-400 {
+    width: 400px;
+}
+.table {
+    table-layout:fixed;
+}
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.overflow-visible td {
+    overflow: visible;
+}
+.magazyn .col-index {
+    font-size: 14px;
+}
+.col-ilosc {
+    width: 100px;
+    text-align: center;
+}
+.col-ilosc > input {
+    text-align: right;
+}
+.col-wartosc {
+    width: 130px;
+}
+.col-wartosc input {
+    text-align: right;
+}
+.col-buttons {
+    width: 95px;
+}
+.magazyn .form-control {
+    font-size: 12px;
+}
+.magazyn .form-control-static {
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tt-suggestion {
+    border-bottom: 1px solid #dfdfdf;
+    color: #8a8a8a;
+    font-size: 10px;
+    padding-top: 8px;
+    cursor: pointer;
+}
+.tt-suggestion:last-child {
+    border-bottom: 1px solid transparent;
+}
+.tt-suggestion.tt-cursor {
+    background-color: #FAEBD7;
+}
+.tt-suggestion > div {
+    padding: 0 12px;
+}
+.tt-suggestion .indeks {
+    font-size: 12px;
+    color: #000000;
+    margin-bottom: 0;
+}
+.tt-highlight {
+    color: #FF6347;
+}
+.tt-dropdown-menu {
+    max-height: 250px;
+    overflow-y: auto;
+}

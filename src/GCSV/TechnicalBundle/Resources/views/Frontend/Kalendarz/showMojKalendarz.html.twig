@@ -1,0 +1,197 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/jquery-qtip/jquery.qtip.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvfullcalendar/css/fullcalendar.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/kalendarz.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-typeahead/bootstrap3-typeahead.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/lib/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/fullcalendar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/lang-all.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/gcal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/kalendarz-ustawienia-frontend-2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-qtip/jquery.qtip.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/gcsv_autocomplete.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    <section class="container-fluid">
+        <div class="clock-container" style="position: absolute;right: 40px;top: 35px;">
+            <iframe src="http://free.timeanddate.com/clock/i4a41vdj/n262/tlpl31/fn12/fs20/tct/pct/ftbu/th1" frameborder="0" width="114" height="26" allowTransparency="true"></iframe>
+        </div>
+
+        <h1>{% trans %}Kalendarz DT{% endtrans %}</h1>
+
+        {% include '@GCSVFullCalendar/Default/kalendarz.html.twig' %}
+    </section>
+
+    <div id="kalendarz-legenda" class="container-fluid">
+        <div class="row">
+            <h4>Legenda:</h4>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="legenda-etykieta"><span class="fc-urlop">Urlop</span></div>
+            </div>
+            <div class="col-sm-10">
+                <span><strong>Czerwone skośne kreskowanie</strong> oznacza, że w tym terminie wskazana osoba przebywa na urlopie lub zwolnieniu.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="legenda-etykieta"><span class="st-anulowane">Anulowane</span></div>
+            </div>
+            <div class="col-sm-10">
+                <span><strong>Jedna czerwona pozioma linia</strong> oznaczają status nadawany zdarzeniom odwołanym po ówczesnym ich zaakceptowaniu.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="legenda-etykieta"><span class="st-odrzucone">Odrzucone</span></div>
+            </div>
+            <div class="col-sm-10">
+                <span><strong>Dwie czerwone poziome linie</strong> oznacza status nadawany zdarzeniom, które z różnych powodów nie mogą być zaakceptowane. Na przykład z powodu nie przekazania kompletu niezbędnych informacji.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="legenda-etykieta"><span class="st-nadeslane">Nadesłane</span></div>
+            </div>
+            <div class="col-sm-10">
+                <span><strong>Grube białe skośne kreskowanie</strong> jest automatycznie nadawane wszystkim nowym zgłoszeniom. W ten sposób zaznaczone są zdarzenia, które zostały zgłoszone, ale jeszcze nie zweryfikowane przez koordynatora.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="legenda-etykieta"><span class="st-zarezerwowane">Zarezerwowane</span></div>
+            </div>
+            <div class="col-sm-10">
+                <span><strong>Biała podstawka zdarzenia technicznego</strong> jest symbolem tymczasowego statusu nadawanego przez koordynatora DT na czas ostatecznego potwierdzenia terminu zdarzenia przez wszystkie strony.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="legenda-etykieta"><span>Zaakceptowane</span></div>
+            </div>
+            <div class="col-sm-10">
+                <span><strong>Pełnym kolorem</strong> oznaczenie są poprawnie zgłoszone zdarzenia, których termin wykonania został potwierdzony przez wszystkie zainteresowane strony (klient, osoba zamawiająca, technik).</span>
+            </div>
+        </div>
+    </div>
+    {#&#123;&#35; TODO: Przenieść do oddzielnego kontrolera generującego widok &#35;&#125;#}
+    {#<div id="formularz-container" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}
+        {#<div class="modal-dialog">#}
+            {#<div class="modal-content">#}
+                {#<div class="modal-header">#}
+                    {#<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>#}
+                    {#<h4 class="modal-title" id="myModalLabel">Wczytywanie zawartości...</h4>#}
+                {#</div>#}
+                {#<div class="modal-body">#}
+                    {#<div style="text-align: center;">#}
+                        {#<img src="{{ asset("images/ajax-loader.gif") }}">#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+
+    {#</div>#}
+
+    <aside id="lista-kalendarzy">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#tab-poludnie" role="tab" data-toggle="tab">Południe</a></li>
+            <li><a href="#tab-polnoc" role="tab" data-toggle="tab">Północ</a></li>
+            <li><a href="#tab-wschod" role="tab" data-toggle="tab">Wschód</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab-poludnie">
+                <ul>
+                    {% for technik in technicyPoludnie %}
+                        {% if technik.kalendarz is defined %}
+                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
+                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
+                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                        {% endif %}
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" {{ technik.id == app.user.id ? "checked='checked'"}} /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab-polnoc">
+                <ul>
+                    {% for technik in technicyPolnoc %}
+                        {% if technik.kalendarz is defined %}
+                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
+                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
+                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                        {% endif %}
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" {{ technik.id == app.user.id ? "checked='checked'" }} /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab-wschod">
+                <ul>
+                    {% for technik in technicyWschod %}
+                        {% if technik.kalendarz is defined %}
+                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
+                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
+                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                        {% endif %}
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" {{ technik.id == app.user.id ? "checked='checked'" }} /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}" >{{ technik.imieNazwisko }}</label></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <a href="javascript: void(0);" class="listek" ><span>Kalendarze</span></a>
+    </aside>
+
+    {{ tinymce_init() }}
+{% endblock %}
+
+{% block javascripts %}
+    $('#formularz-container').on('loaded.bs.modal', function(e) {
+        $('#formularz-container select').select2();
+        $('#zdt_oddzialFirmy').gcsv_autocomplete({
+            url_list: Routing.generate('ajax_search_oddzial'),
+            url_get: Routing.generate('ajax_get_oddzial')
+        })
+        .on('typeahead:selected',function($e,datum){
+            $('#zdt_dlugoscGeo').val(datum.lng);
+            $('#zdt_szerokoscGeo').val(datum.lat);
+        })
+        .on('typeahead:autocompleted',function($e,datum){
+            $('#zdt_dlugoscGeo').val(datum.lng);
+            $('#zdt_szerokoscGeo').val(datum.lat);
+        })
+    })
+
+    $('#formularz-container').on('hidden.bs.modal', function() {
+        $(this).removeData('bs.modal');
+    });
+
+    $("#formularz-container").draggable({
+        handle: ".modal-header"
+    });
+
+    $('#formularz-container').on('submit','form[name="zdt"]',function(e) {
+        e.preventDefault();
+
+        var $form = $( this );
+        var url = $form.attr('action');
+        $.ajax({
+            url:    url,
+            type:   'POST',
+            data:   $form.serialize()
+        }).done(function(){
+            $('#formularz-container').modal('hide');
+            $('#kalendarz-container').fullCalendar('refetchEvents');
+        })
+    });
+{% endblock javascripts %}

@@ -1,0 +1,148 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block filter_date_range_widget %}
+    {% spaceless %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control datepicker')|trim }) %}
+        {{ form_widget(form.left_date, {'attr': attr}) }}
+        <i class="fa fa-arrows-h fa-lg"></i>
+        {{ form_widget(form.right_date, {'attr': attr}) }}
+    {% endspaceless %}
+{% endblock filter_date_range_widget %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    <style scoped="scoped">
+        .form-inline .form-group {
+            margin-bottom: 15px;
+        }
+        .select2-container.form-control {
+            display: inline-block;
+        }
+        .ipt-id {
+            width: 100px;
+        }
+    </style>
+    <nav class="well">
+        <form id="search-form" method="get" action="{{ path('zaplecze_raporty_zuzycia') }}#lista-raportow" class="form-inline">
+            <div class="container-fluid">
+                <div class="form-group">
+                    {{ form_label(form.id) }}
+                    {{ form_widget(form.id, { 'attr' : { 'class' : 'form-control ipt-id' } } ) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.zdarzenieTechniczne) }}
+                    {{ form_widget(form.zdarzenieTechniczne, { 'attr' : { 'class' : 'form-control ipt-id' } } ) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.autor) }}
+                    {{ form_widget(form.autor, { 'attr' : { 'class' : 'form-control select2', 'data-placeholder' : "Wybierz autora" } } ) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.status) }}
+                    {{ form_widget(form.status, { 'attr' : { 'class' : 'form-control select2', 'data-placeholder' : "Wszystkie" } } ) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.wydruk) }}
+                    {{ form_widget(form.wydruk, { 'attr' : { 'class' : 'form-control select2', 'data-placeholder' : "Wszystkie" } } ) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.dataUtworzenia) }}
+                    {{ form_widget(form.dataUtworzenia) }}
+                </div>
+
+                {{ form_rest(form) }}
+                <div class="row">
+                    <div class="col-lg-12 text-right">
+                        <input type="reset" name="reset-filter" value="Wyczyść" class="btn btn-warning btn-sm">
+                        <input type="submit" name="submit-filter" value="Szukaj" class="btn btn-primary btn-sm"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <section class="container-fluid">
+        <table id="lista-raportow" class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-lp">#</th>
+                    <th class="col-lp">ID</th>
+                    <th>Technik</th>
+                    <th>Klient</th>
+                    <th>Rodzaj wizyty</th>
+                    <th>Data utworzenia</th>
+                    <th>Akceptacja</th>
+                    <th>Wydruk</th>
+                </tr>
+            </thead>
+            <tbody data-link="row" class="rowlink">
+                {% for raport in listaRaportowZuzyc %}
+                    <tr>
+                        <td><a href="{{ path('zaplecze_raport_zuzycia_show', { 'id' : raport.id }) }}">{{ listaRaportowZuzyc.getPaginationData['firstItemNumber'] + loop.index - 1 }}.</a></td>
+                        <td>{{ raport.id }}</td>
+                        <td>{{ raport.autor.imieNazwisko }}</td>
+                        <td>{{ raport.zdarzenieTechniczne.oddzialFirmy.firma.nazwaSkrocona }}</td>
+                        <td>{{ raport.zdarzenieTechniczne.rodzajZdarzeniaTechnicznego.nazwa }}</td>
+                        <td>{{ raport.dataUtworzenia|date('Y-m-d') }}</td>
+                        <td><i class="{{ raport.akceptacja ? 'fa fa-check' }}"></i></td>
+                        <td><i class="{{ raport.wydruk ? 'fa fa-check' }}"></i></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="container-fluid">
+        <div class="navigation">
+            {{ knp_pagination_render(listaRaportowZuzyc) }}
+        </div>
+    </div>
+{% endblock content -%}
+
+{% block dodatkowe_skrypty_js %}
+    <script type="text/javascript">
+        $('select').select2({
+            allowClear                  :   true,
+            width                       :   '200px',
+            minimumResultsForSearch     :   Infinity
+        });
+
+        $('[data-toggle="tooltip"]').tooltip({
+            'container' :   'body',
+            'delay'     :   500
+        });
+
+        $('.datepicker').datetimepicker({
+            locale: 'pl',
+            useCurrent: true,
+            showTodayButton: true,
+            showClear: true,
+            format: 'YYYY-MM-DD'
+        });
+
+        $('input[type="reset"]').click(function(e){
+            e.preventDefault();
+            var $form = $('#search-form');
+            $('input[type="text"], input[type="date"]',$form).each(function(){
+                $(this).val(null);
+            });
+            $('select').val(null).trigger("change");
+        });
+    </script>
+{% endblock dodatkowe_skrypty_js %}

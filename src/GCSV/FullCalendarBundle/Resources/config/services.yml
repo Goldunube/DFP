@@ -1,0 +1,3 @@
+parameters:
+    fullcalendar.event.class:   GCSV\FullCalendarBundle\Entity\EventEntity
+    fullcalendar.loader.event:  calendar.load_events

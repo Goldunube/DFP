@@ -1,0 +1,34 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+
+{% block content -%}
+    {{ form_start(edit_form) }}
+    <section class="container-fluid">
+        <h1>{% trans %}TerminUrlopu - Edycja{% endtrans %}</h1>
+
+        <div class="container-fluid">
+            {% for child in form %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_row(child) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    {{ form_end(edit_form) }}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_start(delete_form) }}
+                <a href="{{ path('terminurlopu') }}" class="btn btn-warning" role="button">{% trans %}
+                    Powrót{% endtrans %}</a>
+
+                {{ form_widget(delete_form.submit, { "attr" : { "class" : "btn btn-danger" } } ) }}
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

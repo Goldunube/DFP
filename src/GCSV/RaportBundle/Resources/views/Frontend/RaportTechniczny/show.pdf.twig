@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Grupa CSV | Raport Techniczny</title>
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap/bootstrap.min.css',null,true) }}">
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap/bootstrap-theme.min.css',null,true) }}">
+</head>
+<body style="border: 0; margin: 0;">
+    <style type="text/css" scoped="scoped">
+        #rt-header {
+            background-color: #efefef;
+            border-collapse: collapse !important;
+            border-spacing: 0;
+            margin: 3px;
+        }
+        #rt-content, #rt-header {
+            border-collapse: separate;
+            border-spacing: 3px;
+        }
+        #rt-header tr {
+            border: 1px solid #cfcfcf;
+        }
+        #rt-header th {
+            border-color: #cfcfcf;
+            border-style: solid;
+            border-width: 1px;
+            color: #4f4f4f;
+            padding: 5px;
+            vertical-align: middle;
+            width: 300px;
+        }
+        #rt-content th {
+            background-color: #efefef;
+            border: 1px solid #cfcfcf;
+            border-radius: 7px;
+            color: #9F9F9F;
+            vertical-align: top;
+            width: 80px;
+        }
+        #rt-content th div {
+            font-size: 32px;
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            -webkit-transform-origin: 25% 100% 0;
+            -moz-transform-origin: 25% 100% 0;
+            -ms-transform-origin: 25% 100% 0;
+            -o-transform-origin: 25% 100% 0;
+            transform-origin: 20% 100% 0;
+            display: block;
+            white-space: nowrap;
+            width: 80px;
+        }
+        #rt-content td, #rt-header td {
+            padding: 0 5px;
+        }
+    </style>
+
+    <hr>
+    <div class="container">
+        <table id="rt-header" style="width: 100%">
+            <tr>
+                <th>Nr dokumentu</th>
+                <td>{{ raport.id }}</td>
+            </tr>
+            <tr>
+                <th>Nazwa i adres klienta</th>
+                <td>{{ raport.zdarzenieTechniczne.oddzialFirmy.firma.nazwaPelna }}</td>
+            </tr>
+            <tr>
+                <th>Termin wizyty</th>
+                <td>{{ raport.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|last.terminy|last.rozpoczecieWizyty|date('d-m-Y') }} - {{ raport.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|last.terminy|last.zakonczenieWizyty|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <th>Imię i nazwisko technika</th>
+                <td>{{ raport.autor.imieNazwisko }}</td>
+            </tr>
+            <tr>
+                <th>Handlowiec CSV odp. za obsługę klienta</th>
+                <td>{{ raport.zdarzenieTechniczne.oddzialFirmy.opiekun.imieNazwisko }}</td>
+            </tr>
+            <tr>
+                <th>Cel wizyty</th>
+                <td>{{ raport.cel }}</td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <table id="rt-content">
+            <tr>
+                <th>
+                    <div>Treść raportu</div>
+                </th>
+                <td>
+                    {{ raport.tresc|raw }}
+                </td>
+            </tr>
+            {% if raport.zalecenia %}
+                <tr>
+                    <th><div>Zalecenia</div></th>
+                    <td>
+                        {{ raport.zalecenia|raw }}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+    <footer id="footer-bottom" class="container">
+        <div class="row">
+            <div class="col-xs-3 col-xs-offset-9">
+                {#<img src="csv_diament_170.png">#}
+            </div>
+        </div>
+    </footer>
+    {#<script src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap/bootstrap.min.js') }}"></script>#}
+</body>
+</html>

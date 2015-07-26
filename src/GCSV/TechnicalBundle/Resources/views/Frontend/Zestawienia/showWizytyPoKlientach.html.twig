@@ -1,0 +1,103 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/moment/moment-with-locales.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/pmzeroclipboard/js/ZeroClipboard.min.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/pmzeroclipboard/js/config.js") }}"></script>
+{% endblock %}
+
+{% block title %}- zestawienie wizyt po klientach{% endblock %}
+
+{% block content -%}
+    <nav class="well">
+        <form method="get" action="{{ path('zestawienie_wizyt_po_klientach') }}" class="form-horizontal">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="data-od-widget" class="form-group col-lg-4">
+                        <label class="control-label col-lg-4" for="data-od">Data od</label>
+                        <div class="col-lg-6">
+                            <input id="data-od" type="text" class="form-control datepicker" name="dataOd" value="{{ data_od|date('d-m-Y') }}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div id="data-do-widget" class="form-group col-lg-4">
+                        <label class="control-label col-lg-4" for="data-do">Data do</label>
+                        <div class="col-lg-6">
+                            <input id="data-do" type="text" class="form-control datepicker" name="dataDo" value="{{ data_do|date('d-m-Y') }}" autocomplete="off">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary col-lg-1">Wyświetl</button>
+                </div>
+            </div>
+        </form>
+    </nav>
+    <section style="overflow: scroll">
+        <table id="zestawienie-table" class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Kod MAX</th>
+                <th>Nazwa klienta</th>
+                {% for rodzajWizyty in rodzaje_zdarzen %}
+                    <th>{{ rodzajWizyty.nazwa }}</th>
+                {% endfor %}
+                <th>Ilość wizyt</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for row in lista %}
+                    <tr>
+                        <th>{{ loop.index }}</th>
+                        <td>{{ row['kod_max'] }}</td>
+                        <td>{{ row['firma'] }}</td>
+                        {% for rodzajWizyty in rodzaje_zdarzen %}
+                                <td>{{ row['rodzajeWizyt'][rodzajWizyty.id]|default(0) }}</td>
+                        {% endfor %}
+                        <td>{{ row['wizyty'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button id="copy-button" data-clipboard-target="zestawienie-table" title="Kliknij, aby skopiować.">Kopiuj</button>
+    </section>
+{% endblock content -%}
+
+{% block dodatkowe_skrypty_js %}
+    <script type="text/javascript">
+        var $iptRozpoczecieDataWidget = $('#data-od-widget').find('.datepicker');
+        var $iptZakonczenieDataWidget = $('#data-do-widget').find('.datepicker');
+
+        $('.datepicker').datetimepicker({
+            locale: 'pl',
+            useCurrent: true,
+            showTodayButton: true,
+            showClear: true,
+            format: 'DD.MM.YYYY'
+        });
+        $iptRozpoczecieDataWidget.on("dp.change", function (e) {
+            if($iptZakonczenieDataWidget.data("DateTimePicker").date() < e.date)
+            {
+                $iptZakonczenieDataWidget.data("DateTimePicker")
+                        .minDate(e.date)
+                        .date(e.date);
+            }else{
+                $iptZakonczenieDataWidget.data("DateTimePicker")
+                        .minDate(e.date);
+            }
+        });
+        $iptZakonczenieDataWidget.data("DateTimePicker").minDate(moment("{{ data_do|date('Y-m-d') }}"));
+        $iptZakonczenieDataWidget.on("dp.change", function (e) {
+            $iptRozpoczecieDataWidget.data("DateTimePicker").maxDate(e.date);
+        });
+    </script>
+{% endblock dodatkowe_skrypty_js %}
+
+{% block javascripts %}
+    var client = new ZeroClipboard($("#copy-button"));
+{% endblock javascripts %}

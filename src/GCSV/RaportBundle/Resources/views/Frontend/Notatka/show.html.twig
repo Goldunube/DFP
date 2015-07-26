@@ -1,0 +1,95 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block content -%}
+    <style>
+        #rt-header {
+            background-color: #efefef;
+            border-collapse: collapse !important;
+            border-spacing: 0;
+            margin: 3px;
+        }
+        #rt-header {
+            border-collapse: separate;
+            border-spacing: 3px;
+        }
+        #rt-header tr {
+            border: 1px solid #cfcfcf;
+        }
+        #rt-header th {
+            border-color: #cfcfcf;
+            border-style: solid;
+            border-width: 1px;
+            color: #4f4f4f;
+            padding: 5px;
+            vertical-align: middle;
+            width: 300px;
+        }
+        #rt-header td {
+            padding: 0 5px;
+        }
+    </style>
+
+    <section>
+        <h1>{% trans %}Notatka{% endtrans %} <sup class="small">ID: {{ notatka.id }}</sup></h1>
+        <header>
+            <table class="table" id="rt-header">
+                <tr>
+                    <th>Nazwa i adres klienta</th>
+                    <td>
+                        <address>
+                            <strong>{{ notatka.zdarzenieTechniczne.oddzialFirmy.firma.nazwaPelna }}</strong><br>
+                            {{ notatka.zdarzenieTechniczne.oddzialFirmy.adresy|first.kodPocztowy|kodPocztowy }} {{ notatka.zdarzenieTechniczne.oddzialFirmy.adresy|first.miasto }}<br>
+                            ul. {{ notatka.zdarzenieTechniczne.oddzialFirmy.adresy|first.ulica }}
+                        </address>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Termin wizyty</th>
+                    <td>{{ notatka.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|last.terminy|last.rozpoczecieWizyty|date('d-m-Y') }} - {{ notatka.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|last.terminy|last.zakonczenieWizyty|date('d-m-Y') }}</td>
+                </tr>
+                <tr>
+                    <th>Imię i nazwisko technika</th>
+                    <td>{{ notatka.autor.imieNazwisko }}</td>
+                </tr>
+                <tr>
+                    <th>Handlowiec CSV odp. za obsługę klienta</th>
+                    <td>{{ notatka.zdarzenieTechniczne.oddzialFirmy.opiekun.imieNazwisko }}</td>
+                </tr>
+            </table>
+        </header>
+
+        <hr>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="javascript: history.back();" class="btn btn-warning" role="button">{% trans %}Powrót{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <table id="rt-content">
+            <tr>
+                <th>
+                    <div>Treść raportu</div>
+                </th>
+                <td>
+                    {{ notatka.tresc|raw }}
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Data utworzenia:</strong> {{ notatka.dataUtworzenia|date('Y-m-d H:i:s') }}
+        </div>
+        <div class="col-md-4 col-md-offset-4 text-right">
+            <strong>Data modyfikacji:</strong> {{ notatka.dataModyfikacji|date('Y-m-d H:i:s') }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,353 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/zdarzenie_techniczne_show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui/blitzer/jquery-ui-1.10.4.custom.min.css') }}">
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.ui.widget.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.iframe-transport.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-process.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-validate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/zdarzenia_techniczne_show.js') }}"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {% for technik in zdarzenie.uczestnikZdarzeniaTechnicznego %}
+        <section class="container-fluid" id="panel-dt">
+            {% if technik.osoba == app.user %}
+                <div class="col-lg-6">
+                    <h4>Menu</h4>
+                    <nav class="col-lg-6">
+                        <div class="list-group">
+                            <a href="{{ path('zdarzenie_techniczne_raport_techniczny_new', { 'id' : zdarzenie.id } ) }}" class="list-group-item">Raport techniczny</a>
+                            <a href="{{ path('zdarzenie_techniczne_nowa_notatka', { 'id' : zdarzenie.id }) }}" class="list-group-item">Notatka wewnętrzna</a>
+                            <a href="{{ path('zdarzenie_techniczne_nowy_raport_zuzycia', { 'id' : zdarzenie.id }) }}" class="list-group-item">Raport zużycia</a>
+                            <a href="{{ path('zdarzenie_techniczne_nowa_receptura', { 'id' : zdarzenie.id }) }}" class="list-group-item">Receptura</a>
+                            <a href="#" class="list-group-item fileinput-button">
+                                Załącz plik
+                                <input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>
+                            </a>
+                        </div>
+                    </nav>
+                    <nav class="col-lg-6">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item disabled">Status</a>
+                            <a href="#" class="list-group-item disabled">Stopień realizacji</a>
+                            <a href="#" class="list-group-item disabled">Kontynuacja</a>
+                            <a href="#" class="list-group-item disabled">-</a>
+                            <a href="#" class="list-group-item disabled">-</a>
+                        </div>
+                    </nav>
+                </div>
+            {% endif %}
+            <div class="col-lg-6">
+                <h4>Dokumentacja</h4>
+                <div id="dokumentacja-container" class="container-fluid">
+                    {% for dokument in dokumentacja %}
+                        <div id="rap-{{ dokument.id }}" class="row">
+                            <div class="col-xs-4 rodzaj-dokumentu {{ dokument.usuniety ? 'deleted' }}">
+                                Raport techniczny
+                            </div>
+                            <div class="col-xs-3 identyfikator">
+                                <span class="badge {{ dokument.usuniety ? 'deleted' }}">ID: {{ dokument.id }}</span>
+                            </div>
+                            <div class="col-xs-5 btn-container">
+                                {% if not dokument.usuniety %}
+                                    <div class="btn-group btn-group-xs">
+                                        {% if technik.osoba == app.user %}
+                                            <button type="button" class="btn btn-danger btn-usun-raport">Usuń</button>
+                                            <a href="{{ path('zdarzenie_techniczne_raport_techniczny_edit', { 'idz' : zdarzenie.id, 'idrt' : dokument.id }) }}" class="btn btn-warning btn-edytuj-raport">Edytuj</a>
+                                        {% endif %}
+                                        <a href="{{ path('zdarzenie_techniczne_raport_techniczny_show', { 'idz' : zdarzenie.id, 'idrt' : dokument.id }) }}" class="btn btn-primary btn-zobacz-raport">Zobacz</a>
+                                    </div>
+                                {% else %}
+                                    <span class="text-danger"><i>dokument usunięty</i></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Do tego zdarzenia nie sporządzono jeszcze żadnej dokumentacji technicznej.</p>
+                    {% endfor %}
+                    {% for notatka in notatki %}
+                        {% if notatka.publiczna == true or technik.osoba == app.user or is_granted('ROLE_KOORDYNATOR_DT') %}
+                            <div id="notatka-{{ notatka.id }}" class="row">
+                                <div class="col-xs-4 rodzaj-dokumentu">
+                                    Notatka
+                                </div>
+                                <div class="col-xs-3 identyfikator">
+                                    <span class="badge">ID: {{ notatka.id }}</span>
+                                </div>
+                                <div class="col-xs-5 btn-container">
+                                    <div class="btn-group btn-group-xs">
+                                        {% if technik.osoba == app.user %}
+                                            <button type="button" class="btn btn-danger btn-usun-notatka">Usuń</button>
+                                            <a href="#" class="btn btn-warning btn-edytuj-notatka">Edytuj</a>
+                                        {% endif %}
+                                        <a href="{{ path('zdarzenie_techniczne_notatka_show', { 'idz' : zdarzenie.id, 'idn' : notatka.id }) }}" class="btn btn-primary btn-zobacz-notatka">Zobacz</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% for raport in raporty_zuzycia %}
+                        <div id="rap-{{ raport.id }}" class="row">
+                            <div class="col-xs-4 rodzaj-dokumentu">
+                                Raport zużycia
+                            </div>
+                            <div class="col-xs-3 identyfikator">
+                                <span class="badge">ID: {{ raport.id }}</span>
+                            </div>
+                            <div class="col-xs-5 btn-container">
+                                <div class="btn-group btn-group-xs">
+                                    {% if raport.akceptacja == false and app.user == raport.autor %}
+                                    {% set csrfToken = csrfProvider ? csrfProvider.generateCsrfToken('delRaport%d'|format(raport.id)) %}
+                                    <a href="{{ path('raport_zuzycia_delete', { 'id' : raport.id, 'token' : csrfToken }) }}" class="btn btn-danger btn-usun">Usuń</a>
+                                    {#<button type="button" class="btn btn-warning">Edytuj</button>#}
+                                    {% endif %}
+                                    <a href="{{ path('raport_zuzycia_show', { 'id' : raport.id }) }}" class="btn btn-primary">Zobacz</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for receptura in receptury %}
+                        <div id="rec-{{ receptura.id }}" class="row">
+                            <div class="col-xs-4 rodzaj-dokumentu {{ receptura.usunieta ? 'deleted' }}">
+                                Receptura
+                            </div>
+                            <div class="col-xs-3 identyfikator">
+                                <span class="badge {{ receptura.usunieta ? 'deleted' }}">Kod: {{ receptura.kodKoloru }}</span>
+                            </div>
+                            <div class="col-xs-5 btn-container">
+                                {% if not receptura.usunieta %}
+                                    <div class="btn-group btn-group-xs">
+                                        <button type="button" class="btn btn-danger btn-usun-recepture">Usuń</button>
+                                        <a href="{{ path('zdarzenie_techniczne_edytuj_recepture', { 'zdarzenieId' : zdarzenie.id, 'recepturaId' : receptura.id }) }}" class="btn btn-warning btn-edytuj-recepture">Edytuj</a>
+                                        <a href="{{ path('zdarzenie_techniczne_pokaz_recepture', { 'zdarzenieId' : zdarzenie.id, 'recepturaId' : receptura.id }) }}" class="btn btn-primary btn-zobacz-recepture">Zobacz</a>
+                                    </div>
+                                {% else %}
+                                    <span class="text-danger"><i>dokument usunięty</i></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div id="files" class="files">
+                        {% if zalaczniki != null %}
+                            {% for file in zalaczniki %}
+                                <div class="row">
+                                    <div class="col-xs-4 rodzaj-dokumentu">Załącznik</div>
+                                    <div class="col-xs-3 identyfikator">
+                                        <span class="badge" title="{{ file.getFilename }}">{{ file.getFilename }}</span>
+                                    </div>
+                                    <div class="col-xs-5 btn-container">
+                                        <div class="btn-group btn-group-xs">
+                                            <button class="btn btn-danger btn-usun-plik" type="button">Usuń</button>
+                                            <a class="btn btn-primary btn-zobacz-plik" href="/uploads/zalaczniki/{{ zdarzenie.id }}/{{ file.getRelativePathname }}" download>Pobierz</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr>
+        <div class="col-sm-12">
+            <div id="progress" aria-valuemax="100" aria-valuemin="0" role="progressbar" class="progress progress-striped fade active" aria-valuenow="0">
+                <div class="progress-bar progress-bar-success" style="width: 0;"></div>
+            </div>
+        </div>
+    {% endfor %}
+    <section class="container-fluid">
+        <h3>Wizyta techniczna <sup class="small">(ID: {{ zdarzenie.id }})</sup></h3>
+        <div class="well well-sm">
+            <span class="text-muted lead">Informacje ogólne</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Rodzaj zdarzenia:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>{{ zdarzenie.rodzajZdarzeniaTechnicznego }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Klient:</b></p>
+            </div>
+            <div class="col-sm-9">
+                {% if zdarzenie.oddzialFirmy %}
+                    <p><a href="{{ path('kontrahent_show', { 'slug' : zdarzenie.oddzialFirmy.Firma.slug } ) }}"><span data-placement="bottom" data-toggle="tooltip" data-original-title="{{ zdarzenie.oddzialFirmy.Firma.nazwaPelna }}" style="cursor: pointer;">{{ zdarzenie.oddzialFirmy.Firma.nazwaSkrocona }}</span> <span class="text-info">(oddział: {{ zdarzenie.oddzialFirmy.nazwa != null ? zdarzenie.oddzialFirmy.nazwa : zdarzenie.oddzialFirmy.adresy[0].miasto }} )</span></a> </p>
+                {% else %}
+                    -
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Opis / Cel:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>{{ zdarzenie.opis }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Adres:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>{{ adres }}</p>
+            </div>
+        </div>
+    </section>
+    <section class="container-fluid">
+        <div class="well well-sm">
+            <span class="text-muted lead">Technik / Technicy <sup data-placement="bottom" data-toggle="tooltip" data-original-title="Osoby, które zostały wskazane do wykonania zadania." style="margin-left: 5px; cursor: help;" class="text-info"><span class="glyphicon glyphicon-info-sign"></span></sup></span>
+        </div>
+        {% for uczestnik in zdarzenie.uczestnikZdarzeniaTechnicznego %}
+            <div class="row">
+                <div class="col-sm-3">
+                    <p style="margin-left: 15px;"><b>Technik:</b></p>
+                </div>
+                <div class="col-sm-9">
+                    <p>
+                        <a href="#" style="margin: 2px 0; float: left;">{{ uczestnik.osoba.imieNazwisko }}</a>
+                        {% if uczestnik.osoba.profil.webZdjecieProfilowePath is defined and uczestnik.osoba.profil.webZdjecieProfilowePath %}
+                            <img src="{{ asset(uczestnik.osoba.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                        {% else %}
+                            <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p style="margin-left: 15px;"><b>Terminy:</b></p>
+                </div>
+                <div class="col-sm-9">
+                    <ul class="list-inline">
+                        {% for termin in uczestnik.terminy %}
+                            <li>
+                                {{ termin.rozpoczecieWizyty|date('d.m.Y') }} <span class="glyphicon glyphicon-link" style="color: #0044cc;"></span> {{ termin.zakonczenieWizyty|date_modify('-1day')|date('d.m.Y') }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p style="margin-left: 15px;"><b>Dystans:</b></p>
+                </div>
+                <div class="col-sm-9">
+                    {{ uczestnik.dystans|dystans }}
+                </div>
+            </div>
+            {% if not loop.last %}
+                <hr>
+            {% endif %}
+        {% endfor %}
+    </section>
+    <section class="container-fluid">
+        <div class="well well-sm">
+            <span class="text-muted lead">Informacje dodatkowe</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Osoba zlecająca:</b><sup data-placement="bottom" data-toggle="tooltip" data-original-title="Osoba, na polecenie której realizowana jest wizyta techniczna." style="margin-left: 5px; cursor: help;" class="text-info"><span class="glyphicon glyphicon-info-sign"></span></sup></p>
+            </div>
+            <div class="col-sm-9">
+                <p>
+                    <a href="#" style="margin: 2px 0; float: left;">{{ zdarzenie.osobaZlecajaca.imieNazwisko }}</a>
+                    {% if zdarzenie.osobaZlecajaca.profil.webZdjecieProfilowePath is defined and zdarzenie.osobaZlecajaca.profil.webZdjecieProfilowePath %}
+                        <img src="{{ asset(zdarzenie.osobaZlecajaca.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                    {% else %}
+                        <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Osoba zgłaszająca:</b><sup data-placement="bottom" data-toggle="tooltip" data-original-title="Osoba, która wprowadziła wizyte do systemu (kalendarza)." style="margin-left: 5px; cursor: help;" class="text-info"><span class="glyphicon glyphicon-info-sign"></span></sup></p>
+            </div>
+            <div class="col-sm-4">
+                <p>
+                    <a href="#" style="margin: 2px 0; float: left;">{{ zdarzenie.osobaWprowadzajaca.imieNazwisko }}</a>
+                    {% if zdarzenie.osobaWprowadzajaca.profil.webZdjecieProfilowePath is defined and zdarzenie.osobaWprowadzajaca.profil.webZdjecieProfilowePath %}
+                        <img src="{{ asset(zdarzenie.osobaWprowadzajaca.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                    {% else %}
+                        <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p><b>Data zgłoszenia:</b></p>
+            </div>
+            <div class="col-sm-3">
+                <span class="glyphicon glyphicon-calendar text-info"></span> {{ zdarzenie.dataWprowadzenia|date('d.m.Y') }} <span class="glyphicon glyphicon-time text-info"></span> {{ zdarzenie.dataWprowadzenia|date('H:i:s') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Osoba modyfikująca:</b><sup data-placement="bottom" data-toggle="tooltip" data-original-title="Osoba, która ostatnio modyfikowała zdarzenie." style="margin-left: 5px; cursor: help;" class="text-info"><span class="glyphicon glyphicon-info-sign"></span></sup></p>
+            </div>
+            <div class="col-sm-4">
+                <p>
+                    <a href="#" style="margin: 2px 0; float: left;">{{ zdarzenie.osobaModyfikujaca.imieNazwisko }}</a>
+                    {% if zdarzenie.osobaModyfikujaca.profil.webZdjecieProfilowePath is defined and zdarzenie.osobaModyfikujaca.profil.webZdjecieProfilowePath %}
+                        <img src="{{ asset(zdarzenie.osobaModyfikujaca.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                    {% else %}
+                        <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p><b>Data modyfikacji:</b></p>
+            </div>
+            <div class="col-sm-3">
+                <span class="glyphicon glyphicon-calendar text-info"></span> {{ zdarzenie.dataModyfikacji|date('d.m.Y') }} <span class="glyphicon glyphicon-time text-info"></span> {{ zdarzenie.dataModyfikacji|date('H:i:s') }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Stopień realizacji:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-{{ stopien_realizacji_class }}"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{ zdarzenie.stopienRealizacji }}%">
+                        <span>{{ zdarzenie.stopienRealizacji }}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container-fluid">
+        <div class="well well-sm">
+            <span class="text-muted lead">Mapa</span>
+        </div>
+        {{ google_map(mapa) }}
+    </section>
+
+    <div id="usun-dialog-confirm" title="Usunąć raport zużycia !?">
+        <p><i class="fa fa-exclamation-circle" style="float: left; font-size: 42px; width: 50px;"></i> Ta operacja całkowicie i nieodwracalnie usunie raprot z systemu. Czy jesteś pewny, że tego chcesz?</p>
+    </div>
+
+    <script type="text/javascript">
+        var uploader = $('#fileupload').fileupload({
+            dataType: 'json',
+            acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z)$/i,
+            disableImageResize: true,
+            multiple: false,
+            maxFileSize: 10000000,
+            maxNumberOfFiles: 1,
+            formData: {
+                idZdarzenia: {{ zdarzenie.id }}
+            }
+        });
+    </script>
+{% endblock %}

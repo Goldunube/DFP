@@ -1,0 +1,55 @@
+table.lista-wizyt {
+    font-size: 12px;
+    margin-bottom: 55px;
+}
+table.lista-wizyt tfoot {
+    font-weight: bold;
+    font-size: 14px;
+}
+.pomoc {
+    cursor: help;
+}
+.pomoc sup {
+    color: #4169e1;
+}
+.lista-wizyt .col-width-30 {
+    width: 30px;
+}
+.lista-wizyt .col-width-40 {
+    width: 40px;
+}
+.lista-wizyt .col-width-50 {
+    width: 50px;
+}
+.lista-wizyt .col-width-70 {
+    width: 70px;
+}
+.lista-wizyt .col-width-100 {
+    width: 100px;
+}
+.lista-wizyt .col-width-150 {
+    width: 150px;
+}
+.lista-wizyt .col-width-160 {
+    width: 160px;
+}
+.lista-wizyt .col-width-180 {
+    width: 180px;
+}
+.lista-wizyt .col-width-200 {
+    width: 200px;
+}
+.lista-wizyt .col-width-300 {
+    width: 300px;
+}
+.lista-wizyt .col-width-400 {
+    width: 400px;
+}
+.table {
+    table-layout:fixed;
+}
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,196 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% form_theme form 'GCSVCoreBundle:Form:bootstrap_form.html.twig' %}
+
+{% macro produkt_prototype(row) %}
+    <tr class="overflow-visible">
+        <th><p class="form-control-static"></p></th>
+        <td><p class="form-control-static"></p></td>
+        <td class="col-produkt">{{ form_widget(row.produkt,{ 'attr' : { 'data-provide' : 'typeahead', 'class' : 'typeahead' } }) }}</td>
+        <td>{{ form_widget(row.iloscZuzyta) }}</td>
+        <td>{{ form_widget(row.iloscZostawiona) }}</td>
+        <td class="btn-usun"></td>
+    </tr>
+{% endmacro %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-typeahead/bootstrap3-typeahead.css') }}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('bundles/gcsvmagazyn/css/stany_magazynowe.css') }}">
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+{% endblock javascript %}
+
+{% block content -%}
+    {{ form_start(form) }}
+    <section class="container-fluid">
+        <h1>Raport zużycia - edycja</h1>
+        <hr>
+        <table class="table table-striped table-responsive table-bordered magazyn">
+            <thead>
+                <tr>
+                    <th style="width: 40px;">#</th>
+                    <th>Nazwa</th>
+                    <th>Indeks</th>
+                    <th style="width: 150px;">Ilość zużyta</th>
+                    <th style="width: 150px;">Ilość zostawiona</th>
+                    <th style="width: 100px;"></th>
+                </tr>
+            </thead>
+            <tbody id="produkty-collection" data-prototype="{{ _self.produkt_prototype(form.raportZuzyciaProdukty.vars.prototype)|e }}">
+                {% for row in form.raportZuzyciaProdukty %}
+                    <tr class="overflow-visible">
+                        <th><p class="form-control-static">{{ loop.index }}</p></th>
+                        <td><p class="form-control-static" title="{{ row.vars.value.produkt.nazwa }}" data-toggle="tooltip">{{ row.vars.value.produkt.nazwa }}</p></td>
+                        <td class="col-produkt">{{ form_widget(row.produkt,{ 'attr' : { 'data-provide' : 'typeahead', 'class' : 'typeahead' } }) }}</td>
+                        <td>{{ form_widget(row.iloscZuzyta) }}</td>
+                        <td>{{ form_widget(row.iloscZostawiona) }}</td>
+                        <td class="btn-usun"></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-primary btn-xs btn-labeled" id="oddzialy-collection-btn-add"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>{% trans %}Dodaj{% endtrans %}</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                {{ form_label(form.uwagi) }}
+            </div>
+            <div class="col-sm-12">
+                {{ form_widget(form.uwagi) }}
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <div class="container-fluid">
+        <div class="row">
+            <a href="javascript: history.back();" class="btn btn-warning"><i class="fa fa-chevron-left fa-lg"></i> Powrót</a>
+            {{ form_widget(form.submit) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock content %}
+
+{% block dodatkowe_skrypty_js %}
+    {% verbatim %}
+    <script type="text/javascript">
+        var $collectionHolder = $('#produkty-collection');
+        var $addBtn = $('#oddzialy-collection-btn-add');
+        var $delBtn;
+        var engine = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: Routing.generate('ajax_get_products', { 'term' : 'query' }),
+                wildcard: 'query'
+            },
+            limit: 15
+        });
+        engine.initialize();
+
+        $('[data-toggle="tooltip"]').tooltip({
+            'container' :   'body',
+            'delay'     :   500
+        });
+
+        $collectionHolder.data('index', $collectionHolder.children().length);
+        $collectionHolder.find('td.btn-usun').each(function() {
+            addTagFormDeleteLink($(this));
+        });
+
+        $addBtn.on('click',function(e) {
+            e.preventDefault();
+            addForm($collectionHolder);
+        });
+
+        function addForm($collectionHolder)
+        {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var $newFormLi = $collectionHolder.append(newForm);
+            addTagFormDeleteLink($newFormLi.find('.btn-usun').last());
+            $collectionHolder.find('tr').each(function(index)
+            {
+                $(this).find('.col-index .form-control-static').html(index + 1);
+            });
+            $newFormLi.find('.typeahead').last().typeahead({
+                        hint: true,
+                        minLength: 2,
+                        highlight: true
+                    },
+                    {
+                        name: 'products',
+                        limit:  15,
+                        display: 'indeks',
+                        source: engine.ttAdapter(),
+                        templates: {
+                            empty: [
+                                '<p class="text-warning">Nie odnaleziono pasujących produktów.</p>'
+                            ].join('\n'),
+                            suggestion: Handlebars.compile('<div><p class="indeks">{{ indeks }}</p><p>{{ nazwa }}</p></div>')
+                        }
+                    }
+            );
+        }
+
+        function addTagFormDeleteLink($tagFormTd) {
+            var $removeFormA = $('<a href="#" class="btn btn-danger"><i class="fa fa-remove"></i>  Usuń</a>');
+            var index = $collectionHolder.data('index');
+            $tagFormTd.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // remove the li for the tag form
+                $tagFormTd.closest('tr').remove();
+                $collectionHolder.find('tr').each(function()
+                {
+                    $(this).find('th').html(index + 1);
+                });
+            });
+        }
+
+        $("form").keypress(function(e) {
+            if (e.which == 13) {
+                return false;
+            }
+        });
+
+        var $typeaheadInput = $('.typeahead');
+
+        $typeaheadInput.typeahead({
+                    hint: true,
+                    minLength: 2,
+                    highlight: true,
+                    cache: true
+                },
+                {
+                    name: 'products',
+                    limit:  15,
+                    display: 'indeks',
+                    source: engine.ttAdapter(),
+                    templates: {
+                        empty: [
+                            '<p class="text-warning">Nie odnaleziono pasujących produktów.</p>'
+                        ].join('\n'),
+                        suggestion: Handlebars.compile('<div><p class="indeks">{{ indeks }}</p><p>{{ nazwa }}</p></div>')
+                    }
+                }
+        );
+    </script>
+    {% endverbatim %}
+{% endblock dodatkowe_skrypty_js %}

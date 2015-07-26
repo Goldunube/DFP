@@ -1,0 +1,54 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% block content -%}
+    <section class="container-fluid">
+        <h1>{% trans %}Lista RaportZuzycia{% endtrans %}</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>dataUtworzenia</th>
+                <th>dataModyfikacji</th>
+                <th>akceptacja</th>
+                <th>blokada</th>
+                <th>korekta</th>
+                <th>wydruk</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('raport-zuzycia_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+
+                    <td>{% if entity.dataUtworzenia %}{{ entity.dataUtworzenia|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if entity.dataModyfikacji %}{{ entity.dataModyfikacji|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ entity.akceptacja }}</td>
+                    <td>{{ entity.blokada }}</td>
+                    <td>{{ entity.korekta }}</td>
+                    <td>{{ entity.wydruk }}</td>
+                    <td>{{ entity.uwagi }}</td>
+                    <td>
+
+                        <a href="{{ path('raport-zuzycia_show', { 'id': entity.id }) }}"
+                           class="btn btn-xs btn-warning">{% trans %}show{% endtrans %}</a>
+
+
+                        <a href="{{ path('raport-zuzycia_edit', { 'id': entity.id }) }}"
+                           class="btn btn-xs btn-warning">{% trans %}edit{% endtrans %}</a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2"><a href="{{ path('raport-zuzycia_new') }}" class="btn btn-success"
+                                     role="button">{% trans %}Nowy{% endtrans %}</a></div>
+        </div>
+    </div>
+{% endblock %}

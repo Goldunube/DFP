@@ -1,0 +1,43 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% block content -%}
+    <div class="page-header">
+        <h1>Stan magazynu wirtualnego <small>{{ uzytkownik.imieNazwisko }}</small></h1>
+    </div>
+    <section class="containter-fluid">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Indeks</th>
+                    <th>Nazwa artukułu</th>
+                    <th>Ilość</th>
+                    <th title="Jednostka Masy">JM</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in stanMagazynu %}
+                    <tr>
+                        <th>{{ loop.index }}</th>
+                        <td>{{ row.produkt.indeks }}</td>
+                        <td>{{ row.produkt.nazwa }}</td>
+                        <td>{{ row.ilosc }}</td>
+                        <td>{{ row.produkt.jednostka }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="container-fluid">
+        <hr/>
+        <div class="row">
+            <div class="col-xs-3">
+                <a href="javascript: history.back()" class="btn btn-warning">Powrót</a>
+            </div>
+            <div class="col-xs-9 text-right">
+                <a href="{{ path('zaplecze_stan_magazynu_wirtualnego_edit', { 'uzytkownik' : uzytkownik.id }) }}" class="btn btn-primary">Edytuj</a>
+            </div>
+        </div>
+    </div>
+{% endblock content -%}

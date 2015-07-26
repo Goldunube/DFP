@@ -1,0 +1,70 @@
+{% extends '@GCSVCore/Backend/backend_layout.html.twig' %}
+
+{% block content -%}
+    <section>
+        <h1>{% trans %}Tworzenie nowego TerminUrlopu{% endtrans %}</h1>
+
+        <div class="row">
+            <div class="col-sm-12 form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Id</label>
+
+                    <div class="col-md-9"><p class="form-control-static">{{ entity.id }}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Start</label>
+
+                    <div class="col-md-9"><p class="form-control-static">{{ entity.start|date('Y-m-d') }}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Koniec</label>
+
+                    <div class="col-md-9"><p class="form-control-static">{{ entity.koniec|date('Y-m-d') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Datazgloszenia</label>
+
+                    <div class="col-md-9"><p
+                                class="form-control-static">{{ entity.dataZgloszenia|date('Y-m-d') }}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Typ</label>
+
+                    <div class="col-md-9"><p class="form-control-static">{{ entity.typ }}</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_start(delete_form) }}
+                <a href="#" class="btn btn-warning">{% trans %}
+                    Powrót{% endtrans %}</a>
+                <a href="#" class="btn btn-primary">{% trans %}
+                    Edytuj{% endtrans %}</a>
+
+                {{ form_widget(delete_form.submit, { "attr" : { "class" : "btn btn-danger" } } ) }}
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+{% endblock stylesheets %}
+
+{% macro datyEdycji(tbl) %}
+    {% for row in tbl %}
+        <tr>
+            <th>{{ loop.first ? 'Daty edycji:' }}</th>
+            <td style='padding-left:2px;'>{{ row }}</td>
+        </tr>
+    {% endfor %}
+{% endmacro datyEdycji %}
+
+{% block content -%}
+    <style>
+        #rt-header {
+            background-color: #efefef;
+            border-collapse: collapse !important;
+            border-spacing: 0;
+            margin: 15px 3px 3px;
+        }
+        #rt-content, #rt-header {
+            border-collapse: separate;
+            border-spacing: 3px;
+        }
+        #rt-header tr {
+            border: 1px solid #cfcfcf;
+        }
+        #rt-header th {
+            border-color: #cfcfcf;
+            border-style: solid;
+            border-width: 1px;
+            color: #4f4f4f;
+            padding: 5px;
+            vertical-align: middle;
+            width: 300px;
+        }
+        #rt-content th {
+            background-color: #efefef;
+            border: 1px solid #cfcfcf;
+            border-radius: 7px;
+            color: #9F9F9F;
+            vertical-align: top;
+            width: 80px;
+        }
+        #rt-content th div {
+            font-size: 32px;
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            -webkit-transform-origin: 25% 100% 0;
+            -moz-transform-origin: 25% 100% 0;
+            -ms-transform-origin: 25% 100% 0;
+            -o-transform-origin: 25% 100% 0;
+            transform-origin: 20% 100% 0;
+            display: block;
+            white-space: nowrap;
+            width: 80px;
+        }
+        #rt-content td, #rt-header td {
+            padding: 5px;
+        }
+        #rt-header address {
+            margin: 0;
+        }
+        div.tooltip-inner{
+            width: 500px;
+        }
+    </style>
+
+    <section>
+        <h1>{% trans %}Raport Techniczny{% endtrans %} <sup class="small">ID: {{ raport.id }}</sup></h1>
+        <header>
+            <table class="table" id="rt-header">
+                <tr>
+                    <th>Nazwa i adres klienta</th>
+                    <td>
+                        <address>
+                            <strong>{{ raport.zdarzenieTechniczne.oddzialFirmy.firma.nazwaPelna }}</strong><br>
+                            {{ raport.zdarzenieTechniczne.oddzialFirmy.adresy|first.kodPocztowy|kodPocztowy }} {{ raport.zdarzenieTechniczne.oddzialFirmy.adresy|first.miasto }}<br>
+                            ul. {{ raport.zdarzenieTechniczne.oddzialFirmy.adresy|first.ulica }}
+                        </address>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Termin wizyty</th>
+                    <td>{{ raport.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|last.terminy|last.rozpoczecieWizyty|date('d-m-Y') }} - {{ raport.zdarzenieTechniczne.uczestnikZdarzeniaTechnicznego|last.terminy|last.zakonczenieWizyty|date('d-m-Y') }}</td>
+                </tr>
+                <tr>
+                    <th>Imię i nazwisko technika</th>
+                    <td>{{ raport.autor.imieNazwisko }}</td>
+                </tr>
+                <tr>
+                    <th>Handlowiec CSV odp. za obsługę klienta</th>
+                    <td>{{ raport.zdarzenieTechniczne.oddzialFirmy.opiekun.imieNazwisko|default('-') }}</td>
+                </tr>
+                <tr>
+                    <th>Cel wizyty</th>
+                    <td>{{ raport.cel }}</td>
+                </tr>
+            </table>
+        </header>
+
+        <hr>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="javascript: history.back();" class="btn btn-warning">{% trans %}Powrót{% endtrans %}</a>
+                    <a href="{{ path('raport_techniczny_show', { 'id' : raport.id, '_format' : 'pdf' }) }}" class="btn btn-primary">{% trans %}Drukuj{% endtrans %}</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <table id="rt-content">
+            <tr>
+                <th>
+                    <div>Treść raportu</div>
+                </th>
+                <td>
+                    {{ raport.tresc|raw }}
+                </td>
+            </tr>
+            {% if raport.zalecenia %}
+                <tr>
+                    <th><div>Zalecenia</div></th>
+                    <td>
+                        {{ raport.zalecenia|raw }}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    </section>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            <strong>Data utworzenia:</strong> {{ raport.dataUtworzenia|date('Y-m-d H:i:s') }}
+        </div>
+        <div class="col-md-5 col-md-offset-3 text-right">
+            <strong>Ostania modyfikacja:</strong> {{ raport.dataModyfikacji|date('Y-m-d H:i:s') }} <i class="fa fa-question-circle text-info" data-toggle="tooltip" data-html="true" data-title="<table style='width:340px; text-align:left;border-collapse: separate;table-layout:fixed;'><tr><th>Ilość edycji:</th><td style='padding-left:2px;'>{{ raport.licznikEdycji }}</td></tr>{{ _self.datyEdycji(raport.datyEdycji) }}</table>"></i>
+        </div>
+    </div>
+{% endblock %}
+
+{% block dodatkowe_skrypty_js %}
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+{% endblock dodatkowe_skrypty_js %}
