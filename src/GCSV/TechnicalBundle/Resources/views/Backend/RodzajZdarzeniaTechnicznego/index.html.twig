@@ -31,13 +31,13 @@
             {% for entity in entities %}
                 <tr>
                     <td>
-                        <a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_show', { 'id': entity.id }) }}">{{ entity.id }}</a>
+                        <a href="{{ path('backend_rodzaj_zdarzenia_technicznego_show', { 'id': entity.id }) }}">{{ entity.id }}</a>
                     </td>
                     <td>{{ entity.nazwa }}</td>
                     <td>{{ entity.opis }}</td>
                     <td class="text-right">
-                        <a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_show', { 'id': entity.id }) }}" class="btn btn-xs btn-primary">{% trans %}pokaż{% endtrans %}</a>
-                        <a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning">{% trans %}edytuj{% endtrans %}</a>
+                        <a href="{{ path('backend_rodzaj_zdarzenia_technicznego_show', { 'id': entity.id }) }}" class="btn btn-xs btn-primary">{% trans %}pokaż{% endtrans %}</a>
+                        <a href="{{ path('backend_rodzaj_zdarzenia_technicznego_edit', { 'id': entity.id }) }}" class="btn btn-xs btn-warning">{% trans %}edytuj{% endtrans %}</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -47,7 +47,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2"><a href="{{ path('zaplecze_rodzaj_zdarzenia_technicznego_new') }}" class="btn btn-success">{% trans %}Nowy{% endtrans %}</a></div>
+            <div class="col-md-2"><a href="{{ path('backend_rodzaj_zdarzenia_technicznego_new') }}" class="btn btn-success">{% trans %}Nowy{% endtrans %}</a></div>
         </div>
     </div>
 {% endblock %}

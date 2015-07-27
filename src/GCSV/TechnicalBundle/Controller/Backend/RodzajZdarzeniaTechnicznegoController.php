@@ -21,7 +21,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Lists all RodzajZdarzeniaTechnicznego entities.
      *
-     * @Route("/", name="zaplecze_rodzaje_zdarzen_technicznych")
+     * @Route("/", name="backend_rodzaje_zdarzen_technicznych")
      * @Method("GET")
      * @Template()
      */
@@ -38,7 +38,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Creates a new RodzajZdarzeniaTechnicznego entity.
      *
-     * @Route("/", name="zaplecze_rodzaj_zdarzenia_technicznego_create")
+     * @Route("/", name="backend_rodzaj_zdarzenia_technicznego_create")
      * @Method("POST")
      * @Template("GCSVTechnicalBundle:Backend/RodzajZdarzeniaTechnicznego:new.html.twig")
      */
@@ -53,7 +53,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('zaplecze_rodzaje_zdarzen_technicznych'));
+            return $this->redirect($this->generateUrl('backend_rodzaje_zdarzen_technicznych'));
         }
 
         return array(
@@ -72,7 +72,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     private function createCreateForm(RodzajZdarzeniaTechnicznego $entity)
     {
         $form = $this->createForm(new RodzajZdarzeniaTechnicznegoType(), $entity, array(
-            'action' => $this->generateUrl('zaplecze_rodzaj_zdarzenia_technicznego_create'),
+            'action' => $this->generateUrl('backend_rodzaj_zdarzenia_technicznego_create'),
             'method' => 'POST',
         ));
 
@@ -84,7 +84,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Displays a form to create a new RodzajZdarzeniaTechnicznego entity.
      *
-     * @Route("/new", name="zaplecze_rodzaj_zdarzenia_technicznego_new")
+     * @Route("/new", name="backend_rodzaj_zdarzenia_technicznego_new")
      * @Method("GET")
      * @Template()
      */
@@ -102,7 +102,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Finds and displays a RodzajZdarzeniaTechnicznego entity.
      *
-     * @Route("/{id}", name="zaplecze_rodzaj_zdarzenia_technicznego_show")
+     * @Route("/{id}", name="backend_rodzaj_zdarzenia_technicznego_show")
      * @Method("GET")
      * @Template()
      */
@@ -127,7 +127,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Displays a form to edit an existing RodzajZdarzeniaTechnicznego entity.
      *
-     * @Route("/{id}/edit", name="zaplecze_rodzaj_zdarzenia_technicznego_edit")
+     * @Route("/{id}/edit", name="backend_rodzaj_zdarzenia_technicznego_edit")
      * @Method("GET")
      * @Template()
      */
@@ -161,7 +161,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     private function createEditForm(RodzajZdarzeniaTechnicznego $entity)
     {
         $form = $this->createForm(new RodzajZdarzeniaTechnicznegoType(), $entity, array(
-            'action' => $this->generateUrl('zaplecze_rodzaj_zdarzenia_technicznego_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('backend_rodzaj_zdarzenia_technicznego_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -172,7 +172,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Edits an existing RodzajZdarzeniaTechnicznego entity.
      *
-     * @Route("/{id}", name="zaplecze_rodzaj_zdarzenia_technicznego_update")
+     * @Route("/{id}", name="backend_rodzaj_zdarzenia_technicznego_update")
      * @Method("PUT")
      * @Template("GCSVTechnicalBundle:Backend/RodzajZdarzeniaTechnicznego:edit.html.twig")
      */
@@ -193,7 +193,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('zaplecze_rodzaj_zdarzenia_technicznego_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('backend_rodzaj_zdarzenia_technicznego_edit', array('id' => $id)));
         }
 
         return array(
@@ -205,7 +205,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     /**
      * Deletes a RodzajZdarzeniaTechnicznego entity.
      *
-     * @Route("/{id}", name="zaplecze_rodzaj_zdarzenia_technicznego_delete")
+     * @Route("/{id}", name="backend_rodzaj_zdarzenia_technicznego_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -225,7 +225,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('zaplecze_rodzaje_zdarzen_technicznych'));
+        return $this->redirect($this->generateUrl('backend_rodzaje_zdarzen_technicznych'));
     }
 
     /**
@@ -238,7 +238,7 @@ class RodzajZdarzeniaTechnicznegoController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('zaplecze_rodzaj_zdarzenia_technicznego_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('backend_rodzaj_zdarzenia_technicznego_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Usuń'))
             ->getForm()
