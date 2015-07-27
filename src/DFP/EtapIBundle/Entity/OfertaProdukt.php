@@ -28,8 +28,7 @@ class OfertaProdukt
     private $ceny;
 
     /**
-     * @var integer
-     * @ORM\Column(name="opakowanie_wartosc", type="integer", nullable=false)
+     * @ORM\Column(name="opakowanie_wartosc", type="decimal",precision=8,scale=3, nullable=false)
      */
     private $opakowanieWartosc;
 

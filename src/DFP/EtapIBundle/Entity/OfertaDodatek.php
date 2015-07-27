@@ -29,7 +29,7 @@ class OfertaDodatek
     /**
      * @var integer
      *
-     * @ORM\Column(name="opakowanie", type="integer", nullable=false)
+     * @ORM\Column(name="opakowanie", type="decimal",precision=8,scale=3, nullable=false)
      */
     private $opakowanie;
 
