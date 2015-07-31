@@ -19,6 +19,7 @@ class DoPobraniaRepository extends EntityRepository
             ->leftJoin('p.author','a')
             ->leftJoin('p.zalacznik','z')
             ->orderBy('p.sort')
+            ->addOrderBy('p.createDate','DESC')
             ->where('p.wiadomosciShow IN (0,2)')
             ->getQuery();
 
@@ -32,7 +33,7 @@ class DoPobraniaRepository extends EntityRepository
             ->leftJoin('p.author','a')
             ->leftJoin('p.zalacznik','z')
             ->orderBy('p.przyklejony','DESC')
-            ->addOrderBy('p.sort')
+            ->addOrderBy('p.createDate','DESC')
             ->where('p.wiadomosciShow IN (1,2)')
             ->getQuery();
 
