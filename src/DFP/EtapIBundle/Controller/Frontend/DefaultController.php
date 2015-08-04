@@ -3,6 +3,7 @@
 namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\DoPobrania;
+use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Form\AktualnosciPostType;
 use DFP\EtapIBundle\Form\Filtry\ListaKlientowByPromienFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -201,7 +202,7 @@ class DefaultController extends Controller
             $form->submit($request->query->get($form->getName()));
 
             $params = $request->query->get('lista_klientow_promien_filter');
-            $punktCentralny = $params['miejscowosc'];
+            $punktCentralny = trim(str_replace(" ","+",$params['miejscowosc']));
             $geocodeResponse = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$punktCentralny));
             $results = $geocodeResponse->results;
             $punktCentralny = array($results[0]->geometry->location->lat, $results[0]->geometry->location->lng);
@@ -231,9 +232,23 @@ class DefaultController extends Controller
                 ))
             ->getQuery()->getResult();
 
+        $filieOdleglosci = array();
+        $filieLatLng = array();
+        /**
+         * @var Filia $filia
+         */
+        foreach ($filie as $filia) {
+            $filieOdleglosci[$filia->getId()] = $this->getDistanceFromLatLonInKm($punktCentralny[0],$punktCentralny[1],$filia->getLat(),$filia->getLng());
+            $filieLatLng[] = array('lat' => $filia->getLat(), 'lng' => $filia->getLng(), 'title' => $filia->getUlica().', '.$filia->getMiejscowosc());
+        }
+
+
         return array(
-            'filie' =>  $filie,
-            'form'  =>  $form->createView()
+            'filie'         =>  $filie,
+            'form'          =>  $form->createView(),
+            'promien'       =>  $promienMax,
+            'odleglosc'     =>  $filieOdleglosci,
+            'filieLatLng'   =>  json_encode($filieLatLng)
         );
     }
 
@@ -248,5 +263,23 @@ class DefaultController extends Controller
         return array(
 
         );
+    }
+
+    private function getDistanceFromLatLonInKm($lat1, $lon1, $lat2, $lon2)
+    {
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lon1 *= $pi80;
+        $lat2 *= $pi80;
+        $lon2 *= $pi80;
+
+        $r = 6372.797;
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlon / 2) * sin($dlon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $km = $r * $c;
+
+        return $km;
     }
 }
