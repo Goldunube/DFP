@@ -58,6 +58,20 @@ class Filia
     private $ulica;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="lat", type="decimal", scale=12, precision=18, nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="lng", type="decimal", scale=12, precision=18, nullable=true)
+     */
+    private $lng;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="aktywna", type="boolean")
@@ -349,6 +363,38 @@ class Filia
     public function getUlica()
     {
         return $this->ulica;
+    }
+
+    /**
+     * @param float $lat
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * @param float $lng
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLng()
+    {
+        return $this->lng;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 
 use DFP\EtapIBundle\Entity\DoPobrania;
 use DFP\EtapIBundle\Form\AktualnosciPostType;
+use DFP\EtapIBundle\Form\Filtry\ListaKlientowByPromienFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -179,17 +180,73 @@ class DefaultController extends Controller
 
     /**
      * @Route("/wyszukiwarka/klienci-wolni/", name="wyszukiwarka_jeden")
+     * @Template()
+     * @Method("GET")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
-    public function wyszukajJedenAction()
+    public function getListaKlientowWyszukiwarkaPierwszaAction(Request $request)
     {
-        return $this->redirect($this->generateUrl('strona_w_budowie'));
+        $form = $this->get('form.factory')->create(new ListaKlientowByPromienFilterType(),null,array(
+                'method'    =>  "GET",
+                'action'    =>  $this->generateUrl('wyszukiwarka_jeden')
+            )
+        );
+
+        $punktCentralny = array(52.2329379,21.0611941);
+        $promienMin = 0;
+        $promienMax = 0;
+
+        if($request->query->has($form->getName()))
+        {
+            $form->submit($request->query->get($form->getName()));
+
+            $params = $request->query->get('lista_klientow_promien_filter');
+            $punktCentralny = $params['miejscowosc'];
+            $geocodeResponse = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$punktCentralny));
+            $results = $geocodeResponse->results;
+            $punktCentralny = array($results[0]->geometry->location->lat, $results[0]->geometry->location->lng);
+            $promienMin = $params['promien']['right_number'] * 1000;
+            $promienMax = $params['promien']['right_number'] * 1000;
+        };
+
+
+        $kat = 45 * M_PI / 180;
+        $jedenStopien = 111319.9;
+
+        $maxLat = $punktCentralny[0] + ($promienMax / $jedenStopien) * sin($kat);
+        $maxLng = $punktCentralny[1] + ($promienMax / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
+        $minLat = $punktCentralny[0] - ($promienMax / $jedenStopien)* sin($kat);
+        $minLng = $punktCentralny[1] - ($promienMax / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
+
+        $filiaRepo = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:Filia');
+        $filie = $filiaRepo->createQueryBuilder('f')
+            ->select('f')
+            ->where('f.lat BETWEEN :latMin AND :latMax')
+            ->andWhere('f.lng BETWEEN :lngMin AND :lngMax')
+            ->setParameters(array(
+                    'latMin'    =>  $minLat,
+                    'latMax'    =>  $maxLat,
+                    'lngMin'    =>  $minLng,
+                    'lngMax'    =>  $maxLng
+                ))
+            ->getQuery()->getResult();
+
+        return array(
+            'filie' =>  $filie,
+            'form'  =>  $form->createView()
+        );
     }
 
     /**
      * @Route("/wyszukiwarka/klienci-zajeci", name="wyszukiwarka_dwa")
+     * @Template()
+     * @Method("GET")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
-    public function wyszukajDwaAction()
+    public function getListaKlientowWyszukiwarkaDrugaAction()
     {
-        return $this->redirect($this->generateUrl('strona_w_budowie'));
+        return array(
+
+        );
     }
 }
