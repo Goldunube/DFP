@@ -16,14 +16,8 @@ class ListaKlientowByPromienFilterType extends AbstractType
                     'label' =>  'Miejscowość'
                 )
             )
-            ->add('promien','filter_number_range',array(
+            ->add('promien','filter_number',array(
                     'label' =>  'Promień poszukiwań',
-                    'left_number_options' =>  array(
-                        'label' => 'min'
-                    ),
-                    'right_number_options' => array(
-                        'label' => 'max'
-                    )
                 )
             );
     }

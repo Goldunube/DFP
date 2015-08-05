@@ -5,7 +5,8 @@
 {% block title %}Portal DFP - wyszukiwarka{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
 {% endblock stylesheets %}
@@ -16,10 +17,58 @@
 {% endblock javascript %}
 
 {% block content %}
-    <div class="well-sm">
-        {{ form(form) }}
+    <div class="page-header" style="margin-top: 0px;">
+        <h1>Wyszukiwarka klientów <small>po NIP, kodzie MAX lub nazwie</small></h1>
     </div>
-    <section class="container-fluid">
 
+    <div class="well-sm">
+        {{ form_start(form, {'attr' : { 'class' : 'form-inline' } }) }}
+        <div class="form-group">
+            <label for="{{ form.nip.vars.id }}">{{ form.nip.vars.label }}</label>
+            {{ form_widget(form.nip) }}
+            {{ form_errors(form.nip) }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.skrotNazwy.vars.id }}">{{ form.skrotNazwy.vars.label }}</label>
+            {{ form_widget(form.skrotNazwy) }}
+            {{ form_errors(form.skrotNazwy) }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.kodMax.vars.id }}">{{ form.kodMax.vars.label }}</label>
+            {{ form_widget(form.kodMax) }}
+            {{ form_errors(form.kodMax) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+        {{ form_end(form) }}
+    </div>
+
+    <hr>
+
+    <section class="container-fluid">
+        <table class="table records_list table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Klient</th>
+                <th>Adres</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for filia in filie %}
+                <tr>
+                    <td>{{ filia.id }}</td>
+                    <td>{{ filia.klient.nazwaSkrocona }}</td>
+                    <td>{{ filia.ulica }}, {{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}</td>
+                    <td>{{ filia.filieUzytkownicy is not empty ? 'Przypisany' : 'Wolny' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if filie == null %}
+            {#<div class="alert alert-info">#}
+                {#<p><i class="glyphicon glyphicon-exclamation-sign"></i> Brak wyników wyszukiwania</p>#}
+            {#</div>#}
+        {% endif %}
     </section>
 {% endblock content %}

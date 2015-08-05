@@ -5,6 +5,7 @@ namespace DFP\EtapIBundle\Controller\Frontend;
 use DFP\EtapIBundle\Entity\DoPobrania;
 use DFP\EtapIBundle\Entity\Filia;
 use DFP\EtapIBundle\Form\AktualnosciPostType;
+use DFP\EtapIBundle\Form\Filtry\ListaKlientowByDaneFilterType;
 use DFP\EtapIBundle\Form\Filtry\ListaKlientowByPromienFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -194,8 +195,7 @@ class DefaultController extends Controller
         );
 
         $punktCentralny = array(52.2329379,21.0611941);
-        $promienMin = 0;
-        $promienMax = 0;
+        $promien = 0;
 
         if($request->query->has($form->getName()))
         {
@@ -206,24 +206,25 @@ class DefaultController extends Controller
             $geocodeResponse = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$punktCentralny));
             $results = $geocodeResponse->results;
             $punktCentralny = array($results[0]->geometry->location->lat, $results[0]->geometry->location->lng);
-            $promienMin = $params['promien']['right_number'] * 1000;
-            $promienMax = $params['promien']['right_number'] * 1000;
+            $promien = $params['promien'] * 1000;
         };
 
 
         $kat = 45 * M_PI / 180;
         $jedenStopien = 111319.9;
 
-        $maxLat = $punktCentralny[0] + ($promienMax / $jedenStopien) * sin($kat);
-        $maxLng = $punktCentralny[1] + ($promienMax / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
-        $minLat = $punktCentralny[0] - ($promienMax / $jedenStopien)* sin($kat);
-        $minLng = $punktCentralny[1] - ($promienMax / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
+        $maxLat = $punktCentralny[0] + ($promien / $jedenStopien) * sin($kat);
+        $maxLng = $punktCentralny[1] + ($promien / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
+        $minLat = $punktCentralny[0] - ($promien / $jedenStopien)* sin($kat);
+        $minLng = $punktCentralny[1] - ($promien / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
 
         $filiaRepo = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:Filia');
         $filie = $filiaRepo->createQueryBuilder('f')
-            ->select('f')
+            ->select('f','k')
+            ->leftJoin('f.klient','k')
             ->where('f.lat BETWEEN :latMin AND :latMax')
             ->andWhere('f.lng BETWEEN :lngMin AND :lngMax')
+            ->andWhere('f.filieUzytkownicy is null')
             ->setParameters(array(
                     'latMin'    =>  $minLat,
                     'latMax'    =>  $maxLat,
@@ -239,14 +240,14 @@ class DefaultController extends Controller
          */
         foreach ($filie as $filia) {
             $filieOdleglosci[$filia->getId()] = $this->getDistanceFromLatLonInKm($punktCentralny[0],$punktCentralny[1],$filia->getLat(),$filia->getLng());
-            $filieLatLng[] = array('lat' => $filia->getLat(), 'lng' => $filia->getLng(), 'title' => $filia->getUlica().', '.$filia->getMiejscowosc());
+            $filieLatLng[] = array('lat' => $filia->getLat(), 'lng' => $filia->getLng(), 'title' => '<strong>'.$filia->getKlient()->getNazwaSkrocona().'</strong><br>'.$filia->getUlica().', '.$filia->getMiejscowosc());
         }
 
 
         return array(
             'filie'         =>  $filie,
             'form'          =>  $form->createView(),
-            'promien'       =>  $promienMax,
+            'promien'       =>  $promien,
             'odleglosc'     =>  $filieOdleglosci,
             'filieLatLng'   =>  json_encode($filieLatLng)
         );
@@ -258,10 +259,32 @@ class DefaultController extends Controller
      * @Method("GET")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
-    public function getListaKlientowWyszukiwarkaDrugaAction()
+    public function getListaKlientowWyszukiwarkaDrugaAction(Request $request)
     {
-        return array(
+        $paginator = $this->get('knp_paginator');
 
+        $form = $this->get('form.factory')->create(new ListaKlientowByDaneFilterType(),null,array(
+                'method'    =>  "GET",
+                'action'    =>  $this->generateUrl('wyszukiwarka_dwa')
+            )
+        );
+
+        if($request->query->has($form->getName()))
+        {
+            $form->submit($request->query->get($form->getName()));
+            $filterBuilder = $this->get('doctrine.orm.entity_manager')->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
+                ->select('f','k','fu','u')
+                ->leftJoin('f.klient','k')
+                ->leftJoin('f.filieUzytkownicy','fu')
+                ->leftJoin('fu.uzytkownik','u');
+
+            $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
+            $filie = $paginator->paginate($filterBuilder->getQuery(), $this->get('request')->query->get('strona',1),25);
+        };
+
+        return array(
+            'form'  =>  $form->createView(),
+            'filie' =>  isset($filie) ? $filie : null
         );
     }
 
