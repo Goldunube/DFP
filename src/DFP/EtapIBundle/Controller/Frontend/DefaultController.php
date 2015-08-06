@@ -222,9 +222,9 @@ class DefaultController extends Controller
         $filie = $filiaRepo->createQueryBuilder('f')
             ->select('f','k')
             ->leftJoin('f.klient','k')
+            ->innerJoin('f.filieUzytkownicy','fu')
             ->where('f.lat BETWEEN :latMin AND :latMax')
             ->andWhere('f.lng BETWEEN :lngMin AND :lngMax')
-            ->andWhere('f.filieUzytkownicy is null')
             ->setParameters(array(
                     'latMin'    =>  $minLat,
                     'latMax'    =>  $maxLat,
