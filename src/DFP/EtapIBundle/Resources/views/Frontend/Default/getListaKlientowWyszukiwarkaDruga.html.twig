@@ -13,6 +13,7 @@
 
 {% block javascript %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/dfp_obsluga_tabel.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
 {% endblock javascript %}
 
@@ -45,18 +46,26 @@
     <hr>
 
     <section class="container-fluid">
-        <table class="table records_list table-bordered table-striped table-hover">
+        <table id="lista-klientow" class="table records_list table-bordered table-striped table-hover lista-klientow">
             <thead>
-            <tr>
-                <th>#</th>
-                <th>Klient</th>
-                <th>Adres</th>
-                <th>Status</th>
-            </tr>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Klient</th>
+                    <th>Adres</th>
+                    <th>Status</th>
+                </tr>
             </thead>
             <tbody>
             {% for filia in filie %}
-                <tr>
+                <tr class="{{ filia.filieUzytkownicy is not empty ? 'przeterminowane danger' }}">
+                    <th>
+                        {% if filia.filieUzytkownicy is empty %}
+                            <a href="{{ path('frontend_pokaz_filie_klienta', { 'id' : filia.id }) }}">{{ loop.index }}.</a>
+                        {% else %}
+                            {{ loop.index }}.
+                        {% endif %}
+                    </th>
                     <td>{{ filia.id }}</td>
                     <td>{{ filia.klient.nazwaSkrocona }}</td>
                     <td>{{ filia.ulica }}, {{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}</td>
@@ -65,10 +74,15 @@
             {% endfor %}
             </tbody>
         </table>
-        {% if filie == null %}
-            {#<div class="alert alert-info">#}
-                {#<p><i class="glyphicon glyphicon-exclamation-sign"></i> Brak wyników wyszukiwania</p>#}
-            {#</div>#}
-        {% endif %}
+        {% for flashMessage in app.session.flashBag.get('notice') %}
+            <div class="alert alert-info">
+                <p><i class="glyphicon glyphicon-exclamation-sign"></i> {{ flashMessage }}</p>
+            </div>
+        {% endfor %}
     </section>
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    $('.lista-klientow').obslugaTabel();
+{% endblock javascripts %}

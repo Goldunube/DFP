@@ -22,6 +22,7 @@ use DFP\EtapIBundle\Form\Filtry\ListaMoichKlientowFiltrType;
 use DFP\EtapIBundle\Form\KlientType;
 use DFP\EtapIBundle\Form\KartaKlientaPodstawowaType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -387,20 +388,16 @@ class KlientController extends Controller
     }
 
     /**
-     * @param $id
-     *
+     * @param \DFP\EtapIBundle\Entity\Filia $filia
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array
      * @Route("/filia/{id}", name="frontend_pokaz_filie_klienta")
      * @Template()
      * @Method("GET")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
-    public function pokazKarteFiliiAction($id)
+    public function pokazKarteFiliiAction(Filia $filia)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
-
         if (!$filia) {
             throw $this->createNotFoundException('Nie znaleziono filii klienta.');
         }
@@ -424,6 +421,7 @@ class KlientController extends Controller
      * @Route("/filia/{id}/notatka/", name="frontend_filia_notatka_new")
      * @Template()
      * @Method("GET")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function nowaNotatkaFiliiAction($id)
     {
@@ -454,6 +452,7 @@ class KlientController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/filia/{id}/notatka/", name="frontend_filia_notatka_stworz")
      * @Method("POST")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function stworzNotatkaFiliiAction(Request $request, $id)
     {
@@ -492,6 +491,7 @@ class KlientController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/filia/notatka/{id}/usun", name="frontend_filia_notatka_usun")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function usunNotatkeFiliiAction($id)
     {
@@ -532,6 +532,7 @@ class KlientController extends Controller
      * @Route("/filia/notatka/{id}/edytuj", name="frontend_filia_notatka_edytuj")
      * @Template("DFPEtapIBundle:Frontend/Klient:nowaNotatkaFilii.html.twig")
      * @Method({"GET", "PUT"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function edytujNotatkeFiliiAction($id, Request $request)
     {
@@ -579,6 +580,7 @@ class KlientController extends Controller
      * @Route("/filia/{id}/edytuj", name="frontend_filia_edytuj")
      * @Template("@DFPEtapI/Frontend/Klient/editFilia.html.twig")
      * @Method({"GET", "PUT"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      *
      */
     public function edytujFilieAction($id, Request $request)
@@ -666,6 +668,7 @@ class KlientController extends Controller
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      *
      * @Method({"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function zamowOferteHandlowaAjaxAction($id)
     {
@@ -706,6 +709,7 @@ class KlientController extends Controller
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      *
      * @Method({"POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function zamowOferteHandlowaAction($id, Request $request)
     {

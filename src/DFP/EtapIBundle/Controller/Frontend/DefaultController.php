@@ -222,9 +222,10 @@ class DefaultController extends Controller
         $filie = $filiaRepo->createQueryBuilder('f')
             ->select('f','k')
             ->leftJoin('f.klient','k')
-            ->innerJoin('f.filieUzytkownicy','fu')
+            ->leftJoin('f.filieUzytkownicy','fu')
             ->where('f.lat BETWEEN :latMin AND :latMax')
             ->andWhere('f.lng BETWEEN :lngMin AND :lngMax')
+            ->andWhere('fu.uzytkownik IS NULL')
             ->setParameters(array(
                     'latMin'    =>  $minLat,
                     'latMax'    =>  $maxLat,
@@ -243,6 +244,14 @@ class DefaultController extends Controller
             $filieLatLng[] = array('lat' => $filia->getLat(), 'lng' => $filia->getLng(), 'title' => '<strong>'.$filia->getKlient()->getNazwaSkrocona().'</strong><br>'.$filia->getUlica().', '.$filia->getMiejscowosc());
         }
 
+        if(!$filie)
+        {
+            $this->addFlash(
+                'notice',
+                'Brak wyników wyszukiwania');
+        };
+
+        asort($filieOdleglosci);
 
         return array(
             'filie'         =>  $filie,
@@ -280,6 +289,13 @@ class DefaultController extends Controller
 
             $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
             $filie = $paginator->paginate($filterBuilder->getQuery(), $this->get('request')->query->get('strona',1),25);
+        };
+
+        if(!isset($filie) or !$filie)
+        {
+            $this->addFlash(
+                'notice',
+                'Brak wyników wyszukiwania');
         };
 
         return array(
