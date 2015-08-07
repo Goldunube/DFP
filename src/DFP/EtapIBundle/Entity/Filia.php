@@ -108,6 +108,13 @@ class Filia
     /**
      * @var string
      *
+     * @ORM\Column(name="krd_informacje", type="text", nullable=true)
+     */
+    private $krdInformacje;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="adnotacje", type="text", nullable=true)
      */
     private $adnotacja;
@@ -1073,5 +1080,21 @@ class Filia
         }
 
         return $suma;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKrdInformacje()
+    {
+        return $this->krdInformacje;
+    }
+
+    /**
+     * @param string $krdInformacje
+     */
+    public function setKrdInformacje($krdInformacje)
+    {
+        $this->krdInformacje = $krdInformacje;
     }
 }

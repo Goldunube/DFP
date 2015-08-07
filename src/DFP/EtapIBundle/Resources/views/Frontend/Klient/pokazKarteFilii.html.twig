@@ -1,11 +1,17 @@
 {% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/layout_1.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    {#<link href="{{ asset('css/main.css') }}" rel="stylesheet" />#}
+    {#<link href="{{ asset('css/layout_1.css') }}" rel="stylesheet"/>#}
     <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>
-    <link href="{{ asset('css/notatki_layout.css') }}" rel="stylesheet"/>
+    {#<link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>#}
+    {#<link href="{{ asset('css/notatki_layout.css') }}" rel="stylesheet"/>#}
     <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
     <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
@@ -16,34 +22,35 @@
     <script type="text/javascript" src="{{ asset('js/timepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce/jquery.tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.js"></script>
 {% endblock javascript %}
 
 {% set stanowiska = ["Dyrektor DFP", "Administrator Portalu DFP", "Koordynatod DFP", "Kierownik Produktu"] %}
 
 {% block content -%}
-    <section>
-        <h1>Filia <sup>(ID: {{ filia.id }})</sup></h1>
-        <div class="status-container">
+    <div class="page-header" style="margin-top: 0px;">
+        <h1><i class="fa fa-folder-open"></i> {{ filia.nazwaFilii }} <small>{{ filia.klient.nazwaSkrocona }}</small></h1>
+    </div>
+    <section class="container-fluid">
+        {#<div class="status-container">
             {% if filia.aktywna == 1 %}
                 <span class="aktywny">Aktywna</span>
             {% else %}
                 <span class="nieaktywny">Nieaktywna</span>
             {% endif %}
-        </div>
-        <div>
-            <span>Data założenia karty klienta: {{ filia.klient.dataZalozenia|date('d-m-Y H:i') }}</span>
-        </div>
+        </div>#}
+        {#<span>Data założenia karty klienta: {{ filia.klient.dataZalozenia|date('d-m-Y H:i') }}</span>#}
         <section id="info-podstawowe">
-            <h2>Informacje podstawowe:</h2>
-            <table class="record_properties">
+            <h2><i class="fa fa-info-circle"></i> Informacje podstawowe:</h2>
+            <table id="tabela-informacje-podstawowe" class="table table-bordered table-striped table-condensed record_properties">
                 <tbody>
                 <tr>
-                    <th>Filia klienta:</th>
+                    <th><i class="fa fa-building"></i> Filia klienta:</th>
                     <td><a class="link" href="{{ path('url_pokaz_karte_klienta', {'id': filia.klient.id} ) }}">{{ filia.klient.nazwaPelna }}</a></td>
                 </tr>
                 <tr>
-                    <th>Adres strony WWW:</th>
+                    <th><i class="fa fa-globe"></i> Adres strony WWW:</th>
                     <td>
                         {% if filia.klient.stronaWWW %}
                             <a class="link" href="{{ filia.klient.stronaWWW }}" target="_blank">{{ filia.klient.stronaWWW }}</a>
@@ -51,83 +58,160 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Nazwa filii:</th>
-                    <td>{{ filia.nazwaFilii }}</td>
-                </tr>
-                <tr>
-                    <th>Adres filii:</th>
+                    <th><i class="fa fa-map-marker"></i> Adres filii:</th>
                     <td>{{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}; ul. {{ filia.ulica }}</td>
                 </tr>
-                <tr>
+                {#<tr>
                     <th>Osoby kontaktowe:</th>
                     <td>{{ filia.filiePracownicy|join(" | ")|raw }}</td>
+                </tr>#}
+                <tr>
+                    <th><i class="fa fa-tags"></i> Profil działalności:</th>
+                    <td>
+                        {% for profil in filia.profileDzialalnosci %}
+                            <span class="label label-info">{{ profil }}</span>
+                        {% endfor %}
+                    </td>
                 </tr>
                 <tr>
-                    <th>Profil działalności:</th>
-                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                    <th><i class="fa fa-paint-brush"></i> Stosowany system malarski:</th>
+                    <td>{{ filia.matlakDotychczas|striptags|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Stosowany system malarski:</th>
-                    <td>{{ filia.matlakDotychczas|raw }}</td>
+                    <th><i class="fa fa-line-chart"></i> Wielkość zużycia:</th>
+                    <td>{{ filia.zuzycieMaterialow|striptags|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Wielkość zużycia:</th>
-                    <td>{{ filia.zuzycieMaterialow|raw }}</td>
-                </tr>
-                <tr>
-                    <th>Kolorystyka:</th>
+                    <th><i class="fa fa-paint-brush"></i> Kolorystyka:</th>
                     <td>{{ filia.kolorystyka|raw }}</td>
                 </tr>
                 <tr>
-                    <th>Materiały uzupełniające:</th>
-                    <td>{{ filia.filieMaterialyUzupelniajace|join(" | ")|raw }}</td>
+                    <th><i class="fa fa-tags"></i> Materiały uzupełniające:</th>
+                    <td>
+                        {% for material in filia.filieMaterialyUzupelniajace %}
+                            <span class="label label-info">{{ material|raw }}</span>
+                        {% endfor %}
+                    </td>
                 </tr>
                 <tr>
-                    <th>Adnotajce:</th>
+                    <th><i class="fa fa-info"></i> KRD:</th>
+                    <td>{{ filia.krdInformacje|raw }}</td>
+                </tr>
+                <tr>
+                    <th><i class="fa fa-commenting"></i> Adnotajce:</th>
                     <td>{{ filia.adnotacja|raw }}</td>
+                </tr>
+                <tr>
+                    <th><i class="fa fa-calendar"></i> Data założenia karty klient:</th>
+                    <td>{{ filia.klient.dataZalozenia|localizeddate('long','medium') }}</td>
                 </tr>
                 </tbody>
             </table>
         </section>
 
-        <section id="info-dodatkowe" class="two-columns">
-            <h2>Informacje dodatkowe:</h2>
-            <div class="lewa">
-                <fieldset>
-                    <legend>Rodzaj podłoża</legend>
-                    {% if filia.filieRodzajePowierzchni|length > 0 %}
-                        <dl class="table-display">
-                            {% for rodzajPowierzchniFilii in filia.filieRodzajePowierzchni %}
-                                <dt>{{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</dt>
-                                <dd>{{ rodzajPowierzchniFilii.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-                <fieldset>
-                    <legend>Metoda przygotowania powierzchni</legend>
-                    {% if filia.filieProcesyPrzygotowaniaPowierzchni|length > 0 %}
-                        <dl class="table-display">
-                            {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
-                                <dt>{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</dt>
-                                <dd>{{ procesFilii.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-                <fieldset>
-                    <legend>Metoda aplikacji farby</legend>
-                    {% if filia.filieProcesyAplikacji|length > 0 %}
-                        <dl class="table-display">
-                            {% for procesFilii in filia.filieProcesyAplikacji %}
-                                <dt>{{ procesFilii.procesAplikacji.nazwaProcesu }}</dt>
-                                <dd>{{ procesFilii.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
+        <section id="info-dodatkowe" >
+            <h2><i class="fa fa-gg-circle"></i> Informacje dodatkowe:</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Rodzaj podłoża</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for rodzajPowierzchniFilii in filia.filieRodzajePowierzchni %}
+                                    <div class="list-group-item">
+                                        <h5>{{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</h5>
+                                        <p>{{ rodzajPowierzchniFilii.info }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Metoda przygotowania powierzchni</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
+                                    <div class="list-group-item">
+                                        <h5>{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</h5>
+                                        <p>{{ procesFilii.info }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Metoda aplikacji farby</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                    <div class="list-group-item">
+                                        <h5>{{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
+                                        <p>{{ procesFilii.info }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Parametry utwardzania powłoki</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for procesFilii in filia.filieProcesyUtwardzaniaPowloki %}
+                                    <div class="list-group-item">
+                                        <h5>{{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</h5>
+                                        <dl class="dl-horizontal">
+                                            <dt>Temp. min:</dt>
+                                            <dd><em>{{ procesFilii.tempMin ? procesFilii.tempMin ~ '°C' : 'brak danych' }}</em></dd>
+                                            <dt>Temp max:</dt>
+                                            <dd><em>{{ procesFilii.tempMax ? procesFilii.tempMax ~ '°C' : 'brak danych' }}</em></dd>
+                                            <dt>Czas:</dt>
+                                            <dd><em>{{ procesFilii.czasSchniecia ? procesFilii.czasSchniecia ~ '[min]' : 'brak danych' }}</em></dd>
+                                        </dl>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Wymagania powłoki lakierowej</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                    <div class="list-group-item">
+                                        <h5>{{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
+                                        <p>{{ procesFilii.info }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Parametry produktu obecnie stosowanego</div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                    <div class="list-group-item">
+                                        <h5>{{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
+                                        <p>{{ procesFilii.info }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="prawa">
+
+{#            <div class="prawa">
                 <fieldset>
                     <legend>Parametry utwardzania powłoki</legend>
                     {% if filia.filieProcesyUtwardzaniaPowloki|length > 0 %}
@@ -170,7 +254,7 @@
                         </dl>
                     {% endif %}
                 </fieldset>
-            </div>
+            </div>#}
         </section>
 
         <section id="notatki">
