@@ -6,12 +6,8 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
-    {#<link href="{{ asset('css/main.css') }}" rel="stylesheet" />#}
-    {#<link href="{{ asset('css/layout_1.css') }}" rel="stylesheet"/>#}
     <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
-    {#<link href="{{ asset('css/karta_klienta.css') }}" rel="stylesheet"/>#}
-    {#<link href="{{ asset('css/notatki_layout.css') }}" rel="stylesheet"/>#}
+    <link href="{{ asset('css/karta_klienta_bootstrap.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/qTip.css') }}" rel="stylesheet"/>
     <link href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet"/>
 {% endblock stylesheets %}
@@ -29,20 +25,25 @@
 {% set stanowiska = ["Dyrektor DFP", "Administrator Portalu DFP", "Koordynatod DFP", "Kierownik Produktu"] %}
 
 {% block content -%}
+    <style>
+        #tabela-informacje-podstawowe th{
+            white-space: nowrap;
+        }
+    </style>
     <div class="page-header" style="margin-top: 0px;">
         <h1><i class="fa fa-folder-open"></i> {{ filia.nazwaFilii }} <small>{{ filia.klient.nazwaSkrocona }}</small></h1>
     </div>
+    <nav id="top-page-menu">
+        <ul class="nav nav-pills nav-justified">
+            <li><a href="#info-podstawowe"><i class="fa fa-info-circle"></i> Informacje podstawowe</a></li>
+            <li><a href="#info-dodatkowe"><i class="fa fa-folder"></i> Informacje dodatkowe</a></li>
+            <li><a href="#informacje-pozostale"><i class="fa fa-sticky-note"></i> Notatki, pracownicy etc.</a></li>
+            <li><a href="#menu-akcji"><i class="fa fa-bolt"></i> Menu akcji</a></li>
+        </ul>
+    </nav>
     <section class="container-fluid">
-        {#<div class="status-container">
-            {% if filia.aktywna == 1 %}
-                <span class="aktywny">Aktywna</span>
-            {% else %}
-                <span class="nieaktywny">Nieaktywna</span>
-            {% endif %}
-        </div>#}
-        {#<span>Data założenia karty klienta: {{ filia.klient.dataZalozenia|date('d-m-Y H:i') }}</span>#}
         <section id="info-podstawowe">
-            <h2><i class="fa fa-info-circle"></i> Informacje podstawowe:</h2>
+            <h3><i class="fa fa-info-circle"></i> Informacje podstawowe:</h3>
             <table id="tabela-informacje-podstawowe" class="table table-bordered table-striped table-condensed record_properties">
                 <tbody>
                 <tr>
@@ -61,10 +62,6 @@
                     <th><i class="fa fa-map-marker"></i> Adres filii:</th>
                     <td>{{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}; ul. {{ filia.ulica }}</td>
                 </tr>
-                {#<tr>
-                    <th>Osoby kontaktowe:</th>
-                    <td>{{ filia.filiePracownicy|join(" | ")|raw }}</td>
-                </tr>#}
                 <tr>
                     <th><i class="fa fa-tags"></i> Profil działalności:</th>
                     <td>
@@ -94,12 +91,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <th><i class="fa fa-info"></i> KRD:</th>
-                    <td>{{ filia.krdInformacje|raw }}</td>
+                    <th><i class="fa fa-info-circle"></i> KRD:</th>
+                    <td>{{ filia.krdInformacje|striptags|raw }}</td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-commenting"></i> Adnotajce:</th>
-                    <td>{{ filia.adnotacja|raw }}</td>
+                    <td>{{ filia.adnotacja|striptags|raw }}</td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-calendar"></i> Data założenia karty klient:</th>
@@ -109,8 +106,8 @@
             </table>
         </section>
 
-        <section id="info-dodatkowe" >
-            <h2><i class="fa fa-gg-circle"></i> Informacje dodatkowe:</h2>
+        <section id="info-dodatkowe">
+            <h3><i class="fa fa-folder"></i> Informacje dodatkowe:</h3>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -119,7 +116,7 @@
                             <div class="list-group">
                                 {% for rodzajPowierzchniFilii in filia.filieRodzajePowierzchni %}
                                     <div class="list-group-item">
-                                        <h5>{{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</h5>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ rodzajPowierzchniFilii.rodzajPowierzchni.nazwa }}</h5>
                                         <p>{{ rodzajPowierzchniFilii.info }}</p>
                                     </div>
                                 {% endfor %}
@@ -134,7 +131,7 @@
                             <div class="list-group">
                                 {% for procesFilii in filia.filieProcesyPrzygotowaniaPowierzchni %}
                                     <div class="list-group-item">
-                                        <h5>{{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</h5>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesPrzygotowaniaPowierzchni.nazwaProcesu }}</h5>
                                         <p>{{ procesFilii.info }}</p>
                                     </div>
                                 {% endfor %}
@@ -142,6 +139,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">Metoda aplikacji farby</div>
@@ -149,7 +147,7 @@
                             <div class="list-group">
                                 {% for procesFilii in filia.filieProcesyAplikacji %}
                                     <div class="list-group-item">
-                                        <h5>{{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
                                         <p>{{ procesFilii.info }}</p>
                                     </div>
                                 {% endfor %}
@@ -164,14 +162,14 @@
                             <div class="list-group">
                                 {% for procesFilii in filia.filieProcesyUtwardzaniaPowloki %}
                                     <div class="list-group-item">
-                                        <h5>{{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</h5>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</h5>
                                         <dl class="dl-horizontal">
                                             <dt>Temp. min:</dt>
                                             <dd><em>{{ procesFilii.tempMin ? procesFilii.tempMin ~ '°C' : 'brak danych' }}</em></dd>
                                             <dt>Temp max:</dt>
                                             <dd><em>{{ procesFilii.tempMax ? procesFilii.tempMax ~ '°C' : 'brak danych' }}</em></dd>
                                             <dt>Czas:</dt>
-                                            <dd><em>{{ procesFilii.czasSchniecia ? procesFilii.czasSchniecia ~ '[min]' : 'brak danych' }}</em></dd>
+                                            <dd><em>{{ procesFilii.czasSchniecia ? procesFilii.czasSchniecia : 'brak danych' }}</em></dd>
                                         </dl>
                                     </div>
                                 {% endfor %}
@@ -179,6 +177,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">Wymagania powłoki lakierowej</div>
@@ -186,7 +185,7 @@
                             <div class="list-group">
                                 {% for procesFilii in filia.filieProcesyAplikacji %}
                                     <div class="list-group-item">
-                                        <h5>{{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
                                         <p>{{ procesFilii.info }}</p>
                                     </div>
                                 {% endfor %}
@@ -201,7 +200,7 @@
                             <div class="list-group">
                                 {% for procesFilii in filia.filieProcesyAplikacji %}
                                     <div class="list-group-item">
-                                        <h5>{{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
                                         <p>{{ procesFilii.info }}</p>
                                     </div>
                                 {% endfor %}
@@ -209,84 +208,67 @@
                         </div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
             </div>
-
-{#            <div class="prawa">
-                <fieldset>
-                    <legend>Parametry utwardzania powłoki</legend>
-                    {% if filia.filieProcesyUtwardzaniaPowloki|length > 0 %}
-                        <dl class="table-display">
-                            {% for procesFilii in filia.filieProcesyUtwardzaniaPowloki %}
-                                <dt>{{ procesFilii.procesUtwardzaniaPowloki.nazwaProcesu }}</dt>
-                                <dd>
-                                    <dl>
-                                        <dt>Temp. min:</dt>
-                                        <dd>{{ procesFilii.tempMin }}&#176;C</dd>
-                                        <dt>Temp max:</dt>
-                                        <dd>{{ procesFilii.tempMax }}&#176;C</dd>
-                                        <dt>Czas:</dt>
-                                        <dd>{{ procesFilii.czasSchniecia }} min</dd>
-                                    </dl>
-                                </dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-                <fieldset>
-                    <legend>Wymagania powłoki lakierowej</legend>
-                    {% if filia.filieWymaganiaPowloki|length > 0 %}
-                        <dl class="table-display">
-                            {% for wymaganiaPowloki in filia.filieWymaganiaPowloki %}
-                                <dt>{{ wymaganiaPowloki.wymaganiaPowloki.nazwaParametru }}</dt>
-                                <dd>{{ wymaganiaPowloki.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-                <fieldset>
-                    <legend>Parametry produktu obecnie stosowanego</legend>
-                    {% if filia.filieWymaganiaProduktu|length > 0 %}
-                        <dl class="table-display">
-                            {% for filiaWymaganiaProduktu in filia.filieWymaganiaProduktu %}
-                                <dt>{{ filiaWymaganiaProduktu.wymaganiaProduktu.nazwaParametru }}</dt>
-                                <dd>{{ filiaWymaganiaProduktu.info }}</dd>
-                            {% endfor %}
-                        </dl>
-                    {% endif %}
-                </fieldset>
-            </div>#}
         </section>
 
-        <section id="notatki">
-            <h2>Ustalenia / Notatki:</h2>
-            <div class="container">
-                {% for notatka in filia.filieNotatki %}
-                    {% set wyrozniona = notatka.uzytkownik.profilUzytkownika.stanowisko in stanowiska ? "style=color:red;" : "" %}
-                    <div class="notatka">
-                        <div class="naglowek">
-                            {% if notatka.uzytkownik == app.user %}
-                                {% if date(notatka.koniecEdycji) > date('now') %}
-                                    <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
-                                    <span {{ wyrozniona }}>{{ notatka.uzytkownik }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_edytuj', {'id': notatka.id } ) }}" class="art-button maly pomaranczowy">Edytuj</a></li> <li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a></li></ul>
-                                {% else %}
-                                    <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
-                                    <span {{ wyrozniona }}>{{ notatka.uzytkownik }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> <ul class="record_actions"><li><a href="{{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }}" class="art-button maly czerwony">Usuń</a> </li></ul>
-                                {% endif %}
-                            {% else %}
-                                <span class="kategorie-notatek kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
-                                <span {{ wyrozniona }}>{{ notatka.uzytkownik }} - {{ notatka.uzytkownik.profilUzytkownika.stanowisko }} || {{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span>
-                            {% endif %}
-                        </div>
-
-                        <div class="tresc">
-                            {% if notatka.status == 0 %}
-                                <s>{{ notatka.tresc|raw }}</s>
-                            {% else %}
-                                {{ notatka.tresc|raw }}
-                            {% endif %}
-                        </div>
+        <section id="informacje-pozostale">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#notatki" data-toggle="tab">Notatki</a></li>
+                <li><a href="#pracownicy" data-toggle="tab">Pracownicy</a></li>
+                <li><a href="#" data-toggle="tab">Wizyty techniczne</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="notatki">
+                    <div class="row">
+                        {% for notatka in filia.filieNotatki %}
+                            {% set wyrozniona = notatka.uzytkownik.profilUzytkownika.stanowisko in stanowiska ? true : false %}
+                            <div class="notatka col-lg-12">
+                                <div class="naglowek row">
+                                    <div class="col-xs-3">
+                                        <span class="label kategoria-{{ notatka.rodzaj }}">{{ attribute(notatka_kategorie,notatka.rodzaj) }}</span>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        {% set nav_buttons = "" %}
+                                        {% if notatka.uzytkownik == app.user %}
+                                            {% set nav_buttons = nav_buttons~"<a class='btn btn-danger btn-xs' href='#{ path('frontend_filia_notatka_usun', {'id': notatka.id }) }'><i class='fa fa-trash-o'></i> usuń</a>" %}
+                                            {% if date(notatka.koniecEdycji) > date('now') %}
+                                                {% set nav_buttons = "<a class='btn btn-warning btn-xs' href='#{ path('frontend_filia_notatka_edytuj', {'id': notatka.id }) }'><i class='fa fa-pencil'></i> edytuj</a> "~nav_buttons %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {{ wyrozniona ? "<i class='fa fa-exclamation-triangle text-warning' title='Wpis dodany przez administratora.'></i>" }} <span class="label label-info">{{ notatka.uzytkownik }} - {{ notatka.uzytkownik.profilUzytkownika.stanowisko }}</span> <span class="note-creation-date">{{ notatka.dataSporzadzenia|date('Y-m-d H:i:s') }}</span> {{ nav_buttons|raw }}
+                                    </div>
+                                </div>
+                                <div class="tresc row">
+                                    <div class="col-xs-12">
+                                        {% if notatka.status == 0 %}
+                                            <s>{{ notatka.tresc|raw }}</s>
+                                        {% else %}
+                                            {{ notatka.tresc|raw }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                </div>
+                <div class="tab-pane" id="pracownicy">
+                    <table class="table table-striped">
+                        {% for pracownik in filia.filiePracownicy %}
+                            <tr>
+                                <th>{{ loop.index }}.</th>
+                                <td style="white-space: nowrap;">{{ pracownik.imie }} {{ pracownik.nazwisko }}</td>
+                                <td>{{ pracownik.email }}</td>
+                                <td>{{ pracownik.stanowisko }}</td>
+                                <td>{{ pracownik.mobile }}</td>
+                                <td>{{ pracownik.telefon1 }}</td>
+                                <td>{{ pracownik.notatka }}</td>
+                                <td>{{ pracownik.kontakt }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="tab-pane" id="wizyty-techniczne">...</div>
             </div>
         </section>
     </section>
@@ -299,24 +281,26 @@
         {% endfor %}
     {% endfor %}
 
-    <ul class="record_actions">
+    <hr>
+
+    <ul id="menu-akcji" class="record_actions">
         <li>
-            <a href="{{ path('url_lista_klientow') }}" class="art-button">
-                Powrót do listy
+            <a href="{{ path('url_lista_klientow') }}" class="btn btn-info">
+                <i class="fa fa-chevron-left"></i> Powrót do listy
             </a>
         </li>
         <li>
-            <a href="{{ path('frontend_filia_edytuj', { 'id': filia.id }) }}" class="art-button">
-                Edytuj
+            <a href="{{ path('frontend_filia_edytuj', { 'id': filia.id }) }}" class="btn btn-warning">
+                <i class="fa fa-pencil"></i> Edytuj
             </a>
         </li>
         <li>
-            <a href="{{ path('frontend_filia_notatka_new', {'id': filia.id}) }}" class="art-button">
-                Dodaj notatkę
+            <a href="{{ path('frontend_filia_notatka_new', {'id': filia.id}) }}" class="btn btn-success">
+                <i class="fa fa-plus-square-o"></i> Dodaj notatkę
             </a>
         </li>
         <li style="float: right;">
-            <a id="zamow-oferte" href="{{ path('frontend_filia_ajax_zamowienie_oferty', {'id': filia.id}) }}" class="art-button">Zamów ofertę</a>
+            <a id="zamow-oferte" href="{{ path('frontend_filia_ajax_zamowienie_oferty', {'id': filia.id}) }}" class="btn btn-primary"><i class="fa fa-bullhorn"></i> Zamów ofertę</a>
         </li>
         {#<li>
             <a href="{{ path('frontend_filia_notatka_new', {'id': filia.id}) }}" class="art-button">
