@@ -149,6 +149,14 @@ class FiliaType extends AbstractType
                     'by_reference'  =>  false,
                     'required'      =>  false,
             ))
+            ->add('lat','hidden',array(
+                    'label' =>  'Szerokość'
+                )
+            )
+            ->add('lng','hidden',array(
+                    'label' =>  'Długość'
+                )
+            )
         ;
     }
     
