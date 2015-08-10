@@ -88,6 +88,11 @@ class FiliaType extends AbstractType
                     'by_reference'  =>  false,
                     'required'      =>  false,
             ))
+            ->add('krdInformacje',null,array(
+                    'label'         =>  'KRD:',
+                    'required'      =>  false
+                )
+            )
             ->add('adnotacja',null,array(
                     'label'         =>  'Adnotacja:',
                     'required'      =>  false
