@@ -338,8 +338,18 @@
                 var mapOptions = {
                     zoom: 6,
                     center: latlng
-                }
+                };
+
                 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                if(filiaLat.val() != null && filiaLng.val() != null)
+                {
+                    var markerLatLng = new google.maps.LatLng(filiaLat.val(),filiaLng.val());
+                    marker = new google.maps.Marker({
+                        map: map,
+                        position: markerLatLng
+                    });
+                }
             }
 
             google.maps.event.addDomListener(window, 'load', initialize);
