@@ -1,0 +1,72 @@
+{% extends '@DFPEtapI/Backend/index.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
+{% block content -%}
+    <style>
+        table.records_list {
+            font-size: 12px;
+        }
+        table.records_list tbody {
+            background-color: #efefef;
+        }
+        table.records_list thead {
+            background-color: #EB961D;
+        }
+        table.records_list thead a {
+            color: #000000;
+        }
+        table.records_list tbody th, table.records_list tbody td {
+            vertical-align: middle;
+        }
+        ul.record_actions {
+            margin-bottom: 0;
+        }
+    </style>
+    <section class="content-fluid">
+        <h1>Lista filii bez lokalizacji</h1>
+
+        <table class="table records_list table-bordered table-condensed table-striped">
+            <thead>
+            <tr>
+                <th class="lp">Lp</th>
+                <th>Klient</th>
+                <th>Filia</th>
+                <th>Adres</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for filia in filie %}
+                <tr>
+                    <td class="lp"><a href="{{ path('backend_filia_edytuj', { 'id': filia.id }) }}">{{ loop.index }}</a></td>
+                    <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
+                    <td>{{ filia.nazwaFilii }}</td>
+                    <td>{{ filia.ulica }}; {{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}</td>
+                    <td>
+                        <ul class="record_actions">
+                            <li>
+                                <a href="{{ path('backend_filia_edytuj', { 'id': filia.id }) }}" class="btn btn-xs btn-warning">edytuj</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+{% endblock %}

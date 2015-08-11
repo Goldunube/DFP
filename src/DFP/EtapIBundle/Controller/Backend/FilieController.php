@@ -52,9 +52,15 @@ class FilieController extends Controller
     /**
      * @param $id
      *
+     * @Route(
+     *      "/{id}",
+     *      name="backend_filia_show",
+     *      requirements={
+     *          "id" : "\d+"
+     *      }
+     * )
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @return array
-     * @Route("/{id}", name="backend_filia_show")
      * @Method("GET")
      * @Template()
      */
@@ -424,6 +430,28 @@ class FilieController extends Controller
         return array(
             'form'      => $form->createView(),
             'powrot_url'    =>  $previousUrl,
+        );
+    }
+
+    /**
+     * @Route(
+     *      "/bez-lokalizacji",
+     *      name="backend_filie_bez_lokalizacji_list"
+     * )
+     * @Method("GET")
+     * @Template()
+     */
+    public function listaFiliiBezLokalizacjiAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $filie = $em->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
+            ->select('f')
+            ->where('f.lat IS NULL')
+            ->orWhere('f.lng IS NULL')
+            ->getQuery()->getResult();
+
+        return array(
+            'filie' =>  $filie
         );
     }
 }
