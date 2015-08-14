@@ -221,10 +221,10 @@
                         <div class="panel-heading">Wymagania powłoki lakierowej</div>
                         <div class="panel-body">
                             <div class="list-group">
-                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                {% for row in filia.filieWymaganiaPowloki %}
                                     <div class="list-group-item">
-                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
-                                        <p>{{ procesFilii.info }}</p>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ row.wymaganiaPowloki.nazwaParametru }}</h5>
+                                        <p>{{ row.info }}</p>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -236,10 +236,10 @@
                         <div class="panel-heading">Parametry produktu obecnie stosowanego</div>
                         <div class="panel-body">
                             <div class="list-group">
-                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                {% for row in filia.filieWymaganiaProduktu %}
                                     <div class="list-group-item">
-                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
-                                        <p>{{ procesFilii.info }}</p>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ row.wymaganiaProduktu.nazwaParametru }}</h5>
+                                        <p>{{ row.info }}</p>
                                     </div>
                                 {% endfor %}
                             </div>

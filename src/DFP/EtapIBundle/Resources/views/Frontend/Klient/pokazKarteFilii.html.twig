@@ -183,10 +183,10 @@
                         <div class="panel-heading">Wymagania powłoki lakierowej</div>
                         <div class="panel-body">
                             <div class="list-group">
-                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                {% for row in filia.filieWymaganiaPowloki %}
                                     <div class="list-group-item">
-                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
-                                        <p>{{ procesFilii.info }}</p>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ row.wymaganiaPowloki.nazwaParametru }}</h5>
+                                        <p>{{ row.info }}</p>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -198,10 +198,10 @@
                         <div class="panel-heading">Parametry produktu obecnie stosowanego</div>
                         <div class="panel-body">
                             <div class="list-group">
-                                {% for procesFilii in filia.filieProcesyAplikacji %}
+                                {% for row in filia.filieWymaganiaProduktu %}
                                     <div class="list-group-item">
-                                        <h5><i class="fa fa-chevron-right"></i> {{ procesFilii.procesAplikacji.nazwaProcesu }}</h5>
-                                        <p>{{ procesFilii.info }}</p>
+                                        <h5><i class="fa fa-chevron-right"></i> {{ row.wymaganiaProduktu.nazwaParametru }}</h5>
+                                        <p>{{ row.info }}</p>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -314,7 +314,7 @@
     <div>
         <p>Przekaż Technikowi / Koordynatorowi istotne informacje dotyczące zamawianej <strong>oferty handlowej</strong></p>
         <form id="zamow-oferte-form" action="{{ path('frontend_filia_zamowienie_oferty', {'id': filia.id}) }}" method="post">
-            <textarea name="info" style="width: 90%; height: 125px;"></textarea>
+            <textarea name="info" style="width: 100%; height: 200px; color: #000000; padding: 5px;"></textarea>
         </form>
     </div>
 {% endblock modal_windows %}
@@ -325,20 +325,28 @@
     $('#modal-windows').dialog({
         title: "Zamówienie oferty Handlowej",
         autoOpen: false,
-        height: 300,
+        height: 400,
         width: 350,
         modal: true,
         draggable: true,
         resizable: true,
         buttons: {
-            "Wyślij": function()
-            {
-                $('#zamow-oferte-form').submit();
-                $(this).dialog("close");
+            "send": {
+                text: 'Wyślij',
+                class: 'btn btn-xs btn-success',
+                click: function()
+                {
+                    $('#zamow-oferte-form').submit();
+                    $(this).dialog("close");
+                }
             },
-            Anuluj: function()
-            {
-                $(this).dialog("close");
+            "anuluj": {
+                text: 'Anuluj',
+                class: 'btn btn-xs btn-danger',
+                click: function()
+                {
+                    $(this).dialog("close");
+                }
             }
         },
     })
