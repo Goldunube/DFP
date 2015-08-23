@@ -22,7 +22,7 @@ class Urlop
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(nullable=false)
      */
     private $osoba;

@@ -46,13 +46,13 @@ class TerminUrlopu
     private $dataZgloszenia;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(nullable=false)
      */
     private $osoba;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(nullable=true)
      */
     private $zatwierdzil;

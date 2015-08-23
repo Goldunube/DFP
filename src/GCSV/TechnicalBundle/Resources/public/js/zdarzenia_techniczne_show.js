@@ -136,7 +136,7 @@ $(document).ready(function()
         closeOnEscape: true
     });
 
-    uploader.on('fileuploadprocessalways', function (e, data) {
+/*    uploader.on('fileuploadprocessalways', function (e, data) {
         var index = data.index,
             file = data.files[index],
             node = $("#system-messages");
@@ -157,5 +157,5 @@ $(document).ready(function()
         $.each(data.files, function (index) {
             node.append('<div class="alert alert-danger"><span class="text-danger">Przesyłanie pliku zakończone niepowodzeniem.</span></div>');
         });
-    });
+    });*/
 });

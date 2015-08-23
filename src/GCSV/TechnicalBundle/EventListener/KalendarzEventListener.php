@@ -2,6 +2,7 @@
 
 namespace GCSV\TechnicalBundle\EventListener;
 
+use DFP\EtapIBundle\Entity\Uzytkownik;
 use GCSV\DniWolneBundle\Entity\TerminUrlopu;
 use GCSV\FullCalendarBundle\Event\CalendarEvent;
 use GCSV\FullCalendarBundle\Entity\EventEntity;
@@ -9,7 +10,6 @@ use Doctrine\ORM\EntityManager;
 use GCSV\TechnicalBundle\Entity\TerminZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\UczestnikZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\ZdarzenieTechniczne;
-use GCSV\UserBundle\Entity\Uzytkownik;
 
 class KalendarzEventListener
 {
@@ -35,26 +35,20 @@ class KalendarzEventListener
         {
             $query = $this->entityManager->getRepository('GCSVTechnicalBundle:ZdarzenieTechniczne')
                 ->createQueryBuilder('zdarzenia_techniczne')
-                ->select('zdarzenia_techniczne,oddzialFirmy,firma,uczestnicy,terminy,uczestnik,kalendarz,adresy,rodzajZdarzenia')
+                ->select('zdarzenia_techniczne,oddzialFirmy,firma,uczestnicy,terminy,uczestnik,rodzajZdarzenia,profil')
                 ->leftJoin('zdarzenia_techniczne.rodzajZdarzeniaTechnicznego','rodzajZdarzenia')
                 ->leftJoin('zdarzenia_techniczne.oddzialFirmy','oddzialFirmy')
-                ->leftJoin('oddzialFirmy.firma','firma')
-                ->leftJoin('oddzialFirmy.adresy','adresy')
+                ->leftJoin('oddzialFirmy.klient','firma')
                 ->leftJoin('zdarzenia_techniczne.uczestnikZdarzeniaTechnicznego','uczestnicy')
                 ->leftJoin('uczestnicy.osoba','uczestnik')
-                ->leftJoin('uczestnik.kalendarz','kalendarz')
+                ->leftJoin('uczestnik.profilUzytkownika','profil')
                 ->leftJoin('uczestnicy.terminy','terminy')
                 ->where('terminy.rozpoczecieWizyty <= :koniec and terminy.zakonczenieWizyty >= :poczatek')
                 ->setParameter('koniec', $endDate->format('Y-m-d H:i:s'))
                 ->setParameter('poczatek', $startDate->format('Y-m-d H:i:s'));
 
-
-            //if($users != 0)
-            //{
-            //$users = join(',',$users);
             $query->andWhere('uczestnicy.osoba IN (:users)');
             $query->setParameter('users',$users);
-            //}
 
             $zdarzeniaTechniczne = $query->getQuery()->getResult();
 
@@ -73,16 +67,12 @@ class KalendarzEventListener
                      */
                     $osoba = $uczestnik->getOsoba();
 
-                    if($osoba->getKalendarz())
+                    if($osoba->getProfilUzytkownika())
                     {
-                        $bgKolor = $osoba->getKalendarz()->getTloKolor();
-                        $bdKolor = $osoba->getKalendarz()->getRamkaKolor();
-                        $fgKolor = $osoba->getKalendarz()->getTekstKolor();
-                    }else{
-                        $bgKolor = '';
-                        $bdKolor = '';
-                        $fgKolor = '';
+                        $bgKolor = $osoba->getProfilUzytkownika()->getKolorTlaZdarzenia();
+                        $fgKolor = $osoba->getProfilUzytkownika()->getKolorTekstuZdarzenia();
                     }
+
                     /**
                      * @var TerminZdarzeniaTechnicznego $termin
                      */
@@ -90,11 +80,11 @@ class KalendarzEventListener
                     {
                         if($zdarzenieTechniczne->getOddzialFirmy())
                         {
-                            $title = $zdarzenieTechniczne->getOddzialFirmy()->getFirma()->getNazwaSkrocona();
+                            $title = $zdarzenieTechniczne->getOddzialFirmy()->getKlient()->getNazwaSkrocona();
                             $klientNazwa = $title;
-                            $kodPocztowy = substr($zdarzenieTechniczne->getOddzialFirmy()->getAdresy()->first()->getKodPocztowy(),0,2).'-'.substr($zdarzenieTechniczne->getOddzialFirmy()->getAdresy()->first()->getKodPocztowy(),2);
-                            $miasto = $zdarzenieTechniczne->getOddzialFirmy()->getAdresy()->first()->getMiasto();
-                            $ulica = $zdarzenieTechniczne->getOddzialFirmy()->getAdresy()->first()->getUlica();
+                            $kodPocztowy = substr($zdarzenieTechniczne->getOddzialFirmy()->getKodPocztowy(),0,2).'-'.substr($zdarzenieTechniczne->getOddzialFirmy()->getKodPocztowy(),2);
+                            $miasto = $zdarzenieTechniczne->getOddzialFirmy()->getMiejscowosc();
+                            $ulica = $zdarzenieTechniczne->getOddzialFirmy()->getUlica();
                             $lokalizacja = sprintf("ul. %s, %s %s",$ulica, $kodPocztowy, $miasto);
                         }else{
                             $title = $zdarzenieTechniczne->getRodzajZdarzeniaTechnicznego()->getNazwa();
@@ -102,7 +92,7 @@ class KalendarzEventListener
                             $lokalizacja = 'mapa';
                         }
 
-                        switch ($zdarzenieTechniczne->getStatus())
+                        switch ($zdarzenieTechniczne->getStatus()->getWartosc())
                         {
                             case -2:
                                 $class = 'st-anulowane';
@@ -134,9 +124,9 @@ class KalendarzEventListener
                         $eventEntity->setTechnik($osoba->getImieNazwisko());
                         $eventEntity->setZlecajacy($zdarzenieTechniczne->getOsobaZlecajaca()->getImie().' '.$zdarzenieTechniczne->getOsobaZlecajaca()->getNazwisko());
                         $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event
-                        $eventEntity->setBgColor($bgKolor); //set the background color of the event's label
-                        $eventEntity->setFgColor($fgKolor); //set the foreground color of the event's label
-                        $eventEntity->setBdColor($bdKolor); //set the foreground color of the event's label
+                        isset($bgKolor) ? $eventEntity->setBgColor($bgKolor) : null; //set the background color of the event's label
+                        isset($fgKolor) ? $eventEntity->setFgColor($fgKolor) : null; //set the foreground color of the event's label
+                        $eventEntity->setBdColor("#000000"); //set the foreground color of the event's label
                         $eventEntity->setRodzaj($zdarzenieTechniczne->getRodzajZdarzeniaTechnicznego()->getNazwa());
                         $eventEntity->setCssClass('qtip-render '.$class); // a custom class you may want to apply to event labels
                         $eventEntity->addField('typZdarzenia','zdarzenie-dt');
@@ -168,15 +158,11 @@ class KalendarzEventListener
             $koniec->add(new \DateInterval('P1D'));
             $osoba = $terminUrlopu->getOsoba();
             $typ = $terminUrlopu->getTyp();
-            if($osoba->getKalendarz())
+
+            if($osoba->getProfilUzytkownika())
             {
-                $bgKolor = $osoba->getKalendarz()->getTloKolor();
-                $bdKolor = $osoba->getKalendarz()->getRamkaKolor();
-                $fgKolor = $osoba->getKalendarz()->getTekstKolor();
-            }else{
-                $bgKolor = '';
-                $bdKolor = '';
-                $fgKolor = '';
+                $bgKolor = $osoba->getProfilUzytkownika()->getKolorTlaZdarzenia();
+                $fgKolor = $osoba->getProfilUzytkownika()->getKolorTekstuZdarzenia();
             }
 
             $title = $typ == 1 ? "Urlop" : 'Zwolnienie';
@@ -186,9 +172,9 @@ class KalendarzEventListener
             $eventEntity->setTechnik($osoba->getImieNazwisko());
             $eventEntity->setAllDay(true);
             $eventEntity->setCssClass('fc-urlop');
-            $eventEntity->setBgColor($bgKolor); //set the background color of the event's label
-            $eventEntity->setFgColor($fgKolor); //set the foreground color of the event's label
-            $eventEntity->setBdColor($bdKolor); //set the foreground color of the event's label
+            isset($bgKolor) ? $eventEntity->setBgColor($bgKolor) : null; //set the background color of the event's label
+            isset($fgKolor) ? $eventEntity->setFgColor($fgKolor) : null; //set the foreground color of the event's label
+            $eventEntity->setBdColor("#000000"); //set the foreground color of the event's label
             $eventEntity->addField('typZdarzenia','urlop');
             $eventEntity->addField('csrfToken',$this->csrfProvider->generateCsrfToken('delUrlop%d',$terminUrlopu->getId()));
             $calendarEvent->addEvent($eventEntity);

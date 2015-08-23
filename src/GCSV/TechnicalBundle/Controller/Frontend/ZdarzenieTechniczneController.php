@@ -3,6 +3,7 @@
 namespace GCSV\TechnicalBundle\Controller\Frontend;
 
 
+use DFP\EtapIBundle\Entity\Filia;
 use GCSV\MagazynBundle\Entity\StanMagazynuWirtualny;
 use GCSV\RaportBundle\Entity\Notatka;
 use GCSV\RaportBundle\Entity\RaportTechniczny;
@@ -15,6 +16,7 @@ use GCSV\TechnicalBundle\Form\ZdarzenieTechniczneHiddenDateTimeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
@@ -34,6 +36,7 @@ use Ivory\GoogleMap\Overlays\Marker;
  * Kontroler Zdarzen Technicznych
  * @package GCSV\TechnicalBundle\Controller\Frontend
  * @Route("/zdarzenia-techniczne")
+ * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
  */
 class ZdarzenieTechniczneController extends Controller
 {
@@ -89,81 +92,21 @@ class ZdarzenieTechniczneController extends Controller
         if($form->isValid())
         {
             $em = $this->getDoctrine()->getManager();
-            $polaDodatkowe = $this->get('request')->request->get('pola_dodatkowe');
-            $dlugoscGeo = $form->get('dlugoscGeo')->getData();
-            $szerokoscGeo = $form->get('szerokoscGeo')->getData();
-
-            $html = null;
-            if($polaDodatkowe)
-            {
-                foreach($polaDodatkowe as $idPytania => $pole)
-                {
-                    $dodatkowePytanie = $em->getRepository('GCSVTechnicalBundle:PytanieZdarzenieTechniczne')->find($idPytania);
-                    $pytanie = $dodatkowePytanie->getPytanie();
-                    $odpowiedz = $pole;
-                    $html .= <<<HTML
-<p><strong>$pytanie</strong>$odpowiedz</p>
-HTML;
-
-                };
-            }
-
-            //SPRAWDZENIE CZY POLA DŁUGOŚĆ I SZEROKOŚĆ GEOGRAFICZNA SĄ WYPEŁNIONE
-            if(!$dlugoscGeo or !$szerokoscGeo)
-            {
-                $odzialFirmy = $form->get('oddzialFirmy')->getData();
-
-                /**
-                 * @var $lokalizacja Adres
-                 */
-                $lokalizacja = $odzialFirmy->getAdresy()->first();
-                if(!$lokalizacja->getDlugoscGeo() || !$lokalizacja->getSzerokoscGeo())
-                {
-                    $kodPocztowy = substr_replace($lokalizacja->getKodPocztowy(),'-',2,0);
-                    $adresString = $lokalizacja->getUlica().', '.$lokalizacja->getMiasto().', '.$kodPocztowy;
-                    /**
-                     * @var GeocoderResponse $response
-                     */
-                    $response = $this->get('ivory_google_map.geocoder')->geocode($adresString);
-                    $status = $response->getStatus();
-                    if($status == 'OK')
-                    {
-                        /**
-                         * @var GeocoderResult $geocoderResult
-                         */
-                        $geocoderResults = $response->getResults();
-                        $geocoderResult = $geocoderResults[0];
-                        $lokalizacja->setSzerokoscGeo($geocoderResult->getGeometry()->getLocation()->getLatitude());
-                        $lokalizacja->setDlugoscGeo($geocoderResult->getGeometry()->getLocation()->getLongitude());
-
-                        $em->persist($lokalizacja);
-                    }
-                }
-                $zdarzenie->setDlugoscGeo($lokalizacja->getDlugoscGeo());
-                $zdarzenie->setSzerokoscGeo($lokalizacja->getSzerokoscGeo());
-            }
 
             $em->persist($zdarzenie);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success',array('title'=>'Udało się!','body'=>'Nowe zdarzenie techniczne zostało pomyślne zapisane w kalendarzu Technicznym.'));
 
-            return $this->redirect($this->generateUrl('zdarzenie_techniczne_new'));
+            return $this->redirect($this->generateUrl('strona_glowna'));
 
         }else{
             $this->get('session')->getFlashBag()->add('danger',array('title'=>'Błąd!','body'=>'Wystąpił błąd podczas próby dodania nowego zdarzenia technicznego. Sprawdź poprawność wypełnienia wszystkich wymaganych pól formularza.'));
         }
 
-        $referer = $this->get('request')->headers->get('referer');
-        if(!preg_match('/\/zaplecze\/zdarzenia-techniczne?(\/\d)/',$referer))
-        {
-            $referer = $this->get('router')->generate('zdarzenia_techniczne');
-        }
-
         return array(
             'zdarzenie' =>  $zdarzenie,
             'form'      =>  $form->createView(),
-            'back_link' =>  $referer,
         );
     }
 
@@ -212,16 +155,9 @@ HTML;
         $zdarzenie->setOsobaZlecajaca($this->getUser());
         $form = $this->createCreateForm($zdarzenie);
 
-        $referer = $this->get('request')->headers->get('referer');
-        if(!preg_match('/\/zdarzenia-techniczne?(\/\d)/',$referer))
-        {
-            $referer = $this->get('router')->generate('zdarzenia_techniczne');
-        }
-
         return array(
             'zdarzenie' =>  $zdarzenie,
             'form'      =>  $form->createView(),
-            'back_link' =>  $referer,
         );
     }
 
@@ -250,85 +186,15 @@ HTML;
             throw $this->createNotFoundException('Nie można odnaleźć zdarzenia.');
         }
 
-        $dokumentacja = $em->getRepository('GCSVTechnicalBundle:ZdarzenieTechniczne')->getRaportyTechniczne($zdarzenie->getId());
-        $raportyZuzycia = $em->getRepository('GCSVRaportBundle:RaportZuzycia')->findBy(array('zdarzenieTechniczne'=>$zdarzenie));
-        $receptury = $em->getRepository('GCSVRecepturaBundle:Receptura')->findByZdarzenieTechniczne($id);
-        $notatki = $em->getRepository('GCSVRaportBundle:Notatka')->findBy(array('zdarzenieTechniczne'=>$zdarzenie));
-        $stopienRealizacji = $zdarzenie->getStopienRealizacji();
-        switch(true)
-        {
-            case ($stopienRealizacji > 30 and $stopienRealizacji <= 70):
-                $stopienRealizacjiClass = 'warning';
-                break;
-            case ($stopienRealizacji > 70):
-                $stopienRealizacjiClass = 'success';
-                break;
-            default:
-                $stopienRealizacjiClass = 'danger';
-        }
-
-        $mapa = $this->get('ivory_google_map.map');
-        $mapa->setAsync(false);
-        $mapa->setAutoZoom(true);
-        $mapa->setStylesheetOption('width', '100%');
-        $mapa->setStylesheetOption('height', '500px');
-        $marker = new Marker;
-        if($zdarzenie->getDlugoscGeo() && $zdarzenie->getSzerokoscGeo())
-        {
-            $requestDirections = $this->container->get('ivory_google_map.directions_request');
-            $curlHttpAdapter = $this->container->get('widop_http_adapter.curl');
-            $directions = $this->container->get('ivory_google_map.directions');
-
-            $orginSzerokoscGeo = floatval($zdarzenie->getUczestnikZdarzeniaTechnicznego()->first()->getOsoba()->getProfil()->getLat());
-            $orginDlugoscGeo = floatval($zdarzenie->getUczestnikZdarzeniaTechnicznego()->first()->getOsoba()->getProfil()->getLng());
-            $destSzerokoscGeo = floatval($zdarzenie->getSzerokoscGeo());
-            $destDlugoscGeo = floatval($zdarzenie->getDlugoscGeo());
-            $requestDirections->setOrigin($orginSzerokoscGeo,$orginDlugoscGeo,true);
-            $requestDirections->setDestination($destSzerokoscGeo,$destDlugoscGeo,true);
-            $requestDirections->setLanguage('pl');
-            $requestDirections->setRegion('pl');
-            $directions->setHttpAdapter($curlHttpAdapter);
-            $responseDirections = $directions->route($requestDirections);
-            $routes = $responseDirections->getRoutes();
-//            $route->getOverviewPolyline();
-
-            if($routes)
-            {
-                $encodedPolyline = $routes[0]->getOverviewPolyline();
-                $encodedPolyline->setOption('strokeColor', '#00F');
-                $encodedPolyline->setOption('geodesic', true);
-                $mapa->addEncodedPolyline($encodedPolyline);
-            }else{
-                $marker->setPosition($zdarzenie->getSzerokoscGeo(),$zdarzenie->getDlugoscGeo());
-                $marker->setAnimation('drop');
-                $mapa->addMarker($marker);
-
-                $geocoderRequest = $this->get('ivory_google_map.geocoder_request');
-                $geocoderRequest->setCoordinate($zdarzenie->getSzerokoscGeo(),$zdarzenie->getDlugoscGeo());
-                /**
-                 * @var GeocoderResponse $response
-                 */
-                $response = $this->get('ivory_google_map.geocoder')->geocode($geocoderRequest);
-                if($response->getStatus() == 'OK')
-                {
-                    /**
-                     * @var GeocoderResult $geocoderResult
-                     */
-                    $geocoderResults = $response->getResults();
-                    $geocoderResult = $geocoderResults[0];
-                    $adres = $geocoderResult->getFormattedAddress();
-                }
-            }
-        }else{
-            $mapa->setAutoZoom(false);
-            $mapa->setCenter(51.9189046,19.1343786,true);
-            $mapa->setMapOption('zoom', 6);
-        }
+//        $dokumentacja = $em->getRepository('GCSVTechnicalBundle:ZdarzenieTechniczne')->getRaportyTechniczne($zdarzenie->getId());
+//        $raportyZuzycia = $em->getRepository('GCSVRaportBundle:RaportZuzycia')->findBy(array('zdarzenieTechniczne'=>$zdarzenie));
+//        $receptury = $em->getRepository('GCSVRecepturaBundle:Receptura')->findByZdarzenieTechniczne($id);
+//        $notatki = $em->getRepository('GCSVRaportBundle:Notatka')->findBy(array('zdarzenieTechniczne'=>$zdarzenie));
 
         $referer = $this->get('request')->headers->get('referer');
         if(!preg_match('/\/zdarzenia-techniczne?(\/\d)/',$referer))
         {
-            $referer = $this->get('router')->generate('zdarzenia_techniczne');
+            $referer = $this->get('router')->generate('strona_glowna');
         }
 
         $finder = new Finder();
@@ -344,13 +210,13 @@ HTML;
 
         return array(
             'zdarzenie'                 =>  $zdarzenie,
-            'dokumentacja'              =>  $dokumentacja,
-            'raporty_zuzycia'           =>  $raportyZuzycia,
-            'notatki'                   =>  $notatki,
+//            'dokumentacja'              =>  $dokumentacja,
+//            'raporty_zuzycia'           =>  $raportyZuzycia,
+//            'notatki'                   =>  $notatki,
             'back_link'                 =>  $referer,
-            'stopien_realizacji_class'  =>  $stopienRealizacjiClass,
-            'receptury'                 =>  $receptury,
-            'mapa'                      =>  $mapa,
+//            'stopien_realizacji_class'  =>  $stopienRealizacjiClass,
+//            'receptury'                 =>  $receptury,
+//            'mapa'                      =>  $mapa,
             'adres'                     =>  isset($adres) ? $adres : '',
             'zalaczniki'                =>  $finder,
             'csrfProvider'              =>  isset($csrfProvider) ? $csrfProvider : null
@@ -607,48 +473,6 @@ HTML;
         $response->setData($adresy);
 
         return $response;
-    }
-
-    /**
-     * @Route(
-     *      "{id}/get-dodatkowe-pytania",
-     *      name="ajax_get_dodatkowe_pola_zdarzenia",
-     *      options={"expose"=true}
-     * )
-     * @Method("GET")
-     */
-    public function getDodatkowePytaniaHTML($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /**
-         * @var RodzajZdarzeniaTechnicznego $rodzaj
-         */
-        $rodzaj = $em->getRepository('GCSVTechnicalBundle:RodzajZdarzeniaTechnicznego')->find($id);
-
-        if(!$rodzaj)
-        {
-            throw $this->createNotFoundException('Szukany rodzaj zdarzenia technicznego nie został odnaleziony.');
-        }
-
-        $dodatkowePolaFormularza = null;
-
-        foreach($rodzaj->getRodzajePytan() as $wiersz)
-        {
-            $id = $wiersz->getPytanie()->getId();
-            $label = $wiersz->getPytanie()->getPytanie();
-            $pole = "<input id=\"pole_$id\" name=\"pola_dodatkowe[$id]\" type=\"text\" class=\"form-control\">";
-            $dodatkowePolaFormularza .= <<<HTML
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="pole_$id">$label</label>
-                    <div class="form-control-static col-sm-9">
-                        $pole
-                    </div>
-                </div>
-HTML;
-        }
-
-        return new Response($dodatkowePolaFormularza);
     }
 
     /**

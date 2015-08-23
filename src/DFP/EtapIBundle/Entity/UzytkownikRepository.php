@@ -52,8 +52,7 @@ class UzytkownikRepository extends EntityRepository
         $query = $this->createQueryBuilder('ut')
             ->select('ut,p')
             ->leftJoin('ut.profilUzytkownika','p')
-            ->where('p.stanowisko = :technik')
-            ->setParameter('technik','Technik')
+            ->where('p.pokazKalendarz = true')
             ->andWhere('ut.locked = false')
             ->orderBy('ut.imie','ASC');
 

@@ -2,8 +2,8 @@
 
 namespace GCSV\DniWolneBundle\Entity;
 
+use DFP\EtapIBundle\Entity\Uzytkownik;
 use Doctrine\ORM\EntityRepository;
-use GCSV\UserBundle\Entity\Uzytkownik;
 
 /**
  * TerminUrlopuRepository

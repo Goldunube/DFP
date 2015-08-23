@@ -3,7 +3,6 @@
 namespace GCSV\TechnicalBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use GCSV\TechnicalBundle\EventListener\OpisZdarzeniaTechnicznegoSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -67,10 +66,15 @@ class ZdarzenieTechniczneHiddenDateTimeType extends AbstractType
                     'required'  =>  true
                 )
             )
+            ->add('produkty',null,array(
+                    'label' =>  'Produkty do prezentacji'
+                )
+            )
+            ->add('elementyDoLakierowania',null,array(
+                    'label' =>  'Elementy do lakierowania'
+                )
+            )
         ;
-
-        $subscriber = new OpisZdarzeniaTechnicznegoSubscriber($builder->getFormFactory());
-        $builder->addEventSubscriber($subscriber);
     }
     
     /**

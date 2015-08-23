@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new DFP\EtapIBundle\DFPEtapIBundle(),
             new GCSV\TechnicalBundle\GCSVTechnicalBundle(),
             new GCSV\FullCalendarBundle\GCSVFullCalendarBundle(),
+            new GCSV\DniWolneBundle\GCSVDniWolneBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

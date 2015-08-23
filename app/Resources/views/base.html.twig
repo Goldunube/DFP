@@ -19,6 +19,23 @@
 </head>
 <body>
     <div id="wrap">
+        {% block system_messages %}
+            <div id="system-messages">
+                {% for type, messages in app.session.flashBag.all %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}">
+                            <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+                            {% if message is iterable %}
+                                <strong>{{ message['title']|trans({}, 'FOSUserBundle') }}</strong>
+                                {{ message['body']|trans({}, 'FOSUserBundle') }}
+                            {% else %}
+                                {{ message|trans({}, 'FOSUserBundle') }}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endblock %}
         <header id="naglowek-strony">
             <a href="{{ path('strona_glowna') }}" style="float: left;"><img alt="Logo Działu Farb Przemysłowych" src="{{ asset('css/images/logo_dfp.png') }}"></a>
             <p class="mapa-portal-dfp">
@@ -67,6 +84,13 @@
                         <li><a class="poziom" href="{{ path('frontend_oferty_handlowe_wszystkie') }}">Oferty Handlowe</a></li>
                         <li><a class="poziom" href="{{ path('do_pobrania') }}">Do pobrania</a></li>
                         <li><a class="poziom" href="{{ path('stany_magazynowe') }}" title="Stany magazynowe Działu Farb Przemysłowych">St. magazynowe</a></li>
+                        <li><a class="poziom" href="#" title="Dział techniczny DFP">Wizyty techniczne</a>
+                            <ul>
+                                <li><a href="{{ path('zdarzenie_techniczne_new') }}" title="Zamów wizytę techniczną">Zamów technika</a></li>
+                                <li><a href="#" title="Lista wizyt technicznych">Lista wizyt</a></li>
+                                <li><a href="#" title="Kalendarz prac Techników DFP">Kalendarz</a></li>
+                            </ul>
+                        </li>
                     {% endif %}
                 {% endblock menu_glowne %}
             </ul>

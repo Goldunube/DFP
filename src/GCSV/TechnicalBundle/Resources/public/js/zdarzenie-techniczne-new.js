@@ -44,7 +44,7 @@ $(document).ready(function()
         selectable: true,
         selectHelper: true,
         editable: false,
-        theme: true,
+        theme: false,
         lang: 'pl',
         lazyFetching: true,
         eventSources: [
@@ -152,7 +152,7 @@ $(document).ready(function()
 
                 element.bind('dblclick', function()
                 {
-                    window.open(Routing.generate('zdarzenie_techniczne_show', { id: zdarzenie.id }));
+                    window.open(Routing.generate('zdarzenie_techniczne_show', { id: zdarzenie.id }),'_blank');
                 });
             }
         }
@@ -182,18 +182,6 @@ $(document).ready(function()
                 return data
             })
     }
-
-    $('#zdt_rodzajZdarzeniaTechnicznego').change(function()
-    {
-        var $rodzajZdarzenia = $(this).val();
-        $.ajax({
-            url: Routing.generate('ajax_get_dodatkowe_pola_zdarzenia', { id: $rodzajZdarzenia } ),
-            type: "GET"
-        })
-            .done(function(html) {
-                $('#pola-dodatkowe').html(html);
-            })
-    });
 
     $('[data-toggle="tooltip"]').tooltip();
 

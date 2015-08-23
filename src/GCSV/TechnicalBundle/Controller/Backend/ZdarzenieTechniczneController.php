@@ -200,84 +200,14 @@ HTML;
         $form = $this->createCreateModalForm($zdarzenie);
         $form->handleRequest($request);
 
-        //if($form->isValid())
-        //{
-            $em = $this->getDoctrine()->getManager();
-            $polaDodatkowe = $this->get('request')->request->get('pola_dodatkowe');
-            $dlugoscGeo = $form->get('dlugoscGeo')->getData();
-            $szerokoscGeo = $form->get('szerokoscGeo')->getData();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($zdarzenie);
+        $em->flush();
 
-            $html = null;
-            if($polaDodatkowe)
-            {
-                foreach($polaDodatkowe as $idPytania => $pole)
-                {
-                    $dodatkowePytanie = $em->getRepository('GCSVTechnicalBundle:PytanieZdarzenieTechniczne')->find($idPytania);
-                    $pytanie = $dodatkowePytanie->getPytanie();
-                    $odpowiedz = $pole;
-                    $html .= <<<HTML
-<p><strong>$pytanie</strong>$odpowiedz</p>
-HTML;
+        $response = new JsonResponse();
+        $response->setData("Poprawnie utworzono Zdarzenie Techniczne.");
 
-                };
-            }
-
-            //SPRAWDZENIE CZY POLA DŁUGOŚĆ I SZEROKOŚĆ GEOGRAFICZNA SĄ WYPEŁNIONE
-            if($form->get('oddzialFirmy')->getData())
-            {
-                if(!$dlugoscGeo or !$szerokoscGeo)
-                {
-                    $odzialFirmy = $form->get('oddzialFirmy')->getData();
-
-                    /**
-                     * @var $lokalizacja Adres
-                     */
-                    $lokalizacja = $odzialFirmy->getAdresy()->first();
-                    if(!$lokalizacja->getDlugoscGeo() || !$lokalizacja->getSzerokoscGeo())
-                    {
-                        $kodPocztowy = substr_replace($lokalizacja->getKodPocztowy(),'-',2,0);
-                        $adresString = $lokalizacja->getUlica().', '.$lokalizacja->getMiasto().', '.$kodPocztowy;
-                        /**
-                         * @var GeocoderResponse $response
-                         */
-                        $response = $this->get('ivory_google_map.geocoder')->geocode($adresString);
-                        $status = $response->getStatus();
-                        if($status == 'OK')
-                        {
-                            $wynik = $response->getResults();
-                            $lokalizacja->setSzerokoscGeo($wynik[0]->getGeometry()->getLocation()->getLatitude());
-                            $lokalizacja->setDlugoscGeo($wynik[0]->getGeometry()->getLocation()->getLongitude());
-
-                            $em->persist($lokalizacja);
-                        }
-                    }
-                    $zdarzenie->setDlugoscGeo($lokalizacja->getDlugoscGeo());
-                    $zdarzenie->setSzerokoscGeo($lokalizacja->getSzerokoscGeo());
-                }
-            }
-
-            //$zdarzenie->setOpis($html);
-            $em->persist($zdarzenie);
-            $em->flush();
-
-            $response = new JsonResponse();
-            $response->setData("Poprawnie utworzono Zdarzenie Techniczne.");
-
-            return $response;
-
-/*        }else{
-            $referer = $this->get('request')->headers->get('referer');
-            if(!preg_match('/\/zaplecze\/zdarzenia-techniczne?(\/\d)/',$referer))
-            {
-                $referer = $this->get('router')->generate('zaplecze_zdarzenia_techniczne');
-            }
-
-            return array(
-                'zdarzenie' =>  $zdarzenie,
-                'form'      =>  $form->createView(),
-                'back_link' =>  $referer,
-            );
-        }*/
+        return $response;
     }
 
     /**
@@ -308,17 +238,7 @@ HTML;
         );
 
         $form->add('submit','submit',array('label'=>'Utwórz'));
-        $form->add('status','choice',array(
-                'choices'   =>  array(
-                    -2      =>  'Anuluj',
-                    -1      =>  'Odrzuć',
-                    1       =>  'Rezerwuj',
-                    2       =>  'Akceptuj'
-                ),
-                'multiple'  =>  false,
-                'expanded'  =>  true
-            )
-        );
+        $form->add('status');
         $form->add('opis','textarea');
         $form->add('reset','reset',array(
                 'label'     =>  'Resetuj'
@@ -479,17 +399,7 @@ javascript;
         );
 
         $form->add('submit','submit',array('label'=>'Aktualizuj'));
-        $form->add('status','choice',array(
-                'choices'   =>  array(
-                    -2      =>  'Anuluj',
-                    -1      =>  'Odrzuć',
-                    1       =>  'Rezerwuj',
-                    2       =>  'Akceptuj'
-                ),
-                'multiple'  =>  false,
-                'expanded'  =>  true
-            )
-        );
+        $form->add('status');
         $form->add('opis','textarea');
         $form->add('reset','reset',array(
                 'label'     =>  'Resetuj'
@@ -528,130 +438,13 @@ javascript;
         $form = $this->createEditModalForm($zdarzenieTechniczne);
         $form->handleRequest($request);
 
-        $mapa = $this->get('ivory_google_map.map');
-        $event = $this->get('ivory_google_map.event');
-        $event->setInstance($mapa->getJavascriptVariable());
-        $event->setEventName('click');
-        $mapId = $mapa->getJavascriptVariable();
-        $handler = <<<javascript
-            function(event)
-            {
-                if(marker !== undefined)
-                {
-                    marker.setPosition(event.latLng);
+        $em->persist($zdarzenieTechniczne);
+        $em->flush();
 
-                }else{
-                    placeMarker(event.latLng,$mapId);
-                }
-                codeLatLng(event.latLng,$mapId);
-                $('#zdt_dlugoscGeo').val(event.latLng.lng());
-                $('#zdt_szerokoscGeo').val(event.latLng.lat());
-            }
-javascript;
-        $event->setHandle($handler);
-        $mapa->getEventManager()->addEvent($event);
+        $response = new JsonResponse();
+        $response->setData("Poprawnie utworzono Zdarzenie Techniczne.");
 
-        //if($form->isValid())
-        //{
-            $polaDodatkowe = $this->get('request')->request->get('pola_dodatkowe');
-            $dlugoscGeo = $form->get('dlugoscGeo')->getData();
-            $szerokoscGeo = $form->get('szerokoscGeo')->getData();
-
-            foreach($zdarzenieTechniczne->getUczestnikZdarzeniaTechnicznego() as $uczestnik)
-            {
-                $requestDirections = new DirectionsRequest();
-                $osoba = $uczestnik->getOsoba();
-                $requestDirections->setOrigin(floatval($osoba->getProfil()->getLat()),floatval($osoba->getProfil()->getLng()),true);
-                $requestDirections->setDestination(floatval($szerokoscGeo),floatval($dlugoscGeo),true);
-                $requestDirections->setLanguage('pl');
-                $requestDirections->setRegion('pl');
-                $directions = new Directions(new CurlHttpAdapter());
-                $responseDirections = $directions->route($requestDirections);
-                $routes = $responseDirections->getRoutes();
-                $odleglosc = 0;
-                if($routes)
-                {
-                    $legs = $routes[0]->getLegs();
-                    $firstLeg = $legs[0];
-                    $odleglosc = $firstLeg->getDistance();
-                    $uczestnik->setDystans($odleglosc->getValue());
-                    $em->persist($uczestnik);
-                }
-            }
-
-            $html = null;
-            if($polaDodatkowe)
-            {
-                foreach($polaDodatkowe as $idPytania => $pole)
-                {
-                    $dodatkowePytanie = $em->getRepository('GCSVTechnicalBundle:PytanieZdarzenieTechniczne')->find($idPytania);
-                    $pytanie = $dodatkowePytanie->getPytanie();
-                    $odpowiedz = $pole;
-                    $html .= <<<HTML
-<p><strong>$pytanie</strong>$odpowiedz</p>
-HTML;
-
-                };
-            }
-
-            $odzialFirmy = $form->get('oddzialFirmy')->getData();
-
-            if ($odzialFirmy)
-            {
-                //SPRAWDZENIE CZY POLA DŁUGOŚĆ I SZEROKOŚĆ GEOGRAFICZNA SĄ WYPEŁNIONE
-                if(!$dlugoscGeo or !$szerokoscGeo)
-                {
-                    /**
-                     * @var $lokalizacja Adres
-                     */
-                    $lokalizacja = $odzialFirmy->getAdresy()->first();
-                    if(!$lokalizacja->getDlugoscGeo() || !$lokalizacja->getSzerokoscGeo())
-                    {
-                        $kodPocztowy = substr_replace($lokalizacja->getKodPocztowy(),'-',2,0);
-                        $adresString = $lokalizacja->getUlica().', '.$lokalizacja->getMiasto().', '.$kodPocztowy;
-                        /**
-                         * @var GeocoderResponse $response
-                         */
-                        $response = $this->get('ivory_google_map.geocoder')->geocode($adresString);
-                        $status = $response->getStatus();
-                        if($status == 'OK')
-                        {
-                            $wynik = $response->getResults();
-                            $lokalizacja->setSzerokoscGeo($wynik[0]->getGeometry()->getLocation()->getLatitude());
-                            $lokalizacja->setDlugoscGeo($wynik[0]->getGeometry()->getLocation()->getLongitude());
-
-                            $em->persist($lokalizacja);
-                        }
-                    }
-                    $zdarzenieTechniczne->setDlugoscGeo($lokalizacja->getDlugoscGeo());
-                    $zdarzenieTechniczne->setSzerokoscGeo($lokalizacja->getSzerokoscGeo());
-                }
-            }
-
-            //$zdarzenieTechniczne->setOpis($html);
-            $em->persist($zdarzenieTechniczne);
-            $em->flush();
-
-            $response = new JsonResponse();
-            $response->setData("Poprawnie utworzono Zdarzenie Techniczne.");
-
-            return $response;
-
-/*        }else{
-            $referer = $this->get('request')->headers->get('referer');
-            if(!preg_match('/\/zaplecze\/zdarzenia-techniczne?(\/\d)/',$referer))
-            {
-                $referer = $this->get('router')->generate('zaplecze_zdarzenia_techniczne');
-            }
-
-            return array(
-                'zdarzenie' =>  $zdarzenieTechniczne,
-                'form'      =>  $form->createView(),
-                'mapa'      =>  $mapa,
-                'back_link' =>  $referer,
-            );
-        }*/
-
+        return $response;
     }
 
     /**
@@ -663,7 +456,7 @@ HTML;
      *      options={"expose"=true}
      * )
      * @Method("PUT")
-     * @Security("has_role('ROLE_KOORDYNATOR_DT')")
+     * @Security("has_role('ROLE_KDFP')")
      * @ParamConverter("status", class="GCSVTechnicalBundle:StatusZdarzeniaTechnicznego", options={"mapping": {"status" : "wartosc"}})
      */
     public function akceptujZdarzenieTechniczneAjaxAction(TerminZdarzeniaTechnicznego $terminZdarzeniaTechnicznego,StatusZdarzeniaTechnicznego $status)
@@ -676,7 +469,7 @@ HTML;
         }
 
         $terminZdarzeniaTechnicznego->setStatus($status);
-        $terminZdarzeniaTechnicznego->getUczestnikZdarzeniaTechnicznego()->getZdarzenieTechniczne()->setStatus($status->getWartosc());
+        $terminZdarzeniaTechnicznego->getUczestnikZdarzeniaTechnicznego()->getZdarzenieTechniczne()->setStatus($status);
         $em->flush();
 
         $response = new JsonResponse();
@@ -694,7 +487,7 @@ HTML;
      *      options={"expose"=true}
      * )
      * @Method("DELETE")
-     * @Security("has_role('ROLE_KOORDYNATOR_DT')")
+     * @Security("has_role('ROLE_KDFP')")
      */
     public function deleteAjaxAction(ZdarzenieTechniczne $zdarzenieTechniczne)
     {
@@ -725,7 +518,7 @@ HTML;
      *      options={"expose"=true}
      * )
      * @Method("PUT")
-     * @Security("has_role('ROLE_KOORDYNATOR_DT')")
+     * @Security("has_role('ROLE_KDFP')")
      */
     public function resizeMoveAjaxAction($terminId,$dataOd,$dataDo)
     {
@@ -762,7 +555,7 @@ HTML;
      *      options={"expose"=true}
      * )
      * @Method("GET")
-     * @Security("has_role('ROLE_KOORDYNATOR_DT')")
+     * @Security("has_role('ROLE_KDFP')")
      */
     public function getZdarzenieTechniczneDataAjaxAction(ZdarzenieTechniczne $zdarzenieTechniczne)
     {
@@ -771,8 +564,8 @@ HTML;
         $klient = '';
         if($oddzialFirmy)
         {
-            $firma = $oddzialFirmy->getFirma()->getNazwaSkrocona();
-            $miasto = $oddzialFirmy->getAdresy()->first()->getMiasto();
+            $firma = $oddzialFirmy->getKlient()->getNazwaSkrocona();
+            $miasto = $oddzialFirmy->getMiejscowosc();
             $klient = "$firma ($miasto)";
         }
         $opis = $zdarzenieTechniczne->getOpis();

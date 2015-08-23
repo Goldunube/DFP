@@ -3,9 +3,6 @@
 namespace GCSV\TechnicalBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
-use GCSV\CustomerBundle\Entity\Firma;
-use GCSV\CustomerBundle\Entity\Oddzial;
-use GCSV\TechnicalBundle\EventListener\OpisZdarzeniaTechnicznegoSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -60,9 +57,7 @@ class ZdarzenieTechniczneType extends AbstractType
                     'query_builder' =>  function(EntityRepository $er)
                         {
                             return $er->createQueryBuilder('oz')
-                                ->select('oz,m,k')
-                                ->leftJoin('oz.magazyn','m')
-                                ->leftJoin('oz.kalendarz','k')
+                                ->select('oz')
                                 ->orderBy('oz.imie','ASC');
                         }
                 )
@@ -78,9 +73,6 @@ class ZdarzenieTechniczneType extends AbstractType
                 )
             )
         ;
-
-        $subscriber = new OpisZdarzeniaTechnicznegoSubscriber($builder->getFormFactory());
-        $builder->addEventSubscriber($subscriber);
     }
     
     /**

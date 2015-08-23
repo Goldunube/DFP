@@ -99,3 +99,113 @@
 a.fc-event, .fc-event-draggable {
     cursor: pointer;
 }
+/*      USTAIWENIA KALENDARZA BOCZNEGO      */
+#lista-kalendarzy {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #ddd;
+    border-image: none;
+    border-width: 1px;
+    left: 0;
+    position: fixed;
+    top: 15%;
+    width: 280px;
+    z-index: 1001;
+    outline: 0;
+}
+#lista-kalendarzy a {
+    outline: 0;
+}
+#lista-kalendarzy .tab-content ul {
+    padding-left: 20px;
+}
+#lista-kalendarzy .tab-pane li {
+    color: #ddd;
+    list-style: none outside none;
+}
+#lista-kalendarzy .tab-pane li input, #lista-kalendarzy .tab-pane li label {
+    cursor: pointer;
+}
+#lista-kalendarzy .tab-pane input {
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 0;
+}
+#lista-kalendarzy .tab-pane label {
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    padding: 2px 5px;
+    width: 200px;
+}
+#lista-kalendarzy .tab-pane label.inactive {
+    color: #dddddd !important;
+    background-color: transparent !important;
+    border-color: #dddddd !important;
+}
+#lista-kalendarzy .tab-content {
+    border-color: #ddd;
+    border-radius: 5px 0;
+    border-style: none solid solid none;
+    border-width: 1px;
+    height: 100%;
+    min-height: 200px;
+    background-color: #ffffff;
+}
+#lista-kalendarzy .tab-pane {
+    margin-top: 0;
+    padding-top: 10px;
+}
+#lista-kalendarzy .listek {
+    border-color: #ddd #ddd #fff;
+    border-radius: 5px 5px 0 0;
+    border-style: solid;
+    border-width: 1px;
+    color: #ddd;
+    display: block;
+    left: 250px;
+    padding: 5px;
+    position: absolute;
+    top: 70px;
+    transform: rotate(90deg);
+    /* Safari */
+    -webkit-transform: rotate(90deg);
+    /* Firefox */
+    -moz-transform: rotate(90deg);
+    /* IE */
+    -ms-transform: rotate(90deg);
+    /* Opera */
+    -o-transform: rotate(90deg);
+    width: 90px;
+    z-index: 1001;
+    background-color: #ffffff;
+}
+#lista-kalendarzy .listek span {
+    color: #428bca;
+}
+/*      KONIEC USTAWIEŃ KALENDARZA BOCZNEGO     */
+
+
+/*      ZDARZENIA W KALENDARZU      */
+.fc-event {
+    font-size: 0.75em !important;
+}
+#formularz-container .row {
+    margin-bottom: 5px;
+}
+.input-xs {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 12px;
+    height: 24px;
+    line-height: 1.5;
+    padding: 1px 0;
+}
+input.input-xs {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #333333;
+}

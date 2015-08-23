@@ -1,19 +1,20 @@
-{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/zdarzenie_techniczne_show.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui/blitzer/jquery-ui-1.10.4.custom.min.css') }}">
+    {#<link rel="stylesheet" href="{{ asset('css/jquery-ui/blitzer/jquery-ui-1.10.4.custom.min.css') }}">#}
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.ui.widget.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.iframe-transport.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-process.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-validate.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.ui.widget.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.iframe-transport.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-process.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-validate.js') }}"></script>#}
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/zdarzenia_techniczne_show.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 {% endblock javascript %}
 
 {% block content -%}
@@ -24,21 +25,21 @@
                     <h4>Menu</h4>
                     <nav class="col-lg-6">
                         <div class="list-group">
-                            <a href="{{ path('zdarzenie_techniczne_raport_techniczny_new', { 'id' : zdarzenie.id } ) }}" class="list-group-item">Raport techniczny</a>
-                            <a href="{{ path('zdarzenie_techniczne_nowa_notatka', { 'id' : zdarzenie.id }) }}" class="list-group-item">Notatka wewnętrzna</a>
-                            <a href="{{ path('zdarzenie_techniczne_nowy_raport_zuzycia', { 'id' : zdarzenie.id }) }}" class="list-group-item">Raport zużycia</a>
-                            <a href="{{ path('zdarzenie_techniczne_nowa_receptura', { 'id' : zdarzenie.id }) }}" class="list-group-item">Receptura</a>
+                            <a href="#" class="list-group-item disabled">Raport techniczny</a>
+                            <a href="#" class="list-group-item disabled">Notatka wewnętrzna</a>
+                            <a href="#" class="list-group-item disabled">Raport zużycia</a>
+                            <a href="#" class="list-group-item disabled">Receptura</a>
                             <a href="#" class="list-group-item fileinput-button">
                                 Załącz plik
-                                <input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>
+                                {#<input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>#}
                             </a>
                         </div>
                     </nav>
                     <nav class="col-lg-6">
                         <div class="list-group">
-                            <a href="#" class="list-group-item disabled">Status</a>
-                            <a href="#" class="list-group-item disabled">Stopień realizacji</a>
-                            <a href="#" class="list-group-item disabled">Kontynuacja</a>
+                            <a href="#" class="list-group-item disabled">-</a>
+                            <a href="#" class="list-group-item disabled">-</a>
+                            <a href="#" class="list-group-item disabled">-</a>
                             <a href="#" class="list-group-item disabled">-</a>
                             <a href="#" class="list-group-item disabled">-</a>
                         </div>
@@ -48,7 +49,7 @@
             <div class="col-lg-6">
                 <h4>Dokumentacja</h4>
                 <div id="dokumentacja-container" class="container-fluid">
-                    {% for dokument in dokumentacja %}
+{#                    {% for dokument in dokumentacja %}
                         <div id="rap-{{ dokument.id }}" class="row">
                             <div class="col-xs-4 rodzaj-dokumentu {{ dokument.usuniety ? 'deleted' }}">
                                 Raport techniczny
@@ -107,7 +108,7 @@
                                     {% if raport.akceptacja == false and app.user == raport.autor %}
                                     {% set csrfToken = csrfProvider ? csrfProvider.generateCsrfToken('delRaport%d'|format(raport.id)) %}
                                     <a href="{{ path('raport_zuzycia_delete', { 'id' : raport.id, 'token' : csrfToken }) }}" class="btn btn-danger btn-usun">Usuń</a>
-                                    {#<button type="button" class="btn btn-warning">Edytuj</button>#}
+                                    &#123;&#35;<button type="button" class="btn btn-warning">Edytuj</button>&#35;&#125;
                                     {% endif %}
                                     <a href="{{ path('raport_zuzycia_show', { 'id' : raport.id }) }}" class="btn btn-primary">Zobacz</a>
                                 </div>
@@ -152,7 +153,7 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </section>
@@ -182,10 +183,18 @@
             </div>
             <div class="col-sm-9">
                 {% if zdarzenie.oddzialFirmy %}
-                    <p><a href="{{ path('kontrahent_show', { 'slug' : zdarzenie.oddzialFirmy.Firma.slug } ) }}"><span data-placement="bottom" data-toggle="tooltip" data-original-title="{{ zdarzenie.oddzialFirmy.Firma.nazwaPelna }}" style="cursor: pointer;">{{ zdarzenie.oddzialFirmy.Firma.nazwaSkrocona }}</span> <span class="text-info">(oddział: {{ zdarzenie.oddzialFirmy.nazwa != null ? zdarzenie.oddzialFirmy.nazwa : zdarzenie.oddzialFirmy.adresy[0].miasto }} )</span></a> </p>
+                    <p><a href="{{ path('frontend_pokaz_filie_klienta', { 'id' : zdarzenie.oddzialFirmy.id } ) }}">{{ zdarzenie.oddzialFirmy }}</a></p>
                 {% else %}
                     -
                 {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Adres:</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>ul. {{ zdarzenie.oddzialFirmy.ulica }}; {{ zdarzenie.oddzialFirmy.kodPocztowy|kodPocztowy }} {{ zdarzenie.oddzialFirmy.miejscowosc }}</p>
             </div>
         </div>
         <div class="row">
@@ -198,10 +207,18 @@
         </div>
         <div class="row">
             <div class="col-sm-3">
-                <p style="margin-left: 15px;"><b>Adres:</b></p>
+                <p style="margin-left: 15px;"><b>Produkty do prezentacji:</b></p>
             </div>
             <div class="col-sm-9">
-                <p>{{ adres }}</p>
+                <p>{{ zdarzenie.produkty|default(" - ") }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <p style="margin-left: 15px;"><b>Elementy do lakierowania</b></p>
+            </div>
+            <div class="col-sm-9">
+                <p>{{ zdarzenie.elementyDoLakierowania|default(" - ") }}</p>
             </div>
         </div>
     </section>
@@ -217,11 +234,6 @@
                 <div class="col-sm-9">
                     <p>
                         <a href="#" style="margin: 2px 0; float: left;">{{ uczestnik.osoba.imieNazwisko }}</a>
-                        {% if uczestnik.osoba.profil.webZdjecieProfilowePath is defined and uczestnik.osoba.profil.webZdjecieProfilowePath %}
-                            <img src="{{ asset(uczestnik.osoba.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                        {% else %}
-                            <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                        {% endif %}
                     </p>
                 </div>
             </div>
@@ -239,14 +251,14 @@
                     </ul>
                 </div>
             </div>
-            <div class="row">
+            {#<div class="row">
                 <div class="col-sm-3">
                     <p style="margin-left: 15px;"><b>Dystans:</b></p>
                 </div>
                 <div class="col-sm-9">
                     {{ uczestnik.dystans|dystans }}
                 </div>
-            </div>
+            </div>#}
             {% if not loop.last %}
                 <hr>
             {% endif %}
@@ -263,11 +275,6 @@
             <div class="col-sm-9">
                 <p>
                     <a href="#" style="margin: 2px 0; float: left;">{{ zdarzenie.osobaZlecajaca.imieNazwisko }}</a>
-                    {% if zdarzenie.osobaZlecajaca.profil.webZdjecieProfilowePath is defined and zdarzenie.osobaZlecajaca.profil.webZdjecieProfilowePath %}
-                        <img src="{{ asset(zdarzenie.osobaZlecajaca.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                    {% else %}
-                        <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                    {% endif %}
                 </p>
             </div>
         </div>
@@ -278,11 +285,6 @@
             <div class="col-sm-4">
                 <p>
                     <a href="#" style="margin: 2px 0; float: left;">{{ zdarzenie.osobaWprowadzajaca.imieNazwisko }}</a>
-                    {% if zdarzenie.osobaWprowadzajaca.profil.webZdjecieProfilowePath is defined and zdarzenie.osobaWprowadzajaca.profil.webZdjecieProfilowePath %}
-                        <img src="{{ asset(zdarzenie.osobaWprowadzajaca.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                    {% else %}
-                        <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                    {% endif %}
                 </p>
             </div>
             <div class="col-sm-2">
@@ -299,11 +301,6 @@
             <div class="col-sm-4">
                 <p>
                     <a href="#" style="margin: 2px 0; float: left;">{{ zdarzenie.osobaModyfikujaca.imieNazwisko }}</a>
-                    {% if zdarzenie.osobaModyfikujaca.profil.webZdjecieProfilowePath is defined and zdarzenie.osobaModyfikujaca.profil.webZdjecieProfilowePath %}
-                        <img src="{{ asset(zdarzenie.osobaModyfikujaca.profil.webZdjecieProfilowePath) }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                    {% else %}
-                        <img src="{{ asset('bundles/gcsvuser/images/defaultpic.png') }}" alt="Zdjęcie profilowe" style="width: 20px; margin-left: 10px;">
-                    {% endif %}
                 </p>
             </div>
             <div class="col-sm-2">
@@ -313,7 +310,7 @@
                 <span class="glyphicon glyphicon-calendar text-info"></span> {{ zdarzenie.dataModyfikacji|date('d.m.Y') }} <span class="glyphicon glyphicon-time text-info"></span> {{ zdarzenie.dataModyfikacji|date('H:i:s') }}
             </div>
         </div>
-        <div class="row">
+{#        <div class="row">
             <div class="col-sm-3">
                 <p style="margin-left: 15px;"><b>Stopień realizacji:</b></p>
             </div>
@@ -324,13 +321,21 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>#}
     </section>
     <section class="container-fluid">
         <div class="well well-sm">
             <span class="text-muted lead">Mapa</span>
         </div>
-        {{ google_map(mapa) }}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <div id="map-canvas" style="width: 100%; height: 100%;" class="embed-responsive-item"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <div id="usun-dialog-confirm" title="Usunąć raport zużycia !?">
@@ -338,16 +343,35 @@
     </div>
 
     <script type="text/javascript">
-        var uploader = $('#fileupload').fileupload({
-            dataType: 'json',
-            acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z)$/i,
-            disableImageResize: true,
-            multiple: false,
-            maxFileSize: 10000000,
-            maxNumberOfFiles: 1,
-            formData: {
-                idZdarzenia: {{ zdarzenie.id }}
-            }
-        });
+        {#var uploader = $('#fileupload').fileupload({#}
+            {#dataType: 'json',#}
+            {#acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z)$/i,#}
+            {#disableImageResize: true,#}
+            {#multiple: false,#}
+            {#maxFileSize: 10000000,#}
+            {#maxNumberOfFiles: 1,#}
+            {#formData: {#}
+                {#idZdarzenia: {{ zdarzenie.id }}#}
+            {#}#}
+        {#});#}
+
+        function initialize() {
+            var latLng = {lat: {{ zdarzenie.szerokoscGeo }}, lng: {{ zdarzenie.dlugoscGeo }} };
+            var mapOptions = {
+                center: latLng,
+                zoom: 8
+            };
+
+            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                icon: '{{ asset('css/images/factory_icon.png') }}'
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
     </script>
 {% endblock %}

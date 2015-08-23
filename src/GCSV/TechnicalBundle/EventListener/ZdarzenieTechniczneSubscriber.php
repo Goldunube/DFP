@@ -2,13 +2,13 @@
 
 namespace GCSV\TechnicalBundle\EventListener;
 
+use DFP\EtapIBundle\Entity\Uzytkownik;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use GCSV\TechnicalBundle\Entity\TerminZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\UczestnikZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\ZdarzenieTechniczne;
-use GCSV\UserBundle\Entity\Uzytkownik;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ZdarzenieTechniczneSubscriber implements EventSubscriber
@@ -43,44 +43,44 @@ class ZdarzenieTechniczneSubscriber implements EventSubscriber
             $zdarzenieTechniczne->setOsobaWprowadzajaca($securityContext->getToken()->getUser());
             $zdarzenieTechniczne->setOsobaModyfikujaca($securityContext->getToken()->getUser());
 
-            $destDlugoscGeo = $zdarzenieTechniczne->getDlugoscGeo();
-            $destSzerokoscGeo = $zdarzenieTechniczne->getSzerokoscGeo();
-            if($destSzerokoscGeo and $destDlugoscGeo)
-            {
-                /**
-                 * @var UczestnikZdarzeniaTechnicznego $uczestnikZdarzeniaTechnicznego
-                 */
-                foreach($zdarzenieTechniczne->getUczestnikZdarzeniaTechnicznego() as $uczestnikZdarzeniaTechnicznego)
-                {
-                    $requestDirections = $this->container->get('ivory_google_map.directions_request');
-                    $curlHttpAdapter = $this->container->get('widop_http_adapter.curl');
-                    $directions = $this->container->get('ivory_google_map.directions');
-
-                    /**
-                     * @var Uzytkownik $uzytkownik
-                     */
-                    $uzytkownik = $uczestnikZdarzeniaTechnicznego->getOsoba();
-                    $orginSzerokoscGeo = floatval($uzytkownik->getProfil()->getLat());
-                    $orginDlugoscGeo = floatval($uzytkownik->getProfil()->getLng());
-                    $destSzerokoscGeo = floatval($destSzerokoscGeo);
-                    $destDlugoscGeo = floatval($destDlugoscGeo);
-                    $requestDirections->setOrigin($orginSzerokoscGeo,$orginDlugoscGeo,true);
-                    $requestDirections->setDestination($destSzerokoscGeo,$destDlugoscGeo,true);
-                    $requestDirections->setLanguage('pl');
-                    $requestDirections->setRegion('pl');
-                    $directions->setHttpAdapter($curlHttpAdapter);
-                    $responseDirections = $directions->route($requestDirections);
-                    $routes = $responseDirections->getRoutes();
-                    $odleglosc = 0;
-                    if($routes)
-                    {
-                        $legs = $routes[0]->getLegs();
-                        $firstLeg = $legs[0];
-                        $odleglosc = $firstLeg->getDistance()->getValue();
-                    }
-                    $uczestnikZdarzeniaTechnicznego->setDystans($odleglosc);
-                }
-            }
+//            $destDlugoscGeo = $zdarzenieTechniczne->getDlugoscGeo();
+//            $destSzerokoscGeo = $zdarzenieTechniczne->getSzerokoscGeo();
+//            if($destSzerokoscGeo and $destDlugoscGeo)
+//            {
+//                /**
+//                 * @var UczestnikZdarzeniaTechnicznego $uczestnikZdarzeniaTechnicznego
+//                 */
+//                foreach($zdarzenieTechniczne->getUczestnikZdarzeniaTechnicznego() as $uczestnikZdarzeniaTechnicznego)
+//                {
+//                    $requestDirections = $this->container->get('ivory_google_map.directions_request');
+//                    $curlHttpAdapter = $this->container->get('widop_http_adapter.curl');
+//                    $directions = $this->container->get('ivory_google_map.directions');
+//
+//                    /**
+//                     * @var Uzytkownik $uzytkownik
+//                     */
+//                    $uzytkownik = $uczestnikZdarzeniaTechnicznego->getOsoba();
+//                    $orginSzerokoscGeo = floatval($uzytkownik->getProfilUzytkownika()->getLat());
+//                    $orginDlugoscGeo = floatval($uzytkownik->getProfilUzytkownika()->getLng());
+//                    $destSzerokoscGeo = floatval($destSzerokoscGeo);
+//                    $destDlugoscGeo = floatval($destDlugoscGeo);
+//                    $requestDirections->setOrigin($orginSzerokoscGeo,$orginDlugoscGeo,true);
+//                    $requestDirections->setDestination($destSzerokoscGeo,$destDlugoscGeo,true);
+//                    $requestDirections->setLanguage('pl');
+//                    $requestDirections->setRegion('pl');
+//                    $directions->setHttpAdapter($curlHttpAdapter);
+//                    $responseDirections = $directions->route($requestDirections);
+//                    $routes = $responseDirections->getRoutes();
+//                    $odleglosc = 0;
+//                    if($routes)
+//                    {
+//                        $legs = $routes[0]->getLegs();
+//                        $firstLeg = $legs[0];
+//                        $odleglosc = $firstLeg->getDistance()->getValue();
+//                    }
+//                    $uczestnikZdarzeniaTechnicznego->setDystans($odleglosc);
+//                }
+//            }
         }
     }
 

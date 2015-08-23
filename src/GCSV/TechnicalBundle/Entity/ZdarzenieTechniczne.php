@@ -146,6 +146,17 @@ class ZdarzenieTechniczne
      */
     private $daneKontaktowe;
 
+    /**
+     * @var string
+     * @ORM\Column(name="produkty",type="text",nullable=true)
+     */
+    private $produkty;
+
+    /**
+     * @var string
+     * @ORM\Column(name="elementy_do_lakierowania",type="text",nullable=true)
+     */
+    private $elementyDoLakierowania;
 
     /**
      * Constructor
@@ -635,5 +646,37 @@ class ZdarzenieTechniczne
     public function getDaneKontaktowe()
     {
         return $this->daneKontaktowe;
+    }
+
+    /**
+     * @param string $elementyDoLakierowania
+     */
+    public function setElementyDoLakierowania($elementyDoLakierowania)
+    {
+        $this->elementyDoLakierowania = $elementyDoLakierowania;
+    }
+
+    /**
+     * @return string
+     */
+    public function getElementyDoLakierowania()
+    {
+        return $this->elementyDoLakierowania;
+    }
+
+    /**
+     * @param string $produkty
+     */
+    public function setProdukty($produkty)
+    {
+        $this->produkty = $produkty;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdukty()
+    {
+        return $this->produkty;
     }
 }
