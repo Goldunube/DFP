@@ -120,10 +120,10 @@ class ZdarzenieTechniczne
     private $opis;
 
     /**
-     * @var integer
-     * @ORM\Column(name="status", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="StatusZdarzeniaTechnicznego")
+     * @ORM\JoinColumn(name="status")
      */
-    private $status = 0;
+    private $status;
 
     /**
      * ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\RaportTechniczny", mappedBy="zdarzenieTechniczne",orphanRemoval=true)
@@ -141,9 +141,10 @@ class ZdarzenieTechniczne
     private $raportyZuzyc;
 
     /**
-     * ORM\OneToMany(targetEntity="GCSV\RecepturaBundle\Entity\Receptura",mappedBy="zdarzenieTechniczne",orphanRemoval=false)
+     * @var string
+     * @ORM\Column(name="dane_kontaktowe",length=255,nullable=true)
      */
-    private $receptury;
+    private $daneKontaktowe;
 
 
     /**
@@ -463,30 +464,6 @@ class ZdarzenieTechniczne
     }
 
     /**
-     * Add receptury
-     *
-     * @param Receptura $receptury
-     * @return ZdarzenieTechniczne
-     */
-    public function addReceptury(Receptura $receptury)
-    {
-        $this->receptury[] = $receptury;
-        $receptury->setZdarzenieTechniczne($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove receptury
-     *
-     * @param Receptura $receptury
-     */
-    public function removeReceptury(Receptura $receptury)
-    {
-        $this->receptury->removeElement($receptury);
-    }
-
-    /**
      * Get receptury
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -642,5 +619,21 @@ class ZdarzenieTechniczne
         $resp = $this->getRaportyZuzyc()->count() > 0 ? true : false;
 
         return $resp;
+    }
+
+    /**
+     * @param string $daneKontaktowe
+     */
+    public function setDaneKontaktowe($daneKontaktowe)
+    {
+        $this->daneKontaktowe = $daneKontaktowe;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDaneKontaktowe()
+    {
+        return $this->daneKontaktowe;
     }
 }

@@ -883,4 +883,67 @@ class KlientController extends Controller
 
         return new JsonResponse($response,200,array('Content-Type'=>'application/json'));
     }
+
+    /**
+     * @Route(
+     *      "/ajax-search-oddzial/",
+     *      name="ajax_search_oddzial",
+     *      options={"expose"=true}
+     * )
+     * @param Request $request
+     * @return mixed
+     */
+    public function ajaxSearchOddzialAction(Request $request)
+    {
+        $q = $request->get('term');
+        $em = $this->getDoctrine()->getManager();
+        $results = $em->getRepository('DFPEtapIBundle:Filia')->findLikeName($q);
+
+        $filie = array();
+        /**
+         * @var Filia $filia
+         */
+        foreach ($results as $filia) {
+            $id = $filia->getId();
+            if($filia->getNazwaFilii())
+            {
+                $nazwaFilii = '('.$filia->getNazwaFilii().')';
+            }else{
+                $nazwaFilii = '('.$filia->getId().')';
+                if($filia->getMiejscowosc())
+                {
+                    $nazwaFilii = '('.$filia->getMiejscowosc().')';
+                }
+            }
+            $nazwa = $filia->getKlient()->getNazwaSkrocona().' '.$nazwaFilii;
+            $kodMax = $filia->getKlient()->getKodMax();
+            $szerokosc = null;
+            $dlugosc = null;
+            $adresHumanize = null;
+            $adresHumanize = sprintf("%s, %s %s", $filia->getUlica(), $filia->getKodPocztowy(), $filia->getMiejscowosc());
+            $szerokosc = $filia->getLat();
+            $dlugosc = $filia->getLng();
+            $filie[] = array('id'=>$id, 'value'=>$nazwa, 'lat' => $szerokosc, 'lng' => $dlugosc, 'kodMax' => $kodMax, 'adres' => $adresHumanize);
+        }
+
+
+        return new JsonResponse($filie);
+    }
+
+    /**
+     * @Route(
+     *      "/ajax-get-oddzial/",
+     *      name="ajax_get_oddzial",
+     *      options={"expose"=true}
+     * )
+     * @param $id
+     * @return Response
+     */
+    public function getOddzialAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $filia = $em->getRepository('DFPEtapIBundle:Filia')->find($id);
+
+        return new Response($filia->getNazwaFilii());
+    }
 }

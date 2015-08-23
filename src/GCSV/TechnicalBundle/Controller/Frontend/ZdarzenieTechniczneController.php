@@ -22,8 +22,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use GCSV\CustomerBundle\Entity\Oddzial;
-use GCSV\CustomerBundle\Entity\Adres;
 use GCSV\TechnicalBundle\Entity\TerminZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\UczestnikZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\ZdarzenieTechniczne;

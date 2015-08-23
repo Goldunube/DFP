@@ -30,6 +30,7 @@ class ZdarzenieTechniczneHiddenDateTimeType extends AbstractType
                         }
                 )
             )
+            ->add('daneKontaktowe')
             ->add('oddzialFirmy','gcsv_firma_oddzial_autocomplete',array(
                     'label'         =>  'Klient (oddział)',
                     'required'      =>  false,
@@ -44,26 +45,13 @@ class ZdarzenieTechniczneHiddenDateTimeType extends AbstractType
                     'attr'          =>  array('autocomplete'=>'off')
                 )
             )
-            ->add('priorytet','choice',array(
-                    'choices'       =>  array(
-                        -1  =>  'Niski',
-                        0   =>  'Normalny',
-                        1   =>  'Wysoki'
-                    ),
-                    'data'  =>  0,
-                    'multiple'  =>  false,
-                    'expanded'  =>  true
-                )
-            )
             ->add('osobaZlecajaca',null,array(
                     'property'      =>  'imienazwisko',
                     'label'         =>  'Osoba zlecająca',
                     'query_builder' =>  function(EntityRepository $er)
                         {
                             return $er->createQueryBuilder('oz')
-                                ->select('oz,m,k')
-                                ->leftJoin('oz.magazyn','m')
-                                ->leftJoin('oz.kalendarz','k')
+                                ->select('oz')
                                 ->orderBy('oz.imie','ASC');
                         }
                 )

@@ -29,3 +29,9 @@ services:
         class:  GCSV\TechnicalBundle\Form\Type\DateTimeHiddenType
         tags:
             - { name: form.type, alias: datetime_hidden }
+
+    gcsv.technicalbundle.form.type.autocomplete:
+        class: GCSV\TechnicalBundle\Form\Type\FirmaOddzialAutocompleteType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: gcsv_firma_oddzial_autocomplete }

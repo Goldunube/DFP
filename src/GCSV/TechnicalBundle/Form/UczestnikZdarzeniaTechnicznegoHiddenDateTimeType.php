@@ -17,17 +17,13 @@ class UczestnikZdarzeniaTechnicznegoHiddenDateTimeType extends AbstractType
     {
         $builder
             ->add('osoba',null,array(
-                    'property'  =>  'imienazwiskospecjalizacja',
+                    'property'  =>  'imienazwisko',
                     'query_builder' =>  function(EntityRepository $er)
                         {
                             $query = $er->createQueryBuilder('uzt')
-                                ->select('uzt,g,s,k,m')
-                                ->leftJoin('uzt.grupy','g')
-                                ->leftJoin('uzt.specjalizacje','s')
-                                ->leftJoin('uzt.kalendarz','k')
-                                ->leftJoin('uzt.magazyn','m')
-                                ->where('g.id = 4')
-                                ->andWhere('uzt.showCalendar = true')
+                                ->select('uzt,p')
+                                ->leftJoin('uzt.profilUzytkownika','p')
+                                ->where('p.pokazKalendarz = true')
                                 ->orderBy('uzt.imie', 'ASC');
                             return $query;
                         },

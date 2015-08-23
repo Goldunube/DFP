@@ -67,6 +67,11 @@ class Uzytkownik extends BaseUser
     protected $notatkiOsobiste;
 
     /**
+     * @ORM\OneToMany(targetEntity="GCSV\TechnicalBundle\Entity\UczestnikZdarzeniaTechnicznego", mappedBy="osoba", cascade={"persist"})
+     */
+    protected $uczestnikZdarzeniaTechnicznego;
+
+    /**
      * @Gedmo\Slug(
      *      fields={"imie","nazwisko"},
      *      style="camel"
@@ -269,10 +274,36 @@ class Uzytkownik extends BaseUser
     }
 
     /**
+     * @param mixed $uczestnikZdarzeniaTechnicznego
+     */
+    public function setUczestnikZdarzeniaTechnicznego($uczestnikZdarzeniaTechnicznego)
+    {
+        $this->uczestnikZdarzeniaTechnicznego = $uczestnikZdarzeniaTechnicznego;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUczestnikZdarzeniaTechnicznego()
+    {
+        return $this->uczestnikZdarzeniaTechnicznego;
+    }
+
+    /**
      * @return mixed
      */
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Get imię i nazwisko użytkownika
+     *
+     * @return string
+     */
+    public function getImieNazwisko()
+    {
+        return (string) $this->getImie().' '.$this->getNazwisko();
     }
 }

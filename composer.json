@@ -23,10 +23,14 @@
         "doctrine/migrations": "1.0.*@dev",
         "doctrine/doctrine-migrations-bundle": "2.1.*@dev",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
+        "friendsofsymfony/jsrouting-bundle": "2.0.*@dev",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "knplabs/knp-paginator-bundle": "dev-master",
         "knplabs/knp-snappy-bundle": "dev-master",
-        "lexik/form-filter-bundle": "dev-master"
+        "lexik/form-filter-bundle": "dev-master",
+        "egeloen/google-map": "dev-master",
+        "willdurand/geocoder": "*",
+        "widop/http-adapter": "1.0.*"
     },
     "scripts": {
         "post-install-cmd": [

@@ -64,4 +64,17 @@ class FiliaRepository extends EntityRepository
             ->setParameter("zip",$zip)
             ->getOneOrNullResult();
     }
+
+    public function findLikeName($q)
+    {
+        return $this->createQueryBuilder('fi')
+            ->select('fi,k')
+            ->innerJoin('fi.klient','k')
+            ->where('k.nazwaSkrocona LIKE :term')
+            ->orWhere('k.kodMax LIKE :term')
+            ->orWhere('k.nip LIKE :term')
+            ->setParameter('term',"%$q%")
+            ->getQuery()
+            ->getResult();
+    }
 }

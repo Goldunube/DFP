@@ -92,6 +92,24 @@ class ProfilUzytkownika
      */
     private $skype;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="pokaz_kalendarz", type="boolean")
+     */
+    private $pokazKalendarz = false;
+
+    /**
+     * @var string
+     * @ORM\Column(name="kolor_tla_zdarzenia",length=7,nullable=true)
+     */
+    private $kolorTlaZdarzenia;
+
+    /**
+     * @var string
+     * @ORM\Column(name="kolor_tekstu_zdarzenia",length=7,nullable=true)
+     */
+    private $kolorTekstuZdarzenia;
+
 
     /**
      * Get id
@@ -306,5 +324,53 @@ class ProfilUzytkownika
     public function setSkype($skype)
     {
         $this->skype = $skype;
+    }
+
+    /**
+     * @param string $kolorTekstuZdarzenia
+     */
+    public function setKolorTekstuZdarzenia($kolorTekstuZdarzenia)
+    {
+        $this->kolorTekstuZdarzenia = $kolorTekstuZdarzenia;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKolorTekstuZdarzenia()
+    {
+        return $this->kolorTekstuZdarzenia;
+    }
+
+    /**
+     * @param string $kolorTlaZdarzenia
+     */
+    public function setKolorTlaZdarzenia($kolorTlaZdarzenia)
+    {
+        $this->kolorTlaZdarzenia = $kolorTlaZdarzenia;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKolorTlaZdarzenia()
+    {
+        return $this->kolorTlaZdarzenia;
+    }
+
+    /**
+     * @param boolean $pokazKalendarz
+     */
+    public function setPokazKalendarz($pokazKalendarz)
+    {
+        $this->pokazKalendarz = $pokazKalendarz;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getPokazKalendarz()
+    {
+        return $this->pokazKalendarz;
     }
 }

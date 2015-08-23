@@ -74,3 +74,9 @@ cennik_produktow_przemyslowych:
     defaults:
         _controller:  FrameworkBundle:Template:template
         template:     DFPEtapIBundle::cennik_produktow_przemyslowych.html.twig
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+gcsv_full_calendar:
+    resource: "@GCSVFullCalendarBundle/Resources/config/routing.yml"
