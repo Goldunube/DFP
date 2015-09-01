@@ -7,11 +7,13 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="{{ asset('bundles/dfpetapi/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" style="{{ asset('bundles/dfpetapi/js/bootstrap-toggle.min.js') }}"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -70,16 +72,8 @@
                     <td><div style="white-space: nowrap; overflow: hidden;">{{ entity.profilUzytkownika.stanowisko|default('-') }}</div></td>
                     <td><a href="mailto:{{ entity.email }}">{{ entity.email }}</a></td>
                     <td>{{ entity.lastLogin is empty ? "-" : entity.lastLogin|date('Y-m-d H:i:s') }}</td>
-                    {#<td>{{ entity.locked != 1 ? "Tak" : "Nie" }}</td>#}
                     <td>
-                        <div class="btn-group btn-group-xs user-locker" data-toggle="buttons">
-                            <label class="btn {{ entity.enabled ? 'btn-success active' : 'btn-default' }}">
-                                <input type="radio" name="user_enabled" autocomplete="off" value="1"> Tak
-                            </label>
-                            <label class="btn {{ entity.enabled ? 'btn-default' : 'btn-danger active' }}">
-                                <input type="radio" name="user_enabled" autocomplete="off" value="0"> Nie
-                            </label>
-                        </div>
+                        <input name="user_lock_{{ entity.slug }}" data-toggle="toggle" type="checkbox" {{ entity.enabled ? 'checked' }} autocomplete="off" data-on="Tak" data-off="Nie" data-size="mini" data-onstyle="success" data-offstyle="danger" data-width="70">
                     </td>
                     <td>
                         <ul class="record_actions">
@@ -103,10 +97,16 @@
     </section>
 
     <script>
-        $(document).ready(function(){
-            var $userLocker = $('.user-locker');
-
-
+        $(function(){
+            $('input[type="checkbox"]').change(function(){
+                $.ajax({
+                    url: Routing.generate('backend_uzytkownik_update_ajax', { slug : $(this).attr('name').substring(10) }),
+                    type: 'PUT',
+                    data: {
+                        'enabled' : $(this).prop('checked')
+                    }
+                })
+            });
         });
     </script>
 

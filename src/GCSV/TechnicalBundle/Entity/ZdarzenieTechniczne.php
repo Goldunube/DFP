@@ -121,7 +121,7 @@ class ZdarzenieTechniczne
 
     /**
      * @ORM\ManyToOne(targetEntity="StatusZdarzeniaTechnicznego")
-     * @ORM\JoinColumn(name="status")
+     * @ORM\JoinColumn(name="status", nullable=false)
      */
     private $status;
 

@@ -2,7 +2,6 @@
 
 namespace GCSV\TechnicalBundle\Controller\Backend;
 
-use GCSV\CustomerBundle\Entity\Adres;
 use GCSV\TechnicalBundle\Entity\StatusZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\TerminZdarzeniaTechnicznego;
 use GCSV\TechnicalBundle\Entity\UczestnikZdarzeniaTechnicznego;

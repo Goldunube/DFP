@@ -104,7 +104,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
-                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [ l ]</td>
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc|localizednumber() }} [ l ]</td>
                                     <td>
                                         <table class="table-embed">
                                             {% for cena in ofertaProdukt.ceny %}
@@ -118,7 +118,7 @@
                                         <table class="table-embed">
                                             {% for cena in ofertaProdukt.ceny %}
                                                 <tr>
-                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                                    <td class="col-cena">{{ cena.wartosc|localizedcurrency('PLN') }}</td>
                                                 </tr>
                                             {% endfor %}
                                         </table>
@@ -162,7 +162,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
-                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [ kg ]</td>
+                                    <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc|localizednumber() }} [ kg ]</td>
                                     <td>
                                         <table class="table-embed">
                                             {% for cena in ofertaProdukt.ceny %}
@@ -176,7 +176,7 @@
                                         <table class="table-embed">
                                             {% for cena in ofertaProdukt.ceny %}
                                                 <tr>
-                                                    <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                                    <td class="col-cena">{{ cena.wartosc|localizedcurrency('PLN') }}</td>
                                                 </tr>
                                             {% endfor %}
                                         </table>
@@ -212,7 +212,7 @@
                                     {% set przygotowanieDoAplikacji = ofertaProdukt.produkt.przygotowanieDoAplikacji %}
                                 </div>
                             </td>
-                            <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc }} [ szt ]</td>
+                            <td class="col-opakowanie">{{ ofertaProdukt.opakowanieWartosc|localizednumber() }} [ szt ]</td>
                             <td>
                                 <table class="table-embed">
                                     {% for cena in ofertaProdukt.ceny %}
@@ -226,7 +226,7 @@
                                 <table class="table-embed">
                                     {% for cena in ofertaProdukt.ceny %}
                                         <tr>
-                                            <td class="col-cena">{{ cena.wartosc|number_format(2,',',' ') }}</td>
+                                            <td class="col-cena">{{ cena.wartosc|localizedcurrency('PLN') }}</td>
                                         </tr>
                                     {% endfor %}
                                 </table>
@@ -259,8 +259,8 @@
                         <tr>
                             <td class="col-lp">{{ loop.index }}</td>
                             <td>{{ ofertaDodatek.produkt.nazwaHandlowa }}</td>
-                            <td>{{ ofertaDodatek.opakowanie }} {{ ofertaDodatek.jednostka }}</td>
-                            <td>{{ ofertaDodatek.cena }}</td>
+                            <td>{{ ofertaDodatek.opakowanie|localizednumber() }} {{ ofertaDodatek.jednostka }}</td>
+                            <td>{{ ofertaDodatek.cena|localizedcurrency('PLN') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

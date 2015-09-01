@@ -6,6 +6,8 @@ use DFP\EtapIBundle\Entity\Uzytkownik;
 use DFP\EtapIBundle\Form\ProfilType;
 use DFP\EtapIBundle\Form\UzytkownikType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -298,16 +300,26 @@ class UzytkownikController extends Controller
      *
      * @Route(
      *      "/{slug}/ajax",
-     *      name="backend_uzytkownik_update_ajax"
+     *      name="backend_uzytkownik_update_ajax",
+     *      options={"expose"=true}
      * )
      * @Method("PUT")
-     * @ParamConverter("uzytkownik", class="Uzytkownik", options={"mapping" : {"slug" : "slug"} })
+     * @ParamConverter("uzytkownik",options={"mapping" : {"slug" : "slug"} })
+     * @Security("has_role('ROLE_KDFP')")
      */
-    public function userLocker(Uzytkownik $uzytkownik)
+    public function userLockerAction(Uzytkownik $uzytkownik)
     {
+        $userEnabled = $this->get('request')->request->get('enabled') == "true" ? 1 : 0;
+        $uzytkownik->setEnabled($userEnabled);
 
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($uzytkownik);
+        $em->flush();
 
-        return $this->redirect($this->generateUrl('url_lista_uzytkownikow'));
+        $response = new JsonResponse();
+        $response->setData("Poprawnie zmieniono status użytkownika.");
+
+        return $response;
     }
 
     /**

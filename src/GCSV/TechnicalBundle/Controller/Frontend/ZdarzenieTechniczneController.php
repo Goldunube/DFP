@@ -80,11 +80,13 @@ class ZdarzenieTechniczneController extends Controller
      */
     public function createAction(Request $request)
     {
+        $statusZdarzeniaTechnicznego = $this->getDoctrine()->getManager()->getRepository('GCSVTechnicalBundle:StatusZdarzeniaTechnicznego')->findOneByWartosc(0);
         $terminZdarzenia = new TerminZdarzeniaTechnicznego();
         $uczestnikZdarzenia = new UczestnikZdarzeniaTechnicznego();
         $uczestnikZdarzenia->addTerminy($terminZdarzenia);
         $zdarzenie = new ZdarzenieTechniczne();
         $zdarzenie->addUczestnikZdarzeniaTechnicznego($uczestnikZdarzenia);
+        $zdarzenie->setStatus($statusZdarzeniaTechnicznego);
         $form = $this->createCreateForm($zdarzenie);
 
         $form->handleRequest($request);
