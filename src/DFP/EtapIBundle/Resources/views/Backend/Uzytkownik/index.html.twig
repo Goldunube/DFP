@@ -13,7 +13,6 @@
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" style="{{ asset('bundles/dfpetapi/js/bootstrap-toggle.min.js') }}"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -97,8 +96,9 @@
     </section>
 
     <script>
-        $(function(){
-            $('input[type="checkbox"]').change(function(){
+        $(document).ready(function(){
+            var $iptRadio = $('input[type="checkbox"]');
+            $iptRadio.change(function(){
                 $.ajax({
                     url: Routing.generate('backend_uzytkownik_update_ajax', { slug : $(this).attr('name').substring(10) }),
                     type: 'PUT',
