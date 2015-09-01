@@ -45,7 +45,7 @@
 
     <section class="content-fluid">
         <div class="well">
-            {{ knp_pagination_filter(entities, {'k.nazwaSkrocona': 'Nazwa klienta', 'k.kodMax': 'Kod MAX', 'k.nip': 'NIP'}) }}
+            {{ knp_pagination_filter(entities, {'u.nazwisko': 'Nazwisko użytkownika', 'pu.stanowisko': 'Stanowisko'}) }}
         </div>
 
         <table class="table records_list table-bordered table-condensed table-striped">
@@ -54,7 +54,6 @@
                 <th class="lp">Lp</th>
                 <th>{{ knp_pagination_sortable(entities,'Imie','u.imie') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'Nazwisko','u.nazwisko') }}</th>
-                {#<th>{{ knp_pagination_sortable(entities,'Login','u.username') }}</th>#}
                 <th>{{ knp_pagination_sortable(entities,'Stanowisko','pu.stanowisko') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'e-mail','u.email') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'Ostatnie logowanie','u.lastLogin') }}</th>
@@ -65,14 +64,23 @@
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td class="lp"><a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
+                    <td class="lp"><a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1 }}</a></td>
                     <td>{{ entity.Imie }}</td>
                     <td>{{ entity.Nazwisko }}</td>
-                    {#<td>{{ entity.username }}</td>#}
-                    <td><div style="white-space: nowrap; overflow: hidden;">{{ entity.profilUzytkownika.stanowisko }}</div></td>
+                    <td><div style="white-space: nowrap; overflow: hidden;">{{ entity.profilUzytkownika.stanowisko|default('-') }}</div></td>
                     <td><a href="mailto:{{ entity.email }}">{{ entity.email }}</a></td>
                     <td>{{ entity.lastLogin is empty ? "-" : entity.lastLogin|date('Y-m-d H:i:s') }}</td>
-                    <td>{{ entity.locked != 1 ? "Tak" : "Nie" }}</td>
+                    {#<td>{{ entity.locked != 1 ? "Tak" : "Nie" }}</td>#}
+                    <td>
+                        <div class="btn-group btn-group-xs user-locker" data-toggle="buttons">
+                            <label class="btn {{ entity.enabled ? 'btn-success active' : 'btn-default' }}">
+                                <input type="radio" name="user_enabled" autocomplete="off" value="1"> Tak
+                            </label>
+                            <label class="btn {{ entity.enabled ? 'btn-default' : 'btn-danger active' }}">
+                                <input type="radio" name="user_enabled" autocomplete="off" value="0"> Nie
+                            </label>
+                        </div>
+                    </td>
                     <td>
                         <ul class="record_actions">
                             <li>
@@ -93,5 +101,13 @@
         </div>
 
     </section>
+
+    <script>
+        $(document).ready(function(){
+            var $userLocker = $('.user-locker');
+
+
+        });
+    </script>
 
 {% endblock %}

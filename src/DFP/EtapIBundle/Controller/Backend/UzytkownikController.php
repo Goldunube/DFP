@@ -5,6 +5,7 @@ namespace DFP\EtapIBundle\Controller\Backend;
 use DFP\EtapIBundle\Entity\Uzytkownik;
 use DFP\EtapIBundle\Form\ProfilType;
 use DFP\EtapIBundle\Form\UzytkownikType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -288,6 +289,23 @@ class UzytkownikController extends Controller
             $em->remove($uzytkownik);
             $em->flush();
         }
+
+        return $this->redirect($this->generateUrl('url_lista_uzytkownikow'));
+    }
+
+    /**
+     * Blokowanie użytkownika
+     *
+     * @Route(
+     *      "/{slug}/ajax",
+     *      name="backend_uzytkownik_update_ajax"
+     * )
+     * @Method("PUT")
+     * @ParamConverter("uzytkownik", class="Uzytkownik", options={"mapping" : {"slug" : "slug"} })
+     */
+    public function userLocker(Uzytkownik $uzytkownik)
+    {
+
 
         return $this->redirect($this->generateUrl('url_lista_uzytkownikow'));
     }

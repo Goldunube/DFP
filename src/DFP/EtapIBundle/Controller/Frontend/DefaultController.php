@@ -206,17 +206,24 @@ class DefaultController extends Controller
             $geocodeResponse = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$punktCentralny));
             $results = $geocodeResponse->results;
             $punktCentralny = array($results[0]->geometry->location->lat, $results[0]->geometry->location->lng);
-            $promien = $params['promien'] * 1000;
+//            $promien = $params['promien'] * 1000;
+            $promien = $params['promien'];
         };
 
+        $R = 6731;
+//        $kat = 45 * M_PI / 180;
+//        $jedenStopien = 111319.9;
 
-        $kat = 45 * M_PI / 180;
-        $jedenStopien = 111319.9;
+//        $maxLat = $punktCentralny[0] + ($promien / $jedenStopien) * sin($kat);
+//        $maxLng = $punktCentralny[1] + ($promien / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
+//        $minLat = $punktCentralny[0] - ($promien / $jedenStopien)* sin($kat);
+//        $minLng = $punktCentralny[1] - ($promien / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
 
-        $maxLat = $punktCentralny[0] + ($promien / $jedenStopien) * sin($kat);
-        $maxLng = $punktCentralny[1] + ($promien / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
-        $minLat = $punktCentralny[0] - ($promien / $jedenStopien)* sin($kat);
-        $minLng = $punktCentralny[1] - ($promien / ($jedenStopien*(cos($punktCentralny[0] * M_PI / 180)))) *  cos($kat);
+        $maxLat = $punktCentralny[0] + rad2deg($promien/$R);
+        $minLat = $punktCentralny[0] - rad2deg($promien/$R);
+
+        $maxLng = $punktCentralny[1] + rad2deg($promien/$R/cos(deg2rad($punktCentralny[0])));
+        $minLng = $punktCentralny[1] - rad2deg($promien/$R/cos(deg2rad($punktCentralny[0])));
 
         $filiaRepo = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:Filia');
         $filie = $filiaRepo->createQueryBuilder('f')

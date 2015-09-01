@@ -59,7 +59,7 @@
     <hr>
 
     <section class="container-fluid">
-        <table id="lista-klientow" class="table records_list table-bordered table-striped table-hover lista-klientow">
+        <table id="lista-klientow" class="table records_list table-bordered table-hover lista-klientow">
             <thead>
                 <tr>
                     <th>#</th>
@@ -76,7 +76,7 @@
                         <td>{{ filia.id }}</td>
                         <td>{{ filia.klient.nazwaSkrocona }}</td>
                         <td>{{ filia.ulica }}, {{ filia.kodPocztowy|kodPocztowy }} {{ filia.miejscowosc }}</td>
-                        <td class="text-right">{{ odleglosc[filia.id]|number_format() }} [km]</td>
+                        <td class="text-right">{{ odleglosc[filia.id]|number_format(2,',',' ') }} [km]</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -104,7 +104,7 @@
             };
 
             var address = "{{ form.miejscowosc.vars.value }}";
-            var promien = {{ promien }};
+            var promien = {{ promien }} * 1000;
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     map.setCenter(results[0].geometry.location);
