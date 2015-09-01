@@ -49,7 +49,7 @@
                 {{ form_widget(form.oddzialFirmy) }}
                 {{ form_errors(form.oddzialFirmy) }}
                 {#<button class="speech-record-btn"><i class="fa fa-microphone fa-2x"></i></button>#}
-                <p class="help-block"><i class="fa fa-info-circle"></i> Zacznij wprowadzać nazwę firmy, do której ma się udać Technik poczym wskaż na ją na liście poniżej.</p>
+                <p class="help-block"><i class="fa fa-info-circle"></i> Zacznij wprowadzać nazwę firmy, do której ma się udać technik / technolog / kierownik produktu, po czym wskaż na ją na liście.</p>
             </div>
         </div>
         <div class="form-group {{ form.daneKontaktowe.vars.errors|length > 0 ? 'has-error' }}">
@@ -57,7 +57,7 @@
             <div class="col-sm-10">
                 {{ form_widget(form.daneKontaktowe) }}
                 {{ form_errors(form.daneKontaktowe) }}
-                <p class="help-block"><i class="fa fa-info-circle"></i> Wpisz dane osoby, oraz numer telefonu komórkowego lub stacjonarnego z którą uzgodniłeś wizytę.</p>
+                <p class="help-block"><i class="fa fa-info-circle"></i> Wpisz imię i nazwisko oraz numer telefonu komórkowego lub stacjonarnego osoby ze strony klienta, z którą uzgodniłeś wizytę.</p>
             </div>
         </div>
         <div class="form-group {{ form.rodzajZdarzeniaTechnicznego.vars.errors|length > 0 ? 'has-error' }}">
@@ -74,7 +74,7 @@
                 {{ form_widget(form.opis, { 'attr' : { 'rows' : 10 } }) }}
                 {{ form_errors(form.opis) }}
                 {#<button class="speech-record-btn"><i class="fa fa-microphone fa-2x"></i></button>#}
-                <p class="help-block"><i class="fa fa-info-circle"></i> Brak opisu lub zdawkowy wpis będzie skutkować brakiem akceptacji zamówienia. Nie będzie akceptowane "uzupełnianie" zamówienia telefonicznie. Proszę pamiętać technik nie ralizuje wizyt rozpoznawczo-handlowych (to jest zadanie handlowca). Jeżeli brakuje dokładnego opisu to oznacza, że handlowiec nie ma planu w jakim celu chce zamówić technika.</p>
+                <p class="help-block"><i class="fa fa-info-circle"></i> Brak opisu lub zdawkowy wpis będzie skutkować brakiem akceptacji zamówienia. Nie będzie akceptowane "uzupełnianie" zamówienia telefonicznie. Proszę pamiętać, że technik / technolog / kierownik produktu nie ralizuje wizyt rozpoznawczo-handlowych (to jest zadanie handlowca). Jeżeli brakuje dokładnego opisu to oznacza, że handlowiec nie ma planu w jakim celu chce zamówić technika / technologa / kierownika produktu.</p>
             </div>
         </div>
         <div class="form-group {{ form.produkty.vars.errors|length > 0 ? 'has-error' }}">
@@ -82,7 +82,7 @@
             <div class="col-sm-10">
                 {{ form_widget(form.produkty, { 'attr' : { 'rows' : 3 } }) }}
                 {{ form_errors(form.produkty) }}
-                <p class="help-block"><i class="fa fa-info-circle"></i> W przypadku gdy chcesz, aby technik zaprezentował klientowi konkretne produkty, które wskazujesz w zamówieniu, <cite>DFP</cite> musi zweryfikować ich dobór w oparciu o dane z Karty Klienta. Wpisz imię i nazwisko osoby z którą uzgadniałeś produkty. (Jeśli zamówienie skłąda WPS - proszę podać czy wymienione produkty posiada WPS na stanie, czy technik musi je sam dostarczyć.)</p>
+                <p class="help-block"><i class="fa fa-info-circle"></i> W przypadku gdy chcesz, aby technik / technolog / kierownik produktu zaprezentował klientowi konkretne produkty, które wskazujesz w zamówieniu, <cite>DFP</cite> musi zweryfikować ich dobór w oparciu o dane z Karty Klienta w Portalu DFP. Wpisz imię i nazwisko osoby, z którą uzgadniałeś produkty. (Jeśli zamówienie składa WPS - proszę podać czy wymienione produkty posiada WPS na stanie, czy technik / technolog / kierownik produktu musi je sam dostarczyć.)</p>
             </div>
         </div>
         <div class="form-group {{ form.elementyDoLakierowania.vars.errors|length > 0 ? 'has-error' }}">
@@ -95,7 +95,7 @@
         </div>
         {% for technik in form.uczestnikZdarzeniaTechnicznego %}
             <div class="form-group {{ technik.osoba.vars.errors|length > 0 ? 'has-error' }}">
-                {{ form_label(technik.osoba,'Technik',{ 'label_attr' : { 'class' : 'col-xs-2' } }) }}
+                {{ form_label(technik.osoba,'Osoba',{ 'label_attr' : { 'class' : 'col-xs-2' } }) }}
                 <div class="col-sm-10">
                     {{ form_widget(technik.osoba) }}
                     {{ form_errors(technik.osoba) }}

@@ -33,6 +33,7 @@ class UzytkownikController extends Controller
         $query = $em->getRepository('DFPEtapIBundle:Uzytkownik')->getAllUsersQuery();
 
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),20);
+        $pagination->setFiltrationTemplate('::filtration.html.twig');
 
         return array(
             'entities' => $pagination,

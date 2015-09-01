@@ -27,7 +27,7 @@ class UczestnikZdarzeniaTechnicznegoHiddenDateTimeType extends AbstractType
                                 ->orderBy('uzt.imie', 'ASC');
                             return $query;
                         },
-                    'empty_value'   =>  '<<< wskaż technika >>>',
+                    'empty_value'   =>  '<<< wskaż technika / technologa / kierownika produktu >>>',
                     'attr'          =>  array('autocomplete'=>'off'),
                 )
             )

@@ -31,7 +31,7 @@ class ZdarzenieTechniczneHiddenDateTimeType extends AbstractType
             )
             ->add('daneKontaktowe')
             ->add('oddzialFirmy','gcsv_firma_oddzial_autocomplete',array(
-                    'label'         =>  'Klient (oddział)',
+                    'label'         =>  'Klient (filia)',
                     'required'      =>  false,
                     'attr'          =>  array('autocomplete'=>'off'),
                 )

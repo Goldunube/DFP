@@ -1,16 +1,60 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% block content %}
-    <section>
-        <h1>Lista użytkowników</h1>
+{% block stylesheets %}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock stylesheets %}
 
-        <table class="record_list">
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
+{% block content %}
+    <style>
+        table.records_list {
+            font-size: 12px;
+        }
+        table.records_list tbody {
+            background-color: #efefef;
+        }
+        table.records_list thead {
+            background-color: #EB961D;
+        }
+        table.records_list thead a {
+            color: #000000;
+        }
+        table.records_list tbody th, table.records_list tbody td {
+            vertical-align: middle;
+        }
+        ul.record_actions {
+            margin-bottom: 0;
+        }
+    </style>
+
+    <div class="page-header" style="margin-top: 0;">
+        <h1><i class="fa fa-list"></i> Lista klientów</h1>
+    </div>
+
+    <section class="content-fluid">
+        <div class="well">
+            {{ knp_pagination_filter(entities, {'k.nazwaSkrocona': 'Nazwa klienta', 'k.kodMax': 'Kod MAX', 'k.nip': 'NIP'}) }}
+        </div>
+
+        <table class="table records_list table-bordered table-condensed table-striped">
             <thead>
             <tr>
                 <th class="lp">Lp</th>
                 <th>{{ knp_pagination_sortable(entities,'Imie','u.imie') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'Nazwisko','u.nazwisko') }}</th>
-                <th>{{ knp_pagination_sortable(entities,'Login','u.username') }}</th>
+                {#<th>{{ knp_pagination_sortable(entities,'Login','u.username') }}</th>#}
                 <th>{{ knp_pagination_sortable(entities,'Stanowisko','pu.stanowisko') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'e-mail','u.email') }}</th>
                 <th>{{ knp_pagination_sortable(entities,'Ostatnie logowanie','u.lastLogin') }}</th>
@@ -24,18 +68,18 @@
                     <td class="lp"><a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}">{{ entities.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
                     <td>{{ entity.Imie }}</td>
                     <td>{{ entity.Nazwisko }}</td>
-                    <td>{{ entity.username }}</td>
-                    <td>{{ entity.profilUzytkownika.stanowisko }}</td>
+                    {#<td>{{ entity.username }}</td>#}
+                    <td><div style="white-space: nowrap; overflow: hidden;">{{ entity.profilUzytkownika.stanowisko }}</div></td>
                     <td><a href="mailto:{{ entity.email }}">{{ entity.email }}</a></td>
                     <td>{{ entity.lastLogin is empty ? "-" : entity.lastLogin|date('Y-m-d H:i:s') }}</td>
                     <td>{{ entity.locked != 1 ? "Tak" : "Nie" }}</td>
                     <td>
-                        <ul>
+                        <ul class="record_actions">
                             <li>
-                                <a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}" class="art-button maly zielony">pokaż</a>
+                                <a href="{{ path('backend_uzytkownik_show', { 'slug' : entity.slug } ) }}" class="btn btn-xs btn-primary">pokaż</a>
                             </li>
                             <li>
-                                <a href="{{ path('backend_uzytkownik_edit', { 'slug' : entity.slug } ) }}" class="art-button maly pomaranczowy">edytuj</a>
+                                <a href="{{ path('backend_uzytkownik_edit', { 'slug' : entity.slug } ) }}" class="btn btn-xs btn-warning">edytuj</a>
                             </li>
                         </ul>
                     </td>
