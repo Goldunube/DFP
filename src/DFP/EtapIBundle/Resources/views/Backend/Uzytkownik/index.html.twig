@@ -12,7 +12,6 @@
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -94,7 +93,7 @@
         </div>
 
     </section>
-
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             var $iptRadio = $('input[type="checkbox"]');

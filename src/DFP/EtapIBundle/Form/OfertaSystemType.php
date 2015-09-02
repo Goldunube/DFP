@@ -18,13 +18,13 @@ class OfertaSystemType extends AbstractType
         $builder
             ->add('warstwa1','entity',array(
                     'class' =>  'DFPEtapIBundle:Produkt',
-                    'query_builder' =>  function(EntityRepository $er)
-                        {
-                            return  $er->createQueryBuilder('p')
-                                ->leftJoin('p.grupaProduktow','gp')
-                                ->where('gp.nazwa IN (:rodzaj)')
-                                ->setParameter('rodzaj',array('Grunt','Gruntoemalia'));
-                        },
+//                    'query_builder' =>  function(EntityRepository $er)
+//                        {
+//                            return  $er->createQueryBuilder('p')
+//                                ->leftJoin('p.grupaProduktow','gp')
+//                                ->where('gp.nazwa IN (:rodzaj)')
+//                                ->setParameter('rodzaj',array('Grunt','Gruntoemalia'));
+//                        },
                     'expanded'  =>  false,
                     'multiple'  =>  false,
                     'required'  =>  false,
@@ -46,13 +46,13 @@ class OfertaSystemType extends AbstractType
             )
             ->add('warstwa3','entity',array(
                     'class' =>  'DFPEtapIBundle:Produkt',
-                    'query_builder' =>  function(EntityRepository $er)
-                        {
-                            return  $er->createQueryBuilder('p')
-                                ->leftJoin('p.grupaProduktow','gp')
-                                ->where('gp.nazwa in (:rodzaj)')
-                                ->setParameter('rodzaj',array('Farba nawierzchniowa','Międzywarstwa'));
-                        },
+//                    'query_builder' =>  function(EntityRepository $er)
+//                        {
+//                            return  $er->createQueryBuilder('p')
+//                                ->leftJoin('p.grupaProduktow','gp')
+//                                ->where('gp.nazwa in (:rodzaj)')
+//                                ->setParameter('rodzaj',array('Farba nawierzchniowa','Międzywarstwa'));
+//                        },
                     'expanded'  =>  false,
                     'multiple'  =>  false,
                     'required'  =>  false
@@ -60,13 +60,13 @@ class OfertaSystemType extends AbstractType
             )
             ->add('warstwa4','entity',array(
                     'class' =>  'DFPEtapIBundle:Produkt',
-                    'query_builder' =>  function(EntityRepository $er)
-                        {
-                            return  $er->createQueryBuilder('p')
-                                ->leftJoin('p.grupaProduktow','gp')
-                                ->where('gp.nazwa = :rodzaj')
-                                ->setParameter('rodzaj','Farba nawierzchniowa');
-                        },
+//                    'query_builder' =>  function(EntityRepository $er)
+//                        {
+//                            return  $er->createQueryBuilder('p')
+//                                ->leftJoin('p.grupaProduktow','gp')
+//                                ->where('gp.nazwa = :rodzaj')
+//                                ->setParameter('rodzaj','Farba nawierzchniowa');
+//                        },
                     'expanded'  =>  false,
                     'multiple'  =>  false,
                     'required'  =>  false
