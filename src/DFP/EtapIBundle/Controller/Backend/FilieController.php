@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -43,9 +44,22 @@ class FilieController extends Controller
 
         $query = $em->getRepository('DFPEtapIBundle:Filia')->getListaFiliiSearchQuery($kryteria);
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
+        $pagination->setFiltrationTemplate('::filtration.html.twig');
+
+        $filie = $query->getQuery()->getResult();
+        $locationsList = array();
+
+        /**
+         * @var Filia $filia
+         */
+        foreach($filie as $filia)
+        {
+            array_push($locationsList,array($filia->getId(),$filia->getKlient()->getNazwaSkrocona(),$filia->getLat(),$filia->getLng()));
+        }
 
         return array(
-            'lista_filii'   =>  $pagination
+            'lista_filii'   =>  $pagination,
+            'filieLatLng'   =>  json_encode($locationsList)
         );
     }
 
@@ -453,5 +467,29 @@ class FilieController extends Controller
         return array(
             'filie' =>  $filie
         );
+    }
+
+    /**
+     * @Route(
+     *      "/ajax/filie-latlng",
+     *      name="backend_wspolrzedne_filii")
+     * @Method("GET")
+     */
+    public function getFilieLocationsLatLngAction()
+    {
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getManager();
+        $filie = $em->getRepository('DFPEtapIBundle:Filia')->findAll();
+        $locationsList = array();
+
+        /**
+         * @var Filia $filia
+         */
+        foreach($filie as $filia)
+        {
+            array_push($locationsList,array($filia->getId(),$filia->getKlient()->getNazwaSkrocona(),$filia->getLat(),$filia->getLng()));
+        }
+
+        return new JsonResponse($locationsList);
     }
 }

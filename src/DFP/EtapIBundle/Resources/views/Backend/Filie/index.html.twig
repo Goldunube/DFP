@@ -1,41 +1,115 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
+{% block title %}Portal DFP - lista filii{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/dfp_obsluga_tabel.js') }}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=initialize"></script>
+{% endblock javascript %}
+
 {% block content -%}
-    <section>
+    <style>
+        table.records_list {
+            font-size: 12px;
+        }
+        table.records_list tbody {
+            background-color: #efefef;
+        }
+        table.records_list thead {
+            background-color: #EB961D;
+        }
+        table.records_list thead a {
+            color: #000000;
+        }
+        table.records_list tbody th, table.records_list tbody td {
+            vertical-align: middle;
+        }
+        ul.record_actions {
+            margin-bottom: 0;
+        }
+        .toggle-sidebar-context {
+            background-color: gainsboro;
+            border-style: solid;
+            border-width: 1px;
+            float: left;
+            overflow-y: scroll;
+            padding: 5px;
+            width: 500px;
+            resize: both;
+            font-size: 11px;
+        }
+        .sidebar-listek span {
+            display: block;
+            font-size: 21px;
+            left: 10px;
+            position: relative;
+            top: 15px;
+            transform: rotate(90deg);
+            transform-origin: 13px 50% 0;
+            white-space: nowrap;
+        }
+        .sidebar-listek {
+            background-color: gainsboro;
+            border-radius: 0 5px 5px 0;
+            border-style: solid solid solid none;
+            border-width: 1px;
+            display: block;
+            float: left;
+            height: 120px;
+            left: -1px;
+            overflow: hidden;
+            padding: 5px;
+            position: relative;
+            width: 45px;
+            z-index: 2;
+        }
+    </style>
+
+    <section class="container-fluid">
         <h1>Lista filii</h1>
 
-        <div style="margin-bottom: 20px; height: auto; overflow: auto;">
+        <div class="well">
             {{ knp_pagination_filter(lista_filii, {'k.nazwaSkrocona': 'Nazwa klienta', 'f.miejscowosc': 'Miejscowość', 'u.nazwisko': 'Nazwisko osoby przypisanej', 'pd.nazwaProfilu':'Profil działalności'}) }}
         </div>
 
-        <table class="records_list">
+        <table class="table records_list table-bordered table-hover lista-klientow">
             <thead>
                 <tr>
                     <th class="lp">Lp</th>
-                    <th>{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
-                    <th>{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
-                    <th>Nazwa filii</th>
+                    <th style="width: 130px;">{{ knp_pagination_sortable(lista_filii,'Przypisany do','u.username') }}</th>
+                    <th style="width: 200px;">{{ knp_pagination_sortable(lista_filii,'Klient','k.nazwaSkrocona') }}</th>
+                    <th style="width: 110px;">Nazwa filii</th>
                     <th>{{ knp_pagination_sortable(lista_filii,'Miejscowość','f.miejscowosc') }}</th>
                     <th>{{ knp_pagination_sortable(lista_filii,'Profil działalności','pd.profileDzialalnosci.nazwaProfilu') }}</th>
-                    <th></th>
+                    <th style="width: 125px;"></th>
                 </tr>
             </thead>
             <tbody>
             {% for filia in lista_filii %}
                 <tr>
                     <td class="lp"><a href="{{ path('backend_filia_show', { 'id': filia.id }) }}">{{ lista_filii.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></td>
-                    <td>{% for przypisani in filia.filieUzytkownicy %}<span title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}, </span>{% endfor %}</td>
-                    <td title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona }}</td>
+                    <td>{% for przypisani in filia.filieUzytkownicy %}<span data-toggle="tooltip" data-placement="bottom" title="Stanowisko: {{ przypisani.uzytkownik.profilUzytkownika is empty ? " - " :  przypisani.uzytkownik.profilUzytkownika.stanowisko }} | Koniec przypisania: {{ przypisani.koniecPrzypisania is empty ? " - " : przypisani.koniecPrzypisania|date("Y-m-d") }}">{{ przypisani.uzytkownik }}, </span>{% endfor %}</td>
+                    <td><span data-toggle="tooltip" data-placement="bottom" title="Pełna nazwa: {{ filia.klient.nazwaPelna }}">{{ filia.klient.nazwaSkrocona|truncate }}</span></td>
                     <td>{{ filia.nazwaFilii }}</td>
-                    <td title="{{ filia.ulica }}&#10;{{ filia.kodPocztowy|kodPocztowy }}; {{ filia.miejscowosc }}&#10;{{ filia.wojewodztwo }}">{{ filia.miejscowosc }}</td>
-                    <td>{{ filia.profileDzialalnosci|join(" | ") }}</td>
+                    <td><span data-toggle="tooltip" data-placement="bottom" title="{{ filia.ulica }}&#10;{{ filia.kodPocztowy|kodPocztowy }}; {{ filia.miejscowosc }}&#10;{{ filia.wojewodztwo }}">{{ filia.miejscowosc|truncate }}</span></td>
+                    <td><span data-toggle="tooltip" data-placement="bottom" title="{{ filia.profileDzialalnosci|join(" | ") }}">{{ filia.profileDzialalnosci|join(" | ")|truncate }}</span></td>
                     <td>
                         <ul class="record_actions">
                             <li>
-                                <a href="{{ path('backend_filia_show', { 'id': filia.id }) }}" class="art-button maly zielony">pokaż</a>
+                                <a href="{{ path('backend_filia_show', { 'id': filia.id }) }}" class="btn btn-xs btn-primary">pokaż</a>
                             </li>
                             <li>
-                                <a href="{{ path('backend_filia_edytuj', { 'id': filia.id }) }}" class="art-button maly pomaranczowy">edytuj</a>
+                                <a href="{{ path('backend_filia_edytuj', { 'id': filia.id }) }}" class="btn btn-xs btn-warning">edytuj</a>
                             </li>
                         </ul>
                     </td>
@@ -47,5 +121,67 @@
             {{ knp_pagination_render(lista_filii) }}
         </div>
     </section>
+
+    <aside class="left-toggle-sidebar">
+        <div class="toggle-sidebar-context">
+            <div class="embed-responsive embed-responsive-16by9">
+                <div id="map-canvas" style="width: 100%; height: 100%;" class="embed-responsive-item"></div>
+            </div>
+        </div>
+        <a class="sidebar-listek" href="javascript:void(0);">
+            <span>Mapa</span>
+        </a>
+    </aside>
+
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                container:  'body'
+            });
+        });
+
+        var $miejscowoscInput = $("#lista_klientow_promien_filter_miejscowosc");
+        var obszar;
+        var map;
+        var infowindow;
+        var filieArray = {{ filieLatLng|raw }};
+
+        function initialize() {
+            var latLng = new google.maps.LatLng(52.2329379,21.0611941);
+            var mapOptions = {
+                center: latLng,
+                zoom: 8
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            infowindow = new google.maps.InfoWindow();
+
+            for (var i = 0; i < filieArray.length; i++)
+            {
+                createMarker(filieArray[i]);
+            }
+        }
+
+        function createMarker(place) {
+            var placeLoc = new google.maps.LatLng(place[2],place[3]);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: placeLoc,
+                icon: '{{ asset('css/images/factory_icon.png') }}'
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place[1]);
+                infowindow.open(map, this);
+            });
+        }
+
+        $('.sidebar-listek').click(function() {
+            var sidebar = $(".left-toggle-sidebar");
+            var pozycja = sidebar.css("left");
+            sidebar.animate({left: parseInt(pozycja,10) == -512 ? "-1px" : "-512px"}, 1500, "easeInOutQuart" );
+        });
+
+    </script>
 
 {% endblock %}
