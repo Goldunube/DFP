@@ -23,8 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 class FilieController extends Controller
 {
     /**
-     * TODO optymalizacja zapytania wyświetlającego całą listę filii
-     *
      * @Route("/", name="backend_filie")
      * @Template()
      */
@@ -34,6 +32,7 @@ class FilieController extends Controller
         $paginator = $this->get('knp_paginator');
 
         $kryteria = null;
+        $kryteriaString = null;
 
         if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
         {
@@ -46,20 +45,9 @@ class FilieController extends Controller
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
         $pagination->setFiltrationTemplate('::filtration.html.twig');
 
-        $filie = $em->getRepository('DFPEtapIBundle:Filia')->getWspolrzedneFilii($kryteria);
-        $locationsList = array();
-
-        /**
-         * @var Filia $filia
-         */
-        foreach($filie as $filia)
-        {
-            array_push($locationsList,array($filia['id'],$filia['nazwaSkrocona'],$filia['lat'],$filia['lng']));
-        }
-
         return array(
             'lista_filii'   =>  $pagination,
-            'filieLatLng'   =>  json_encode($locationsList)
+            'map_kryteria'  =>  json_encode($kryteria),
         );
     }
 
@@ -469,27 +457,35 @@ class FilieController extends Controller
         );
     }
 
-//    /**
-//     * @Route(
-//     *      "/ajax/filie-latlng",
-//     *      name="backend_wspolrzedne_filii")
-//     * @Method("GET")
-//     */
-//    public function getFilieLocationsLatLngAction()
-//    {
-//        $request = $this->get('request');
-//        $em = $this->getDoctrine()->getManager();
-//        $filie = $em->getRepository('DFPEtapIBundle:Filia')->findAll();
-//        $locationsList = array();
-//
-//        /**
-//         * @var Filia $filia
-//         */
-//        foreach($filie as $filia)
-//        {
-//            array_push($locationsList,array($filia->getId(),$filia->getKlient()->getNazwaSkrocona(),$filia->getLat(),$filia->getLng()));
-//        }
-//
-//        return new JsonResponse($locationsList);
-//    }
+    /**
+     * @Route(
+     *      "/ajax/filie-latlng",
+     *      name="backend_wspolrzedne_filii",
+     *      options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getFilieLocationsLatLngAction()
+    {
+        $kryteria = null;
+        $locationsList = array();
+        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $filie = $em->getRepository('DFPEtapIBundle:Filia')->getWspolrzedneFilii($kryteria);
+
+        /**
+         * @var Filia $filia
+         */
+        foreach($filie as $filia)
+        {
+            array_push($locationsList,array($filia['id'],$filia['nazwaSkrocona'],$filia['lat'],$filia['lng']));
+        }
+
+        return new JsonResponse($locationsList);
+    }
 }

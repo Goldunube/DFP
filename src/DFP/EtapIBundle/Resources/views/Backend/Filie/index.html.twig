@@ -14,6 +14,7 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/dfp_obsluga_tabel.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/markerclusterer_compiled.js') }}"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=initialize"></script>
 {% endblock javascript %}
 
@@ -134,17 +135,11 @@
     </aside>
 
     <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip({
-                container:  'body'
-            });
-        });
-
-        var $miejscowoscInput = $("#lista_klientow_promien_filter_miejscowosc");
-        var obszar;
         var map;
         var infowindow;
-        var filieArray = {{ filieLatLng|raw }};
+        var mapCluster;
+        var filieArray;
+        var markers = [];
 
         function initialize() {
             var latLng = new google.maps.LatLng(52.2329379,21.0611941);
@@ -156,10 +151,21 @@
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
             infowindow = new google.maps.InfoWindow();
 
-            for (var i = 0; i < filieArray.length; i++)
-            {
-                createMarker(filieArray[i]);
-            }
+            $.ajax({
+                type:   "GET",
+                url:    Routing.generate('backend_wspolrzedne_filii'),
+                contentType: "application/json; charset=utf-8",
+                data: {{ map_kryteria|raw }},
+                success: function(resp)
+                {
+                    for (var i = 0; i < resp.length; i++)
+                    {
+                        createMarker(resp[i]);
+                    }
+
+                    var markerCluster = new MarkerClusterer(map, markers);
+                }
+            });
         }
 
         function createMarker(place) {
@@ -174,14 +180,22 @@
                 infowindow.setContent(place[1]);
                 infowindow.open(map, this);
             });
+
+            markers.push(marker);
         }
 
-        $('.sidebar-listek').click(function() {
-            var sidebar = $(".left-toggle-sidebar");
-            var pozycja = sidebar.css("left");
-            sidebar.animate({left: parseInt(pozycja,10) == -512 ? "-1px" : "-512px"}, 1500, "easeInOutQuart" );
+        $(document).ready(function(){
+            $('.sidebar-listek').click(function() {
+                var sidebar = $(".left-toggle-sidebar");
+                var pozycja = sidebar.css("left");
+                sidebar.animate({left: parseInt(pozycja,10) == -512 ? "-1px" : "-512px"}, 1500, "easeInOutQuart" );
+            });
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({
+                    container:  'body'
+                });
+            });
         });
-
     </script>
-
 {% endblock %}
