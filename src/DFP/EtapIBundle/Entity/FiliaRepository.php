@@ -57,6 +57,28 @@ class FiliaRepository extends EntityRepository
         return $query;
     }
 
+    public function getWspolrzedneFilii($kryteria = null)
+    {
+        $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
+            ->select('f.id, k.nazwaSkrocona, f.lat, f.lng')
+            ->innerJoin('f.klient','k')
+            ->leftJoin('f.filieUzytkownicy','fu')
+            ->leftJoin('fu.uzytkownik','u')
+            ->leftJoin('f.profileDzialalnosci','pd')
+            ->orderBy('k.nazwaSkrocona','ASC');
+
+        if($kryteria)
+        {
+            $pole = $kryteria['filterField'];
+            $wartosc = $kryteria['filterValue'];
+            $query->where("$pole LIKE '%$wartosc%'");
+        };
+
+        $result = $query->getQuery()->getArrayResult();
+
+        return $result;
+    }
+
     public function findOneByZip($zip)
     {
         return $this->getEntityManager()

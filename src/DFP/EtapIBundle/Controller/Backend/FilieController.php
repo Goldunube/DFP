@@ -46,7 +46,7 @@ class FilieController extends Controller
         $pagination = $paginator->paginate($query, $this->get('request')->query->get('strona',1),21);
         $pagination->setFiltrationTemplate('::filtration.html.twig');
 
-        $filie = $query->getQuery()->getResult();
+        $filie = $em->getRepository('DFPEtapIBundle:Filia')->getWspolrzedneFilii($kryteria);
         $locationsList = array();
 
         /**
@@ -54,7 +54,7 @@ class FilieController extends Controller
          */
         foreach($filie as $filia)
         {
-            array_push($locationsList,array($filia->getId(),$filia->getKlient()->getNazwaSkrocona(),$filia->getLat(),$filia->getLng()));
+            array_push($locationsList,array($filia['id'],$filia['nazwaSkrocona'],$filia['lat'],$filia['lng']));
         }
 
         return array(
@@ -469,27 +469,27 @@ class FilieController extends Controller
         );
     }
 
-    /**
-     * @Route(
-     *      "/ajax/filie-latlng",
-     *      name="backend_wspolrzedne_filii")
-     * @Method("GET")
-     */
-    public function getFilieLocationsLatLngAction()
-    {
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $filie = $em->getRepository('DFPEtapIBundle:Filia')->findAll();
-        $locationsList = array();
-
-        /**
-         * @var Filia $filia
-         */
-        foreach($filie as $filia)
-        {
-            array_push($locationsList,array($filia->getId(),$filia->getKlient()->getNazwaSkrocona(),$filia->getLat(),$filia->getLng()));
-        }
-
-        return new JsonResponse($locationsList);
-    }
+//    /**
+//     * @Route(
+//     *      "/ajax/filie-latlng",
+//     *      name="backend_wspolrzedne_filii")
+//     * @Method("GET")
+//     */
+//    public function getFilieLocationsLatLngAction()
+//    {
+//        $request = $this->get('request');
+//        $em = $this->getDoctrine()->getManager();
+//        $filie = $em->getRepository('DFPEtapIBundle:Filia')->findAll();
+//        $locationsList = array();
+//
+//        /**
+//         * @var Filia $filia
+//         */
+//        foreach($filie as $filia)
+//        {
+//            array_push($locationsList,array($filia->getId(),$filia->getKlient()->getNazwaSkrocona(),$filia->getLat(),$filia->getLng()));
+//        }
+//
+//        return new JsonResponse($locationsList);
+//    }
 }
