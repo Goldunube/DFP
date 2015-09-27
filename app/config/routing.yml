@@ -8,6 +8,11 @@ gcsv_technical_backend:
     type:     annotation
     prefix:   /zaplecze
 
+gcsv_raport:
+    resource: "@GCSVRaportBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 dfp_frontend:
     resource: "@DFPEtapIBundle/Controller/Frontend/"
     type:     annotation

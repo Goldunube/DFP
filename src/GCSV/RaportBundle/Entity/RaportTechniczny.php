@@ -53,7 +53,7 @@ class RaportTechniczny
     private $zalecenia;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      */
     private $autor;
 
@@ -66,7 +66,7 @@ class RaportTechniczny
     private $dataUtworzenia;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      */
     private $modyfikujacy;
 

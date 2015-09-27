@@ -6,8 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use DFP\EtapIBundle\Entity\Filia as Oddzial;
 use GCSV\RaportBundle\Entity\Notatka;
-use GCSV\RaportBundle\Entity\RaportTechniczny;
-use GCSV\RaportBundle\Entity\RaportZuzycia;
 //use GCSV\RecepturaBundle\Entity\Receptura;
 use DFP\EtapIBundle\Entity\Uzytkownik;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -126,17 +124,17 @@ class ZdarzenieTechniczne
     private $status;
 
     /**
-     * ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\RaportTechniczny", mappedBy="zdarzenieTechniczne",orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\RaportTechniczny", mappedBy="zdarzenieTechniczne",orphanRemoval=true)
      */
     private $raportyTechniczne;
 
     /**
-     * ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\Notatka", mappedBy="zdarzenieTechniczne", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\Notatka", mappedBy="zdarzenieTechniczne", orphanRemoval=true)
      */
     private $notatki;
 
     /**
-     * ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\RaportZuzycia", mappedBy="zdarzenieTechniczne")
+     * @ORM\OneToMany(targetEntity="GCSV\RaportBundle\Entity\RaportZuzycia", mappedBy="zdarzenieTechniczne")
      */
     private $raportyZuzyc;
 

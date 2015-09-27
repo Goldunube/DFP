@@ -28,7 +28,7 @@ class RaportZuzyciaProdukt
     private $raportZuzycia;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\MagazynBundle\Entity\Produkt", inversedBy="raportZuzyciaProdukty")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Produkt")
      * @ORM\JoinColumn(name="produkt_id", nullable=false)
      */
     private $produkt;

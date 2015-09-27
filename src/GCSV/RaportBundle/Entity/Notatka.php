@@ -64,7 +64,7 @@ class Notatka
 
     /**
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(name="autor", nullable=false)
      */
     private $autor;

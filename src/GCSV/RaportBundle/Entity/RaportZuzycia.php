@@ -34,7 +34,7 @@ class RaportZuzycia
     private $zdarzenieTechniczne;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(name="uzytkownik_id", nullable=false)
      */
     private $autor;
@@ -103,7 +103,7 @@ class RaportZuzycia
 
     /**
      * @Gedmo\Blameable(on="change", field="akceptacja", value="1")
-     * @ORM\ManyToOne(targetEntity="GCSV\UserBundle\Entity\Uzytkownik")
+     * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
      * @ORM\JoinColumn(name="akceptujacy_id", nullable=true)
      */
     private $osobaAkceptujaca;

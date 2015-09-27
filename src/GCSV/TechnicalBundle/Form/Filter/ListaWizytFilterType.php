@@ -91,16 +91,13 @@ class ListaWizytFilterType extends AbstractType
                 )
             )
             ->add('zlecajacy','filter_entity',array(
-                    'class'     =>  'GCSV\UserBundle\Entity\Uzytkownik',
+                    'class'     =>  'DFP\EtapIBundle\Entity\Uzytkownik',
                     'property'  =>  'imieNazwisko',
                     'query_builder' =>  function(EntityRepository $er)
                         {
                             return $er->createQueryBuilder('ut')
-                                ->select('ut,g,s,m')
-                                ->leftJoin('ut.grupy','g')
-                                ->leftJoin('ut.strefa','s')
-                                ->leftJoin('ut.magazyn','m')
-                                ->andWhere('ut.locked = false')
+                                ->select('ut')
+                                ->where('ut.locked = false')
                                 ->orderBy('ut.imie','ASC');
                         },
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
@@ -113,17 +110,14 @@ class ListaWizytFilterType extends AbstractType
                 )
             )
             ->add('technik','filter_entity',array(
-                    'class'     =>  'GCSV\UserBundle\Entity\Uzytkownik',
+                    'class'     =>  'DFP\EtapIBundle\Entity\Uzytkownik',
                     'property'  =>  'imieNazwisko',
                     'query_builder' =>  function(EntityRepository $er)
                         {
                             return $er->createQueryBuilder('ut')
-                                ->select('ut,g,s,m')
-                                ->leftJoin('ut.grupy','g')
-                                ->leftJoin('ut.strefa','s')
-                                ->leftJoin('ut.magazyn','m')
-                                ->where('g.nazwa = :technik')
-                                ->setParameter('technik','Technik')
+                                ->select('ut,p')
+                                ->leftJoin('ut.profilUzytkownika','p')
+                                ->where('p.pokazKalendarz = true')
                                 ->andWhere('ut.locked = false')
                                 ->orderBy('ut.imie','ASC');
                         },

@@ -14,7 +14,9 @@ class DFPExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFilter('nip', array($this, 'nipFilter')),
             new \Twig_SimpleFilter('kodPocztowy', array($this, 'kodPocztowyFilter')),
-            new \Twig_SimpleFilter('waluta', array($this, 'walutaFilter'))
+            new \Twig_SimpleFilter('waluta', array($this, 'walutaFilter')),
+            new \Twig_SimpleFilter('dystans', array($this, 'dystansFilter')),
+            new \Twig_SimpleFilter('statusZdarzeniaTechnicznego', array($this, 'statusyZdarzentechnicznychFilter')),
         );
     }
 
@@ -22,6 +24,7 @@ class DFPExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('getFileTypeIcon', array($this,'getFileTypeIconFunction')),
+            new \Twig_SimpleFunction('dateDiff', array($this,'dateDiffFunction')),
         );
     }
 
@@ -114,5 +117,55 @@ class DFPExtension extends \Twig_Extension
             default:
                 return 'bundles/dfpetapi/images/nieznany_typ_pliku_icon_64.png';
         }
+    }
+
+    public function dateDiffFunction(\DateTime $start, \DateTime $koniec)
+    {
+        $roznicaDat = $start->diff($koniec);
+
+        return $roznicaDat;
+    }
+
+    public function dystansFilter($dystans)
+    {
+        if(!$dystans)
+        {
+            return null;
+        }
+        $dystans = $dystans / 1000;
+        $dystans = number_format($dystans,1,',','').' km';
+
+        return $dystans;
+    }
+
+    public function statusyZdarzenTechnicznychFilter($kodStatusu)
+    {
+        $nazwa = "";
+
+        if(is_integer($kodStatusu))
+        {
+            switch ($kodStatusu) {
+                case -2:
+                    $nazwa = 'Anulowana';
+                    break;
+                case -1:
+                    $nazwa = 'Odrzucona';
+                    break;
+                case 0:
+                    $nazwa = 'Zgłoszona';
+                    break;
+                case 1:
+                    $nazwa = 'Zarezerwowana';
+                    break;
+                case 2:
+                    $nazwa = 'Zaakceptowana';
+                    break;
+                case 3:
+                    $nazwa = 'Wykonana';
+                    break;
+            }
+        }
+
+        return $nazwa;
     }
 }

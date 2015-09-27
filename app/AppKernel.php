@@ -26,6 +26,7 @@ class AppKernel extends Kernel
                 new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new DFP\EtapIBundle\DFPEtapIBundle(),
             new GCSV\TechnicalBundle\GCSVTechnicalBundle(),
+            new GCSV\RaportBundle\GCSVRaportBundle(),
             new GCSV\FullCalendarBundle\GCSVFullCalendarBundle(),
             new GCSV\DniWolneBundle\GCSVDniWolneBundle(),
         );
