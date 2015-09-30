@@ -535,7 +535,6 @@ javascript;
      *      options={"expose"=true}
      * )
      * @Method("PUT")
-     * @Security("has_role('ROLE_KDFP')")
      */
     public function resizeMoveAjaxAction($terminId,$dataOd,$dataDo)
     {
