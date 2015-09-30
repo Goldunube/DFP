@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Kontroler Zdarzen Technicznych
  * @package GCSV\TechnicalBundle\Controller\Backend
  * @Route("/zdarzenia-techniczne")
- * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
  */
 class ZdarzenieTechniczneController extends Controller
 {
@@ -59,113 +58,11 @@ class ZdarzenieTechniczneController extends Controller
 
         $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($form, $filterBuilder);
 
-//        $searchQuery = $request->query->get('wizyty_filter');
         $zdarzenia = $filterBuilder;
-
-        // PRZEFILTROWANIE ZDARZEŃ PO NAPISANYCH / NIENAPISANYCH RAPORTACH TECHNICZNYCH
-//        if(isset($searchQuery['raport_tech']))
-//        {
-//            if($searchQuery['raport_tech'] == 0 and ($searchQuery['raport_tech']) != null)
-//            {
-//                $resultArray = $filterBuilder->getQuery()->getResult();
-//                $zdarzenia = new ArrayCollection();
-//                /**
-//                 * @var TerminZdarzeniaTechnicznego $terminZdarzeniaTechnicznego
-//                 */
-//                foreach($resultArray as $terminZdarzeniaTechnicznego)
-//                {
-//                    $iloscRaportowTechnicznych = $terminZdarzeniaTechnicznego->getUczestnikZdarzeniaTechnicznego()->getZdarzenieTechniczne()->getRaportyTechniczne()->count();
-//                    if($iloscRaportowTechnicznych == 0)
-//                    {
-//                        $zdarzenia->add($terminZdarzeniaTechnicznego);
-//                    }
-//                }
-//            }elseif($searchQuery['raport_tech'] == 1){
-//                $resultArray = $filterBuilder->getQuery()->getResult();
-//                $zdarzenia = new ArrayCollection();
-//                /**
-//                 * @var TerminZdarzeniaTechnicznego $terminZdarzeniaTechnicznego
-//                 */
-//                foreach($resultArray as $terminZdarzeniaTechnicznego)
-//                {
-//                    $iloscRaportowTechnicznych = $terminZdarzeniaTechnicznego->getUczestnikZdarzeniaTechnicznego()->getZdarzenieTechniczne()->getRaportyTechniczne()->count();
-//                    if($iloscRaportowTechnicznych > 0)
-//                    {
-//                        $zdarzenia->add($terminZdarzeniaTechnicznego);
-//                    }
-//                }
-//            }
-//        }
-
-        // PRZEFILTROWANIE ZDARZEŃ PO NAPISANYCH / NIENAPISANYCH RAPORTACH ZUŻYĆ
-//        if(isset($searchQuery['raport_zuz']))
-//        {
-//            if($searchQuery['raport_zuz'] == 0 and ($searchQuery['raport_zuz']) != null)
-//            {
-//                $resultArray = $filterBuilder->getQuery()->getResult();
-//                $zdarzenia = new ArrayCollection();
-//                /**
-//                 * @var TerminZdarzeniaTechnicznego $terminZdarzeniaTechnicznego
-//                 */
-//                foreach($resultArray as $terminZdarzeniaTechnicznego)
-//                {
-//                    $iloscRaportowZuzyc = $terminZdarzeniaTechnicznego->getUczestnikZdarzeniaTechnicznego()->getZdarzenieTechniczne()->getRaportyZuzyc()->count();
-//                    if($iloscRaportowZuzyc == 0)
-//                    {
-//                        $zdarzenia->add($terminZdarzeniaTechnicznego);
-//                    }
-//                }
-//            }elseif($searchQuery['raport_zuz'] == 1){
-//                $resultArray = $filterBuilder->getQuery()->getResult();
-//                $zdarzenia = new ArrayCollection();
-//                /**
-//                 * @var TerminZdarzeniaTechnicznego $terminZdarzeniaTechnicznego
-//                 */
-//                foreach($resultArray as $terminZdarzeniaTechnicznego)
-//                {
-//                    $iloscRaportowZuzyc = $terminZdarzeniaTechnicznego->getUczestnikZdarzeniaTechnicznego()->getZdarzenieTechniczne()->getRaportyZuzyc()->count();
-//                    if($iloscRaportowZuzyc > 0)
-//                    {
-//                        $zdarzenia->add($terminZdarzeniaTechnicznego);
-//                    }
-//                }
-//            }
-//        }
 
         $paginator = $this->get('knp_paginator');
         $paginacja = $paginator->paginate($zdarzenia, $strona, 25);
 
-//        /**
-//         * @var StatusZdarzeniaTechnicznego $status
-//         */
-//        $statusy = $em->getRepository('GCSVTechnicalBundle:StatusZdarzeniaTechnicznego')->findAll();
-//        $statusyArray = array();
-//        $statusyClassArray = array();
-//        foreach($statusy as $status)
-//        {
-//            $statusyArray[$status->getWartosc()] = $status->getNazwa();
-//            switch($status->getWartosc())
-//            {
-//                case -2:
-//                    $statusyClassArray[$status->getWartosc()] = 'danger';
-//                    break;
-//                case -1:
-//                    $statusyClassArray[$status->getWartosc()] = 'danger';
-//                    break;
-//                case 0:
-//                    $statusyClassArray[$status->getWartosc()] = 'warning';
-//                    break;
-//                case 1:
-//                    $statusyClassArray[$status->getWartosc()] = 'active';
-//                    break;
-//                case 2:
-//                    $statusyClassArray[$status->getWartosc()] = 'info';
-//                    break;
-//                case 3:
-//                    $statusyClassArray[$status->getWartosc()] = 'success';
-//                    break;
-//            }
-//        }
 
         return array(
             'terminy_zdarzen'   => $paginacja,
