@@ -8,6 +8,8 @@ use DFP\EtapIBundle\Entity\Filia as Oddzial;
 use GCSV\RaportBundle\Entity\Notatka;
 //use GCSV\RecepturaBundle\Entity\Receptura;
 use DFP\EtapIBundle\Entity\Uzytkownik;
+use GCSV\RaportBundle\Entity\RaportTechniczny;
+use GCSV\RaportBundle\Entity\RaportZuzycia;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
