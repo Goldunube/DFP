@@ -1,31 +1,57 @@
-{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
-
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock javascript %}
 
 {% block content -%}
-    <nav class="navbar navbar-default">
+    <style>
+        table.records_list {
+            font-size: 12px;
+        }
+        table.records_list tbody {
+            background-color: #efefef;
+        }
+        table.records_list thead {
+            background-color: #EB961D;
+        }
+        table.records_list thead a {
+            color: #000000;
+        }
+        table.records_list tbody th, table.records_list tbody td {
+            vertical-align: middle;
+        }
+        ul.record_actions {
+            margin-bottom: 0;
+        }
+    </style>
+{#    <nav class="navbar navbar-default">
         <form method="get" action="" class="navbar-form form-inline" role="search">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group col-sm-4">
                             <label for="klient_filter_nazwaSkrocona">ID zdarzenia</label>
-                            {#{{ form_widget(form.nazwisko, { 'attr' : { 'class' : 'form-control' } } ) }}#}
+                            &#123;&#35;{{ form_widget(form.nazwisko, { 'attr' : { 'class' : 'form-control' } } ) }}&#35;&#125;
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="klient_filter_nip">Klient</label>
-                            {#{{ form_widget(form.strefa, { 'attr' : { 'class' : 'form-control','style' : 'width: 140px;' } } ) }}#}
+                            &#123;&#35;{{ form_widget(form.strefa, { 'attr' : { 'class' : 'form-control','style' : 'width: 140px;' } } ) }}&#35;&#125;
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="klient_filter_kodMax">Technik</label>
-                            {#{{ form_widget(form.locked, { 'attr' : { 'class' : 'form-control','style' : 'width: 80px;' } } ) }}#}
+                            &#123;&#35;{{ form_widget(form.locked, { 'attr' : { 'class' : 'form-control','style' : 'width: 80px;' } } ) }}&#35;&#125;
                         </div>
                     </div>
                 </div>
@@ -33,21 +59,21 @@
                     <div class="col-sm-12">
                         <div class="form-group col-sm-4">
                             <label for="klient_filter_nazwaSkrocona">Status</label>
-                            {#{{ form_widget(form.nazwisko, { 'attr' : { 'class' : 'form-control' } } ) }}#}
+                            &#123;&#35;{{ form_widget(form.nazwisko, { 'attr' : { 'class' : 'form-control' } } ) }}&#35;&#125;
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="klient_filter_nip">Rodzaj</label>
-                            {#{{ form_widget(form.strefa, { 'attr' : { 'class' : 'form-control','style' : 'width: 140px;' } } ) }}#}
+                            &#123;&#35;{{ form_widget(form.strefa, { 'attr' : { 'class' : 'form-control','style' : 'width: 140px;' } } ) }}&#35;&#125;
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="klient_filter_kodMax">Zakres</label>
-                            {#{{ form_widget(form.locked, { 'attr' : { 'class' : 'form-control','style' : 'width: 80px;' } } ) }}#}
+                            &#123;&#35;{{ form_widget(form.locked, { 'attr' : { 'class' : 'form-control','style' : 'width: 80px;' } } ) }}&#35;&#125;
                         </div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 10px;">
                     <div class="col-sm-12">
-                        {#{{ form_rest(form) }}#}
+                        &#123;&#35;{{ form_rest(form) }}&#35;&#125;
                         <div class="col-sm-2">
                             <input type="submit" name="submit-filter" value="Szukaj" class="btn btn-default"/>
                         </div>
@@ -55,30 +81,34 @@
                 </div>
             </div>
         </form>
-    </nav>
+    </nav>#}
 
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Klient</th>
-            <th>Rodzaj</th>
-            <th>Technik</th>
-            <th>Termin</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for termin in terminy_zdarzen %}
+    <section class="container-fluid">
+        <h1>Rejestr wizyt technicznych</h1>
+        <table class="table records_list table-striped table-hover table-bordered">
+            <thead>
             <tr>
-                <th>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.id }}</th>
-                <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy.firma.nazwaSkrocona }}</td>
-                <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.rodzajZdarzeniaTechnicznego }}</td>
-                <td>{{ termin.uczestnikZdarzeniaTechnicznego.osoba }}</td>
-                <td>{{ termin.rozpoczecieWizyty|date('d-m-Y') }} - {{ termin.zakonczenieWizyty|date('d-m-Y') }}</td>
-                <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.status }}</td>
+                <th>ID</th>
+                <th>Klient</th>
+                <th>Rodzaj</th>
+                <th>Technik</th>
+                <th>Termin</th>
+                <th>Status</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for termin in terminy_zdarzen %}
+                <tr>
+                    <th>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.id }}</th>
+                    <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy.klient.nazwaSkrocona }}</td>
+                    <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.rodzajZdarzeniaTechnicznego }}</td>
+                    <td>{{ termin.uczestnikZdarzeniaTechnicznego.osoba }}</td>
+                    <td>{{ termin.rozpoczecieWizyty|date('d-m-Y') }} - {{ termin.zakonczenieWizyty|date('d-m-Y') }}</td>
+                    <td>{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.status }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
 {% endblock %}

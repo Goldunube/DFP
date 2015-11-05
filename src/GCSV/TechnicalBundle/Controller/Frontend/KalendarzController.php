@@ -4,7 +4,7 @@ namespace GCSV\TechnicalBundle\Controller\Frontend;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use GCSV\TechnicalBundle\Entity\TerminZdarzeniaTechnicznego;
-use GCSV\UserBundle\Entity\Uzytkownik;
+use DFP\EtapIBundle\Entity\Uzytkownik;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,41 +21,16 @@ class KalendarzController extends Controller
     /**
      * Wyświetla kalendarz Działu Technicznego
      *
-     * @Route("/", name="kalendarz_dt")
+     * @Route("/", name="kalendarz_dfp")
      * @Method("GET")
      * @Template()
      */
     public function indexAction()
     {
-        $technicy = $this->getDoctrine()->getManager()->getRepository('GCSVUserBundle:Uzytkownik')->findAllUnlockTechnicy(true);
-
-        $technicyWschod = new ArrayCollection();
-        $technicyPolnoc = new ArrayCollection();
-        $technicyPoludnie = new ArrayCollection();
-
-        /**
-         * @var Uzytkownik $technik
-         */
-        foreach ($technicy as $technik)
-        {
-            switch ($technik->getStrefa()->getNazwa())
-            {
-                case 'Strefa Wschód':
-                    $technicyWschod->add($technik);
-                    break;
-                case 'Strefa Północ':
-                    $technicyPolnoc->add($technik);
-                    break;
-                case 'Strefa Południe':
-                    $technicyPoludnie->add($technik);
-                    break;
-            }
-        }
+        $technicy = $this->getDoctrine()->getManager()->getRepository('DFPEtapIBundle:Uzytkownik')->findAllUnlockTechnicy();
 
         return array(
-            'technicyWschod'  => $technicyWschod,
-            'technicyPolnoc'  => $technicyPolnoc,
-            'technicyPoludnie'  => $technicyPoludnie,
+            'technicy'          =>  $technicy,
         );
     }
 

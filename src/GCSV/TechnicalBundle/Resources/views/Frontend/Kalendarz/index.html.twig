@@ -1,26 +1,28 @@
-{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/jquery-qtip/jquery.qtip.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvfullcalendar/css/fullcalendar.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/kalendarz.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select2/select2-bootstrap.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-typeahead/bootstrap3-typeahead.css') }}" />
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.1/jquery.qtip.min.css" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvfullcalendar/css/fullcalendar.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/kalendarz.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/bootstrap-select2/select2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/bootstrap-select2/select2-bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/bootstrap-typeahead/bootstrap3-typeahead.css') }}" rel="stylesheet" />
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/lib/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/fullcalendar.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/lang-all.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/gcal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/lang-all.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/gcal.js"></script>
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/kalendarz-ustawienia-frontend-2.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-qtip/jquery.qtip.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select2/select2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/gcsv_autocomplete.js') }}"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.1/jquery.qtip.min.js"></script>
 {% endblock javascript %}
 
 {% block content -%}
@@ -29,7 +31,7 @@
             <iframe src="http://free.timeanddate.com/clock/i4a41vdj/n262/tlpl31/fn12/fs20/tct/pct/ftbu/th1" frameborder="0" width="114" height="26" allowTransparency="true"></iframe>
         </div>
 
-        <h1>{% trans %}Kalendarz DT{% endtrans %}</h1>
+        <h1>{% trans %}Kalendarz DFP{% endtrans %}</h1>
 
         {% include '@GCSVFullCalendar/Default/kalendarz.html.twig' %}
     </section>
@@ -90,91 +92,21 @@
 
     <aside id="lista-kalendarzy">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab-poludnie" data-toggle="tab">Południe</a></li>
-            <li><a href="#tab-polnoc" data-toggle="tab">Północ</a></li>
-            <li><a href="#tab-wschod" data-toggle="tab">Wschód</a></li>
+            <li class="active"><a href="#tab-dfp" data-toggle="tab">Technicy DFP</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="tab-poludnie">
+            <div class="tab-pane active" id="tab-dfp">
                 <ul>
-                    {% for technik in technicyPoludnie %}
-                        {% if technik.kalendarz is defined %}
-                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
-                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
-                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
+                    {% for technik in technicy %}
+                        {% if technik.profilUzytkownika is defined %}
+                            {% set tloKolor = technik.profilUzytkownika.kolorTlaZdarzenia is defined ? technik.profilUzytkownika.kolorTlaZdarzenia : 'inherit' %}
+                            {% set tekstKolor = technik.profilUzytkownika.kolorTekstuZdarzenia is defined ? technik.profilUzytkownika.kolorTekstuZdarzenia : 'inherit' %}
                         {% endif %}
-                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="tab-pane" id="tab-polnoc">
-                <ul>
-                    {% for technik in technicyPolnoc %}
-                        {% if technik.kalendarz is defined %}
-                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
-                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
-                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
-                        {% endif %}
-                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="tab-pane" id="tab-wschod">
-                <ul>
-                    {% for technik in technicyWschod %}
-                        {% if technik.kalendarz is defined %}
-                            {% set ramkaKolor = technik.kalendarz.ramkaKolor is defined ? technik.kalendarz.ramkaKolor : 'inherit' %}
-                            {% set tloKolor = technik.kalendarz.tloKolor is defined ? technik.kalendarz.tloKolor : 'inherit' %}
-                            {% set tekstKolor = technik.kalendarz.tekstKolor is defined ? technik.kalendarz.tekstKolor : 'inherit' %}
-                        {% endif %}
-                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color: {{ ramkaKolor }};background-color: {{ tloKolor }};color: {{ tekstKolor }}" >{{ technik.imieNazwisko }}</label></li>
+                        <li><input type="checkbox" id="ipt-technik-{{ technik.id }}" name="technik[]" value="{{ technik.id }}" class="kalendarze" /><label for="ipt-technik-{{ technik.id }}" style="border-color:#000000;background-color: {{ tloKolor }};color: {{ tekstKolor }}">{{ technik.imieNazwisko }}</label></li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
         <a href="javascript: void(0);" class="listek" ><span>Kalendarze</span></a>
     </aside>
-
-    {{ tinymce_init() }}
 {% endblock %}
-
-{% block javascripts %}
-    $('#formularz-container').on('loaded.bs.modal', function(e) {
-        $('#formularz-container select').select2();
-        $('#zdt_oddzialFirmy').gcsv_autocomplete({
-            url_list: Routing.generate('ajax_search_oddzial'),
-            url_get: Routing.generate('ajax_get_oddzial')
-        })
-        .on('typeahead:selected',function($e,datum){
-            $('#zdt_dlugoscGeo').val(datum.lng);
-            $('#zdt_szerokoscGeo').val(datum.lat);
-        })
-        .on('typeahead:autocompleted',function($e,datum){
-            $('#zdt_dlugoscGeo').val(datum.lng);
-            $('#zdt_szerokoscGeo').val(datum.lat);
-        })
-    })
-
-    $('#formularz-container').on('hidden.bs.modal', function() {
-        $(this).removeData('bs.modal');
-    });
-
-    $("#formularz-container").draggable({
-        handle: ".modal-header"
-    });
-
-    $('#formularz-container').on('submit','form[name="zdt"]',function(e) {
-        e.preventDefault();
-
-        var $form = $( this );
-        var url = $form.attr('action');
-        $.ajax({
-            url:    url,
-            type:   'POST',
-            data:   $form.serialize()
-        }).done(function(){
-            $('#formularz-container').modal('hide');
-            $('#kalendarz-container').fullCalendar('refetchEvents');
-        })
-    });
-{% endblock javascripts %}

@@ -28,13 +28,12 @@
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/gcsv_autocomplete.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-
 {% endblock javascript %}
 
 {% block content -%}
     <section class="container-fluid">
 
-        <h1>{% trans %}Kalendarz DT{% endtrans %}</h1>
+        <h1>{% trans %}Kalendarz DFP{% endtrans %}</h1>
 
         {% include '@GCSVFullCalendar/Default/kalendarz.html.twig' %}
     </section>
