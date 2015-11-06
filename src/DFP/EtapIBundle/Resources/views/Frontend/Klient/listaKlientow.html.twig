@@ -15,9 +15,65 @@
     {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('js/markerclusterer_compiled.js') }}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=initialize"></script>
 {% endblock javascript %}
 
 {% block content -%}
+    <style>
+        table.records_list {
+            font-size: 12px;
+        }
+        table.records_list tbody {
+            background-color: #efefef;
+        }
+        table.records_list thead {
+            background-color: #EB961D;
+        }
+        table.records_list thead a {
+            color: #000000;
+        }
+        table.records_list tbody th, table.records_list tbody td {
+            vertical-align: middle;
+        }
+        ul.record_actions {
+            margin-bottom: 0;
+        }
+        .toggle-sidebar-context {
+            background-color: gainsboro;
+            border-style: solid;
+            border-width: 1px;
+            float: left;
+            padding: 5px;
+            width: 500px;
+            font-size: 11px;
+        }
+        .sidebar-listek span {
+            display: block;
+            font-size: 21px;
+            left: 10px;
+            position: relative;
+            top: 15px;
+            transform: rotate(90deg);
+            transform-origin: 13px 50% 0;
+            white-space: nowrap;
+        }
+        .sidebar-listek {
+            background-color: gainsboro;
+            border-radius: 0 5px 5px 0;
+            border-style: solid solid solid none;
+            border-width: 1px;
+            display: block;
+            float: left;
+            height: 120px;
+            left: -1px;
+            overflow: hidden;
+            padding: 5px;
+            position: relative;
+            width: 45px;
+            z-index: 2;
+        }
+    </style>
     <section>
         <h1>Lista klientów</h1>
 
@@ -149,6 +205,87 @@
             {{ knp_pagination_render(filie_uzytkownika) }}
         </div>
     </section>
+
+    <aside class="left-toggle-sidebar">
+        <div id="test" class="toggle-sidebar-context embed-responsive embed-responsive-16by9">
+            <div id="map-canvas" style="width: 100%; height: 100%;" class="embed-responsive-item"></div>
+        </div>
+        <a class="sidebar-listek" href="javascript:void(0);">
+            <span>Mapa</span>
+        </a>
+    </aside>
+
+    <script type="text/javascript">
+        var map;
+        var infowindow;
+        var mapCluster;
+        var filieArray;
+        var markers = [];
+
+        function initialize() {
+            var latLng = new google.maps.LatLng(52.2329379,21.0611941);
+            var mapOptions = {
+                center: latLng,
+                zoom: 8
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            infowindow = new google.maps.InfoWindow();
+
+            $.ajax({
+                type:   "GET",
+                url:    Routing.generate('wspolrzedne_filii'),
+                contentType: "application/json; charset=utf-8",
+                success: function(resp)
+                {
+                    for (var i = 0; i < resp.length; i++)
+                    {
+                        createMarker(resp[i]);
+                    }
+
+                    var markerCluster = new MarkerClusterer(map, markers);
+                }
+            });
+        }
+
+        function createMarker(place) {
+            var placeLoc = new google.maps.LatLng(place[2],place[3]);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: placeLoc,
+                icon: '{{ asset('css/images/factory_icon.png') }}'
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place[1]);
+                infowindow.open(map, this);
+            });
+
+            markers.push(marker);
+        }
+
+        $(document).ready(function(){
+            $('.sidebar-listek').click(function() {
+                var sidebar = $(".left-toggle-sidebar");
+                var pozycja = sidebar.css("left");
+                sidebar.animate({left: parseInt(pozycja,10) == -512 ? "-1px" : "-512px"}, 1500, "easeInOutQuart" );
+            });
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({
+                    container:  'body'
+                });
+            });
+
+            $("#test").resizable({
+                resize: function(event,ui)
+                {
+                    google.maps.event.trigger(map, "resize");
+                    console.log('test');
+                }
+            });
+        });
+    </script>
 
 {% endblock %}
 

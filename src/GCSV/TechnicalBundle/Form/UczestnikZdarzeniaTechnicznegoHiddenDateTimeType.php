@@ -17,7 +17,7 @@ class UczestnikZdarzeniaTechnicznegoHiddenDateTimeType extends AbstractType
     {
         $builder
             ->add('osoba',null,array(
-                    'property'  =>  'imienazwisko',
+                    'property'  =>  'imienazwiskostanowisko',
                     'query_builder' =>  function(EntityRepository $er)
                         {
                             $query = $er->createQueryBuilder('uzt')

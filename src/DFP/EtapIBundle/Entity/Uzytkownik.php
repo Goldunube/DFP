@@ -306,4 +306,9 @@ class Uzytkownik extends BaseUser
     {
         return (string) $this->getImie().' '.$this->getNazwisko();
     }
+
+    public function getImieNazwiskoStanowisko()
+    {
+        return (string) $this->getImie().' '.$this->getNazwisko()." (".$this->profilUzytkownika->getStanowisko().")";
+    }
 }

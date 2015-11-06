@@ -57,7 +57,7 @@ class FiliaRepository extends EntityRepository
         return $query;
     }
 
-    public function getWspolrzedneFilii($kryteria = null)
+    public function getWspolrzedneFilii($kryteria = null, Uzytkownik $opiekun = null)
     {
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:Filia')->createQueryBuilder('f')
             ->select('f.id, k.nazwaSkrocona, f.lat, f.lng')
@@ -73,6 +73,13 @@ class FiliaRepository extends EntityRepository
             $wartosc = $kryteria['filterValue'];
             $query->where("$pole LIKE '%$wartosc%'");
         };
+
+        if($opiekun)
+        {
+            $query
+                ->andWhere("u.id = :opiekun")
+                ->setParameter("opiekun",$opiekun);
+        }
 
         $result = $query->getQuery()->getArrayResult();
 

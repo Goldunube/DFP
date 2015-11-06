@@ -946,4 +946,37 @@ class KlientController extends Controller
 
         return new Response($filia->getNazwaFilii());
     }
+
+    /**
+     * @Route(
+     *      "/ajax/filie-latlng",
+     *      name="wspolrzedne_filii",
+     *      options={"expose"=true})
+     * @Method("GET")
+     */
+    public function getFilieLocationsLatLngAction()
+    {
+        $kryteria = null;
+        $locationsList = array();
+        $user = $this->getUser();
+/*        if($this->get('request')->query->get('filterField') && $this->get('request')->query->get('filterValue'))
+        {
+            $pole = $this->get('request')->query->get('filterField');
+            $wartosc = $this->get('request')->query->get('filterValue');
+            $kryteria = array('filterField'=>$pole,'filterValue'=>$wartosc);
+        }*/
+
+        $em = $this->getDoctrine()->getManager();
+        $filie = $em->getRepository('DFPEtapIBundle:Filia')->getWspolrzedneFilii(null,$user);
+
+        /**
+         * @var Filia $filia
+         */
+        foreach($filie as $filia)
+        {
+            array_push($locationsList,array($filia['id'],$filia['nazwaSkrocona'],$filia['lat'],$filia['lng']));
+        }
+
+        return new JsonResponse($locationsList);
+    }
 }
