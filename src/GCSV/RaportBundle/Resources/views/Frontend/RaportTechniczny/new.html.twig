@@ -1,150 +1,183 @@
-{% extends '@GCSVCore/Frontend/frontend_layout.html.twig' %}
-
-{% form_theme form with ['GCSVCoreBundle:Form:bootstrap_form.html.twig',_self] %}
-
-{% block form_label %}
-    {% spaceless %}
-        {% if label is not sameas(false) %}
-            {% if not compound %}
-                {% set label_attr = label_attr|merge({'for': id}) %}
-            {% endif %}
-            {% if required %}
-                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
-            {% endif %}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' col-lg-2 control-label')|trim}) %}
-            {% if label is empty %}
-                {% set label = name|humanize %}
-            {% endif %}
-            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-            {{ label|trans({}, translation_domain) }}
-            {% if required %}
-                <sup class="required" data-toggle="tooltip" data-placement="bottom" title="To pole jest wymagane"><span class="glyphicon glyphicon glyphicon-asterisk small"></span></sup>
-            {% endif %}
-            {% if optional is defined %}
-                <small class="text-muted">({% trans %}opcjonalne{% endtrans %})</small>
-            {% endif %}
-            </label>
-        {% endif %}
-    {% endspaceless %}
-{% endblock form_label %}
+{% extends '@DFPEtapI/Frontend/index.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/gcsvcore/css/thirdparty/bootstrap-select.css') }}" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/bootstrap-select2/select2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/bootstrap-select2/select2-bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/gcsvtechnical/css/bootstrap-typeahead/bootstrap3-typeahead.css') }}" rel="stylesheet" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.1/jquery.qtip.min.css" rel="stylesheet" />
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/bootstrap-select2/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/bootstrap-typeahead/bootstrap3-typeahead-min.js') }}"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.1/jquery.qtip.min.js"></script>
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock javascript %}
 
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
 {% block content -%}
-    {{ form_start(form) }}
+    <div class="page-header">
+        <h1>Raport po wizycie technika DFP</h1>
+    </div>
     <section class="container-fluid">
-        <div class="well well-sm">
-            <span class="text-muted lead">Zdarzenie techniczne - informacje</span>
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-lg-4"><strong>Data wizyty</strong></div>
+                    <div class="col-lg-8">
+                        {% if zdarzenie.uczestnikZdarzeniaTechnicznego|first.terminy|first.rozpoczecieWizyty != zdarzenie.uczestnikZdarzeniaTechnicznego|first.terminy|first.zakonczenieWizyty %}
+                            {{ zdarzenie.uczestnikZdarzeniaTechnicznego|first.terminy|first.rozpoczecieWizyty|localizeddate('medium','none') }} -
+                            {{ zdarzenie.uczestnikZdarzeniaTechnicznego|first.terminy|first.zakonczenieWizyty|localizeddate('medium','none') }}
+                        {% else %}
+                            {{ zdarzenie.uczestnikZdarzeniaTechnicznego|first.terminy|first.zakonczenieWizyty|localizeddate('medium','none') }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-lg-6"><strong>Klient</strong></div>
+                    <div class="col-lg-6">{{ zdarzenie.oddzialFirmy.klient.nazwaSkrocona }}</div>
+                </div></div>
+            <div class="col-lg-2">
+                <div class="row">
+                    <div class="col-lg-8"><strong>Nr raportu</strong></div>
+                    <div class="col-lg-4">{{ zdarzenie.id }}</div>
+                </div></div>
         </div>
         <div class="row">
-            <div class="col-sm-3">
-                <p style="margin-left: 15px;"><b>Rodzaj zdarzenia:</b></p>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-6"><strong>Technik</strong></div>
+                    <div class="col-lg-6">{{ zdarzenie.uczestnikZdarzeniaTechnicznego|first.osoba.imienazwisko }}</div>
+                </div>
             </div>
-            <div class="col-sm-9">
-                <p>{{ zdarzenie.rodzajZdarzeniaTechnicznego }}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <p style="margin-left: 15px;"><b>Klient:</b></p>
-            </div>
-            <div class="col-sm-9">
-                {% if zdarzenie.oddzialFirmy %}
-                    <p><a href="#"><span data-placement="bottom" data-toggle="tooltip" data-original-title="{{ zdarzenie.oddzialFirmy.Firma.nazwaPelna }}" style="cursor: pointer;">{{ zdarzenie.oddzialFirmy.Firma.nazwaSkrocona }}</span> <span class="text-info">(oddział: {{ zdarzenie.oddzialFirmy.nazwa != null ? zdarzenie.oddzialFirmy.nazwa : zdarzenie.oddzialFirmy.adresy[0].miasto }} )</span></a> </p>
-                {% else %}
-                    -
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <p style="margin-left: 15px;"><b>Adres:</b></p>
-            </div>
-            <div class="col-sm-9">
-                {% if zdarzenie.oddzialFirmy %}
-                    <p>{{ zdarzenie.oddzialFirmy.adresy[0].ulica }}; {{ zdarzenie.oddzialFirmy.adresy[0].kodPocztowy|kodPocztowy }} {{ zdarzenie.oddzialFirmy.adresy[0].miasto }} </p>
-                {% else %}
-                    -
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <p style="margin-left: 15px;"><b>Opis / Cel:</b></p>
-            </div>
-            <div class="col-sm-9">
-                <p>{{ zdarzenie.opis }}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <p style="margin-left: 15px;"><b>Terminy zdarzenia:</b></p>
-            </div>
-            <div class="col-sm-9">
-                <dl class="dl-horizontal">
-                    {% for uczestnik in zdarzenie.uczestnikZdarzeniaTechnicznego %}
-                        <dt style="text-align: left;">{{ uczestnik.osoba.imienazwisko }}</dt>
-                        {% for termin in uczestnik.terminy %}
-                            <dd>{{ termin.rozpoczecieWizyty|date('d.m.Y') }} <span class="glyphicon glyphicon-link" style="color: #0044cc;"></span> {{ termin.zakonczenieWizyty|date('d.m.Y') }}</dd>
-                        {% endfor %}
-                    {% endfor %}
-                </dl>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-6"><strong>Agent DFP</strong></div>
+                    <div class="col-lg-6">{{ zdarzenie.osobaZlecajaca.imienazwisko }}</div>
+                </div>
             </div>
         </div>
     </section>
     <hr>
+    {{ form_start(form, { 'attr' : {'class':'form-horizontal'} }) }}
     <section class="container-fluid">
-        <h1>{% trans %}Formularz raportu technicznego{% endtrans %}</h1>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        {{ form_label(form.cel) }}
-                        <div class="col-lg-10">
-                            {{ form_widget(form.cel) }}
-                        </div>
-                    </div>
-                </div>
+        <div class="form-group">
+            {{ form_label(form.cel,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.cel) }}
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        {{ form_label(form.tresc) }}
-                        <div class="col-lg-10">
-                            {{ form_widget(form.tresc) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        {{ form_label(form.zalecenia) }}
-                        <div class="col-lg-10">
-                            {{ form_widget(form.zalecenia) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        {{ form_label(form.typ) }}
-                        <div class="col-lg-10">
-                            {{ form_widget(form.typ) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.tempOtoczenia,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.tempOtoczenia) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.wilgotnosc,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.wilgotnosc) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.tempPodloza,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.tempPodloza) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.punktRosy,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.punktRosy) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.tempGruntu,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.tempGruntu) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.tempMiedzywarstwy,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.tempMiedzywarstwy) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.tempFarbyNawierzchniowej,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.tempFarbyNawierzchniowej) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.roznicaTemperaturPodloza,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.roznicaTemperaturPodloza) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.systemMalarski,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.systemMalarski) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.przygotowaniePowierzchni,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.przygotowaniePowierzchni) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.apliHydro,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.apliHydro) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.apliElektro,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.apliElektro) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.apliPisto,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.apliPisto) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.aplikacjaInne,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.aplikacjaInne) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.rodzajMalowanejPowierzchni,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.rodzajMalowanejPowierzchni) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.rodzajElementu,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.rodzajElementu) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.gruboscNaMokro,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.gruboscNaMokro) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.przerwaNaOdparowanie,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.przerwaNaOdparowanie) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.gruboscMiedzywarstwy,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.gruboscMiedzywarstwy) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.przerwaNaOdparowanieMiedzywarstwy,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.przerwaNaOdparowanieMiedzywarstwy) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.gruboscNawierzchniNaMokro,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.gruboscNawierzchniNaMokro) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.odparowanie,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.odparowanie) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.suszenie,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.suszenie) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.wykonanePrace,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.wykonanePrace) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.wnioski,null,{ 'label_attr' : {'class' : 'col-lg-2' } }) }}
+            <div class="col-lg-10">{{ form_widget(form.wnioski) }}</div>
         </div>
     </section>
 
@@ -164,7 +197,7 @@
 {% endblock %}
 
 {% block dodatkowe_skrypty_js %}
-    {{ tinymce_init() }}
+    {#{{ tinymce_init() }}#}
 {% endblock dodatkowe_skrypty_js %}
 
 {% block javascripts %}

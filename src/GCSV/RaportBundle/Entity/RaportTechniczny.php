@@ -39,18 +39,141 @@ class RaportTechniczny
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="tresc", type="text", nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="col1",type="string",length=255,nullable=true)
      */
-    private $tresc;
+    private $tempOtoczenia;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="zalecenia", type="text", nullable=true)
+     * @ORM\Column(name="col2",type="string",length=255,nullable=true)
      */
-    private $zalecenia;
+    private $wilgotnosc;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col3",type="string",length=255,nullable=true)
+     */
+    private $tempPodloza;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col4",type="string",length=255,nullable=true)
+     */
+    private $punktRosy;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col5",type="string",length=255,nullable=true)
+     */
+    private $tempGruntu;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col6",type="string",length=255,nullable=true)
+     */
+    private $tempMiedzywarstwy;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col7",type="string",length=255,nullable=true)
+     */
+    private $tempFarbyNawierzchniowej;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col8",type="string",length=255,nullable=true)
+     */
+    private $roznicaTemperaturPodloza;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col9",type="string",length=255,nullable=true)
+     */
+    private $systemMalarski;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col10",type="string",length=255,nullable=true)
+     */
+    private $przygotowaniePowierzchni;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col11",type="string",length=255,nullable=true)
+     */
+    private $apliHydro;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col12",type="string",length=255,nullable=true)
+     */
+    private $apliElektro;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col13",type="string",length=255,nullable=true)
+     */
+    private $apliPisto;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col14",type="string",length=255,nullable=true)
+     */
+    private $aplikacjaInne;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col15",type="string",length=255,nullable=true)
+     */
+    private $rodzajMalowanejPowierzchni;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col16",type="string",length=255,nullable=true)
+     */
+    private $rodzajElementu;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col17",type="string",length=255,nullable=true)
+     */
+    private $gruboscNaMokro;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col18",type="string",length=255,nullable=true)
+     */
+    private $przerwaNaOdparowanie;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col19",type="string",length=255,nullable=true)
+     */
+    private $gruboscMiedzywarstwy;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col20",type="string",length=255,nullable=true)
+     */
+    private $przerwaNaOdparowanieMiedzywarstwy;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col21",type="string",length=255,nullable=true)
+     */
+    private $gruboscNawierzchniNaMokro;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col22",type="string",length=255,nullable=true)
+     */
+    private $odparowanie;
+
+    /**
+     * @var string
+     * @ORM\Column(name="col23",type="string",length=255,nullable=true)
+     */
+    private $suszenie;
 
     /**
      * @ORM\ManyToOne(targetEntity="DFP\EtapIBundle\Entity\Uzytkownik")
@@ -79,11 +202,6 @@ class RaportTechniczny
     private $dataModyfikacji;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GCSV\RaportBundle\Entity\TypRaportuTechnicznego")
-     */
-    private $typ;
-
-    /**
      * @ORM\ManyToOne(targetEntity="GCSV\TechnicalBundle\Entity\ZdarzenieTechniczne",inversedBy="raportyTechniczne")
      * @ORM\JoinColumn(name="zdarzenie_techniczne_id", nullable=false)
      */
@@ -108,6 +226,18 @@ class RaportTechniczny
      * @ORM\Column(name="daty_edycji", type="array",nullable=true)
      */
     private $datyEdycji = array();
+
+    /**
+     * @var string
+     * @ORM\Column(name="wykonane_prace",type="text", nullable=true)
+     */
+    private $wykonanePrace;
+
+    /**
+     * @var string
+     * @ORM\Column(name="wnioski",type="text", nullable=true)
+     */
+    private $wnioski;
 
 
     /**
@@ -141,52 +271,6 @@ class RaportTechniczny
     public function getCel()
     {
         return $this->cel;
-    }
-
-    /**
-     * Set tresc
-     *
-     * @param string $tresc
-     * @return RaportTechniczny
-     */
-    public function setTresc($tresc)
-    {
-        $this->tresc = $tresc;
-
-        return $this;
-    }
-
-    /**
-     * Get tresc
-     *
-     * @return string 
-     */
-    public function getTresc()
-    {
-        return $this->tresc;
-    }
-
-    /**
-     * Set zalecenia
-     *
-     * @param string $zalecenia
-     * @return RaportTechniczny
-     */
-    public function setZalecenia($zalecenia)
-    {
-        $this->zalecenia = $zalecenia;
-
-        return $this;
-    }
-
-    /**
-     * Get zalecenia
-     *
-     * @return string 
-     */
-    public function getZalecenia()
-    {
-        return $this->zalecenia;
     }
 
     /**
@@ -282,29 +366,6 @@ class RaportTechniczny
     }
 
     /**
-     * Set typ
-     *
-     * @param integer $typ
-     * @return RaportTechniczny
-     */
-    public function setTyp($typ)
-    {
-        $this->typ = $typ;
-
-        return $this;
-    }
-
-    /**
-     * Get typ
-     *
-     * @return integer 
-     */
-    public function getTyp()
-    {
-        return $this->typ;
-    }
-
-    /**
      * Set zdarzenieTechniczne
      *
      * @param ZdarzenieTechniczne $zdarzenieTechniczne
@@ -393,4 +454,589 @@ class RaportTechniczny
         }
         array_push($this->datyEdycji,new \DateTime());
     }
+
+    /**
+     * Set tempOtoczenia
+     *
+     * @param string $tempOtoczenia
+     *
+     * @return RaportTechniczny
+     */
+    public function setTempOtoczenia($tempOtoczenia)
+    {
+        $this->tempOtoczenia = $tempOtoczenia;
+
+        return $this;
+    }
+
+    /**
+     * Get tempOtoczenia
+     *
+     * @return string
+     */
+    public function getTempOtoczenia()
+    {
+        return $this->tempOtoczenia;
+    }
+
+    /**
+     * Set wilgotnosc
+     *
+     * @param string $wilgotnosc
+     *
+     * @return RaportTechniczny
+     */
+    public function setWilgotnosc($wilgotnosc)
+    {
+        $this->wilgotnosc = $wilgotnosc;
+
+        return $this;
+    }
+
+    /**
+     * Get wilgotnosc
+     *
+     * @return string
+     */
+    public function getWilgotnosc()
+    {
+        return $this->wilgotnosc;
+    }
+
+    /**
+     * Set tempPodloza
+     *
+     * @param string $tempPodloza
+     *
+     * @return RaportTechniczny
+     */
+    public function setTempPodloza($tempPodloza)
+    {
+        $this->tempPodloza = $tempPodloza;
+
+        return $this;
+    }
+
+    /**
+     * Get tempPodloza
+     *
+     * @return string
+     */
+    public function getTempPodloza()
+    {
+        return $this->tempPodloza;
+    }
+
+    /**
+     * Set punktRosy
+     *
+     * @param string $punktRosy
+     *
+     * @return RaportTechniczny
+     */
+    public function setPunktRosy($punktRosy)
+    {
+        $this->punktRosy = $punktRosy;
+
+        return $this;
+    }
+
+    /**
+     * Get punktRosy
+     *
+     * @return string
+     */
+    public function getPunktRosy()
+    {
+        return $this->punktRosy;
+    }
+
+    /**
+     * Set tempGruntu
+     *
+     * @param string $tempGruntu
+     *
+     * @return RaportTechniczny
+     */
+    public function setTempGruntu($tempGruntu)
+    {
+        $this->tempGruntu = $tempGruntu;
+
+        return $this;
+    }
+
+    /**
+     * Get tempGruntu
+     *
+     * @return string
+     */
+    public function getTempGruntu()
+    {
+        return $this->tempGruntu;
+    }
+
+    /**
+     * Set tempMiedzywarstwy
+     *
+     * @param string $tempMiedzywarstwy
+     *
+     * @return RaportTechniczny
+     */
+    public function setTempMiedzywarstwy($tempMiedzywarstwy)
+    {
+        $this->tempMiedzywarstwy = $tempMiedzywarstwy;
+
+        return $this;
+    }
+
+    /**
+     * Get tempMiedzywarstwy
+     *
+     * @return string
+     */
+    public function getTempMiedzywarstwy()
+    {
+        return $this->tempMiedzywarstwy;
+    }
+
+    /**
+     * Set tempFarbyNawierzchniowej
+     *
+     * @param string $tempFarbyNawierzchniowej
+     *
+     * @return RaportTechniczny
+     */
+    public function setTempFarbyNawierzchniowej($tempFarbyNawierzchniowej)
+    {
+        $this->tempFarbyNawierzchniowej = $tempFarbyNawierzchniowej;
+
+        return $this;
+    }
+
+    /**
+     * Get tempFarbyNawierzchniowej
+     *
+     * @return string
+     */
+    public function getTempFarbyNawierzchniowej()
+    {
+        return $this->tempFarbyNawierzchniowej;
+    }
+
+    /**
+     * Set roznicaTemperaturPodloza
+     *
+     * @param string $roznicaTemperaturPodloza
+     *
+     * @return RaportTechniczny
+     */
+    public function setRoznicaTemperaturPodloza($roznicaTemperaturPodloza)
+    {
+        $this->roznicaTemperaturPodloza = $roznicaTemperaturPodloza;
+
+        return $this;
+    }
+
+    /**
+     * Get roznicaTemperaturPodloza
+     *
+     * @return string
+     */
+    public function getRoznicaTemperaturPodloza()
+    {
+        return $this->roznicaTemperaturPodloza;
+    }
+
+    /**
+     * Set systemMalarski
+     *
+     * @param string $systemMalarski
+     *
+     * @return RaportTechniczny
+     */
+    public function setSystemMalarski($systemMalarski)
+    {
+        $this->systemMalarski = $systemMalarski;
+
+        return $this;
+    }
+
+    /**
+     * Get systemMalarski
+     *
+     * @return string
+     */
+    public function getSystemMalarski()
+    {
+        return $this->systemMalarski;
+    }
+
+    /**
+     * Set przygotowaniePowierzchni
+     *
+     * @param string $przygotowaniePowierzchni
+     *
+     * @return RaportTechniczny
+     */
+    public function setPrzygotowaniePowierzchni($przygotowaniePowierzchni)
+    {
+        $this->przygotowaniePowierzchni = $przygotowaniePowierzchni;
+
+        return $this;
+    }
+
+    /**
+     * Get przygotowaniePowierzchni
+     *
+     * @return string
+     */
+    public function getPrzygotowaniePowierzchni()
+    {
+        return $this->przygotowaniePowierzchni;
+    }
+
+    /**
+     * Set apliHydro
+     *
+     * @param string $apliHydro
+     *
+     * @return RaportTechniczny
+     */
+    public function setApliHydro($apliHydro)
+    {
+        $this->apliHydro = $apliHydro;
+
+        return $this;
+    }
+
+    /**
+     * Get apliHydro
+     *
+     * @return string
+     */
+    public function getApliHydro()
+    {
+        return $this->apliHydro;
+    }
+
+    /**
+     * Set apliElektro
+     *
+     * @param string $apliElektro
+     *
+     * @return RaportTechniczny
+     */
+    public function setApliElektro($apliElektro)
+    {
+        $this->apliElektro = $apliElektro;
+
+        return $this;
+    }
+
+    /**
+     * Get apliElektro
+     *
+     * @return string
+     */
+    public function getApliElektro()
+    {
+        return $this->apliElektro;
+    }
+
+    /**
+     * Set apliPisto
+     *
+     * @param string $apliPisto
+     *
+     * @return RaportTechniczny
+     */
+    public function setApliPisto($apliPisto)
+    {
+        $this->apliPisto = $apliPisto;
+
+        return $this;
+    }
+
+    /**
+     * Get apliPisto
+     *
+     * @return string
+     */
+    public function getApliPisto()
+    {
+        return $this->apliPisto;
+    }
+
+    /**
+     * Set aplikacjaInne
+     *
+     * @param string $aplikacjaInne
+     *
+     * @return RaportTechniczny
+     */
+    public function setAplikacjaInne($aplikacjaInne)
+    {
+        $this->aplikacjaInne = $aplikacjaInne;
+
+        return $this;
+    }
+
+    /**
+     * Get aplikacjaInne
+     *
+     * @return string
+     */
+    public function getAplikacjaInne()
+    {
+        return $this->aplikacjaInne;
+    }
+
+    /**
+     * Set rodzajMalowanejPowierzchni
+     *
+     * @param string $rodzajMalowanejPowierzchni
+     *
+     * @return RaportTechniczny
+     */
+    public function setRodzajMalowanejPowierzchni($rodzajMalowanejPowierzchni)
+    {
+        $this->rodzajMalowanejPowierzchni = $rodzajMalowanejPowierzchni;
+
+        return $this;
+    }
+
+    /**
+     * Get rodzajMalowanejPowierzchni
+     *
+     * @return string
+     */
+    public function getRodzajMalowanejPowierzchni()
+    {
+        return $this->rodzajMalowanejPowierzchni;
+    }
+
+    /**
+     * Set rodzajElementu
+     *
+     * @param string $rodzajElementu
+     *
+     * @return RaportTechniczny
+     */
+    public function setRodzajElementu($rodzajElementu)
+    {
+        $this->rodzajElementu = $rodzajElementu;
+
+        return $this;
+    }
+
+    /**
+     * Get rodzajElementu
+     *
+     * @return string
+     */
+    public function getRodzajElementu()
+    {
+        return $this->rodzajElementu;
+    }
+
+    /**
+     * Set gruboscNaMokro
+     *
+     * @param string $gruboscNaMokro
+     *
+     * @return RaportTechniczny
+     */
+    public function setGruboscNaMokro($gruboscNaMokro)
+    {
+        $this->gruboscNaMokro = $gruboscNaMokro;
+
+        return $this;
+    }
+
+    /**
+     * Get gruboscNaMokro
+     *
+     * @return string
+     */
+    public function getGruboscNaMokro()
+    {
+        return $this->gruboscNaMokro;
+    }
+
+    /**
+     * Set przerwaNaOdparowanie
+     *
+     * @param string $przerwaNaOdparowanie
+     *
+     * @return RaportTechniczny
+     */
+    public function setPrzerwaNaOdparowanie($przerwaNaOdparowanie)
+    {
+        $this->przerwaNaOdparowanie = $przerwaNaOdparowanie;
+
+        return $this;
+    }
+
+    /**
+     * Get przerwaNaOdparowanie
+     *
+     * @return string
+     */
+    public function getPrzerwaNaOdparowanie()
+    {
+        return $this->przerwaNaOdparowanie;
+    }
+
+    /**
+     * Set gruboscMiedzywarstwy
+     *
+     * @param string $gruboscMiedzywarstwy
+     *
+     * @return RaportTechniczny
+     */
+    public function setGruboscMiedzywarstwy($gruboscMiedzywarstwy)
+    {
+        $this->gruboscMiedzywarstwy = $gruboscMiedzywarstwy;
+
+        return $this;
+    }
+
+    /**
+     * Get gruboscMiedzywarstwy
+     *
+     * @return string
+     */
+    public function getGruboscMiedzywarstwy()
+    {
+        return $this->gruboscMiedzywarstwy;
+    }
+
+    /**
+     * Set przerwaNaOdparowanieMiedzywarstwy
+     *
+     * @param string $przerwaNaOdparowanieMiedzywarstwy
+     *
+     * @return RaportTechniczny
+     */
+    public function setPrzerwaNaOdparowanieMiedzywarstwy($przerwaNaOdparowanieMiedzywarstwy)
+    {
+        $this->przerwaNaOdparowanieMiedzywarstwy = $przerwaNaOdparowanieMiedzywarstwy;
+
+        return $this;
+    }
+
+    /**
+     * Get przerwaNaOdparowanieMiedzywarstwy
+     *
+     * @return string
+     */
+    public function getPrzerwaNaOdparowanieMiedzywarstwy()
+    {
+        return $this->przerwaNaOdparowanieMiedzywarstwy;
+    }
+
+    /**
+     * Set gruboscNawierzchniNaMokro
+     *
+     * @param string $gruboscNawierzchniNaMokro
+     *
+     * @return RaportTechniczny
+     */
+    public function setGruboscNawierzchniNaMokro($gruboscNawierzchniNaMokro)
+    {
+        $this->gruboscNawierzchniNaMokro = $gruboscNawierzchniNaMokro;
+
+        return $this;
+    }
+
+    /**
+     * Get gruboscNawierzchniNaMokro
+     *
+     * @return string
+     */
+    public function getGruboscNawierzchniNaMokro()
+    {
+        return $this->gruboscNawierzchniNaMokro;
+    }
+
+    /**
+     * Set odparowanie
+     *
+     * @param string $odparowanie
+     *
+     * @return RaportTechniczny
+     */
+    public function setOdparowanie($odparowanie)
+    {
+        $this->odparowanie = $odparowanie;
+
+        return $this;
+    }
+
+    /**
+     * Get odparowanie
+     *
+     * @return string
+     */
+    public function getOdparowanie()
+    {
+        return $this->odparowanie;
+    }
+
+    /**
+     * Set suszenie
+     *
+     * @param string $suszenie
+     *
+     * @return RaportTechniczny
+     */
+    public function setSuszenie($suszenie)
+    {
+        $this->suszenie = $suszenie;
+
+        return $this;
+    }
+
+    /**
+     * Get suszenie
+     *
+     * @return string
+     */
+    public function getSuszenie()
+    {
+        return $this->suszenie;
+    }
+
+    /**
+     * @param string $wykonanePrace
+     */
+    public function setWykonanePrace($wykonanePrace)
+    {
+        $this->wykonanePrace = $wykonanePrace;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWykonanePrace()
+    {
+        return $this->wykonanePrace;
+    }
+
+    /**
+     * @param string $wnioski
+     */
+    public function setWnioski($wnioski)
+    {
+        $this->wnioski = $wnioski;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWnioski()
+    {
+        return $this->wnioski;
+    }
+
 }

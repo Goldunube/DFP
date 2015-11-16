@@ -25,14 +25,14 @@
                     <h4>Menu</h4>
                     <nav class="col-lg-6">
                         <div class="list-group">
-                            <a href="#" class="list-group-item disabled">Raport techniczny</a>
-                            <a href="#" class="list-group-item disabled">Notatka wewnętrzna</a>
-                            <a href="#" class="list-group-item disabled">Raport zużycia</a>
-                            <a href="#" class="list-group-item disabled">Receptura</a>
+                            <a href="{{ path('zdarzenie_techniczne_raport_techniczny_new', { 'id' : zdarzenie.id }) }}" class="list-group-item">Raport techniczny</a>
                             <a href="#" class="list-group-item fileinput-button">
                                 Załącz plik
                                 {#<input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>#}
                             </a>
+                            <a href="#" class="list-group-item disabled">-</a>
+                            <a href="#" class="list-group-item disabled">-</a>
+                            <a href="#" class="list-group-item disabled">-</a>
                         </div>
                     </nav>
                     <nav class="col-lg-6">

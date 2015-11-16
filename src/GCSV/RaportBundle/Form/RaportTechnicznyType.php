@@ -16,25 +16,31 @@ class RaportTechnicznyType extends AbstractType
     {
         $builder
             ->add('cel')
-            ->add('tresc',null,array(
-                    'label' =>  'Treść',
-                    'attr'  =>  array(
-                        'class' =>  'tinymce',
-                        'data-theme' => 'raptech'
-                    )
-                )
-            )
-            ->add('zalecenia',null,array(
-                    'attr'  =>  array(
-                        'class' =>  'tinymce',
-                        'data-theme' => 'raptech'
-                    )
-                )
-            )
-            ->add('typ',null,array(
-                    'required'  =>  true
-                )
-            )
+            ->add('tempOtoczenia')
+            ->add('wilgotnosc')
+            ->add('tempPodloza')
+            ->add('punktRosy')
+            ->add('tempGruntu')
+            ->add('tempMiedzywarstwy')
+            ->add('tempFarbyNawierzchniowej')
+            ->add('roznicaTemperaturPodloza')
+            ->add('systemMalarski')
+            ->add('przygotowaniePowierzchni')
+            ->add('apliHydro')
+            ->add('apliElektro')
+            ->add('apliPisto')
+            ->add('aplikacjaInne')
+            ->add('rodzajMalowanejPowierzchni')
+            ->add('rodzajElementu')
+            ->add('gruboscNaMokro')
+            ->add('przerwaNaOdparowanie')
+            ->add('gruboscMiedzywarstwy')
+            ->add('przerwaNaOdparowanieMiedzywarstwy')
+            ->add('gruboscNawierzchniNaMokro')
+            ->add('odparowanie')
+            ->add('suszenie')
+            ->add('wykonanePrace')
+            ->add('wnioski')
         ;
     }
     

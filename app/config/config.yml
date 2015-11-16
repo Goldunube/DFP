@@ -39,7 +39,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        ['DFPEtapIBundle','GCSVTechnicalBundle']
+    bundles:        ['DFPEtapIBundle','GCSVTechnicalBundle', 'GCSVRaportBundle']
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

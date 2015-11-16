@@ -271,10 +271,10 @@ class ZdarzenieTechniczneController extends Controller
         }
 
         return array(
-            'zdarzenie' =>  $zdarzenieTechniczne,
-            'raport'    => $raportTechniczny,
-            'back_link' =>  $referer,
-            'form'      => $form->createView(),
+            'zdarzenie' =>      $zdarzenieTechniczne,
+            'raport'    =>      $raportTechniczny,
+            'back_link' =>      $referer,
+            'form'      =>      $form->createView(),
         );
     }
 
@@ -286,17 +286,15 @@ class ZdarzenieTechniczneController extends Controller
      *      requirements={"id" = "\d+"},
      *      name="zdarzenie_techniczne_raport_techniczny_new"
      * )
-     * @Method("GET")
+     * @Method({"GET","POST"})
      * @Template("GCSVRaportBundle:Frontend/RaportTechniczny:new.html.twig")
-     * @param $id
-     * @return array
+     * @param \GCSV\TechnicalBundle\Entity\ZdarzenieTechniczne $zdarzenieTechniczne
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return array
      */
-    public function newRaportTechnicznyAction($id)
+    public function newRaportTechnicznyAction(ZdarzenieTechniczne $zdarzenieTechniczne, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $zdarzenieTechniczne = $em->getRepository('GCSVTechnicalBundle:ZdarzenieTechniczne')->find($id);
         if(!$zdarzenieTechniczne)
         {
             throw $this->createNotFoundException('Nie można odnaleźć zdarzenia technicznego.');
@@ -306,7 +304,7 @@ class ZdarzenieTechniczneController extends Controller
         $raportTechniczny->setZdarzenieTechniczne($zdarzenieTechniczne);
         $raportTechniczny->setCel($zdarzenieTechniczne->getRodzajZdarzeniaTechnicznego()->getNazwa());
         $form = $this->createForm(new RaportTechnicznyType(), $raportTechniczny, array(
-                'action'    =>  $this->generateUrl('zdarzenie_techniczne_raport_techniczny_create', array('id' => $id)),
+                'action'    =>  $this->generateUrl('zdarzenie_techniczne_raport_techniczny_new', array('id' => $zdarzenieTechniczne->getId())),
                 'method'    =>  'POST'
             )
         );
@@ -315,9 +313,10 @@ class ZdarzenieTechniczneController extends Controller
             )
         );
 
-        $_SESSION['imgmanager_upload_directory'] = "zdarzenia_techniczne/$id/";
+        $idZdarzeniaTechnicznego = $zdarzenieTechniczne->getId();
+        $_SESSION['imgmanager_upload_directory'] = "zdarzenia_techniczne/$idZdarzeniaTechnicznego/";
 
-        $referer =  array("name"    =>  'zdarzenie_techniczne_show', "args" =>  array('id'=>$id));
+        $referer =  array("name"    =>  'zdarzenie_techniczne_show', "args" =>  array('id'=>$zdarzenieTechniczne->getId()));
 
         return array(
             'zdarzenie' =>  $zdarzenieTechniczne,

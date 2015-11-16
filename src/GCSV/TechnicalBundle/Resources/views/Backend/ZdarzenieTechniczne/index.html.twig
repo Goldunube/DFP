@@ -46,7 +46,9 @@
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/gcsvfullcalendar/js/lib/moment.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jasny-bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/moment-with-locales.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/bootstrap-select2/select2.min.js') }}"></script>
 {% endblock javascript %}
@@ -148,7 +150,7 @@
                     <div class="col-lg-3 col-lg-offset-3">
                         {{ form_rest(form) }}
                         <div class="col-lg-12">
-                            <input type="submit" name="submit-filter" value="Szukaj" class="btn btn-primary right"/>
+                            <input type="submit" name="submit-filter" value="Szukaj" class="btn btn-primary right" style="height: 42px;"/>
                         </div>
                     </div>
                 </div>
