@@ -43,31 +43,42 @@
 {% endblock javascript %}
 
 {% block content %}
-    <style scoped="scoped">
-        .btn-dodaj {
-            position: relative;
-            top: -40px;
-        }
-    </style>
-    <section class="container-fluid">
-        {% if app.user %}
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="{{ path('strona_glowna') }}">Wiadomości</a></li>
-                <li><a href="{{ path('wykaz_zmian_show') }}">Wykaz zmian</a></li>
-            </ul>
-        {% endif %}
-        {% if uprawnienia %}
-            <div class="btn-dodaj">
-                <a href="{{ path('aktualnosci_new') }}" class="btn btn-primary pull-right">Dodaj</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <style scoped="scoped">
+            .btn-dodaj {
+                position: relative;
+                top: -40px;
+            }
+        </style>
+        <section class="container-fluid">
+            {% if app.user %}
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="{{ path('strona_glowna') }}">Wiadomości</a></li>
+                    <li><a href="{{ path('wykaz_zmian_show') }}">Wykaz zmian</a></li>
+                </ul>
+            {% endif %}
+            {% if uprawnienia %}
+                <div class="btn-dodaj">
+                    <a href="{{ path('aktualnosci_new') }}" class="btn btn-primary pull-right">Dodaj</a>
+                </div>
+            {% endif %}
+            <div class="wiadomosci-container">
+                {% for row in wiadomosci %}
+                    {% set usun_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(row.id)) : null %}
+                    {{ aktualnosci.post(row,usun_token) }}
+                {% endfor %}
             </div>
-        {% endif %}
-        <div class="wiadomosci-container">
-            {% for row in wiadomosci %}
-                {% set usun_token = csrf_provider ? csrf_provider.generateCsrfToken(token|format(row.id)) : null %}
-                {{ aktualnosci.post(row,usun_token) }}
-            {% endfor %}
+        </section>
+    {% else %}
+        <div class="jumbotron">
+            <div>
+                <img src="{{ asset('css/images/farby_przemyslowe.jpg') }}" alt="Screen Shoot DFP Website" style="float: left; margin: 10px;" class="img-thumbnail"/>
+                <p style="text-align: center; line-height: 2; font-size: 22px;">Trafiłeś na wewnętrzny serwis Działu Farb Przemysłowych należącego do Grupy CSV. <br/> W celu uzyskania informacji handlowych prosimy o przejście pod wskazany adres www -->
+                    <a href="http://www.farbyprzemyslowe.csv.pl">www.farbyprzemyslowe.csv.pl</a> </p>
+                <div class="clearfix"></div>
+            </div>
         </div>
-    </section>
+    {% endif %}
 {% endblock content %}
 
 {% block javascripts %}
