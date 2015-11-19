@@ -163,14 +163,14 @@
         <thead>
         <tr>
             <th class="col-width-50">ID</th>
-            <th>Klient</th>
+            <th style="width: 300px;">Klient</th>
             <th class="col-width-160">Rodzaj</th>
             <th class="col-width-100">Zlecający</th>
             <th class="col-width-180">Termin (ilość dni)</th>
             <th class="col-width-100">Status</th>
-            <th class="col-width-70">Dystans</th>
+            {#<th class="col-width-70">Dystans</th>#}
             <th class="col-width-50 text-center pomoc" title="Raport Techniczny" data-toggle="tooltip">RT <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
-            <th class="col-width-50 text-center pomoc" title="Raport Zużycia" data-toggle="tooltip">RZ <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>
+            {#<th class="col-width-50 text-center pomoc" title="Raport Zużycia" data-toggle="tooltip">RZ <sup><span class="glyphicon glyphicon-question-sign"></span></sup></th>#}
         </tr>
         </thead>
         <tbody data-link="row" class="rowlink">
@@ -189,8 +189,8 @@
             {% set dystansx2 = termin.uczestnikZdarzeniaTechnicznego.dystans * 2 %}
             {% set ile_rap_tech = termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.raportyTechniczne|length %}
             {% set leftDays = dateDiff(termin.rozpoczecieWizyty,termin.zakonczenieWizyty)|date('%d') %}
-            <tr>
-                <td style="font-weight: bold;"><a href="{{ path('zdarzenie_techniczne_show', { 'id' : termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.id } ) }}">{{ termin.id }}</a></td>
+            <tr style="cursor: pointer;">
+                <td style="font-weight: bold;"><a href="{{ path('zdarzenie_techniczne_show', { 'id' : termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.id } ) }}" target="_blank">{{ termin.id }}</a></td>
                 {% if termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy %}
                     <td title="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy.klient.nazwaSkrocona }}" data-toggle="tooltip">
                         {{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.oddzialFirmy.klient.nazwaSkrocona }}
@@ -204,9 +204,13 @@
                 <td title="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.osobaZlecajaca.imieNazwisko }}" data-toggle="tooltip">{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.osobaZlecajaca.imie|slice(0,1) }}.{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.osobaZlecajaca.nazwisko }}</td>
                 <td>{{ termin.rozpoczecieWizyty|date('d.m.Y') }} <span class="glyphicon glyphicon-link" style="color: #0044cc;"></span> {{ termin.zakonczenieWizyty|date_modify("-1 day")|date('d.m.Y') }} (<span class="text-info">{{ leftDays }}</span>)</td>
                 <td>{{ termin.status.nazwa|default("-") }}</td>
-                <td class="text-right" data-toggle="tooltip" title="Dystans całkowity: {{ dystansx2|dystans }}">{{ dystans|dystans }}</td>
-                <td class="text-center"><span class="{{ ile_rap_tech > 0 ? 'glyphicon glyphicon-ok' }}"></span></td>
-                <td class="text-center"><span class="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.isRaportZuzycia ? 'glyphicon glyphicon-ok' }}"></span></td>
+                {#<td class="text-right" data-toggle="tooltip" title="Dystans całkowity: {{ dystansx2|dystans }}">{{ dystans|dystans }}</td>#}
+                <td class="text-center">
+                    {% if termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.isRaportTechniczny or termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.isZalacznik %}
+                        <span class="glyphicon glyphicon-ok"></span>
+                    {% endif %}
+                </td>
+                {#<td class="text-center"><span class="{{ termin.uczestnikZdarzeniaTechnicznego.zdarzenieTechniczne.isRaportZuzycia ? 'glyphicon glyphicon-ok' }}"></span></td>#}
             </tr>
         {% endfor %}
         </tbody>

@@ -11,6 +11,8 @@ use DFP\EtapIBundle\Entity\Uzytkownik;
 use GCSV\RaportBundle\Entity\RaportTechniczny;
 use GCSV\RaportBundle\Entity\RaportZuzycia;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -678,5 +680,24 @@ class ZdarzenieTechniczne
     public function getProdukty()
     {
         return $this->produkty;
+    }
+
+    /**
+     *  @return bool
+     */
+    public function isZalacznik()
+    {
+        $finder = new Finder();
+        $fileSystem = new Filesystem();
+        if($fileSystem->exists('uploads/zalaczniki/'.$this->getId().'/'))
+        {
+            $finder->files()->in('uploads/zalaczniki/'.$this->getId().'/');
+        }else{
+            $finder = null;
+        }
+
+        $resp = $finder != null ? true : false;
+
+        return  $resp;
     }
 }

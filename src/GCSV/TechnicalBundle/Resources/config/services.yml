@@ -22,7 +22,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: 'oneup_uploader.post_upload', method: 'onUpload' }
 
-    gcsv.technicalbundle.custom_namer:
+    gcsv.technicalbundle.upload_namer:
         class:  GCSV\TechnicalBundle\ZalacznikNamer
 
     gcsv.form.type.datetime_hidden:

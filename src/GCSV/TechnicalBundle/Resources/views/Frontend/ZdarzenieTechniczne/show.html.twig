@@ -3,16 +3,16 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('bundles/gcsvtechnical/css/zdarzenie_techniczne_show.css') }}">
-    {#<link rel="stylesheet" href="{{ asset('css/jquery-ui/blitzer/jquery-ui-1.10.4.custom.min.css') }}">#}
+    <link rel="stylesheet" href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}">
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
-    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.ui.widget.js') }}"></script>#}
-    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.iframe-transport.js') }}"></script>#}
-    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload.js') }}"></script>#}
-    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-process.js') }}"></script>#}
-    {#<script type="text/javascript" src="{{ asset('bundles/gcsvcore/js/thirdparty/jquery-file-upload/jquery.fileupload-validate.js') }}"></script>#}
+    <script type="text/javascript" src="{{ asset('js/vendor/jquery.ui.widget.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.iframe-transport.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.fileupload.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.fileupload-process.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.fileupload-validate.js') }}"></script>
     <script type="text/javascript" src="{{ asset('bundles/gcsvtechnical/js/zdarzenia_techniczne_show.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 {% endblock javascript %}
@@ -20,7 +20,7 @@
 {% block content -%}
     {% for technik in zdarzenie.uczestnikZdarzeniaTechnicznego %}
         <section class="container-fluid" id="panel-dt">
-            {% if technik.osoba == app.user %}
+            {% if technik.osoba == app.user or is_granted('ROLE_KDFP') %}
                 <div class="col-lg-6">
                     <h4>Menu</h4>
                     <nav class="col-lg-6">
@@ -28,7 +28,7 @@
                             <a href="{{ path('zdarzenie_techniczne_raport_techniczny_new', { 'id' : zdarzenie.id }) }}" class="list-group-item">Raport techniczny</a>
                             <a href="#" class="list-group-item fileinput-button">
                                 Załącz plik
-                                {#<input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>#}
+                                <input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>
                             </a>
                             <a href="#" class="list-group-item disabled">-</a>
                             <a href="#" class="list-group-item disabled">-</a>
@@ -135,7 +135,7 @@
                                 {% endif %}
                             </div>
                         </div>
-                    {% endfor %}
+                    {% endfor %}#}
                     <div id="files" class="files">
                         {% if zalaczniki != null %}
                             {% for file in zalaczniki %}
@@ -146,14 +146,16 @@
                                     </div>
                                     <div class="col-xs-5 btn-container">
                                         <div class="btn-group btn-group-xs">
-                                            <button class="btn btn-danger btn-usun-plik" type="button">Usuń</button>
+                                            <form action="{{ path('zdarzenie_techniczne_zalacznik_delete', { "id" : zdarzenie.id, "file" : file.getFilename }) }}" method="get">
+                                                <input class="btn btn-danger btn-usun-plik btn-xs" type="submit" value="Usuń"/>
+                                            </form>
                                             <a class="btn btn-primary btn-zobacz-plik" href="/uploads/zalaczniki/{{ zdarzenie.id }}/{{ file.getRelativePathname }}" download>Pobierz</a>
                                         </div>
                                     </div>
                                 </div>
                             {% endfor %}
                         {% endif %}
-                    </div>#}
+                    </div>
                 </div>
             </div>
         </section>
@@ -343,17 +345,17 @@
     </div>
 
     <script type="text/javascript">
-        {#var uploader = $('#fileupload').fileupload({#}
-            {#dataType: 'json',#}
-            {#acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z)$/i,#}
-            {#disableImageResize: true,#}
-            {#multiple: false,#}
-            {#maxFileSize: 10000000,#}
-            {#maxNumberOfFiles: 1,#}
-            {#formData: {#}
-                {#idZdarzenia: {{ zdarzenie.id }}#}
-            {#}#}
-        {#});#}
+        var uploader = $('#fileupload').fileupload({
+            dataType: 'json',
+            acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z)$/i,
+            disableImageResize: true,
+            multiple: false,
+            maxFileSize: 10000000,
+            maxNumberOfFiles: 1,
+            formData: {
+                idZdarzenia: {{ zdarzenie.id }}
+            }
+        });
 
         function initialize() {
             var latLng = {lat: {{ zdarzenie.szerokoscGeo }}, lng: {{ zdarzenie.dlugoscGeo }} };

@@ -616,6 +616,24 @@ class ZdarzenieTechniczneController extends Controller
     }
 
     /**
+     * @Route("/zdarzenie-{id}/zalacznik/{file}/delete",
+     *      name="zdarzenie_techniczne_zalacznik_delete")
+     * @Method("GET")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     */
+    public function deleteZalacznikAction(ZdarzenieTechniczne $zdarzenieTechniczne, $file)
+    {
+        $directory = '';
+        $fs = new Filesystem();
+        if($fs->exists('uploads/zalaczniki/'.$zdarzenieTechniczne->getId().'/'))
+        {
+            $fs->remove('uploads/zalaczniki/'.$zdarzenieTechniczne->getId().'/'.$file);
+        }
+
+        return $this->redirect($this->generateUrl('zdarzenie_techniczne_show', array('id'=>$zdarzenieTechniczne->getId())));
+    }
+
+    /**
      * Formularz dodawania notatki wewnętrznej do zdarzenia technicznego
      *
      * @Route(

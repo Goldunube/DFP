@@ -24,6 +24,7 @@ class AppKernel extends Kernel
                 new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
                 new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
                 new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+                new Oneup\UploaderBundle\OneupUploaderBundle(),
             new DFP\EtapIBundle\DFPEtapIBundle(),
             new GCSV\TechnicalBundle\GCSVTechnicalBundle(),
             new GCSV\RaportBundle\GCSVRaportBundle(),

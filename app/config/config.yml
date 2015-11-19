@@ -144,3 +144,12 @@ knp_snappy:
         enabled:    true
         binary:     %wkhtmltoimage_path%
         options:    []
+
+oneup_uploader:
+    mappings:
+        zalaczniki:
+            frontend:             blueimp
+            max_size:             %max_size_upload%
+            enable_progress:      false
+            enable_cancelation:   false
+            namer:                gcsv.technicalbundle.upload_namer

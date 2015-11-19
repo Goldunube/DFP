@@ -85,3 +85,7 @@ fos_js_routing:
 
 gcsv_full_calendar:
     resource: "@GCSVFullCalendarBundle/Resources/config/routing.yml"
+
+oneup_uploader:
+    resource: .
+    type: uploader
