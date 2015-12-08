@@ -28,7 +28,7 @@
                             <a href="{{ path('zdarzenie_techniczne_raport_techniczny_new', { 'id' : zdarzenie.id }) }}" class="list-group-item">Raport techniczny</a>
                             <a href="#" class="list-group-item fileinput-button">
                                 Załącz plik
-                                <input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}" multiple>
+                                <input id="fileupload" type="file" name="blueimp" data-url="{{ oneup_uploader_endpoint('zalaczniki') }}">
                             </a>
                             <a href="#" class="list-group-item disabled">-</a>
                             <a href="#" class="list-group-item disabled">-</a>
@@ -196,7 +196,11 @@
                 <p style="margin-left: 15px;"><b>Adres:</b></p>
             </div>
             <div class="col-sm-9">
-                <p>ul. {{ zdarzenie.oddzialFirmy.ulica }}; {{ zdarzenie.oddzialFirmy.kodPocztowy|kodPocztowy }} {{ zdarzenie.oddzialFirmy.miejscowosc }}</p>
+                {% if null != zdarzenie.oddzialFirmy %}
+                    <p>ul. {{ zdarzenie.oddzialFirmy.ulica }}; {{ zdarzenie.oddzialFirmy.kodPocztowy|kodPocztowy }} {{ zdarzenie.oddzialFirmy.miejscowosc }}</p>
+                {% else %}
+                    <p>-</p>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -358,7 +362,7 @@
         });
 
         function initialize() {
-            var latLng = {lat: {{ zdarzenie.szerokoscGeo }}, lng: {{ zdarzenie.dlugoscGeo }} };
+            var latLng = {lat: {{ zdarzenie.szerokoscGeo|default('51.9009914') }}, lng: {{ zdarzenie.dlugoscGeo|default('16.8923102') }} };
             var mapOptions = {
                 center: latLng,
                 zoom: 8
