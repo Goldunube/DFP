@@ -48,4 +48,5 @@
     font-size: 200px;
     direction: ltr;
     cursor: pointer;
+    height: auto;
 }
