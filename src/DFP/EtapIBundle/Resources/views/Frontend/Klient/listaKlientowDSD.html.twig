@@ -1,41 +1,107 @@
 {% extends '@DFPEtapI/layout.html.twig' %}
 
+{#{% form_theme form_filter '@DFPEtapI/Form/bootstrap_form.html.twig' %}#}
+
+{% block title %}Portal DFP - klienci DSD{% endblock %}
+
 {% block stylesheets %}
-    {{ parent() }}
-        <link href="{{ asset('css/lista_klientow.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 {% endblock stylesheets %}
 
 {% block javascript %}
     {{ parent() }}
     {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock javascript %}
 
 {% block content -%}
-    <section>
-        <h1>Lista klientów</h1>
+    <style>
+        table.records_list {
+            font-size: 12px;
+        }
+        table.records_list tbody {
+            background-color: #efefef;
+        }
+        table.records_list thead {
+            background-color: #EB961D;
+        }
+        table.records_list thead a {
+            color: #000000;
+        }
+        table.records_list tbody th, table.records_list tbody td {
+            vertical-align: middle;
+        }
+        ul.record_actions {
+            margin-bottom: 0;
+        }
+        .toggle-sidebar-context {
+            background-color: gainsboro;
+            border-style: solid;
+            border-width: 1px;
+            float: left;
+            padding: 5px;
+            width: 500px;
+            font-size: 11px;
+        }
+        .sidebar-listek span {
+            display: block;
+            font-size: 21px;
+            left: 10px;
+            position: relative;
+            top: 15px;
+            transform: rotate(90deg);
+            transform-origin: 13px 50% 0;
+            white-space: nowrap;
+        }
+        .sidebar-listek {
+            background-color: gainsboro;
+            border-radius: 0 5px 5px 0;
+            border-style: solid solid solid none;
+            border-width: 1px;
+            display: block;
+            float: left;
+            height: 120px;
+            left: -1px;
+            overflow: hidden;
+            padding: 5px;
+            position: relative;
+            width: 45px;
+            z-index: 2;
+        }
+    </style>
+    <div class="page-header">
+        <h1><i class="fa fa-list"></i> Lista klientów DSD</h1>
+    </div>
 
+    <section>
         <div style="margin-bottom: 20px; height: auto; overflow: auto;">
             {{ knp_pagination_filter(filie_uzytkownika, {'k.nazwaSkrocona': 'Nazwa klienta', 'f.miejscowosc': 'Miejscowość', 'k.kodMax': 'Kod MAX', 'pd.nazwaProfilu':'Profil działalności','u.nazwisko':'Nazwisko agenta'}) }}
         </div>
 
 
-        <table class="lista-klientow">
+        <table id="lista-klientow" class="table lista-klientow">
             <thead>
-            <tr>
-                <th class="lp">Lp</th>
-                <th class="klient-nazwa-skrocona {% if filie_uzytkownika.isSorted('k.nazwaSkrocona') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Klient', 'k.nazwaSkrocona') }}</th>
-                <th class="filia-nazwa">Nazwa filii</th>
-                <th class="filia-miejscowosc {% if filie_uzytkownika.isSorted('f.miejscowosc') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Miejscowość', 'f.miejscowosc') }}</th>
-                <th class="kod-max">Kod MAX</th>
-                <th class="klient-profil-dzialalnosci">{{ knp_pagination_sortable(filie_uzytkownika, 'Profil działalności', 'pd.nazwaProfilu') }}</th>
-                <th class="agent">{{ knp_pagination_sortable(filie_uzytkownika, 'Agent', 'u.imie') }}</th>
-                <th class="filia-koniec-rezerwacji {% if filie_uzytkownika.isSorted('fu.koniecPrzypisania') %} sorted  {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Koniec rezerwacji','fu.koniecPrzypisania') }}</th>
-            </tr>
+                <tr>
+                    <th class="lp">Lp</th>
+                    <th class="klient-nazwa-skrocona {% if filie_uzytkownika.isSorted('k.nazwaSkrocona') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Klient', 'k.nazwaSkrocona') }}</th>
+                    <th class="filia-nazwa">Nazwa filii</th>
+                    <th class="filia-miejscowosc {% if filie_uzytkownika.isSorted('f.miejscowosc') %} sorted {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Miejscowość', 'f.miejscowosc') }}</th>
+                    <th class="kod-max">Kod MAX</th>
+                    <th class="klient-profil-dzialalnosci">{{ knp_pagination_sortable(filie_uzytkownika, 'Profil działalności', 'pd.nazwaProfilu') }}</th>
+                    <th class="agent">{{ knp_pagination_sortable(filie_uzytkownika, 'Agent', 'u.imie') }}</th>
+                    <th class="filia-koniec-rezerwacji {% if filie_uzytkownika.isSorted('fu.koniecPrzypisania') %} sorted  {% endif %}">{{ knp_pagination_sortable(filie_uzytkownika, 'Koniec rezerwacji','fu.koniecPrzypisania') }}</th>
+                    <th>{{ knp_pagination_sortable(filie_uzytkownika, 'Notatka', 'fn.dataSporzadzenia') }}</th>
+                </tr>
             </thead>
             <tbody>
             {% for filia_uzytkownika in filie_uzytkownika %}
+                {% set ostatniaNotatka = filia_uzytkownika.filia.getOstatniaNotatka(true) %}
                 <tr {{ (filia_uzytkownika.koniecPrzypisania is empty or filia_uzytkownika.koniecPrzypisania|date('Y-m-d') < "now"|date('Y-m-d')) ? "class='przeterminowane'" : "" }}>
                     <th class="lp"><a href="{{ path('frontend_pokaz_filie_klienta', { 'id': filia_uzytkownika.filia.id }) }}">{{ filie_uzytkownika.getPaginationData['firstItemNumber'] + loop.index - 1}}</a></th>
                     <td class="klient-nazwa-skrocona" title="Pełna nazwa: {{ filia_uzytkownika.filia.klient.nazwaPelna }}"><div>{{ filia_uzytkownika.filia.klient.nazwaSkrocona > 70 ? filia_uzytkownika.filia.klient.nazwaSkrocona[:70] ~ " ..." : filia_uzytkownika.filia.klient.nazwaSkrocona }}</div></td>
@@ -45,6 +111,7 @@
                     <td class="klient-profil-dzialalnosci"><div title="{{ filia_uzytkownika.filia.profileDzialalnosci|join(' | ') }}">{{ filia_uzytkownika.filia.profileDzialalnosci|join(' | ') }}</div></td>
                     <td class="agent"><div title="{{ filia_uzytkownika.uzytkownik }}">{{ filia_uzytkownika.uzytkownik }}</div></td>
                     <td>{% if filia_uzytkownika.koniecPrzypisania %}{{ filia_uzytkownika.koniecPrzypisania|date('Y-m-d') }}{% endif %}</td>
+                    <td title="{{ ostatniaNotatka.tresc|default("Brak notatek") }}">{{ ostatniaNotatka ? ostatniaNotatka.dataSporzadzenia|date('d.m.Y') : "-" }}</td>
                 </tr>
             {% endfor %}
             </tbody>

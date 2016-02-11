@@ -104,6 +104,7 @@ class KlientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
+        $paginator->setDefaultPaginatorOptions(array('distinct' => false));
 
         $kryteria = null;
 
@@ -116,7 +117,7 @@ class KlientController extends Controller
 
         $queryProcess = $em->getRepository('DFPEtapIBundle:Klient')->getListaKlientowDSDQuery($kryteria);
 
-        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21);
+        $pagination = $paginator->paginate($queryProcess,$this->get('request')->query->get('strona',1),21,array('wrap-queries'=>true));
 
         return array(
             'filie_uzytkownika'  => $pagination,

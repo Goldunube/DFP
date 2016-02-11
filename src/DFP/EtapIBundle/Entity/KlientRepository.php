@@ -54,6 +54,7 @@ class KlientRepository extends EntityRepository
         $query = $this->getEntityManager()->getRepository('DFPEtapIBundle:FiliaUzytkownik')->createQueryBuilder('fu')
             ->select('k,f,fu,pd')
             ->leftJoin('fu.filia','f')
+            ->leftJoin('f.filieNotatki','fn')
             ->leftJoin('fu.uzytkownik','u')
             ->leftJoin('u.profilUzytkownika','pu')
             ->leftJoin('f.klient','k')

@@ -1097,4 +1097,14 @@ class Filia
     {
         $this->krdInformacje = $krdInformacje;
     }
+
+    public function getOstatniaNotatka($odwrotnosc = false)
+    {
+        if($odwrotnosc === true)
+        {
+            return $this->getFilieNotatki()->first();
+        }else{
+            return $this->getFilieNotatki()->last();
+        }
+    }
 }
