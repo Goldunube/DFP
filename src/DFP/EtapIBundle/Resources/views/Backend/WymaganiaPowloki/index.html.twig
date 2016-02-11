@@ -1,15 +1,35 @@
 {% extends '@DFPEtapI/Backend/index.html.twig' %}
 
-{% block content -%}
-    <h1>Lista wymagań powłoki lakierowej</h1>
+{% block title %}Portal DFP - słowniki | wymagania powłoki{% endblock %}
 
-    <table class="records_list">
+{% block stylesheets %}
+    <link href="{{ asset('css/main_2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/layout_2.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom-theme/jquery-ui-1.10.3.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-theme.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+{% endblock stylesheets %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts '@DFPEtapIBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock javascript %}
+
+{% block content -%}
+    <div class="page-header">
+        <h1><i class="fa fa-list"></i> Słownik <small>- wymagania powłoki</small></h1>
+    </div>
+
+    <table class="table">
         <thead>
             <tr>
-                <th>Lp</th>
-                <th>Nazwa parametru</th>
-                <th>Opis</th>
-                <th></th>
+                <th class="col-sm-1">Lp</th>
+                <th class="col-sm-4">Nazwa parametru</th>
+                <th class="col-sm-5">Opis</th>
+                <th class="col-sm-2"></th>
             </tr>
         </thead>
         <tbody>
@@ -19,19 +39,24 @@
                 <td>{{ entity.nazwaParametru }}</td>
                 <td>{{ entity.opis }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('url_wymaganiapowloki_show', { 'id': entity.id }) }}" class="art-button">pokaż</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('url_wymaganiapowloki_edit', { 'id': entity.id }) }}" class="art-button">edytuj</a>
-                    </li>
-                </ul>
+                    <a href="{{ path('url_wymaganiapowloki_show', { 'id': entity.id }) }}" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> pokaż</a>
+                    <a href="{{ path('url_wymaganiapowloki_edit', { 'id': entity.id }) }}" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> edytuj</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    <hr/>
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-lg-2">
+                <a href="{{ path('url_wymaganiapowloki_new') }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> dodaj</a>
+            </div>
+        </div>
+    </section>
+
     <div class="navigation">
         {{ knp_pagination_render(entities) }}
     </div>
