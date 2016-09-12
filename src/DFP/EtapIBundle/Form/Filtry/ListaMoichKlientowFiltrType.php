@@ -36,12 +36,12 @@ class ListaMoichKlientowFiltrType extends AbstractType
                 )
             )
             ->add('adres','filter_text', array(
-                    'label' =>  'Adres',
+                    'label' =>  'Miejscowość',
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
                                 $qb = $filterQuery->getQueryBuilder();
-                                $qb->andWhere('kli.kodMax = :kodMax')
-                                    ->setParameter('kodMax', $values['value']);
+                                $qb->andWhere('fi.miejscowosc = :miejscowosc')
+                                    ->setParameter('miejscowosc', $values['value']);
                             }
                         }
                 )
@@ -51,8 +51,8 @@ class ListaMoichKlientowFiltrType extends AbstractType
                     'apply_filter' => function(QueryInterface $filterQuery, $field, $values){
                             if (!empty($values['value'])){
                                 $qb = $filterQuery->getQueryBuilder();
-                                $qb->andWhere('kli.kodMax = :kodMax')
-                                    ->setParameter('kodMax', $values['value']);
+                                $qb->andWhere('prof.nazwaProfilu = :profil')
+                                    ->setParameter('profil', $values['value']);
                             }
                         }
                 )
