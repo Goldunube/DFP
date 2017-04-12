@@ -49,93 +49,6 @@
             <div class="col-lg-6">
                 <h4>Dokumentacja</h4>
                 <div id="dokumentacja-container" class="container-fluid">
-{#                    {% for dokument in dokumentacja %}
-                        <div id="rap-{{ dokument.id }}" class="row">
-                            <div class="col-xs-4 rodzaj-dokumentu {{ dokument.usuniety ? 'deleted' }}">
-                                Raport techniczny
-                            </div>
-                            <div class="col-xs-3 identyfikator">
-                                <span class="badge {{ dokument.usuniety ? 'deleted' }}">ID: {{ dokument.id }}</span>
-                            </div>
-                            <div class="col-xs-5 btn-container">
-                                {% if not dokument.usuniety %}
-                                    <div class="btn-group btn-group-xs">
-                                        {% if technik.osoba == app.user %}
-                                            <button type="button" class="btn btn-danger btn-usun-raport">Usuń</button>
-                                            <a href="{{ path('zdarzenie_techniczne_raport_techniczny_edit', { 'idz' : zdarzenie.id, 'idrt' : dokument.id }) }}" class="btn btn-warning btn-edytuj-raport">Edytuj</a>
-                                        {% endif %}
-                                        <a href="{{ path('zdarzenie_techniczne_raport_techniczny_show', { 'idz' : zdarzenie.id, 'idrt' : dokument.id }) }}" class="btn btn-primary btn-zobacz-raport">Zobacz</a>
-                                    </div>
-                                {% else %}
-                                    <span class="text-danger"><i>dokument usunięty</i></span>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <p>Do tego zdarzenia nie sporządzono jeszcze żadnej dokumentacji technicznej.</p>
-                    {% endfor %}
-                    {% for notatka in notatki %}
-                        {% if notatka.publiczna == true or technik.osoba == app.user or is_granted('ROLE_KOORDYNATOR_DT') %}
-                            <div id="notatka-{{ notatka.id }}" class="row">
-                                <div class="col-xs-4 rodzaj-dokumentu">
-                                    Notatka
-                                </div>
-                                <div class="col-xs-3 identyfikator">
-                                    <span class="badge">ID: {{ notatka.id }}</span>
-                                </div>
-                                <div class="col-xs-5 btn-container">
-                                    <div class="btn-group btn-group-xs">
-                                        {% if technik.osoba == app.user %}
-                                            <button type="button" class="btn btn-danger btn-usun-notatka">Usuń</button>
-                                            <a href="#" class="btn btn-warning btn-edytuj-notatka">Edytuj</a>
-                                        {% endif %}
-                                        <a href="{{ path('zdarzenie_techniczne_notatka_show', { 'idz' : zdarzenie.id, 'idn' : notatka.id }) }}" class="btn btn-primary btn-zobacz-notatka">Zobacz</a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                    {% for raport in raporty_zuzycia %}
-                        <div id="rap-{{ raport.id }}" class="row">
-                            <div class="col-xs-4 rodzaj-dokumentu">
-                                Raport zużycia
-                            </div>
-                            <div class="col-xs-3 identyfikator">
-                                <span class="badge">ID: {{ raport.id }}</span>
-                            </div>
-                            <div class="col-xs-5 btn-container">
-                                <div class="btn-group btn-group-xs">
-                                    {% if raport.akceptacja == false and app.user == raport.autor %}
-                                    {% set csrfToken = csrfProvider ? csrfProvider.generateCsrfToken('delRaport%d'|format(raport.id)) %}
-                                    <a href="{{ path('raport_zuzycia_delete', { 'id' : raport.id, 'token' : csrfToken }) }}" class="btn btn-danger btn-usun">Usuń</a>
-                                    &#123;&#35;<button type="button" class="btn btn-warning">Edytuj</button>&#35;&#125;
-                                    {% endif %}
-                                    <a href="{{ path('raport_zuzycia_show', { 'id' : raport.id }) }}" class="btn btn-primary">Zobacz</a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                    {% for receptura in receptury %}
-                        <div id="rec-{{ receptura.id }}" class="row">
-                            <div class="col-xs-4 rodzaj-dokumentu {{ receptura.usunieta ? 'deleted' }}">
-                                Receptura
-                            </div>
-                            <div class="col-xs-3 identyfikator">
-                                <span class="badge {{ receptura.usunieta ? 'deleted' }}">Kod: {{ receptura.kodKoloru }}</span>
-                            </div>
-                            <div class="col-xs-5 btn-container">
-                                {% if not receptura.usunieta %}
-                                    <div class="btn-group btn-group-xs">
-                                        <button type="button" class="btn btn-danger btn-usun-recepture">Usuń</button>
-                                        <a href="{{ path('zdarzenie_techniczne_edytuj_recepture', { 'zdarzenieId' : zdarzenie.id, 'recepturaId' : receptura.id }) }}" class="btn btn-warning btn-edytuj-recepture">Edytuj</a>
-                                        <a href="{{ path('zdarzenie_techniczne_pokaz_recepture', { 'zdarzenieId' : zdarzenie.id, 'recepturaId' : receptura.id }) }}" class="btn btn-primary btn-zobacz-recepture">Zobacz</a>
-                                    </div>
-                                {% else %}
-                                    <span class="text-danger"><i>dokument usunięty</i></span>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}#}
                     <div id="files" class="files">
                         {% if zalaczniki != null %}
                             {% for file in zalaczniki %}
@@ -351,7 +264,7 @@
     <script type="text/javascript">
         var uploader = $('#fileupload').fileupload({
             dataType: 'json',
-            acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z)$/i,
+            acceptFileTypes: /(\.|\/)(jpe?g|png|pdf|doc?|xls?|zip|rar|7z|xlsx|xls|doc|docx)$/i,
             disableImageResize: true,
             multiple: false,
             maxFileSize: 10000000,
